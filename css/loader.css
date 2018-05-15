@@ -1,0 +1,53 @@
+.loaderworkSpase {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height:50px;
+}
+
+.loaderworkSpase hr {
+    border: 0;
+    margin: 0;
+    width: 40%;
+    height: 40%;
+    position: absolute;
+    border-radius: 50%;
+    animation: spin 2s ease infinite
+}
+
+.loaderworkSpase :first-child {
+    background: #6A6D6C;
+    animation-delay: -1.5s
+}
+
+.loaderworkSpase :nth-child(2) {
+    background: #111111;
+    animation-delay: -1s
+}
+
+.loaderworkSpase :nth-child(3) {
+    background: #6A6D6C;
+    animation-delay: -0.5s
+}
+
+.loaderworkSpase :last-child {
+    background: #111111;
+}
+
+@keyframes spin {
+    0%,
+    100% {
+        transform: translate(0)
+    }
+    25% {
+        transform: translate(160%)
+    }
+    50% {
+        transform: translate(160%, 160%)
+    }
+    75% {
+        transform: translate(0, 160%)
+    }
+}

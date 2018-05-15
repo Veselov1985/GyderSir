@@ -1,0 +1,286 @@
+html,
+body {
+    /* height: auto; */
+    /* background-color: rgba(247, 244, 244, 0.945); */
+}
+
+#workSpase {
+    /* border: 1px solid black; */
+}
+
+#rightBar {}
+
+#dataType {}
+
+
+/* #fieldPref {} */
+
+.disabledSet {
+    visibility: hidden;
+    position: absolute;
+}
+
+#selAmount {}
+
+select {
+    text-align: center;
+    text-align-last: center;
+    text-align: center;
+}
+
+.fontawesome-select {
+    font-family: 'FontAwesome', 'Helvetica';
+}
+
+.absolutePos {
+    visibility: hidden;
+    position: absolute;
+}
+
+.borderModal {
+    /* border: 1px solid black; */
+    margin-top: 3px;
+}
+
+#rowIndent {
+    /* border: 1px solid black; */
+}
+
+#pdfWindow {
+    position: relative;
+    padding: 0px !important;
+    border: 0px;
+    margin: 0px !important;
+}
+
+#dynamicImg {
+    pointer-events: none;
+    padding: 0px !important;
+    border: 0px;
+    margin: 0px !important;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+svg {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+rect {
+    opacity: 0.3;
+    fill: rgb(44, 211, 100);
+    stroke: rgb(4, 66, 4);
+    stroke-width: 1px;
+}
+
+.datacheck {
+    opacity: 0.3 !important;
+    fill: rgb(230, 227, 66) !important;
+    stroke: rgb(4, 66, 4) !important;
+    stroke-width: 1px !important;
+}
+
+.rectdis {
+    opacity: 0.3 !important;
+    fill: rgb(63, 63, 63) !important;
+    stroke: rgb(119, 124, 119) !important;
+    stroke-width: 1px !important;
+}
+
+
+.rectauto{
+    opacity: 0.3 !important;
+    fill: rgb(110, 185, 235) !important;
+    stroke: rgb(85, 72, 9) !important;
+    stroke-width: 1px !important;
+
+
+}
+
+.rslides_tabs {
+    list-style: none;
+    padding: 0;
+    background: white;
+    font-size: 18px;
+    list-style: none;
+    margin: 0 auto 50px;
+    padding: 10px 0;
+    text-align: center;
+    width: 100%;
+}
+
+.rslides_tabs li {
+    display: inline;
+    float: none;
+    margin-right: 1px;
+}
+
+.rslides_tabs a {
+    line-height: 20px;
+    padding: 9px 20px;
+    background: transparent;
+    display: inline;
+}
+
+.rslides_tabs li:first-child {
+    margin-left: 0;
+}
+
+.rslides_tabs .rslides_here a {
+    background: rgba(165, 189, 209, 0.404);
+    /* color: rgb(12, 1, 1); */
+}
+
+#fieldPref {
+    padding-top: 5px;
+}
+
+.checkdat {
+    border: 1px solid green;
+}
+
+table {
+    font-size: 14px;
+    padding: 0px;
+    margin: 0px;
+}
+
+td {
+    padding: 0px;
+}
+
+.bordered {
+    border: 1px solid #007bff !important;
+}
+
+.border-top {
+    border-top: 1px solid #007bff !important;
+}
+
+.border-left {
+    border-left: 1px solid #007bff !important;
+}
+
+.border-right {
+    border-right: 1px solid #007bff !important;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #007bff !important;
+}
+
+.dataTables_paginate {
+    display: flex;
+    float: none !important;
+    text-align: center !important;
+    justify-content: space-between;
+    padding: 0 !important;
+}
+
+.paging_simple_numbers {
+    margin-top: 2px !important;
+}
+
+.dataTables_paginate a {
+    font-size: .9rem;
+    padding: .1rem .1rem !important;
+}
+
+table.dataTable {
+    margin-top: 6px !important;
+    margin-bottom: 0 !important;
+}
+
+.sticky-top {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+}
+
+.sticky-bottom {
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 10px;
+}
+
+.min-h-100 {
+    min-height: 100vh;
+}
+
+.max-h-100 {
+    max-height: 100vh;
+    overflow-y: scroll;
+    overflow-x: auto;
+}
+
+table.dataTable tbody th,
+table.dataTable tbody td {
+    padding: 3px 10px;
+}
+
+.bg-white {
+    background-color: white;
+}
+
+.btn-secondary {
+    background-color: #8f959a;
+}
+
+.testmodal {
+    max-width: 80% !important;
+}
+
+#contLines {
+    overflow-x: auto;
+}
+
+.floatImgandI {
+    float: left;
+    margin-top: 5px;
+}
+
+.prettyText {
+    margin-left: 10px;
+}
+
+.btnnotextcenter {
+    text-align: start !important;
+}
+
+#preloader {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    outline: 0;
+    background-color: #bac1ca;
+    opacity: 0.5;
+}
+
+.progress {
+    position: inherit;
+    top: 45% !important;
+    left: 47% !important;
+    z-index: 1060;
+    background-color: #bac1ca !important;
+    height: auto !important;
+}
+
+.filterActive{
+    border-color:#328AE9 !important; 
+    -moz-box-shadow:0 0 30px #328AE9;
+    -webkit-box-shadow:0 0 30px #328AE9; 
+    box-shadow:0 0 30px #328AE9;
+}
+
+.filterNotActive{
+    opacity: 0.2 !important;
+}
