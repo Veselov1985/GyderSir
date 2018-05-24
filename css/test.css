@@ -1,14 +1,15 @@
 html,
 body {
-    /* height: auto; */
-    /* background-color: rgba(247, 244, 244, 0.945); */
 }
 
 #workSpase {
     /* border: 1px solid black; */
+    background: url('../imgs/gifs/SIR.jpg') repeat-y; 
 }
 
-#rightBar {}
+#rightBar {
+
+}
 
 #dataType {}
 
@@ -21,6 +22,11 @@ body {
 }
 
 #selAmount {}
+
+.customCss{
+    background-color: white;
+
+}
 
 select {
     text-align: center;
@@ -229,7 +235,7 @@ table.dataTable tbody td {
 }
 
 .btn-secondary {
-    background-color: #8f959a;
+    background-color:#86A1BF;
 }
 
 .testmodal {
