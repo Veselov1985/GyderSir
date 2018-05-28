@@ -1,15 +1,13 @@
 html,
-body {
-}
+body {}
 
 #workSpase {
     /* border: 1px solid black; */
-    background: url('../imgs/gifs/SIR.jpg') repeat-y; 
+    background: url('../imgs/gifs/SIR_v2.1.jpg') repeat-y;
+    width: 100vh;
 }
 
-#rightBar {
-
-}
+#rightBar {}
 
 #dataType {}
 
@@ -23,9 +21,8 @@ body {
 
 #selAmount {}
 
-.customCss{
+.customCss {
     background-color: white;
-
 }
 
 select {
@@ -99,14 +96,11 @@ rect {
     stroke-width: 1px !important;
 }
 
-
-.rectauto{
+.rectauto {
     opacity: 0.3 !important;
     fill: rgb(110, 185, 235) !important;
     stroke: rgb(85, 72, 9) !important;
     stroke-width: 1px !important;
-
-
 }
 
 .rslides_tabs {
@@ -235,7 +229,7 @@ table.dataTable tbody td {
 }
 
 .btn-secondary {
-    background-color:#86A1BF;
+    background-color: #86A1BF;
 }
 
 .testmodal {
@@ -280,13 +274,13 @@ table.dataTable tbody td {
     height: auto !important;
 }
 
-.filterActive{
-    border-color:#328AE9 !important; 
-    -moz-box-shadow:0 0 30px #328AE9;
-    -webkit-box-shadow:0 0 30px #328AE9; 
-    box-shadow:0 0 30px #328AE9;
+.filterActive {
+    border-color: #328AE9 !important;
+    -moz-box-shadow: 0 0 30px #328AE9;
+    -webkit-box-shadow: 0 0 30px #328AE9;
+    box-shadow: 0 0 30px #328AE9;
 }
 
-.filterNotActive{
+.filterNotActive {
     opacity: 0.2 !important;
 }
