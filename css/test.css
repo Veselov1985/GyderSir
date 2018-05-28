@@ -3,8 +3,9 @@ body {}
 
 #workSpase {
     /* border: 1px solid black; */
-    background: url('../imgs/gifs/SIR_v2.1.jpg') repeat-y;
-    width: 100vh;
+    background: url('../imgs/gifs/SIR_v2.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 #rightBar {}
