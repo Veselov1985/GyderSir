@@ -14,7 +14,6 @@
          ['TotalBedrags'],
          ['UnitPrices'],
          ['VatAmounts'],
-
      ],
  };
 
@@ -610,10 +609,17 @@
          if (rightbar.handlers.currenttabchange(e)) {
              rightbar.handlers.inittoggle();
              rightbar.data.global.currenttab = 1;
+
+        // KW block
+        kw.handlers.changeTab(rightbar.dataTable.change.object.find('tr.selected'))
+       
+
+    
          } else {
              rightbar.handlers.inittoggle();
              rightbar.handlers.initsettabstate();
              rightbar.data.global.currenttab = 0;
+             kw.handlers.setTab();
          }
      });
 
@@ -682,6 +688,10 @@
              rightbar.handlers.cleanoptiondataType();
              rightbar.handlers.showoptiondataType($that.addClass('selected').find('td').text());
          }
+
+      //KW block 
+         
+     kw.handlers.changeTabSetNew(rightbar.dataTable.change.object,$that);
 
          rightbar.handlers.emmitsetchangetab($that.find('td').text(), $that);
 
