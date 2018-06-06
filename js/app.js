@@ -36,7 +36,7 @@ temp.routes = {
     sendTestProccessUrl: temp.root + 'api/pdf/testaction',
 
     //KW
-    getKWProccessUrl:  temp.root + '',
+    getKWProccessUrl: temp.root + 'api/datatypes/getautodatatypes',
     editKWProccessUrl: temp.root + '',
 
 };
