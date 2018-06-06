@@ -94,6 +94,10 @@
      rightbar.elements.deleteDate = $('#deleteDate');
      rightbar.elements.deleteRegex = $('#deleteRegex');
      rightbar.elements.deleteAlternate = $('#deleteAlternate ');
+     //ABS WRAP
+     rightbar.elements.checkAbsolut = $('#checkAbsolut');
+     rightbar.elements.wrapAbs = $('#wrapAbs');
+
  };
 
 
@@ -123,8 +127,8 @@
              "pagingType": 'simple_numbers',
              "order": [],
              "lengthMenu": [
-                 [5],
-                 [5]
+                 [10],
+                 [10]
              ],
              "select": true,
              "responsive": true,
@@ -610,11 +614,11 @@
              rightbar.handlers.inittoggle();
              rightbar.data.global.currenttab = 1;
 
-        // KW block
-        kw.handlers.changeTab(rightbar.dataTable.change.object.find('tr.selected'))
-       
+             // KW block
+             kw.handlers.changeTab(rightbar.dataTable.change.object.find('tr.selected'))
 
-    
+
+
          } else {
              rightbar.handlers.inittoggle();
              rightbar.handlers.initsettabstate();
@@ -689,9 +693,9 @@
              rightbar.handlers.showoptiondataType($that.addClass('selected').find('td').text());
          }
 
-      //KW block 
-         
-     kw.handlers.changeTabSetNew(rightbar.dataTable.change.object,$that);
+         //KW block 
+
+         kw.handlers.changeTabSetNew(rightbar.dataTable.change.object, $that);
 
          rightbar.handlers.emmitsetchangetab($that.find('td').text(), $that);
 
@@ -743,7 +747,26 @@
 
 
      rightbar.elements.btn_del_type.on('click', function(e) {
+         var selected = rightbar.dataTable.change.dt.$('tr.selected').find('td').text();
          e.preventDefault();
+         if (kw.state) return; //kw block
+         if (
+             selected == "Vats" ||
+             selected == "Ibans" ||
+             selected == "KeyWord" ||
+             selected == "MainHeader" ||
+             selected == "ExcludingTaxesAmounts" ||
+             selected == "InvoiceDates" ||
+             selected == "ItemNumbers" ||
+             selected == "OrderNumbers" ||
+
+             selected == "QuantitysLists" ||
+             selected == "TotalBedrags" ||
+             selected == "UnitPrices" ||
+             selected == "VatAmounts"
+         ) {
+             return;
+         }
          if (!rightbar.handlers.finddeleterowDatatype()) {
              return;
          } else {
@@ -762,7 +785,28 @@
 
 
      rightbar.elements.btn_add_type.on('click', function(e) {
+         var selected = rightbar.dataTable.change.dt.$('tr.selected').find('td').text();
          e.preventDefault();
+         if (kw.state) return; //kw block
+         if (
+             selected == "Vats" ||
+             selected == "Ibans" ||
+             selected == "KeyWord" ||
+             selected == "MainHeader" ||
+             selected == "ExcludingTaxesAmounts" ||
+             selected == "InvoiceDates" ||
+             selected == "ItemNumbers" ||
+             selected == "OrderNumbers" ||
+
+             selected == "QuantitysLists" ||
+             selected == "TotalBedrags" ||
+             selected == "UnitPrices" ||
+             selected == "VatAmounts"
+         ) {
+             return;
+         }
+
+
          rightbar.elements.input_new_typedata.val(rightbar.handlers.findactivdatatype().change.Name);
          rightbar.elements.tabSaveNameData.attr("hidden", false);
          rightbar.elements.dataTypeList1.attr("hidden", true);

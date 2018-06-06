@@ -64,6 +64,8 @@ paint.abs.handlers = {
         paint.zoom.elements.ypos.attr('disabled', false);
         paint.zoom.elements.widthpos.attr('disabled', false);
         paint.zoom.elements.heightpos.attr('disabled', false);
+        rightbar.elements.wrapAbs.attr('hidden', false);
+
 
     },
     offabsblock: function() {
@@ -71,6 +73,7 @@ paint.abs.handlers = {
         paint.zoom.elements.ypos.attr('disabled', true);
         paint.zoom.elements.widthpos.attr('disabled', true);
         paint.zoom.elements.heightpos.attr('disabled', true);
+        rightbar.elements.wrapAbs.attr('hidden', 'hidden');
 
     },
     showcoord: function(activrect) {

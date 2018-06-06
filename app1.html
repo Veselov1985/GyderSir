@@ -333,22 +333,22 @@
                             </div>
                             <!--END Alternate -->
                         </div>
-                            <!--KW -->
-                            <div  id='kwContent' hidden>
-                                 <form>
-                                    <div class="form-group">
-                                        <label for="comment" id='textarea_label'>Comment:</label>
-                                         <textarea class="form-control" rows="10" id="textarea_kw"></textarea>
-                                    </div>
-                                 </form>
-                                <div id="savekw" class="row mt-1">
-                                    <div class="col pr-1">
-                                        <a id="btn_edit_kw" class="btn btn-sm d-block d-sm-inline-block d-lg-block mb-1 btn-secondary mt-2" href="#">Edit</a>
-                                    </div>
+                        <!--KW -->
+                        <div id='kwContent' hidden>
+                            <form>
+                                <div class="form-group">
+                                    <label for="comment" id='textarea_label'>Comment:</label>
+                                    <textarea class="form-control" rows="10" id="textarea_kw"></textarea>
+                                </div>
+                            </form>
+                            <div id="savekw" class="row mt-1">
+                                <div class="col pr-1">
+                                    <a id="btn_edit_kw" class="btn btn-sm d-block d-sm-inline-block d-lg-block mb-1 btn-secondary mt-2" href="#">Edit</a>
                                 </div>
                             </div>
+                        </div>
 
-                                <!--END KW -->
+                        <!--END KW -->
                         <div class="row border-bottom my-2"></div>
 
                         <!-- Absolute Position -->
@@ -359,31 +359,35 @@
                                     <label class="form-check-label" for="checkAbsolut">Absolute position</label>
                                 </div>
                             </div>
+                            <div id="wrapAbs" hidden>
+                                <div class="form-group  mb-1 row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm">xpos:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" id="xpos" disabled="">
+                                    </div>
+                                </div>
+                                <div class="form-group  mb-1 row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm">ypos:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" id="ypos" disabled="">
+                                    </div>
+                                </div>
+                                <div class="form-group  mb-1 row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm">width: </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" id="widthpos" disabled="">
+                                    </div>
+                                </div>
+                                <div class="form-group  mb-1 row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm">height: </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" id="heightpos" disabled="">
+                                    </div>
+                                </div>
 
-                            <div class="form-group  mb-1 row">
-                                <label class="col-sm-3 col-form-label col-form-label-sm">xpos:</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control form-control-sm" id="xpos" disabled="">
-                                </div>
                             </div>
-                            <div class="form-group  mb-1 row">
-                                <label class="col-sm-3 col-form-label col-form-label-sm">ypos:</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control form-control-sm" id="ypos" disabled="">
-                                </div>
-                            </div>
-                            <div class="form-group  mb-1 row">
-                                <label class="col-sm-3 col-form-label col-form-label-sm">width: </label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control form-control-sm" id="widthpos" disabled="">
-                                </div>
-                            </div>
-                            <div class="form-group  mb-1 row">
-                                <label class="col-sm-3 col-form-label col-form-label-sm">height: </label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control form-control-sm" id="heightpos" disabled="">
-                                </div>
-                            </div>
+
+
                         </div>
                         <div id="saveDataType" class="row mt-1" hidden>
                             <div class="col pr-1">
@@ -402,7 +406,7 @@
 
                         <!--Absolute Position -->
 
-                      
+
                     </div>
                 </div>
 

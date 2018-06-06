@@ -205,21 +205,30 @@ kw.ajax = {
     },
     getKWDone: function(data) {
         console.log(data);
-
+        kw.handlers.label.setText(data.Name + ':'); // label
+        kw.handlers.textarea.setVal(kw.ajax.setNewLineTextArea(data.Data)); // value textarea
     },
     editKWDone: function(data) {
 
-    }
+
+    },
+    setNewLineTextArea: function(text) {
+        return text.split(',').map(function(val) {
+            return val.trim().replace(/\n/, '');
+        }).join(',\n');
+    },
+
+
 };
 
 kw.initEv = function() {
     kw.elements.btn_edit_kw.object.on('click', function(e) {
         e.preventDefault();
-        var labelKw = kw.handlers.label.getLabel();
-        var data = kw.handlers.splitData(kw.handlers.textarea.getVal());
+        var labelKw = kw.handlers.delEndKW(kw.handlers.label.getLabel());
+        var data = kw.handlers.splitData(kw.handlers.textarea.getVal()).join(',');
         console.log(data);
 
-        // add Ajax edit KW
+        // add Ajax edit KW   kw.ajax.editKW({Name:labelKw,Data:data});
 
     });
 
