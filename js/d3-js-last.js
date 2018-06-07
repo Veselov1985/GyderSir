@@ -618,6 +618,10 @@ paint.handlers = {
                     paint.objects.activrect.isDrag = true;
                     paint.objects.activrect.isDrawing = false;
 
+                    //KW block
+                    kw.handlers.kwfixD3JS(paint.objects.activrect.type);
+
+
                     // set color autocreate collum right click
                     db.handler.setColorAutoCreate();
 

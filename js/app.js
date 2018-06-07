@@ -39,7 +39,7 @@ temp.routes = {
 
     //KW
     getKWProccessUrl: temp.root + 'api/datatypes/getautodatatypes',
-    editKWProccessUrl: temp.root + '',
+    editKWProccessUrl: temp.root + 'api/datatypes/saveautodatatype',
 
 };
 

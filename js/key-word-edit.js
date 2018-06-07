@@ -10,13 +10,6 @@ kw.data = [
     'VatAmounts'
 ];
 
-/*
-InvoiceDate
-OrderNumber
-TotalBedrag
-
-
-*/
 
 kw.state = false;
 kw.elements = {};
@@ -26,6 +19,12 @@ kw.initEl = function() {
     kw.elements.btn_edit_kw = { object: $('#btn_edit_kw'), id: '#btn_edit_kw' };
     kw.elements.textarea_label = { object: $('#textarea_label'), id: '#textarea_label' };
     kw.elements.textarea_kw = { object: $('#textarea_kw'), id: '#textarea_kw' };
+
+    // KW modal
+
+    kw.elements.applymodal_KW = { object: $('#applymodal_KW'), id: '#applymodal_KW' };
+    kw.elements.apply_save_KW = { object: $('#apply_save_KW'), id: '#apply_save_KW' };
+    kw.elements.apply_no_KW = { object: $('#apply_no_KW'), id: '#apply_no_KW' };
 };
 
 
@@ -154,7 +153,29 @@ kw.handlers = {
     },
     delEndKW: function(str) {
         return str.split('').splice(0, str.length - 1).join('');
-    }
+    },
+    kwfixD3JS: function(type) {
+        if (!kw.handlers.compareNeedKw(type) && kw.state && rightbar.data.global.currenttab == 1) {
+            kw.handlers.textarea.clearVal();
+            kw.handlers.label.clearLabel();
+            kw.handlers.hideabsolutePosToggle();
+            kw.handlers.hideWrapfieldContentToggle();
+            kw.handlers.hidesaveDataType();
+            kw.handlers.hidekwContentToggle();
+            kw.state = !kw.state;
+        } else if (kw.handlers.compareNeedKw(type) && !kw.state && rightbar.data.global.currenttab == 1) {
+            kw.handlers.textarea.clearVal();
+            kw.handlers.label.clearLabel();
+            kw.handlers.hideabsolutePosToggle();
+            kw.handlers.hideWrapfieldContentToggle();
+            kw.handlers.hidesaveDataType();
+            kw.handlers.hidekwContentToggle();
+            kw.state = !kw.state;
+            kw.ajax.getKW({ Name: kw.handlers.delEndKW(type), Data: '' });
+        }
+
+
+    },
 
 };
 
@@ -197,6 +218,8 @@ kw.ajax = {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR);
+                kw.elements.applymodal_KW.object.modal('hide');
+                temp.helpfunc.modalInfo(['Key word Info', 'error server']);
             },
             beforeSend: function() {},
             complete: function() {},
@@ -204,48 +227,43 @@ kw.ajax = {
 
     },
     getKWDone: function(data) {
-        console.log(data);
         kw.handlers.label.setText(data.Name + ':'); // label
         kw.handlers.textarea.setVal(kw.ajax.setNewLineTextArea(data.Data)); // value textarea
     },
     editKWDone: function(data) {
-
-
+        if (data == true) {
+            kw.elements.applymodal_KW.object.modal('hide');
+            temp.helpfunc.modalInfo(['Key word Edit', 'Ok']);
+        } else {
+            kw.elements.applymodal_KW.object.modal('hide');
+            temp.helpfunc.modalInfo(['Key word Info', 'Error Edit']);
+        }
     },
     setNewLineTextArea: function(text) {
+        if (text == null) return '';
         return text.split(',').map(function(val) {
             return val.trim().replace(/\n/, '');
         }).join(',\n');
-    },
-
-
+    }
 };
 
 kw.initEv = function() {
     kw.elements.btn_edit_kw.object.on('click', function(e) {
-        e.preventDefault();
-        var labelKw = kw.handlers.delEndKW(kw.handlers.label.getLabel());
-        var data = kw.handlers.splitData(kw.handlers.textarea.getVal()).join(',');
-        console.log(data);
-
-        // add Ajax edit KW   kw.ajax.editKW({Name:labelKw,Data:data});
-
+        kw.elements.applymodal_KW.object.modal('show');
     });
 
+    kw.elements.apply_save_KW.object.on('click', function(e) {
+        var labelKw = kw.handlers.delEndKW(kw.handlers.label.getLabel());
+        var data = kw.handlers.splitData(kw.handlers.textarea.getVal()).join(',');
+        kw.ajax.editKW({ Name: labelKw, Data: data }); // edit KW
+    });
+
+    kw.elements.apply_no_KW.object.on('click', function(e) {
+        kw.elements.applymodal_KW.object.modal('hide');
+    });
 };
-
-
 
 
 
 kw.initEl();
 kw.initEv();
-
-
-/*
-InvoiceDate
-OrderNumber
-TotalBedrag
-
-
-*/

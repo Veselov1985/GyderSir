@@ -127,8 +127,8 @@
              "pagingType": 'simple_numbers',
              "order": [],
              "lengthMenu": [
-                 [10],
-                 [10]
+                 [13],
+                 [13]
              ],
              "select": true,
              "responsive": true,
@@ -759,7 +759,6 @@
              selected == "InvoiceDates" ||
              selected == "ItemNumbers" ||
              selected == "OrderNumbers" ||
-
              selected == "QuantitysLists" ||
              selected == "TotalBedrags" ||
              selected == "UnitPrices" ||
