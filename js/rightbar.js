@@ -613,12 +613,8 @@
          if (rightbar.handlers.currenttabchange(e)) {
              rightbar.handlers.inittoggle();
              rightbar.data.global.currenttab = 1;
-
              // KW block
-             kw.handlers.changeTab(rightbar.dataTable.change.object.find('tr.selected'))
-
-
-
+             kw.handlers.changeTab(rightbar.dataTable.change.object.find('tr.selected'));
          } else {
              rightbar.handlers.inittoggle();
              rightbar.handlers.initsettabstate();
