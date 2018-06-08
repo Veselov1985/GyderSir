@@ -1,6 +1,5 @@
 var applymodal_tempresult = {};
 applymodal_tempresult.elements = {};
-
 applymodal_tempresult.init = function() {
     applymodal_tempresult.elements.applymodal_tempresult = $('#applymodal_tempresult');
     applymodal_tempresult.elements.applymodal_tempresult_text = $('#applymodal_tempresult_text');
@@ -18,14 +17,11 @@ applymodal_tempresult.init = function() {
         applymodal_tempresult.elements.applymodal_tempresult_input[0].selectionEnd=0;
 
     });
-
     // esc fix
     applymodal_tempresult.elements.applymodal_tempresult.on('hidden.bs.modal', function() {
         applymodal_tempresult.handlers.close();
     });
 };
-
-
 
 applymodal_tempresult.handlers = {
     close: function() {
@@ -46,11 +42,9 @@ applymodal_tempresult.handlers = {
         applymodal_tempresult.elements.applymodal_tempresult_input.val(applymodal_tempresult.handlers.getdate());
         applymodal_tempresult.elements.applymodal_tempresult.modal('show');
     },
-
     getdate: function() {
         return applymodal_tempresult.handlers.formatdate(new Date());
     },
-
     formatdate: function(date) {
         var dd = date.getDate();
         if (dd < 10) dd = '0' + dd;
@@ -60,7 +54,6 @@ applymodal_tempresult.handlers = {
         if (yy < 10) yy = '0' + yy;
         return 'new -' + dd + '/' + mm + '/' + yy;
     },
-
     cleartextinp: function() {
         applymodal_tempresult.elements.applymodal_tempresult_text.text('');
         applymodal_tempresult.elements.applymodal_tempresult_input.val('');
@@ -69,14 +62,9 @@ applymodal_tempresult.handlers = {
 };
 
 applymodal_tempresult.init();
-
 applymodal_tempresult.elements.apply_tempresult_save_result.on('click', function() {
-
     var FileName = applymodal_tempresult.elements.applymodal_tempresult_input.val()+ '.xml';
-
     var filecontent = test.elements.textarea.text().replace(/\r|\n|\s+/g, ''); //  xml = xml.replace(/\r|\n/g, ''); 
-
-
     var saveData = (function() {
         window.URL = window.URL || window.webkitURL;
         var a = document.createElement("a");
@@ -94,15 +82,7 @@ applymodal_tempresult.elements.apply_tempresult_save_result.on('click', function
         };
     }());
 
-
-
     saveData(filecontent, FileName);
-
-
-
     applymodal_tempresult.elements.applymodal_tempresult_input.val(applymodal_tempresult.handlers.getdate());
     applymodal_tempresult.handlers.close();
-
-
-
 })

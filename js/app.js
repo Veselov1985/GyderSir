@@ -663,7 +663,6 @@ temp.helpfunc = {
     },
 
     // change data after delete
-
     changeData: function(text) {
         $.each(temp.Data.leftTempList.data, function(i, val) {
             if (val[0] == text) {
@@ -679,19 +678,18 @@ temp.helpfunc = {
         setTimeout(function() {
             $modal.modal('hide');
         }, 3000);
-
     },
+
     modalLoad: function(e) {
         e.preventDefault();
         temp.elementLeftBar.object.modalWindow.modal();
-
-
     },
+
     modal_btn_add: function() {
         var row = temp.elementLeftBar.object.modalWindow.find('#rowIndent');
         row.append(temp.html.addRowLoad);
-
     },
+
     cookfilesend: function() {
         var $arrOpt = temp.elementLeftBar.object.modalWindow.find('#rowIndent form');
         $.each($arrOpt, function(i) {
@@ -701,7 +699,6 @@ temp.helpfunc = {
         });
     },
     // advanced option to load pdf file
-
     addadvancedoption: function() {
         if (temp.Data.LoadPdfOpt.advanc_settings_search.length > 0) {
             var arr = [];
@@ -711,7 +708,6 @@ temp.helpfunc = {
             temp.Data.LoadPdfOpt.file_pdf.append(JSON.stringify(arr), '');
             //   temp.Data.LoadPdfOpt.file_pdf.append('advancedoption',temp.Data.LoadPdfOpt.advanc_settings_search);
         }
-
     },
 
     errorfindTemplaite: function(jqXHR, textStatus, errorThrown) {
@@ -720,16 +716,13 @@ temp.helpfunc = {
     },
 
     successfindTemplaite: function(data, textStatus, jqXHR) {
-
     },
 
     createpageList: function(arrimg) {
         if (!$('img').is('#dynamicImg')) {
             var $wind = temp.DataWorkspace.object.pdfWindow;
             var img = $('<img unselectable="on" class="img-fluid w-100" id="dynamicImg">');
-
             var getcurrentimg = function(state) {
-
                 switch (state) {
                     case 'all':
                         return arrimg[temp.DataWorkspace.activpage];
@@ -764,8 +757,8 @@ temp.helpfunc = {
         temp.elementControl.object.page_info_control.attr("placeholder", "" + function() {
             return temp.DataWorkspace.activpage + 1;
         }() + " " + "(" + temp.DataWorkspace.images.length + ")");
-
     },
+
     clearglobalstate: function() {
         paint.handlers.clearsvgcontent();
         if (arguments[0] != true) temp.helpfunc.cleanImg();
@@ -807,7 +800,6 @@ temp.helpfunc = {
 temp.elementControl = {
     object: {},
     nextPage: function() {
-
         if (temp.DataWorkspace.activpage < temp.DataWorkspace.images.length - 1) {
             paint.objects.global.disactivpage[temp.DataWorkspace.activpage] = paint.objects.disactiv;
             if (paint.objects.datafromserver.removelistpage[temp.DataWorkspace.activpage + 1] != false) {
@@ -824,7 +816,6 @@ temp.elementControl = {
         }
     },
     prewPage: function() {
-
         if (temp.DataWorkspace.activpage != 0) {
             paint.objects.global.disactivpage[temp.DataWorkspace.activpage] = paint.objects.disactiv;
             temp.DataWorkspace.activpage -= 1;
@@ -849,7 +840,6 @@ temp.DataWorkspace = {
     activpage: 0,
     images: {},
     arrdata: [],
-
     initwindow: function() {
         temp.helpfunc.cleanImg();
         temp.helpfunc.createpageList(temp.DataWorkspace.images);
@@ -904,29 +894,27 @@ temp.control = {
                 temp.elementLeftBar.Templaite.OnlyImages[i] = 'data:image/jpeg;base64,' + val.OnlyImages;
                 temp.elementLeftBar.Templaite.OnlyText[i] = 'data:image/jpeg;base64,' + val.OnlyText;
             });
-
         },
+
         renderDataListPaint: function(pagearr) {
             pagearr.forEach(function(val) {
                 paint.objects.datafromserver.datafromserverpage.push(val);
             });
-
             pagearr.forEach(function(val) {
                 paint.objects.datafromserver.removelistpage.push(val);
             });
         },
+
         unselectDataTable: function() {
             temp.Data.leftTempList.data.forEach(function(val, i) {
                 if (val[1] == temp.img.activ) temp.Data.leftTempList.data[i][1] = temp.img.off;
             });
-
             temp.elementLeftBar.dataTable.object.find('selected').removeClass('selected');
-
         },
+
         selectfindTemplaite: function(templaiteObj) {
             //clear img.activ prev
             temp.control.templaite.unselectDataTable();
-
             temp.Data.leftTempList.data.forEach(function(val, i) {
                 if (val[0] == templaiteObj.Name) {
                     temp.Data.leftTempList.data[i][1] = temp.img.activ;
@@ -934,7 +922,6 @@ temp.control = {
             });
             temp.elementLeftBar.dataTable.clean();
             temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-
             (function() {
                 var pagelength = temp.elementLeftBar.dataTable.dt.page.info().pages;
                 for (var i = 0; i <= pagelength - 1; i++) {
@@ -946,7 +933,6 @@ temp.control = {
                     }
                 }
             })();
-
             temp.elementLeftBar.dataTable.object.find('i').each(function() {
                 $that = $(this);
                 if ($that.attr('class').trim() == temp.img.activ) {
@@ -954,8 +940,8 @@ temp.control = {
                 }
             });
         },
-
     },
+
     addemptyData: function(arr, n, pos) {
         var position = pos;
         var clone = arr.slice(0);
@@ -969,7 +955,6 @@ temp.control = {
             OnlyImages: "",
             OnlyText: "",
         };
-
         for (var i = 0; i < n; i++) {
             data.Base64Img = temp.DataWorkspace.images[position + 1].substring('data:image/jpeg;base64,'.length);
             data.OnlyImages = temp.elementLeftBar.Templaite.OnlyImages[positions + 1].substring('data:image/jpeg;base64,'.length);
@@ -981,11 +966,9 @@ temp.control = {
     },
 };
 
-
 temp.init = {
     element: function() {
         // Bloc LeftBar
-
         temp.elementLeftBar.object.btn_del_temp = $('#btn_del_temp');
         temp.elementLeftBar.object.btn_load_temp = $('#btn_load_temp');
         temp.elementLeftBar.object.btn_save_temp = $('#btn_save_temp');
@@ -996,17 +979,14 @@ temp.init = {
         temp.elementLeftBar.object.btn_addIndent = $('#addIndent');
         temp.elementLeftBar.object.deleteIndent = $('#deleteIndent');
         temp.elementLeftBar.object.btn_save_search = $('#btn_save_search');
-
         // Block Control
         temp.elementControl.object.btn_page_next = $('#btn_page_next');
         temp.elementControl.object.btn_page_prew = $('#btn_page_prew');
         temp.elementControl.object.page_info_control = $('#page_info_control');
-
         // Block WorkWindow
         temp.DataWorkspace.object.pdfWindow = $('#pdfWindow');
         // filter_btn
         temp.elementControl.object.btn_filter = $('#btn_filter');
-
     },
 
     eventHandler: function() {
@@ -1015,7 +995,6 @@ temp.init = {
             browseBtnClass: 'btn btn-secondary',
             language: 'en'
         });
-
 
         $('input[type=file]').on('change', prepareUpload);
         // Grab the files and set them to our variable
@@ -1026,7 +1005,6 @@ temp.init = {
                 temp.Data.LoadPdfOpt.file_pdf.append(key, value);
             });
         }
-
         // load pdf to the server
 
         temp.elementLeftBar.object.btn_load_temp.click(function(e) {
@@ -1055,17 +1033,12 @@ temp.init = {
                 return res;
             }();
             filter.handlers.notActivetoggle();
-
             temp.Data.leftTempList.data = temp.helpfunc.arrayClone(temp.Data.leftTempList.filter);
             temp.Data.leftTempList.filter = [];
-
             filter.handlers.disabledFilter();
             temp.elementLeftBar.dataTable.clean();
-
             temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-
             if (selectedName != "") {
-
                 temp.Data.leftTempList.data = temp.Data.leftTempList.data.map(function(val) {
                     if (val[0] == selectedName) {
                         return [selectedName, temp.img.activ];
@@ -1073,11 +1046,8 @@ temp.init = {
                         return val;
                     }
                 });
-
                 temp.elementLeftBar.dataTable.clean();
                 temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-
-
                 // fix datablesearch templaite selected
                 /* 
                              if( temp.elementLeftBar.dataTable.dt.find('.'+ temp.img.activ).length==0){
@@ -1085,12 +1055,9 @@ temp.init = {
                              }
 
                 */
-
                 var infopages = temp.elementLeftBar.dataTable.dt.page.info().pages;
                 var result = false;
-
                 for (var i = 0; i <= infopages - 1; i++) {
-
                     var res = temp.elementLeftBar.dataTable.object.find('i');
                     res.each(function() {
                         $that = $(this);
@@ -1099,7 +1066,6 @@ temp.init = {
                             result = true;
                         }
                     });
-
                     if (result) {
                         break;
                     } else {
@@ -1107,8 +1073,6 @@ temp.init = {
                     }
                 }
             }
-
-
         });
         // fix datable search templaite selected
         /* 
@@ -1119,10 +1083,8 @@ temp.init = {
                    }else {
                          temp.elementLeftBar.dataTable.dt.page('next').draw(false);
                    }
-                
                 } );
         */
-
         temp.elementLeftBar.object.btn_addIndent.click(function() {
             temp.helpfunc.modal_btn_add();
         });
@@ -1138,11 +1100,9 @@ temp.init = {
             temp.helpfunc.cookfilesend();
             temp.helpfunc.addadvancedoption();
             filter.handlers.enabled();
-
             var success = function(data) {
                 temp.serverInfo = []; // clean data prew server
                 filter.handlers.filterClear();
-
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // fix b. end
                 var fix = function(arr) {
@@ -1154,17 +1114,12 @@ temp.init = {
                     return Object.keys(obj);
                 };
                 data.Pks = fix(data.Pks);
-
                 ////////////////////////////////////////////////////////////////////////////
-
                 if (data.Pks.length > 1) {
                     filter.handlers.toggleLight();
 
-
                     // check id pdf download and button not push
-
                     temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
-
 
                     temp.Data.leftTempList.data = [
                         ["Create new Template", "fa fa-plus-circle"]
@@ -1181,52 +1136,39 @@ temp.init = {
                     temp.elementLeftBar.Templaite.name = data.Template.Name;
                     temp.control.templaite.renderDataTemplaite(data.Template.Pages);
                     temp.control.templaite.renderDataListPaint(data.Template.Pages);
-
                     temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
-
-
                     paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
                     temp.DataWorkspace.initwindow();
-
                 } else if (data.Pks.length == 1) {
                     filter.handlers.toggleLight();
-
                     temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
-
                     temp.Data.leftTempList.data = [
                         ["Create new Template", "fa fa-plus-circle"]
                     ];
                     temp.elementLeftBar.dataTable.clean();
-
                     data.Pks.forEach(function(val) {
                         for (var i = 0; i < temp.Data.leftTempList.list.length; i++) {
                             if (val == temp.Data.leftTempList.list[i].Pk) temp.Data.leftTempList.data.push([temp.Data.leftTempList.list[i].Name, temp.img.activ]);
                         }
                     });
-
                     var oneData = temp.Data.leftTempList.list.filter(function(val, i) {
                         return val.Pk == data.Pks[0];
                     });
-
                     temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-
                     temp.elementLeftBar.dataTable.object.find('i').each(function() {
                         $that = $(this);
                         if ($that.attr('class').trim() == temp.img.activ) {
                             $that.parent().parent().addClass('selected');
                         }
                     });
-
                     temp.elementLeftBar.Templaite.Name = oneData[0].Name;
                     temp.elementLeftBar.Templaite.Pk = oneData[0].Pk;
                     temp.elementLeftBar.Templaite.name = oneData[0].Name;
                     temp.control.templaite.renderDataTemplaite(data.Template.Pages);
                     temp.control.templaite.renderDataListPaint(oneData[0].Pages);
-
                     temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
                     paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
                     temp.DataWorkspace.initwindow();
-
                 } else {
                     temp.control.templaite.unselectDataTable();
                     temp.elementLeftBar.dataTable.clean();
@@ -1239,7 +1181,6 @@ temp.init = {
                     paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
                     temp.DataWorkspace.initwindow();
                 }
-
             };
             var error = function(data) {
                 alert(data);
@@ -1247,11 +1188,9 @@ temp.init = {
             temp.Ajax.sendFileToProccess(null, success, error);
         });
 
-
         temp.elementControl.object.btn_page_next.click(function() {
             temp.elementControl.nextPage();
         });
-
 
         temp.elementControl.object.btn_page_prew.click(function() {
             temp.elementControl.prewPage();
@@ -1266,7 +1205,6 @@ temp.render = {
             data.forEach(function(val, i) {
                 datas.push($.parseJSON(val));
             });
-
             datas.forEach(function(val, i) {
                 temp.Data.leftTempList.data.push([val.Name, temp.img.off]);
                 temp.Data.leftTempList.list.push(val);
@@ -1388,5 +1326,4 @@ $(document).ready(function() {
     rightpref.Ajax.sendRenderDataProccess();
     rightpref.Ajax.sendRenderRegexProccess();
     rightpref.Ajax.sendRenderAlternateProccess();
-
 });

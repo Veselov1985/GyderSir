@@ -50,7 +50,6 @@ kw.handlers = {
     findKeyWord: function(data) {
         return data.find('td').text();
     },
-
     compareNeedKw: function(text) {
         var state = false;
         kw.data.forEach(function(val, i) {
@@ -80,29 +79,29 @@ kw.handlers = {
             return kw.elements.textarea_label.object.text();
         }
     },
+    KwClear:function(){
+        kw.handlers.textarea.clearVal();
+        kw.handlers.label.clearLabel();
+    },
+    KwToggle:function(){
+        kw.handlers.hideabsolutePosToggle();
+        kw.handlers.hideWrapfieldContentToggle();
+        kw.handlers.hidesaveDataType();
+        kw.handlers.hidekwContentToggle();
+    },
     changeTabSetNew: function(table, that) {
         var KW = that.find('td').text().trim();
-
         if (kw.handlers.compareNeedKw(kw.handlers.findKeyWord(that)) && !kw.state) { //KW=true  state=of
-            kw.handlers.textarea.clearVal();
-            kw.handlers.label.clearLabel();
-            kw.handlers.hideabsolutePosToggle();
-            kw.handlers.hideWrapfieldContentToggle();
-            kw.handlers.hidesaveDataType();
-            kw.handlers.hidekwContentToggle();
+            kw.handlers.KwClear();
+            kw.handlers.KwToggle();
             kw.state = !kw.state;
             kw.ajax.getKW({ Name: kw.handlers.delEndKW(KW), Data: '' });
         } else if (!kw.handlers.compareNeedKw(kw.handlers.findKeyWord(that)) && kw.state) { //KW =false  state=on
-            kw.handlers.textarea.clearVal();
-            kw.handlers.label.clearLabel();
-            kw.handlers.hideabsolutePosToggle();
-            kw.handlers.hideWrapfieldContentToggle();
-            kw.handlers.hidesaveDataType();
-            kw.handlers.hidekwContentToggle();
+            kw.handlers.KwClear();
+            kw.handlers.KwToggle();
             kw.state = !kw.state;
         } else if (kw.handlers.compareNeedKw(kw.handlers.findKeyWord(that)) && kw.state) { //KW=true satet=on
-            kw.handlers.textarea.clearVal();
-            kw.handlers.label.clearLabel();
+            kw.handlers.KwClear();
             kw.ajax.getKW({ Name: kw.handlers.delEndKW(KW), Data: '' });
         }
     },
@@ -110,23 +109,16 @@ kw.handlers = {
     changeTab: function(selected) {
         if (selected.length == 1 && !kw.state && kw.handlers.compareNeedKw(kw.handlers.findKeyWord(selected))) {
             var KW = selected.find('td').text().trim();
-            kw.handlers.textarea.clearVal();
-            kw.handlers.label.clearLabel();
-            kw.handlers.hideabsolutePosToggle();
-            kw.handlers.hideWrapfieldContentToggle();
-            kw.handlers.hidesaveDataType();
-            kw.handlers.hidekwContentToggle(); // how KW
+            kw.handlers.KwClear();
+            kw.handlers.KwToggle();
             kw.state = !kw.state;
             kw.ajax.getKW({ Name: kw.handlers.delEndKW(KW), Data: null });
-
         }
     },
     setTab: function() {
         if (kw.state) { // edit KW on 
-            kw.handlers.hideabsolutePosToggle();
-            kw.handlers.hideWrapfieldContentToggle();
-            kw.handlers.hidesaveDataType();
-            kw.handlers.hidekwContentToggle(); // how KW
+         
+            kw.handlers.KwToggle();
             kw.state = !kw.state;
         }
     },
@@ -142,20 +134,12 @@ kw.handlers = {
     },
     kwfixD3JS: function(type) {
         if (!kw.handlers.compareNeedKw(type) && kw.state && rightbar.data.global.currenttab == 1) {
-            kw.handlers.textarea.clearVal();
-            kw.handlers.label.clearLabel();
-            kw.handlers.hideabsolutePosToggle();
-            kw.handlers.hideWrapfieldContentToggle();
-            kw.handlers.hidesaveDataType();
-            kw.handlers.hidekwContentToggle();
+            kw.handlers.KwClear();
+            kw.handlers.KwToggle();
             kw.state = !kw.state;
         } else if (kw.handlers.compareNeedKw(type) && !kw.state && rightbar.data.global.currenttab == 1) {
-            kw.handlers.textarea.clearVal();
-            kw.handlers.label.clearLabel();
-            kw.handlers.hideabsolutePosToggle();
-            kw.handlers.hideWrapfieldContentToggle();
-            kw.handlers.hidesaveDataType();
-            kw.handlers.hidekwContentToggle();
+            kw.handlers.KwClear();
+            kw.handlers.KwToggle();
             kw.state = !kw.state;
             kw.ajax.getKW({ Name: kw.handlers.delEndKW(type), Data: '' });
         }
@@ -232,13 +216,11 @@ kw.initEv = function() {
     kw.elements.btn_edit_kw.object.on('click', function(e) {
         kw.elements.applymodal_KW.object.modal('show');
     });
-
     kw.elements.apply_save_KW.object.on('click', function(e) {
         var labelKw = kw.handlers.delEndKW(kw.handlers.label.getLabel());
         var data = kw.handlers.splitData(kw.handlers.textarea.getVal()).join(',');
         kw.ajax.editKW({ Name: labelKw, Data: data }); // edit KW
     });
-
     kw.elements.apply_no_KW.object.on('click', function(e) {
         kw.elements.applymodal_KW.object.modal('hide');
     });

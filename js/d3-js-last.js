@@ -65,8 +65,6 @@ paint.abs.handlers = {
         paint.zoom.elements.widthpos.attr('disabled', false);
         paint.zoom.elements.heightpos.attr('disabled', false);
         rightbar.elements.wrapAbs.attr('hidden', false);
-
-
     },
     offabsblock: function() {
         paint.zoom.elements.xpos.attr('disabled', true);
@@ -74,14 +72,12 @@ paint.abs.handlers = {
         paint.zoom.elements.widthpos.attr('disabled', true);
         paint.zoom.elements.heightpos.attr('disabled', true);
         rightbar.elements.wrapAbs.attr('hidden', 'hidden');
-
     },
     showcoord: function(activrect) {
         paint.zoom.elements.xpos.val(activrect[0].x.toFixed(0));
         paint.zoom.elements.ypos.val(activrect[1].y.toFixed(0));
         paint.zoom.elements.widthpos.val((Math.abs(activrect[1].x - activrect[0].x)).toFixed(0));
         paint.zoom.elements.heightpos.val((Math.abs(activrect[1].y - activrect[0].y)).toFixed(0));
-
     },
     backnewobjrecdata: function() {
         return [$.extend({}, paint.objects.activrect.rectData[0]), $.extend({}, paint.objects.activrect.rectData[1])];
@@ -95,7 +91,6 @@ paint.zoom.handlers = {
     increasezoom: function() {
         if (!paint.zoom.global.state) {
             paint.objects.global.disactivpage[temp.DataWorkspace.activpage] = paint.objects.disactiv;
-
             paint.objects.datafromserver.removelistpage[temp.DataWorkspace.activpage] = false;
             paint.zoom.handlers.swithstate();
             paint.zoom.handlers.removesvg();
@@ -192,8 +187,6 @@ paint.zoom.handlers = {
         paint.objects.point4.attr('r', 3)
             .attr('cx', paint.objects.activrect.rectData[0].x)
             .attr('cy', paint.objects.activrect.rectData[1].y);
-
-
     },
     createzoomsvg: function() {
         paint.zoom.global.svg = d3.select('#pdfWindow').append('svg').attr('width', paint.zoom.data.widthheight[0]).attr('height', paint.zoom.data.widthheight[1]).call(d3.behavior.zoom().scaleExtent([1, 10]).on("zoom", paint.zoom.handlers.zoomed));
@@ -273,18 +266,13 @@ paint.objects = {
 paint.handlers = {
     parsedataservercord: function(cord) {
         return [{ x: paint.handlers.convertcordabsx(cord.Rect.X0.X, paint.objects.global.wh), y: paint.handlers.convertcordabsy(cord.Rect.X0.Y, paint.objects.global.wh) }, { x: paint.handlers.convertcordabsx(cord.Rect.X1.X, paint.objects.global.wh), y: paint.handlers.convertcordabsy(cord.Rect.X1.Y, paint.objects.global.wh) }];
-
     },
-
     convertcordabsx: function(cordx, arrWH) {
         return (cordx * arrWH[0]) / 100;
-
     },
     convertcordabsy: function(cordy, arrWH) {
         return (cordy * arrWH[1]) / 100;
     },
-
-
     createNewRecData: function() {
         paint.objects.disactiv = [];
         // new templaite create
@@ -298,9 +286,7 @@ paint.handlers = {
                     //  if (type != 'CustomData' && type != 'Base64Img') {};
                     if (paint.objects.datafromserver.arrdata[type] == null) continue;
                     if (type != 'TableDatas' && type != 'CustomData' && type != 'Base64Img' && type != 'OnlyImages' && type != 'OnlyText' && type != 'OcrStrings') {
-
                         if (type == 'MainHeader' && paint.objects.datafromserver.arrdata[type].Rect == null) continue; // main header initial state from server
-
                         if (type == 'MainHeader') {
                             new Array(paint.objects.datafromserver.arrdata[type]).forEach(function(cord, i) {
                                 paint.objects.global.nopush = false;
@@ -339,9 +325,7 @@ paint.handlers = {
 
                     } else if (type == 'TableDatas') {
                         // render dataTable from the server 
-
                         paint.objects.datafromserver.arrdata[type].forEach(function(val, i) {
-
                             for (var typ in val) {
                                 if (typ != 'Rect') continue;
                                 paint.objects.global.nopush = false;
@@ -358,7 +342,6 @@ paint.handlers = {
                                 paint.objects.disactiv.push($.extend({}, paint.objects.activrect));
                                 if (paint.objects.datafromserver.arrdata[type].length - 1 == i) {
                                     rightbar.dataTable.emmitchangerect($.extend({}, paint.objects.activrect));
-
                                 }
                             }
                         });
@@ -399,7 +382,6 @@ paint.handlers = {
         paint.objects.activrect.isActive = true;
         paint.objects.activrect.isDrag = false;
     },
-
     initrectpoint: function() {
         paint.objects.activrect.rectangleElement = paint.objects.global.svg.append('rect').attr('class', 'rectangle').attr('id', paint.objects.activrect.id).call(d3.behavior.drag().on('drag', paint.handlers.dragRect));
         paint.objects.activrect.pointElement1 = paint.objects.global.svg.append('circle').attr('class', 'pointC').call(d3.behavior.drag().on('drag', paint.handlers.dragPoint1));
@@ -407,7 +389,6 @@ paint.handlers = {
         paint.objects.activrect.pointElement3 = paint.objects.global.svg.append('circle').attr('class', 'pointC').call(d3.behavior.drag().on('drag', paint.handlers.dragPoint3));
         paint.objects.activrect.pointElement4 = paint.objects.global.svg.append('circle').attr('class', 'pointC').call(d3.behavior.drag().on('drag', paint.handlers.dragPoint4));
     },
-
     updateRect: function() {
         paint.abs.handlers.showcoord(paint.objects.activrect.rectData);
         paint.objects.activrect.rect = d3.select(paint.objects.activrect.rectangleElement[0][0]);
@@ -417,7 +398,6 @@ paint.handlers = {
             width: Math.abs(paint.objects.activrect.rectData[1].x - paint.objects.activrect.rectData[0].x),
             height: Math.abs(paint.objects.activrect.rectData[1].y - paint.objects.activrect.rectData[0].y)
         });
-
         paint.objects.point1 = d3.select(paint.objects.activrect.pointElement1[0][0]).data(paint.objects.activrect.rectData);
         paint.objects.point1.attr('r', 3)
             .attr('cx', paint.objects.activrect.rectData[0].x)
@@ -451,19 +431,15 @@ paint.handlers = {
             }
         });
     },
-
     disactivRect: function() {
         d3.selectAll('rect').attr('class', function() { return 'rectdis'; });
         paint.objects.disactiv.forEach(function(element, i) {
             if (element.autoCreate == 'rectauto' && element.id != paint.objects.activrect.id) $('#' + element.id).addClass('rectauto');
         });
-
     },
-
     activRect: function() {
         paint.objects.activrect.rect.attr('rectdis', '').attr('class', 'rectangle');
     },
-
     dragRect: function() {
         var e = d3.event;
         for (var i = 0; i < paint.objects.activrect.rectData.length; i++) {
@@ -474,7 +450,6 @@ paint.handlers = {
         paint.objects.activrect.rect.style('cursor', 'move');
         paint.handlers.updateRect();
     },
-
     dragPoint1: function() {
         var e = d3.event;
         d3.select(paint.objects.activrect.pointElement1[0][0])
@@ -482,7 +457,6 @@ paint.handlers = {
             .attr('cy', paint.objects.activrect.rectData[0].y += e.dy);
         paint.handlers.updateRect();
     },
-
     dragPoint2: function() {
         var e = d3.event;
         d3.select(paint.objects.activrect.pointElement2[0][0])
@@ -490,7 +464,6 @@ paint.handlers = {
             .attr('cy', paint.objects.activrect.rectData[1].y += e.dy);
         paint.handlers.updateRect();
     },
-
     dragPoint3: function() {
         var e = d3.event;
         d3.select(paint.objects.activrect.pointElement3[0][0])

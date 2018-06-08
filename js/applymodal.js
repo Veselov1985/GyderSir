@@ -12,11 +12,7 @@ applymodal.init = function() {
     applymodal.elements.apply_save_typedata = $('#apply_save_typedata'); // choice_btn 6
     applymodal.elements.apply_apply_typedata = $('#apply_apply_typedata'); // choice_btn 7
     applymodal.elements.apply_togle_state = $('#apply_togle_state'); // choise_btn 8
-
-
-
     applymodal.elements.apply_close.on('click', function() {
-
         applymodal.handlers.close();
     });
 };
@@ -26,18 +22,12 @@ applymodal.handlers = {
         applymodal.elements.apply_close.attr('hidden', false);
         applymodal.elements.applycontent.text(text);
         applymodal.handlers.findbtn(choice_btn);
-
         applymodal.elements.window.modal('show');
-
     },
     close: function() {
-
-
         if (!applymodal.elements.apply_save_typedata.is('hidden')) {
             rightbar.handlers.toggleinputfield(); // clear inp field => not save
-
         }
-
         if (temp.DataWorkspace.images.length) {
             var i = temp.elementLeftBar.dataTable.object.find('i');
             i.each(function() {
@@ -48,10 +38,8 @@ applymodal.handlers = {
                     $that.parent().parent().removeClass('selected');
                 }
             });
-
         }
-
-
+        
         applymodal.elements.window.find('button').each(function() {
             $(this).attr('hidden', true);
         });
