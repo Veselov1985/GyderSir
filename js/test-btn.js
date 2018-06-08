@@ -343,8 +343,8 @@
                  arrclone[i].OrderNumbers = [];
              }
 
-             if (!val.QuantitysLists) {
-                 arrclone[i].QuantitysLists = [];
+             if (!val.Quantities) {
+                 arrclone[i].Quantities = [];
              }
 
              if (!val.TotalBedrags) {

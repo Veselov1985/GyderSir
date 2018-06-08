@@ -10,7 +10,7 @@
          ['InvoiceDates'],
          ['ItemNumbers'],
          ['OrderNumbers'],
-         ['QuantitysLists'],
+         ['Quantities'],
          ['TotalBedrags'],
          ['UnitPrices'],
          ['VatAmounts'],
@@ -30,7 +30,7 @@
              { DataType: 'InvoiceDates', Pk: false },
              { DataType: 'ItemNumbers', Pk: false },
              { DataType: 'OrderNumbers', Pk: false },
-             { DataType: 'QuantitysLists', Pk: false },
+             { DataType: 'Quantities', Pk: false },
              { DataType: 'TotalBedrags', Pk: false },
              { DataType: 'UnitPrices', Pk: false },
              { DataType: 'VatAmounts', Pk: false },
@@ -439,7 +439,7 @@
              text == 'InvoiceDates' ||
              text == 'ItemNumbers' ||
              text == 'OrderNumbers' ||
-             text == 'QuantitysLists' ||
+             text == 'Quantities' ||
              text == 'TotalBedrags' ||
              text == 'UnitPrices' ||
              text == 'VatAmounts'
@@ -755,7 +755,7 @@
              selected == "InvoiceDates" ||
              selected == "ItemNumbers" ||
              selected == "OrderNumbers" ||
-             selected == "QuantitysLists" ||
+             selected == "Quantities" ||
              selected == "TotalBedrags" ||
              selected == "UnitPrices" ||
              selected == "VatAmounts"
@@ -792,8 +792,7 @@
              selected == "InvoiceDates" ||
              selected == "ItemNumbers" ||
              selected == "OrderNumbers" ||
-
-             selected == "QuantitysLists" ||
+             selected == "Quantities" ||
              selected == "TotalBedrags" ||
              selected == "UnitPrices" ||
              selected == "VatAmounts"

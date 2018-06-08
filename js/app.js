@@ -620,7 +620,7 @@ temp.helpfunc = {
                 val.type != 'InvoiceDates' &&
                 val.type != 'ItemNumbers' &&
                 val.type != 'OrderNumbers' &&
-                val.type != 'QuantitysLists' &&
+                val.type != 'Quantities' &&
                 val.type != 'TotalBedrags' &&
                 val.type != 'UnitPrices' &&
                 val.type != 'VatAmounts') {
@@ -635,7 +635,7 @@ temp.helpfunc = {
                 val.type == 'InvoiceDates' ||
                 val.type == 'ItemNumbers' ||
                 val.type == 'OrderNumbers' ||
-                val.type == 'QuantitysLists' ||
+                val.type == 'Quantities' ||
                 val.type == 'TotalBedrags' ||
                 val.type == 'UnitPrices' ||
                 val.type == 'VatAmounts'

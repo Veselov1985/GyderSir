@@ -4,12 +4,11 @@ kw.data = [
     'InvoiceDates',
     'ItemNumbers',
     'OrderNumbers',
-    'QuantitysLists',
+    'Quantities',
     'TotalBedrags',
     'UnitPrices',
     'VatAmounts'
 ];
-
 
 kw.state = false;
 kw.elements = {};
@@ -21,12 +20,10 @@ kw.initEl = function() {
     kw.elements.textarea_kw = { object: $('#textarea_kw'), id: '#textarea_kw' };
 
     // KW modal
-
     kw.elements.applymodal_KW = { object: $('#applymodal_KW'), id: '#applymodal_KW' };
     kw.elements.apply_save_KW = { object: $('#apply_save_KW'), id: '#apply_save_KW' };
     kw.elements.apply_no_KW = { object: $('#apply_no_KW'), id: '#apply_no_KW' };
 };
-
 
 kw.handlers = {
     hideWrapfieldContentToggle: function() {
@@ -87,7 +84,6 @@ kw.handlers = {
         var KW = that.find('td').text().trim();
 
         if (kw.handlers.compareNeedKw(kw.handlers.findKeyWord(that)) && !kw.state) { //KW=true  state=of
-
             kw.handlers.textarea.clearVal();
             kw.handlers.label.clearLabel();
             kw.handlers.hideabsolutePosToggle();
@@ -95,11 +91,7 @@ kw.handlers = {
             kw.handlers.hidesaveDataType();
             kw.handlers.hidekwContentToggle();
             kw.state = !kw.state;
-
             kw.ajax.getKW({ Name: kw.handlers.delEndKW(KW), Data: '' });
-
-
-
         } else if (!kw.handlers.compareNeedKw(kw.handlers.findKeyWord(that)) && kw.state) { //KW =false  state=on
             kw.handlers.textarea.clearVal();
             kw.handlers.label.clearLabel();
@@ -108,15 +100,11 @@ kw.handlers = {
             kw.handlers.hidesaveDataType();
             kw.handlers.hidekwContentToggle();
             kw.state = !kw.state;
-
         } else if (kw.handlers.compareNeedKw(kw.handlers.findKeyWord(that)) && kw.state) { //KW=true satet=on
             kw.handlers.textarea.clearVal();
             kw.handlers.label.clearLabel();
-
             kw.ajax.getKW({ Name: kw.handlers.delEndKW(KW), Data: '' });
-
         }
-
     },
 
     changeTab: function(selected) {
@@ -129,12 +117,10 @@ kw.handlers = {
             kw.handlers.hidesaveDataType();
             kw.handlers.hidekwContentToggle(); // how KW
             kw.state = !kw.state;
-
             kw.ajax.getKW({ Name: kw.handlers.delEndKW(KW), Data: null });
 
         }
     },
-
     setTab: function() {
         if (kw.state) { // edit KW on 
             kw.handlers.hideabsolutePosToggle();
@@ -145,14 +131,14 @@ kw.handlers = {
         }
     },
     splitData: function(data) {
-        var arr = data.split(/\n|\;|\,|\s/);
+        var arr = data.split(/\n|\;|\,/);
         arr = arr.filter(function(val, i) {
             return val != "";
         });
         return arr;
     },
-    delEndKW: function(str) {
-        return str.split('').splice(0, str.length - 1).join('');
+    delEndKW: function(str) {   
+        return (str.trim()!='Quantities') ? str.split('').splice(0, str.length - 1).join('') : 'Quantity';
     },
     kwfixD3JS: function(type) {
         if (!kw.handlers.compareNeedKw(type) && kw.state && rightbar.data.global.currenttab == 1) {
@@ -173,10 +159,7 @@ kw.handlers = {
             kw.state = !kw.state;
             kw.ajax.getKW({ Name: kw.handlers.delEndKW(type), Data: '' });
         }
-
-
     },
-
 };
 
 kw.ajax = {
@@ -200,7 +183,6 @@ kw.ajax = {
             beforeSend: function() {},
             complete: function() {}
         });
-
     },
     editKW: function(data) {
         $.ajax({
@@ -224,7 +206,6 @@ kw.ajax = {
             beforeSend: function() {},
             complete: function() {},
         });
-
     },
     getKWDone: function(data) {
         kw.handlers.label.setText(data.Name + ':'); // label
@@ -262,8 +243,6 @@ kw.initEv = function() {
         kw.elements.applymodal_KW.object.modal('hide');
     });
 };
-
-
 
 kw.initEl();
 kw.initEv();
