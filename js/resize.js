@@ -41,58 +41,41 @@ resize.handlers = {
             if (callNow) func.apply(context, args);
         };
     },
-
     colorSetAutoCreateCollum:function(arr){
        arr.forEach(function(elemOld,i){
         var count=0;
             var oldCoord= resize.handlers.parsedataservercord(elemOld); // need absolute coord
-
                 paint.objects.disactiv.forEach(function(elemNew,j){
                     if(count!=0) return;
                     var newCoord=elemNew.rectData;
-            
                     if( Math.abs(oldCoord[0].x-newCoord[0].x)<1       &&   
                         Math.abs(oldCoord[1].x-newCoord[1].x)<1       && 
                         Math.abs(oldCoord[0].y-newCoord[0].y)<1       &&
-                        Math.abs(oldCoord[1].y-newCoord[1].y)<1 )        
-                        
+                        Math.abs(oldCoord[1].y-newCoord[1].y)<1 )         
                         {paint.objects.disactiv[j].autoCreate='rectauto';count++} ;
                 })
-
         })
-
     },
-   
+
      parsedataservercord: function(cord) {
             return [{ x: resize.handlers.convertcordabsx(cord.X0.X, paint.objects.global.wh), y: resize.handlers.convertcordabsy(cord.X0.Y, paint.objects.global.wh) }, { x: resize.handlers.convertcordabsx(cord.X1.X, paint.objects.global.wh), y: resize.handlers.convertcordabsy(cord.X1.Y, paint.objects.global.wh) }];
-    
-    
         },
-    
     convertcordabsx: function(cordx, arrWH) {
             return (cordx * arrWH[0]) / 100;
-    
         },
      convertcordabsy: function(cordy, arrWH) {
             return (cordy * arrWH[1]) / 100;
         },
-
-
     grabCreateColorRect:function(){
       return  resize.data.compareOldColorCreate.filter(function(el){
          return  el.autoCreate=="rectauto";
       })
-
-
-
     },
     percentCoord:function(arr){
         return arr.map(function(el){
            return  temp.helpfunc.percentchangecord(el.rectData);    
         })
     }
-
-
 };
 resize.logic = {
     findWHImg: function(el) {

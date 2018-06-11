@@ -17,10 +17,8 @@ multidel.handlers = {
         });
     },
     deleteMemoryRect: function(arrChildrenRect) {
-
         paint.objects.disactiv = paint.objects.disactiv.filter(function(val) {
             var compare = true;
-
             arrChildrenRect.forEach(function(elChild) {
                 if (elChild.id == val.id) compare = false;
 
@@ -31,11 +29,9 @@ multidel.handlers = {
 };
 
 multidel.log = {
-
     init: function(parent) {
         var childrenRect = multidel.handlers.findChildrenRectangle(parent);
         multidel.handlers.deleteViewRect(childrenRect);
         multidel.handlers.deleteMemoryRect(childrenRect);
     }
-
 };

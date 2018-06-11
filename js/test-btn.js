@@ -1,5 +1,4 @@
  var zaglyshka = {};
-
  zaglyshka.data = {
      header: [],
      lines: [],
@@ -25,8 +24,6 @@
      btn_test_prew: { id: 'btn_test_prew' },
      btn_test_next: { id: 'btn_test_next' },
      btn_test_view: { id: 'btn_test_view' }
-
-
  };
 
  test.objects = {
@@ -100,7 +97,6 @@
              "dom": "<'row'<'col-md-6'><'col-md-6'f>>t<'clear'><'row'<'col-md-12'p>>",
          });
      },
-
      formColumnDefs: function(dataLines) {
          var $th = test.elements.lines_dataTables.find('tr');
          $th.empty();
@@ -108,7 +104,6 @@
              $('<th>' + val + '</th>').appendTo($th);
          });
      },
-
      xmlOutput: function(xml) {
          var reg = /(>)\s*(<)(\/*)/g;
          var wsexp = / *(.*) +\n/g;
@@ -159,7 +154,6 @@
      addxmlfield: function() {
          $('#textarea').text('' + test.handlers.xmlOutput(zaglyshka.data.xml[0]) + '');
      },
-
      creathtmlslider: function() {
          zaglyshka.data.pdf_image.forEach(function(val, i) {
              test.elements.slidecont.append('<li><img src="' + val + '" alt=""></li>');
@@ -171,7 +165,6 @@
          $parent.append('<ul class="rslides"></ul>');
          test.elements.slidecont = $('.rslides');
      },
-
      slideinit: function() {
          test.handlers.creathtmlslider();
          test.elements.slidecont.responsiveSlides({
@@ -196,11 +189,8 @@
                  });
              }
          });
-
-
      },
      addHeadArr: function(arr) {
-
          arr.forEach(function(val, i) { // add th for page num      
              zaglyshka.data.lines.push({ th: [], td: [] });
              if (val.TableLines.length != 0) {
@@ -210,16 +200,13 @@
                  zaglyshka.data.lines[i].th.push('empty table'); // no table on this page
                  zaglyshka.data.lines[i].td.push('-');
              }
-
          });
      },
      cookHeaderLines: function(arr, iter) { //TableLines  
          arr.forEach(function(val, i) {
              zaglyshka.data.lines[iter].th.push(val.Header);
          });
-
      },
-
      cookDataCell: function(arr, iteration) {
          arr.forEach(function(val, i) {
              zaglyshka.data.lines[iteration].td.push([]);
@@ -244,23 +231,18 @@
          });
      },
      addXmlStr: function(text) {
-         zaglyshka.data.xml[0] = '<?xml version="1.0" encoding="UTF-8"?>' + text;
-
+         zaglyshka.data.xml[0] = text;
      },
      addNameTemplaite: function(name) {
          test.elements.testfindtemp_btn.val(name);
      },
-
-
      sendTestsuccess: function(data) {
          zaglyshka.data.pages = data.Pages.length;
          test.handlers.addLinesArr(data.Pages);
-
          test.handlers.addHeadArr(data.Pages); // change create table and fix multi page show
-
          test.handlers.setControlView();
          test.handlers.addImgArr(data.Pages);
-         test.handlers.addXmlStr(data.XmlData);
+         test.handlers.addXmlStr( xml.init.getData(data));   //   <=======   xml.js 
          test.handlers.initDataTableHeader(zaglyshka.data.header);
          test.handlers.initDataTableLines(zaglyshka.data.lines[zaglyshka.data.page])
          test.handlers.slideinit();
@@ -268,10 +250,8 @@
          test.handlers.addNameTemplaite(data.TemplateName);
          test.elements.modalwindow.modal('show');
      },
-
      sendTesterror: function(data) {
          console.log(data);
-
      },
      CleanDataTest: function() {
          zaglyshka.data.header = [];
@@ -304,9 +284,6 @@
  };
 
  test.init();
-
-
-
 
  test.fix = {
      addVatsandIbans: function(object) {
@@ -358,7 +335,6 @@
              if (!val.VatAmounts) {
                  arrclone[i].VatAmounts = [];
              }
-
          });
          cloneObj.Pages = arrclone;
          return cloneObj;
@@ -372,9 +348,7 @@
      test.handlers.clean(test.objects.dataTableHeader);
      test.handlers.clean(test.objects.dataTableLines);
      test.ajax.sendTestProccess(test.fix.addVatsandIbans(temp.helpfunc.createresponsedata().Template));
-
  });
-
 
  test.elements.btn_test_next.on('click', function() {
      if (zaglyshka.data.pages > zaglyshka.data.page + 1) {
@@ -385,7 +359,6 @@
      test.handlers.initDataTableLines(zaglyshka.data.lines[zaglyshka.data.page]);
 
  })
-
 
  test.elements.btn_test_prew.on('click', function() {
      if (0 != zaglyshka.data.page) {

@@ -8,7 +8,6 @@ rightbaraction.Ajax = {
             },
             url: temp.routes.sendDeleteDataTypeProccessUrl,
             type: "POST",
-
             data: JSON.stringify(data),
             dataType: 'json',
             success: function(data, textStatus, jqXHR) {
@@ -26,7 +25,6 @@ rightbaraction.Ajax = {
                 load.handlers.hideLoader(load.elements.load_btn_del_datatype, load.elements.boss_btn_del_datatype);
             }
         });
-
     },
     sendSaveDataTypeProccess: function(data) {
         $.ajax({
@@ -36,7 +34,6 @@ rightbaraction.Ajax = {
             },
             url: temp.routes.sendSaveDataTypeProccessUrl,
             type: "POST",
-
             data: JSON.stringify(data),
             dataType: 'json',
             success: function(data, textStatus, jqXHR) {
@@ -47,8 +44,6 @@ rightbaraction.Ajax = {
             },
             beforeSend: function() {
                 load.handlers.showLoader(load.elements.load_btn_add_datatype, load.elements.boss_btn_add_datatype);
-
-
             },
 
             complete: function() {
@@ -65,7 +60,6 @@ rightbaraction.Ajax = {
             },
             url: temp.routes.sendAddAmountProccessUrl,
             type: "POST",
-
             data: JSON.stringify(data),
             dataType: 'json',
             success: function(data, textStatus, jqXHR) {
@@ -78,8 +72,6 @@ rightbaraction.Ajax = {
 
             complete: function() {}
         });
-
-
     },
     sendAddDateProccess: function(data, e) {
         $.ajax({
@@ -89,7 +81,6 @@ rightbaraction.Ajax = {
             },
             url: temp.routes.sendAddDateProccessUrl,
             type: "POST",
-
             data: JSON.stringify(data),
             dataType: 'json',
             success: function(data, textStatus, jqXHR) {
@@ -102,8 +93,6 @@ rightbaraction.Ajax = {
 
             complete: function() {}
         });
-
-
     },
     sendAddRegexProccess: function(data, e) {
         $.ajax({
@@ -113,7 +102,6 @@ rightbaraction.Ajax = {
             },
             url: temp.routes.sendAddRegexProccessUrl,
             type: "POST",
-
             data: JSON.stringify(data),
             dataType: 'json',
             success: function(data, textStatus, jqXHR) {
@@ -123,11 +111,8 @@ rightbaraction.Ajax = {
                 rightbaraction.handlers.sendAddRegexerror(jqXHR);
             },
             beforeSend: function() {},
-
             complete: function() {}
         });
-
-
     },
     sendAddAlternateProccess: function(data, e) {
         $.ajax({
@@ -137,7 +122,6 @@ rightbaraction.Ajax = {
             },
             url: temp.routes.sendAddAlternateProccessUrl,
             type: "POST",
-
             data: JSON.stringify(data),
             dataType: 'json',
             success: function(data, textStatus, jqXHR) {
@@ -169,19 +153,13 @@ rightbaraction.Ajax = {
                error(jqXHR);
             },
             beforeSend: function() {},
-
             complete: function() {}
         });
     },
-
-
-
-
 };
 
 rightbaraction.handlers = {
     DeleteDataTypesuccess: function(data) {
-
         var name;
         rightbar.data.global.dataType = rightbar.data.global.dataType.filter(function(value, j) {
             if (value.Pk == data.Pk) {
@@ -191,17 +169,13 @@ rightbaraction.handlers = {
                 return true;
             }
         });
-
-
         rightbar.zag.dataTable = rightbar.zag.dataTable.filter(function(val) {
             return val[0] != name ? true : false;
         });
-
         rightbar.dataTable.clean(rightbar.dataTable.set.object);
         rightbar.dataTable.clean(rightbar.dataTable.change.object);
         rightbar.dataTable.init(rightbar.dataTable.set, rightbar.zag.dataTable);
         rightbar.dataTable.init(rightbar.dataTable.change, rightbar.zag.dataTable);
-
     },
     DeleteDataTypeerror: function(data) {
         alert(data);
@@ -222,17 +196,14 @@ rightbaraction.handlers = {
                 }
             }
         });
-
         if (!state) {
             rightbar.data.global.dataType.push(rightbaraction.handlers.createobjinDataType(data));
             rightbar.zag.dataTable.push([data.Name]);
         }
-
         rightbar.dataTable.clean(rightbar.dataTable.set.object);
         rightbar.dataTable.clean(rightbar.dataTable.change.object);
         rightbar.dataTable.init(rightbar.dataTable.set, rightbar.zag.dataTable);
         rightbar.dataTable.init(rightbar.dataTable.change, rightbar.zag.dataTable);
-
     },
     createobjinDataType: function(obj) {
         var newobj = { DataType: '', Pk: '' };
@@ -246,8 +217,6 @@ rightbaraction.handlers = {
             }
         }
         return newobj;
-
-
     },
     SaveDataTypeerror: function(data) {
         alert(data);
@@ -262,8 +231,6 @@ rightbaraction.handlers = {
     sendAddDatesuccess: function(data, e) {
         rightbaraction.handlers.addoptionInselect(e, data);
         rightbar.data.global.date.push(data);
-
-
     },
     sendAddDateerror: function(data) {
         alert(data);
@@ -271,7 +238,6 @@ rightbaraction.handlers = {
     sendAddRegexsuccess: function(data, e) {
         rightbaraction.handlers.addoptionInselect(e, data);
         rightbar.data.global.regex.push(data);
-
     },
     sendAddRegexerror: function(data) {
         alert(data);
@@ -279,12 +245,10 @@ rightbaraction.handlers = {
     sendAddAlternatesuccess: function(data, e) {
         rightbaraction.handlers.addoptionInselect(e, data);
         rightbar.data.global.alternate.push(data);
-
     },
     sendAddAlternateerror: function(data) {
         alert(data);
     },
-
     addoptionInselect: function(e, data) {
         var $e_curr = $(e.currentTarget);
         var bodyselect = $e_curr.parent().prev().prev();
@@ -294,26 +258,21 @@ rightbaraction.handlers = {
         $e_curr.parent().prev().val('');
         rightbar.handlers.togleshowelem(bodyselect);
         rightbar.handlers.togleshowelem($e_curr.parent().prev());
-
     },
      DeleteOptionPref:function(selectEl,Pk){
      selectEl.find('option').each(function(i,val){
      if(Pk==val.value)  $(this).remove();
      })
     },
-
     clearListMemory:function(list,Pk){
-        // 
         list=list.filter(function(val){
          return val.Pk!=Pk;
         })
         return list;
     },
-
     initselectedFirst:function(select){
         select.find('option:first').attr('selected',true);
     },
-
     sendDeleteAmountsuccess:function(data){
         rightbaraction.handlers.DeleteOptionPref(rightbar.elements.selAmount,data)
         rightbar.data.global.amount= rightbaraction.handlers.clearListMemory(rightbar.data.global.amount,data)
@@ -338,7 +297,4 @@ rightbaraction.handlers = {
         rightbaraction.handlers.initselectedFirst(rightbar.elements.selalternate);
     },
     sendDeleteAlternateerror:function(error){console.log(error)},
-
-
-
 };

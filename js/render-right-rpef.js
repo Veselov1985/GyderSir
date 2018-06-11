@@ -4,8 +4,6 @@ rightpref.data = {
     zeroGuid: '00000000-0000-0000-0000-000000000000',
 };
 
-
-
 rightpref.Ajax = {
     sendRenderDataTypeProccess: function(data) {
         $.ajax({
@@ -25,10 +23,8 @@ rightpref.Ajax = {
                 rightpref.handlers.DataTypeerror(errorThrown);
             },
             beforeSend: function() {
-
             },
         });
-
     },
     sendRenderAmountProccess: function() {
         $.ajax({
@@ -46,7 +42,6 @@ rightpref.Ajax = {
                 rightpref.handlers.Amounterror(jqXHR);
             },
             beforeSend: function() {
-
             },
         });
 
@@ -59,8 +54,6 @@ rightpref.Ajax = {
             },
             url: temp.routes.sendRenderDataProccessUrl,
             type: "POST",
-
-
             dataType: 'json',
             success: function(data, textStatus, jqXHR) {
                 rightpref.handlers.Datasuccess(data);
@@ -69,7 +62,6 @@ rightpref.Ajax = {
                 rightpref.handlers.Dataerror(errorThrown);
             },
             beforeSend: function() {
-
             },
         });
 
@@ -90,7 +82,6 @@ rightpref.Ajax = {
                 rightpref.handlers.Regexerror(errorThrown);
             },
             beforeSend: function() {
-
             },
         });
 
@@ -112,22 +103,15 @@ rightpref.Ajax = {
                 rightpref.handlers.Alternateerror(errorThrown);
             },
             beforeSend: function() {
-
             },
         });
-
     },
-
 };
-
-
 
 rightpref.handlers = {
     DataTypesuccess: function(data) {
-
         data.Data.forEach(function(val) {
             var findfield, fieldPk, state;
-
             for (var key in val) {
                 if (key != 'Name' && key != 'Pk' && key != 'IsText') {
                     if (val[key] != null) {
@@ -150,13 +134,11 @@ rightpref.handlers = {
         rightbar.dataTable.init(rightbar.dataTable.set, rightbar.zag.dataTable);
         rightbar.dataTable.init(rightbar.dataTable.change, rightbar.zag.dataTable);
         $('#preloader').attr('hidden', true);
-
     },
     DataTypeerror: function(data) {
         alert(data);
         $('#preloader').attr('hidden', true);
     },
-
     Amountsuccess: function(data) {
         data.Data.forEach(function(val) {
             rightbar.data.global.amount.push(val);
@@ -184,7 +166,6 @@ rightpref.handlers = {
     Regexerror: function(data) {
         alert(data);
     },
-
     Alternatesuccess: function(data) {
         data.Data.forEach(function(val) {
             rightbar.data.global.alternate.push(val);
@@ -194,7 +175,6 @@ rightpref.handlers = {
     Alternateerror: function(data) {
         alert(data);
     },
-
     renderfieldoptions: function(list, selectId) {
         list.forEach(function(val) {
             rightpref.handlers.addoptioninselect(selectId, val);

@@ -419,7 +419,6 @@ paint.handlers = {
         }
         paint.handlers.comparedatarect();
     },
-
     swithactivRect: function() {
         var newrect = d3.select(paint.objects.global.mouseEvent.path[0])[0];
         paint.objects.disactiv.forEach(function(val, i) {

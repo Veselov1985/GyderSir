@@ -2,7 +2,7 @@ var temp = {};
 temp.debug = false;
 temp.Owen = 'http://91.235.136.123:591/';
 temp.workRoot = 'http://85.214.225.230/';
-temp.root = temp.debug ? '' : temp.Owen;
+temp.root = temp.debug ? '' : temp.workRoot;
 temp.routes = {
     sendRenderProccessUrl: temp.root + '/api/template/gettemplates',
     sendRenderDataTypeProccessUrl: temp.root + '/api/datatypes/getdatatypes',
