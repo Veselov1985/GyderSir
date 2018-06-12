@@ -285,3 +285,10 @@ table.dataTable tbody td {
 .filterNotActive {
     opacity: 0.2 !important;
 }
+
+
+.nav-link {
+    padding: .4rem .2rem !important;
+    display: block !important;
+
+}

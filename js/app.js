@@ -41,6 +41,11 @@ temp.routes = {
     getKWProccessUrl: temp.root + 'api/datatypes/getautodatatypes',
     editKWProccessUrl: temp.root + 'api/datatypes/saveautodatatype',
 
+    //Header XML 
+    getallheaderdatatypesUrl:temp.root +  'api/datatypes/getallheaderdatatypes',
+    createorupdateheaderdatatypeUrl:temp.root + 'api/datatypes/createorupdateheaderdatatype',
+    deleteheaderdatatypeUrl:temp.root +  'api/datatypes/deleteheaderdatatype',
+
 };
 
 temp.html = {
@@ -1326,4 +1331,5 @@ $(document).ready(function() {
     rightpref.Ajax.sendRenderDataProccess();
     rightpref.Ajax.sendRenderRegexProccess();
     rightpref.Ajax.sendRenderAlternateProccess();
+    hx.ajax.getAllHeader(null);
 });

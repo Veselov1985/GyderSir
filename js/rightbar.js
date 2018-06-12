@@ -159,7 +159,12 @@
          select.remove();
      },
      currenttabchange: function(e) {
-         return $(e.target).attr('href') == '#change';
+         var $href= $(e.target).attr('href');
+        if( $href == '#set') return 1;
+         if( $href == '#change') return 2;
+         if( $href == '#header_xml') return 3
+
+       
      },
      togleshowelem: function(elem) {
          elem.is(":hidden") ? elem.attr("hidden", false) : elem.attr('hidden', true);
@@ -610,16 +615,26 @@
      //change tab show
 
      $('#dataType a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-         if (rightbar.handlers.currenttabchange(e)) {
+         if (rightbar.handlers.currenttabchange(e)==2) {
              rightbar.handlers.inittoggle();
-             rightbar.data.global.currenttab = 1;
+             rightbar.data.global.currenttab = 1;    // Change
              // KW block
              kw.handlers.changeTab(rightbar.dataTable.change.object.find('tr.selected'));
-         } else {
+             hx.helpfunc.showElem(hx.elements.fieldPref);
+              hx.helpfunc.hideElem(hx.elements.savdelDHeaderXML);
+         } else if(rightbar.handlers.currenttabchange(e)==1){
              rightbar.handlers.inittoggle();
              rightbar.handlers.initsettabstate();
-             rightbar.data.global.currenttab = 0;
+             rightbar.data.global.currenttab = 0;    //Set
+             hx.helpfunc.showElem(hx.elements.fieldPref);
              kw.handlers.setTab();
+             hx.helpfunc.hideElem(hx.elements.savdelDHeaderXML);
+         }else{      
+            rightbar.data.global.currenttab = 3;                          //Tab Header XML
+            hx.helpfunc.hideElem(hx.elements.fieldPref);
+            hx.helpfunc.showElem(hx.elements.savdelDHeaderXML);
+
+      
          }
      });
 
