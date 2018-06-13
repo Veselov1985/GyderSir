@@ -622,6 +622,7 @@
              kw.handlers.changeTab(rightbar.dataTable.change.object.find('tr.selected'));
              hx.helpfunc.showElem(hx.elements.fieldPref);
               hx.helpfunc.hideElem(hx.elements.savdelDHeaderXML);
+              hx.helpfunc.hideElem( hx.elements.editXML);
          } else if(rightbar.handlers.currenttabchange(e)==1){
              rightbar.handlers.inittoggle();
              rightbar.handlers.initsettabstate();
@@ -629,12 +630,16 @@
              hx.helpfunc.showElem(hx.elements.fieldPref);
              kw.handlers.setTab();
              hx.helpfunc.hideElem(hx.elements.savdelDHeaderXML);
+             hx.helpfunc.hideElem( hx.elements.editXML);
          }else{      
             rightbar.data.global.currenttab = 3;                          //Tab Header XML
             hx.helpfunc.hideElem(hx.elements.fieldPref);
             hx.helpfunc.showElem(hx.elements.savdelDHeaderXML);
-
-      
+            hx.helpfunc.showElem( hx.elements.editXML);
+            hx.helpfunc.hideElem(hx.elements.tabSaveNameXML);
+            hx.helpfunc.showElem(hx.elements.HeaderXmlList);   
+            hx.helpfunc.hideElem(hx.elements.saveNewXml); 
+            hx.helpfunc.showElem(hx.elements.edit_XML_btn);  
          }
      });
 
