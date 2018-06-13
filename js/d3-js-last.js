@@ -586,6 +586,9 @@ paint.handlers = {
                     paint.handlers.disactivRect();
                     paint.handlers.swithactivRect();
                     paint.handlers.activRect();
+
+                    hx.handlears.setHeaderXmlSelected(); //  set Header Xml hx.js
+                    
                     paint.objects.activrect.isActive = true;
                     paint.objects.activrect.isDrag = true;
                     paint.objects.activrect.isDrawing = false;

@@ -640,6 +640,8 @@
             hx.helpfunc.showElem(hx.elements.HeaderXmlList);   
             hx.helpfunc.hideElem(hx.elements.saveNewXml); 
             hx.helpfunc.showElem(hx.elements.edit_XML_btn);  
+            // change tab and select Selected
+          hx.handlears.setHeaderXmlSelected();
          }
      });
 

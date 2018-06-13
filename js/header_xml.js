@@ -19,19 +19,11 @@
     hx.elements.btn_new_xml=$('#btn_new_xml');
     hx.elements.btn_del_xml=$('#btn_del_xml');
 
-
     hx.elements.editXML=$('#editXML'); // block edit xml
     hx.elements.textarea_label_xml=$('#textarea_label_xml'); // labek xml
     hx.elements.textarea_xml=$('#textarea_xml');  // textArea Xml Header
-
-
     hx.elements.edit_XML_btn=$('#edit_XML_btn');   //btn block edit textarea
-
     hx.elements.btn_edit_xml=$('#btn_edit_xml');    // btn edit xml Header
-
-  
-
-
 
     // block btn saveNewXml
     hx.elements.saveNewXml=$('#saveNewXml');
@@ -39,7 +31,6 @@
     hx.elements.btn_new_xml_cancel=$('#btn_new_xml_cancel');
 
     //input new
-
     hx.elements.tabSaveNameXML=$('#tabSaveNameXML');
     hx.elements.input_new_HEaderXml=$('#input_new_HEaderXml');
 
@@ -190,7 +181,62 @@
             }
                })
                if(!state) hx.data.tableList.push([name])
-    }
+    },
+    //////////////////////////////////////////////////////////////////
+    setchangeselectdatatype: function() {   // need switch page
+        var pages, pageStart;
+        var state = false;
+        pageStart = hx.dataTable.set.dt.page.info().page;
+        pages = hx.dataTable.set.dt.page.info().pages;
+        for (var p = 0; p <= pages; p++) {
+            hx.dataTable.set.dt.page(p).draw(false);
+            var val = hx.dataTable.set.object.find('tr');
+            val.each(function(i, value) {
+                var $that = $(this);
+                $that.removeClass('selected');
+                if ($that.find('td').text().trim() == paint.objects.activrect.value.trim() && hx.handlears.test()  ) {
+                    $(value).addClass('selected');
+                    state = true;
+                }
+            });
+            if (state) break;
+        }
+        if (!state) {
+            hx.dataTable.set.dt.page(pageStart).draw(false);
+        }
+    },
+    test:function(){
+        var state=false;
+        var rectValue =paint.objects.activrect.value.trim();
+        hx.data.tableList.forEach(function(val){
+            if(val[0]==rectValue){
+               state=true;
+            }
+        })
+        return state;
+    },
+///////////////////////////////////////////////////////////////////////
+      setHeaderXmlSelected:function(){
+
+      if(paint.objects.activrect.value =='' && !hx.handlears.test() ){
+
+        $.each(hx.dataTable.set.object.find('tr'),function(i,val){
+            var $tr=$(this);
+            $tr.removeClass('selected');
+        })
+        hx.helpfunc.clearLabel();
+        hx.helpfunc.clearTextArea();
+        return;
+      } 
+     $.each(hx.dataTable.set.object.find('tr'),function(i,val){
+        var $tr=$(this);
+        $tr.removeClass('selected');
+        if(paint.objects.activrect.value==$tr.find('td').text().trim() && hx.handlears.test()){
+             $tr.addClass('selected');
+        }
+     }) 
+     hx.handlears.setchangeselectdatatype();
+      }
   };
 
   hx.action=function(){
@@ -284,8 +330,11 @@
         if($selected.parent().attr('class').indexOf('selected')!=-1) {  // unselected tr
             hx.helpfunc.clearTextArea();
             hx.helpfunc.clearLabel();
-        } else {                                         //selected tr
-            var text= $selected.text();
+        } else {   
+        $.each(hx.dataTable.set.object.find('tr'),function(i,val){
+          $(this).removeClass('selected');
+        })                                     //selected tr
+        var text= $selected.text();
           var objHeader=hx.handlears.findDataHeader(text);// =>{Name: Data:}
           hx.helpfunc.setLabel(objHeader.Name);
           hx.helpfunc.setTextArea(objHeader.Data);
@@ -402,7 +451,8 @@
        }
        })
        hx.helpfunc.setLabel(datas.Name);
-       hx.helpfunc.setTextArea(datas.Data); 
+       hx.helpfunc.setTextArea(datas.Data);
+       hx.handlears.setchangeselectdatatype(hx.dataTable.set.object); 
         }else{
             temp.helpfunc.modalInfo(['XML Header', 'Error,try latter']); 
         }
