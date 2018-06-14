@@ -1,13 +1,10 @@
     var hx={};
-
     hx.data={
         list:[],
         tableList:[],
     }
 
-
  hx.elements={};
-
   hx.init=function(){
     hx.elements.header_xml=$('#header_xml');
     hx.elements.HeaderXmlList=$('#HeaderXmlList');
@@ -33,8 +30,6 @@
     //input new
     hx.elements.tabSaveNameXML=$('#tabSaveNameXML');
     hx.elements.input_new_HEaderXml=$('#input_new_HEaderXml');
-
-
   };
 
   hx.dataTable = {

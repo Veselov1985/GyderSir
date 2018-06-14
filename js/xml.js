@@ -10,7 +10,7 @@ xml.handlers={
       var str=''
         page.forEach(function(val,i) {
             var st=xml.handlers.openpageSir(i)+ 
-             xml.handlers.headerSir(val.DataTypes)+
+            xml.handlers.headerSir(val.DataTypes)+
               xml.handlers. tableBodySir(val.TableLines) +
               xml.handlers.closepageSir(i);
               str+=st;
@@ -32,28 +32,21 @@ xml.handlers={
       return '<Headers>'+init+'</Headers>'
     },
     tableBodySir:function(arrLines){
+        var str='';
         if(arrLines.length==0) return '';
-         var str= xml.handlers.tableHeaderSir(arrLines[0]);
         arrLines.forEach(function(val,i){
             var st='';
            st+= xml.handlers.tableSirLines(val);
            str+=st;
         })
-        return '<table>'+str+'</table>';
+        return '<Lines>'+str+'</Lines>';
       },
-    tableHeaderSir:function(arr){
-        var str='';
-        arr.Сolumns.forEach(function(val){
-            str+='<th>'+val.Header+'</th>'
-        })
-      return '<tr>'+str+'</tr>'
-    },
     tableSirLines:function(arr){
         var str='';
         arr.Сolumns.forEach(function(val){
-            str+='<td>'+val.Data+'</td>'
+            str+='<'+val.Header+'>'+val.Data+'</'+val.Header+'>'
         })
-         return '<tr>'+str+'</tr>'
+         return '<Line>'+str+'</Line>'
             },
 };
 xml.init={
