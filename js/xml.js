@@ -7,21 +7,12 @@ xml.handlers={
         return '<Info><ProcessingDate>'+date+'</ProcessingDate><TemplateName>'+nameTemp+'</TemplateName></Info>';
     },
     PageSir:function(page){
-      var str=''
+      var str=xml.handlers.headerSir(page[0].DataTypes);
         page.forEach(function(val,i) {
-            var st=xml.handlers.openpageSir(i)+ 
-            xml.handlers.headerSir(val.DataTypes)+
-              xml.handlers. tableBodySir(val.TableLines) +
-              xml.handlers.closepageSir(i);
+            var st=xml.handlers. tableBodySir(page);
               str+=st;
         });
         return str;
-    },
-    openpageSir:function(i){
-        return '<Page'+(i+1)+'>';
-    },
-    closepageSir:function(i){
-        return '</Page'+(i+1)+'>';
     },
     headerSir:function(arrHeader){
         var init='';
@@ -31,26 +22,26 @@ xml.handlers={
         })
       return '<Headers>'+init+'</Headers>'
     },
-    tableBodySir:function(arrLines){
-        var str='';
-        if(arrLines.length==0) return '';
-        arrLines.forEach(function(val,i){
-            var st='';
-           st+= xml.handlers.tableSirLines(val);
-           str+=st;
-        })
+    tableBodySir:function(page){
+       var str=xml.handlers.tableSirLines(page)
         return '<Lines>'+str+'</Lines>';
       },
-    tableSirLines:function(arr){
+    tableSirLines:function(page){
         var str='';
-        arr.Сolumns.forEach(function(val){
-            str+='<'+val.Header+'>'+val.Data+'</'+val.Header+'>'
+   page.forEach(function(val,i){
+    val.TableLines.forEach(function(v,j){
+            str+='<Line>'
+            v.Columns.forEach(function(d,k){
+            str+='<'+d.Header +'>'+d.Data+'</'+d.Header +'>'
         })
-         return '<Line>'+str+'</Line>'
-            },
+        str+='</Line>'
+    })
+   })
+      return str;
+     },
 };
 xml.init={
     getData:function(data){
-    return xml.data.headerXML+ xml.handlers.infoSir(data.ProcessingDate,data.TemplateName)+'<Pages>'+ xml.handlers.PageSir(data.Pages)+'</Pages>';  
-    }
+    return xml.data.headerXML+ xml.handlers.infoSir(data.ProcessingDate,data.TemplateName)+ xml.handlers.PageSir(data.Pages);  
+    },
 }

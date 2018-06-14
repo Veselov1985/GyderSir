@@ -246,8 +246,6 @@ temp.elementLeftBar = {
                     }
                 });
 
-
-
                 var success = function(data) {
                     // add new create templaite in list
 
@@ -1237,11 +1235,13 @@ temp.Ajax = {
                 error(textStatus);
             },
             beforeSend: function() {
-                load.handlers.togleLoader();
+                pm.handlers.showPreloader();                //
+               // load.handlers.togleLoader();
                 load.handlers.showLoader(load.elements.load_btn_load_temp, load.elements.boss_btn_load_temp);
             },
             complete: function() {
-                load.handlers.togleLoader();
+               // load.handlers.togleLoader();
+               pm.handlers.hidePreloader(); 
                 load.handlers.hideLoader(load.elements.load_btn_load_temp, load.elements.boss_btn_load_temp);
             }
         });
@@ -1267,11 +1267,13 @@ temp.Ajax = {
             beforeSend: function() {
                 load.handlers.togleLoader();
                 load.handlers.showLoader(load.elements.load_btn_save_temp, load.elements.boss_btn_save_temp);
+                pm.handlers.showPreLoader();  // main preloader
 
             },
             complete: function() {
                 load.handlers.togleLoader();
                 load.handlers.hideLoader(load.elements.load_btn_save_temp, load.elements.boss_btn_save_temp);
+                pm.handlers.hidePreLoader(); // main preloader
             }
         });
     },
@@ -1293,13 +1295,14 @@ temp.Ajax = {
                 error(errorThrown);
             },
             beforeSend: function() {
-                console.log(data);
-                load.handlers.togleLoader();
+                load.handlers.togleLoader(); //-->
+                pm.handlers.showPreloader();
                 load.handlers.showLoader(load.elements.load_btn_del_temp, load.elements.boss_btn_del);
             },
 
             complete: function() {
-                load.handlers.togleLoader();
+                pm.handlers.hidePreloader();
+                load.handlers.togleLoader(); // -->
                 load.handlers.hideLoader(load.elements.load_btn_del_temp, load.elements.boss_btn_del);
             }
         });
@@ -1316,8 +1319,11 @@ temp.Ajax = {
                 error(errorThrown);
             },
             beforeSend: function() {
-
             },
+            complete: function() {
+                pm.handlers.check(); // preload--
+            }
+
         });
     },
 };
@@ -1325,11 +1331,13 @@ temp.Ajax = {
 $(document).ready(function() {
     temp.init.element();
     temp.init.eventHandler();
+
     temp.Ajax.sendRenderProccessUrl('', temp.render.templaite.success, temp.render.templaite.error);
     rightpref.Ajax.sendRenderDataTypeProccess();
-    rightpref.Ajax.sendRenderAmountProccess();
-    rightpref.Ajax.sendRenderDataProccess();
-    rightpref.Ajax.sendRenderRegexProccess();
-    rightpref.Ajax.sendRenderAlternateProccess();
+    rightpref.Ajax.sendRenderAmountProccess(); 
+    rightpref.Ajax.sendRenderDataProccess(); 
+    rightpref.Ajax.sendRenderRegexProccess(); 
+    rightpref.Ajax.sendRenderAlternateProccess(); 
     hx.ajax.getAllHeader(null);
+
 });

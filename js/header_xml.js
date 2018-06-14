@@ -121,11 +121,7 @@
         hx.elements.textarea_label_xml.text(text+':');
 
     }
-
-
   };
-
-
 
   hx.handlears={
     createListTable:function(arr){
@@ -230,7 +226,7 @@
              $tr.addClass('selected');
         }
      }) 
-     hx.handlears.setchangeselectdatatype();
+         if(temp.DataWorkspace.images.length > 0) hx.handlears.setchangeselectdatatype();
       }
   };
 
@@ -355,7 +351,9 @@
                 hx.ajax.getAllHeaderError(jqXHR);
             },
             beforeSend: function() {},
-            complete: function() {}
+            complete: function() {
+                pm.handlers.check(); // preload--
+            }
         });
     },
     deleteHeader:function(datas){
@@ -447,7 +445,7 @@
        })
        hx.helpfunc.setLabel(datas.Name);
        hx.helpfunc.setTextArea(datas.Data);
-       hx.handlears.setchangeselectdatatype(hx.dataTable.set.object); 
+       if(temp.DataWorkspace.images.length > 0)  hx.handlears.setchangeselectdatatype(); 
         }else{
             temp.helpfunc.modalInfo(['XML Header', 'Error,try latter']); 
         }

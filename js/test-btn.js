@@ -59,9 +59,11 @@
              },
              beforeSend: function() {
                  load.handlers.showLoader(load.elements.load_btn_test, load.elements.boss_btn_test);
+                 pm.handlers.showPreloader();  // main preloader
              },
              complete: function() {
                  load.handlers.hideLoader(load.elements.load_btn_test, load.elements.boss_btn_test);
+                 pm.handlers.hidePreloader(); // main preloader
              }
          });
      }

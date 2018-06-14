@@ -24,6 +24,9 @@ rightpref.Ajax = {
             },
             beforeSend: function() {
             },
+            complete:function(){
+                pm.handlers.check(); //preload
+            }
         });
     },
     sendRenderAmountProccess: function() {
@@ -43,6 +46,9 @@ rightpref.Ajax = {
             },
             beforeSend: function() {
             },
+            complete:function(){
+                pm.handlers.check(); // preload
+            }
         });
 
     },
@@ -63,6 +69,9 @@ rightpref.Ajax = {
             },
             beforeSend: function() {
             },
+            complete:function(){
+                pm.handlers.check();
+            }
         });
 
     },
@@ -83,6 +92,9 @@ rightpref.Ajax = {
             },
             beforeSend: function() {
             },
+            complete: function() {
+                pm.handlers.check(); // preload--
+            }
         });
 
     },
@@ -104,6 +116,9 @@ rightpref.Ajax = {
             },
             beforeSend: function() {
             },
+            complete: function() {
+                pm.handlers.check(); // preload--
+            }
         });
     },
 };
@@ -133,11 +148,9 @@ rightpref.handlers = {
         rightbar.dataTable.clean(rightbar.dataTable.change.object);
         rightbar.dataTable.init(rightbar.dataTable.set, rightbar.zag.dataTable);
         rightbar.dataTable.init(rightbar.dataTable.change, rightbar.zag.dataTable);
-        $('#preloader').attr('hidden', true);
+     
     },
     DataTypeerror: function(data) {
-        alert(data);
-        $('#preloader').attr('hidden', true);
     },
     Amountsuccess: function(data) {
         data.Data.forEach(function(val) {
