@@ -41,7 +41,6 @@
 
  test.ajax = {
      sendTestProccess: function(datas) {
-         console.log(datas);
          $.ajax({
              headers: {
                  'accept': 'application/json',
@@ -196,7 +195,7 @@
          arr.forEach(function(val, i) { // add th for page num      
              zaglyshka.data.lines.push({ th: [], td: [] });
              if (val.TableLines.length != 0) {
-                 test.handlers.cookHeaderLines(val.TableLines[0].Сolumns, i); // set header table
+                 test.handlers.cookHeaderLines(val.TableLines[0].Columns, i); // set header table
                  test.handlers.cookDataCell(val.TableLines, i); // set cell on this header
              } else {
                  zaglyshka.data.lines[i].th.push('empty table'); // no table on this page
@@ -212,7 +211,7 @@
      cookDataCell: function(arr, iteration) {
          arr.forEach(function(val, i) {
              zaglyshka.data.lines[iteration].td.push([]);
-             val.Сolumns.forEach(function(el, j) { //  Columns array
+             val.Columns.forEach(function(el, j) { //  Columns array Columns
                  var data;
                  if (el.Data != null) {
                      data = el.Data;
@@ -264,7 +263,6 @@
          zaglyshka.data.pages = 0;
      },
  };
-
  test.init = function() {
      test.elements.btn_xml = $('#btn_xml');
      test.elements.textarea = $('#textarea');
@@ -286,7 +284,6 @@
  };
 
  test.init();
-
  test.fix = {
      addVatsandIbans: function(object) {
          var cloneObj = $.extend({}, object);
