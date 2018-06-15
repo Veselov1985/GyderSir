@@ -5,7 +5,8 @@
      xml: [],
      pdf_image: [],
      page: 0,
-     pages: 0
+     pages: 0,
+     xmlOutout:''
  };
 
  var test = {};
@@ -232,7 +233,9 @@
          });
      },
      addXmlStr: function(text) {
+         zaglyshka.data.xmlOutput='';
          zaglyshka.data.xml[0] = text;
+         zaglyshka.data.xmlOutput=text;
      },
      addNameTemplaite: function(name) {
          test.elements.testfindtemp_btn.val(name);

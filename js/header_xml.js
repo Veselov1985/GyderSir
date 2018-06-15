@@ -68,7 +68,6 @@
 
   };
 
-
   hx.helpfunc={
       clearListTable:function(){
         hx.data.tableList=[];
@@ -97,7 +96,7 @@
         arr = arr.filter(function(val, i) {
             return val != "";
         });
-        return arr;
+        return arr.map(function(val){return hx.helpfunc.low(val)});
     },
     setNewLineTextArea: function(text) {
         if (text == null) return '';
@@ -120,7 +119,18 @@
     setLabel:function(text){
         hx.elements.textarea_label_xml.text(text+':');
 
-    }
+    },
+    low:function(str){
+     return str.toLowerCase();
+    },
+    deleteDubl:function(arr){
+            var obj = {};
+            for (var i = 0; i < arr.length; i++) {
+              var str = arr[i];
+              obj[str] = true; 
+            }
+            return Object.keys(obj); 
+          }
   };
 
   hx.handlears={
@@ -133,7 +143,10 @@
     },
     createListData:function(arr){
         if(arr.length>0){
-            hx.data.list =hx.data.list.concat(arr)         
+            hx.data.list =hx.data.list.concat(arr.map(function(val,i){  
+                val.Data=(val.Data.split().map(function(v,j){ return hx.helpfunc.low(v)})).join(',');
+                 return val;
+              }))         
         }
     },
     findDataHeader:function(text){
@@ -227,11 +240,11 @@
         }
      }) 
          if(temp.DataWorkspace.images.length > 0) hx.handlears.setchangeselectdatatype();
-      }
+      },
+
   };
 
   hx.action=function(){
-
     hx.elements.btn_new_xml.on('click',function(){
         hx.helpfunc.clearInput();
         hx.helpfunc.clearLabel();
@@ -261,11 +274,12 @@
     hx.elements.btn_xml_ok.on('click',function(e){
         e.preventDefault();
         var $input= hx.helpfunc.getInput();
-        var $textarea= hx.helpfunc.splitData(hx.helpfunc.getValTextArea()).join(',');
+        var $textarea=hx.helpfunc.splitData(hx.helpfunc.getValTextArea()); 
+        $textarea=hx.helpfunc.deleteDubl($textarea).join(',')   // delete Dublicate
         if( $input.trim()!=''){
             hx.ajax.editNewHeader({Name:$input,Data:$textarea})
         } else{
-            temp.helpfunc.modalInfo(['XML Header', 'Field must not be empty']);     // add modal Info 
+            temp.helpfunc.modalInfo(['XML Header', 'Field must not be empty']);    
         }
     })
 
@@ -275,7 +289,7 @@
         var text=$selected.find('td').text().trim();
         hx.ajax.deleteHeader({Name:text,Data:null});
       }else{
-        temp.helpfunc.modalInfo(['XML Header', 'Need select at least one']);   // option can show modal Info
+        temp.helpfunc.modalInfo(['XML Header', 'Need select at least one']);  
       }
     })
 
@@ -309,7 +323,8 @@
         var $selected = hx.dataTable.set.dt.$('tr.selected');
         if($selected.length>0){
             var $text=$selected.find('td').text().trim();
-            var $data=hx.helpfunc.splitData(hx.helpfunc.getValTextArea()).join(',');
+            var $data=hx.helpfunc.splitData(hx.helpfunc.getValTextArea());
+            $data=hx.helpfunc.deleteDubl($data).join(',');
             hx.ajax.editNewHeader({Name:$text,Data:$data});
         }else{
             temp.helpfunc.modalInfo(['XML Header', 'Need select at least one']); 

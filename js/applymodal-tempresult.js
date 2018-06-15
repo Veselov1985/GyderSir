@@ -64,16 +64,15 @@ applymodal_tempresult.handlers = {
 applymodal_tempresult.init();
 applymodal_tempresult.elements.apply_tempresult_save_result.on('click', function() {
     var FileName = applymodal_tempresult.elements.applymodal_tempresult_input.val()+ '.xml';
-    var filecontent = test.elements.textarea.text().replace(/\r|\n|\s+/g, ''); //  xml = xml.replace(/\r|\n/g, ''); 
+    var filecontent =zaglyshka.data.xmlOutput;    // test.elements.textarea.text().replace(/\r|\n+/g, ''); //  xml = xml.replace(/\r|\n/g, ''); 
     var saveData = (function() {
         window.URL = window.URL || window.webkitURL;
         var a = document.createElement("a");
         document.body.appendChild(a);
-        a.style = "display: none";
+        a.style = "display:none";
         return function(data, fileName) {
-            var json = JSON.stringify(filecontent),
-                blob = new Blob([json], { type: " application/xml" }),
-
+            var json = filecontent,
+                blob = new Blob([json], {type:"text/xml"});
                 url = window.URL.createObjectURL(blob);
             a.href = url;
             a.download = fileName;
@@ -81,7 +80,6 @@ applymodal_tempresult.elements.apply_tempresult_save_result.on('click', function
             window.URL.revokeObjectURL(url);
         };
     }());
-
     saveData(filecontent, FileName);
     applymodal_tempresult.elements.applymodal_tempresult_input.val(applymodal_tempresult.handlers.getdate());
     applymodal_tempresult.handlers.close();

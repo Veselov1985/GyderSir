@@ -1,8 +1,11 @@
 var xml={};
 xml.data={
-   headerXML:'<?xml version="1.0" encoding="UTF-8"?>' 
+   headerXML:'<?xml version="1.0" encoding="UTF-8"?>'
 }
 xml.handlers={
+    deleteSpase:function(str){
+        return str.trim().replace(/\n/,'');
+    },
     infoSir:function(date,nameTemp){
         return '<Info><ProcessingDate>'+date+'</ProcessingDate><TemplateName>'+nameTemp+'</TemplateName></Info>';
     },
@@ -18,7 +21,7 @@ xml.handlers={
         var init='';
         if(arrHeader.length==0) return  '<Headers>Empty</Headers>'
         arrHeader.forEach(function(val,i){
-          init+='<'+ val.Name+'>'+val.Data+'</'+val.Name+'>';
+          init+='<'+ xml.handlers.deleteSpase(val.Name).replace(/\s/,'')+'>'+xml.handlers.deleteSpase(val.Data)+'</'+xml.handlers.deleteSpase(val.Name).replace(/\s/,'')+'>';
         })
       return '<Headers>'+init+'</Headers>'
     },
@@ -32,7 +35,7 @@ xml.handlers={
     val.TableLines.forEach(function(v,j){
             str+='<Line>'
             v.Columns.forEach(function(d,k){
-            str+='<'+d.Header +'>'+d.Data+'</'+d.Header +'>'
+            str+='<'+xml.handlers.deleteSpase(d.Header) +'>'+xml.handlers.deleteSpase(d.Data)+'</'+xml.handlers.deleteSpase(d.Header)+'>'
         })
         str+='</Line>'
     })
@@ -42,6 +45,6 @@ xml.handlers={
 };
 xml.init={
     getData:function(data){
-    return xml.data.headerXML+ xml.handlers.infoSir(data.ProcessingDate,data.TemplateName)+ xml.handlers.PageSir(data.Pages);  
+    return xml.data.headerXML+'<GliderSir>'+xml.handlers.infoSir(data.ProcessingDate,data.TemplateName)+ xml.handlers.PageSir(data.Pages)+'</GliderSir>';  
     },
 }
