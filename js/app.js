@@ -1267,13 +1267,13 @@ temp.Ajax = {
             beforeSend: function() {
                 load.handlers.togleLoader();
                 load.handlers.showLoader(load.elements.load_btn_save_temp, load.elements.boss_btn_save_temp);
-                pm.handlers.showPreLoader();  // main preloader
+                pm.handlers.showPreloader();  // main preloader
 
             },
             complete: function() {
                 load.handlers.togleLoader();
                 load.handlers.hideLoader(load.elements.load_btn_save_temp, load.elements.boss_btn_save_temp);
-                pm.handlers.hidePreLoader(); // main preloader
+                pm.handlers.hidePreloader(); // main preloader
             }
         });
     },

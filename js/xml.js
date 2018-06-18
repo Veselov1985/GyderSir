@@ -4,6 +4,7 @@ xml.data={
 }
 xml.handlers={
     deleteSpase:function(str){
+        if(typeof str!='string') str='';
         return str.trim().replace(/\n/,'');
     },
     infoSir:function(date,nameTemp){
