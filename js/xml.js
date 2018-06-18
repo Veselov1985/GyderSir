@@ -23,7 +23,7 @@ xml.handlers={
         if(arrHeader.length==0) return  '<Headers>Empty</Headers>'
         arrHeader.forEach(function(val,i){
           init+='<'+ xml.handlers.deleteSpase(val.Name).replace(/\s/,'')+'>'+xml.handlers.deleteSpase(val.Data)+'</'+xml.handlers.deleteSpase(val.Name).replace(/\s/,'')+'>';
-        })
+        });
       return '<Headers>'+init+'</Headers>'
     },
     tableBodySir:function(page){
@@ -37,10 +37,10 @@ xml.handlers={
             str+='<Line>'
             v.Columns.forEach(function(d,k){
             str+='<'+xml.handlers.deleteSpase(d.Header) +'>'+xml.handlers.deleteSpase(d.Data)+'</'+xml.handlers.deleteSpase(d.Header)+'>'
-        })
+        });
         str+='</Line>'
-    })
-   })
+    });
+   });
       return str;
      },
 };
