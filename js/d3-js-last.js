@@ -293,7 +293,7 @@ paint.handlers = {
                                 paint.handlers.disactivRect();
                                 paint.objects.activrect.id = paint.handlers.generId();
                                 paint.objects.activrect.type = type;
-                                paint.objects.activrect.value = cord.Data;
+                                paint.objects.activrect.value = cord.Data ? cord.Data : '';
                                 paint.objects.activrect.rectData = paint.handlers.parsedataservercord(cord);
                                 paint.handlers.initrectpoint();
                                 paint.handlers.updateRect();
@@ -310,7 +310,7 @@ paint.handlers = {
                                 paint.handlers.disactivRect();
                                 paint.objects.activrect.id = paint.handlers.generId();
                                 paint.objects.activrect.type = type;
-                                paint.objects.activrect.value = cord.Data;
+                                paint.objects.activrect.value = cord.Data ? cord.Data : '';
                                 paint.objects.activrect.rectData = paint.handlers.parsedataservercord(cord);
                                 paint.handlers.initrectpoint();
                                 paint.handlers.updateRect();
@@ -352,6 +352,7 @@ paint.handlers = {
                     paint.objects.global.nopush = false;
                     paint.handlers.disactivRect();
                     paint.objects.activrect = cord;
+                    if (!paint.objects.activrect.value) paint.objects.activrect.value = ''; //check if value ==undefined
                     paint.handlers.initrectpoint();
                     paint.handlers.updateRect();
                     paint.objects.activrect.isDrag = false;
@@ -373,6 +374,7 @@ paint.handlers = {
         paint.objects.activrect.rectData = [{ x: paint.objects.activrect.m1[0], y: paint.objects.activrect.m1[1] }, { x: paint.objects.activrect.m1[0], y: paint.objects.activrect.m1[1] }];
         paint.objects.activrect.type = '';
         paint.objects.activrect.Pk = '';
+        paint.objects.activrect.value = '';
         if (paint.objects.activrect.datatype) {
             paint.objects.activrect.datatype = [];
         }
@@ -398,20 +400,23 @@ paint.handlers = {
             width: Math.abs(paint.objects.activrect.rectData[1].x - paint.objects.activrect.rectData[0].x),
             height: Math.abs(paint.objects.activrect.rectData[1].y - paint.objects.activrect.rectData[0].y)
         });
+
+        var radius = 4; // settings radius all point
+
         paint.objects.point1 = d3.select(paint.objects.activrect.pointElement1[0][0]).data(paint.objects.activrect.rectData);
-        paint.objects.point1.attr('r', 3)
+        paint.objects.point1.attr('r', radius)
             .attr('cx', paint.objects.activrect.rectData[0].x)
             .attr('cy', paint.objects.activrect.rectData[0].y);
         paint.objects.point2 = d3.select(paint.objects.activrect.pointElement2[0][0]).data(paint.objects.activrect.rectData);
-        paint.objects.point2.attr('r', 3)
+        paint.objects.point2.attr('r', radius)
             .attr('cx', paint.objects.activrect.rectData[1].x)
             .attr('cy', paint.objects.activrect.rectData[1].y);
         paint.objects.point3 = d3.select(paint.objects.activrect.pointElement3[0][0]).data(paint.objects.activrect.rectData);
-        paint.objects.point3.attr('r', 3)
+        paint.objects.point3.attr('r', radius)
             .attr('cx', paint.objects.activrect.rectData[1].x)
             .attr('cy', paint.objects.activrect.rectData[0].y);
         paint.objects.point4 = d3.select(paint.objects.activrect.pointElement4[0][0]).data(paint.objects.activrect.rectData);
-        paint.objects.point4.attr('r', 3)
+        paint.objects.point4.attr('r', radius)
             .attr('cx', paint.objects.activrect.rectData[0].x)
             .attr('cy', paint.objects.activrect.rectData[1].y);
         if (paint.objects.disactiv.length > 0) {
@@ -588,7 +593,7 @@ paint.handlers = {
                     paint.handlers.activRect();
 
                     hx.handlears.setHeaderXmlSelected(); //  set Header Xml hx.js
-                    
+
                     paint.objects.activrect.isActive = true;
                     paint.objects.activrect.isDrag = true;
                     paint.objects.activrect.isDrawing = false;
