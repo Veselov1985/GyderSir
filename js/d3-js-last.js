@@ -386,10 +386,10 @@ paint.handlers = {
     },
     initrectpoint: function() {
         paint.objects.activrect.rectangleElement = paint.objects.global.svg.append('rect').attr('class', 'rectangle').attr('id', paint.objects.activrect.id).call(d3.behavior.drag().on('drag', paint.handlers.dragRect));
-        paint.objects.activrect.pointElement1 = paint.objects.global.svg.append('circle').attr('class', 'pointC').call(d3.behavior.drag().on('drag', paint.handlers.dragPoint1));
-        paint.objects.activrect.pointElement2 = paint.objects.global.svg.append('circle').attr('class', 'pointC').call(d3.behavior.drag().on('drag', paint.handlers.dragPoint2));
-        paint.objects.activrect.pointElement3 = paint.objects.global.svg.append('circle').attr('class', 'pointC').call(d3.behavior.drag().on('drag', paint.handlers.dragPoint3));
-        paint.objects.activrect.pointElement4 = paint.objects.global.svg.append('circle').attr('class', 'pointC').call(d3.behavior.drag().on('drag', paint.handlers.dragPoint4));
+        paint.objects.activrect.pointElement1 = paint.objects.global.svg.append('circle').attr('class', 'pointC ' + paint.objects.activrect.id).call(d3.behavior.drag().on('drag', paint.handlers.dragPoint1));
+        paint.objects.activrect.pointElement2 = paint.objects.global.svg.append('circle').attr('class', 'pointC ' + paint.objects.activrect.id).call(d3.behavior.drag().on('drag', paint.handlers.dragPoint2));
+        paint.objects.activrect.pointElement3 = paint.objects.global.svg.append('circle').attr('class', 'pointC ' + paint.objects.activrect.id).call(d3.behavior.drag().on('drag', paint.handlers.dragPoint3));
+        paint.objects.activrect.pointElement4 = paint.objects.global.svg.append('circle').attr('class', 'pointC ' + paint.objects.activrect.id).call(d3.behavior.drag().on('drag', paint.handlers.dragPoint4));
     },
     updateRect: function() {
         paint.abs.handlers.showcoord(paint.objects.activrect.rectData);
@@ -561,158 +561,152 @@ paint.handlers = {
         paint.handlers.createNewRecData();
 
 
-        paint.objects.global.svg.on('mousedown', function() {
-            if (paint.statefix.mousedown) return;
-            paint.statefix.mousedown = true;
-
-            temp.elementLeftBar.Templaite.Pk = temp.zeroGuid; //Pk empty row
-            temp.elementLeftBar.Templaite.Name = '';
-            paint.objects.global.mouseEvent = d3.event;
-            paint.objects.activrect.m1 = d3.mouse(this);
-
-
-            paint.objects.global.mousedown = true;
-            if (paint.objects.global.keyDelevent && paint.objects.global.mouseEvent.path[0].nodeName == 'rect') {
-
-                paint.handlers.deleteRect();
-                paint.statefix.mousedown = false;
-
-            } else {
-                paint.objects.global.nopush = false;
-                paint.objects.activRect = {};
-
-                if (paint.objects.global.mouseEvent.path[0].nodeName.length == 3 && !paint.objects.global.keyDelevent) {
-                    paint.handlers.createNewRec();
-                    paint.objects.activrect.isDrawing = true;
-                }
-                // check if rectangle
-                if (paint.objects.global.mouseEvent.path[0].nodeName == 'rect' && !paint.handlers.compare()) {
-                    paint.objects.global.nopush = true;
-                    paint.handlers.disactivRect();
-                    paint.handlers.swithactivRect();
-                    paint.handlers.activRect();
-
-                    hx.handlears.setHeaderXmlSelected(); //  set Header Xml hx.js
-
-                    paint.objects.activrect.isActive = true;
-                    paint.objects.activrect.isDrag = true;
-                    paint.objects.activrect.isDrawing = false;
-
-                    //KW block
-                    kw.handlers.kwfixD3JS(paint.objects.activrect.type);
-
-
-                    // set color autocreate collum right click
-                    db.handler.setColorAutoCreate();
-
-                    // set dataType rightbar
-                    rightbar.handlers.setDataType();
-
-                    //set datatype  pref value in rightbar
-
-                    rightbar.handlers.cleanoptiondataType();
-                    if (paint.objects.activrect.type != "") rightbar.handlers.showoptiondataType(paint.objects.activrect.type);
-                }
-
-            }
-            paint.abs.handlers.showcoord(paint.objects.activrect.rectData);
-
-            paint.statefix.mousedown = false;
-        })
-
-
-        .on('mousemove', function() {
-            if (paint.statefix.mousedown) return;
-
-            if (paint.objects.global.keyDelevent) return;
-            if (paint.objects.global.mousedown && paint.objects.activrect.isActive && !paint.objects.activrect.isDrag) {
-                paint.objects.activrect.m2 = d3.mouse(this);
-                paint.objects.activrect.rectData[1] = { x: paint.objects.activrect.m2[0], y: paint.objects.activrect.m2[1] };
-
-                paint.handlers.updateRect();
-                paint.abs.handlers.showcoord(paint.objects.activrect.rectData);
-
-            }
-        })
-
-        .on('mouseup', function() {
-            if (paint.statefix.mousedown) return;
-            if (paint.objects.global.keyDelevent) return;
-
-            paint.objects.global.mousedown = false;
-
-            if (!paint.objects.global.nopush) {
-                var newobj = $.extend({}, paint.objects.activrect);
-                // newobj.isActive = true;
-                if (!newobj.isDataServerSide) {
-                    if (!paint.handlers.compareOldRect(newobj)) {
-
-                        if (paint.handlers.littlerect(newobj)) { // fix little dote rectangle
-
-                            paint.handlers.removesvgelems(newobj);
-                            paint.objects.activrect = $.extend({}, paint.objects.disactiv[paint.objects.disactiv.length - 1]);
-                            paint.objects.activrect.isActive = true;
-                            paint.objects.activrect.isDrag = true;
-                            paint.objects.activrect.isDrawing = false;
-
-                            rightbar.dataTable.emmitchangerect(paint.objects.activrect); //rightbar emmit change activ rect state
-                            paint.abs.handlers.showcoord(paint.objects.activrect.rectData); // abs show swith activ rect
-
-                            paint.handlers.activRect();
-
-                            // set dataType rightbar
-                            rightbar.handlers.setDataType();
-
-                            //set datatype  pref value in rightbar
-                            rightbar.handlers.cleanoptiondataType();
-                            if (paint.objects.activrect.type != "") {
-                                rightbar.handlers.showoptiondataType(paint.objects.activrect.type);
-
-                                paint.statefix.mousedown = false;
-                                return;
+        paint.objects.global.svg.on('mousedown', function(e) {
+                if (paint.statefix.mousedown) return;
+                paint.statefix.mousedown = true;
+                temp.elementLeftBar.Templaite.Pk = temp.zeroGuid; //Pk empty row
+                temp.elementLeftBar.Templaite.Name = '';
+                paint.objects.global.mouseEvent = d3.event;
+                paint.objects.activrect.m1 = d3.mouse(this);
+                var $node = paint.objects.global.mouseEvent.path[0].nodeName;
+                paint.objects.global.mousedown = true;
+                if (paint.objects.global.keyDelevent && $node == 'rect') {
+                    paint.handlers.deleteRect();
+                    paint.statefix.mousedown = false;
+                } else {
+                    paint.objects.global.nopush = false;
+                    paint.objects.activRect = {};
+                    if ($node.length == 3 && !paint.objects.global.keyDelevent) {
+                        paint.handlers.createNewRec();
+                        paint.objects.activrect.isDrawing = true;
+                    }
+                    if ($node == 'circle') {
+                        paint.objects.global.nopush = true;
+                        paint.handlers.disactivRect();
+                        var IdNode = paint.objects.global.mouseEvent.path[0].classList[1];
+                        paint.objects.disactiv.forEach(function(val, i) {
+                            if (val.id == IdNode) {
+                                var newobj = $.extend({}, paint.objects.disactiv[i]);
+                                paint.objects.activrect = newobj;
+                                rightbar.dataTable.emmitchangerect(paint.objects.activrect); //rightbar emmit change activ rect state
+                                paint.abs.handlers.showcoord(paint.objects.activrect.rectData); // abs show swith activ rect
                             }
-
-                        }
+                        });
+                        paint.handlers.activRect();
+                        hx.handlears.setHeaderXmlSelected(); //  set Header Xml hx.js
                         paint.objects.activrect.isActive = true;
                         paint.objects.activrect.isDrag = true;
                         paint.objects.activrect.isDrawing = false;
-                        paint.objects.disactiv.push(newobj);
+                        //KW block
+                        kw.handlers.kwfixD3JS(paint.objects.activrect.type);
+                        // set color autocreate collum right click
+                        db.handler.setColorAutoCreate();
+                        // set dataType rightbar
+                        rightbar.handlers.setDataType();
+                        //set datatype  pref value in rightbar
+                        rightbar.handlers.cleanoptiondataType();
+                        if (paint.objects.activrect.type != "") rightbar.handlers.showoptiondataType(paint.objects.activrect.type);
+                    }
+                    // check if rectangle
+                    if ($node == 'rect' && !paint.handlers.compare()) {
                         paint.objects.global.nopush = true;
+                        paint.handlers.disactivRect();
+                        paint.handlers.swithactivRect();
+                        paint.handlers.activRect();
+                        hx.handlears.setHeaderXmlSelected(); //  set Header Xml hx.js
+                        paint.objects.activrect.isActive = true;
+                        paint.objects.activrect.isDrag = true;
+                        paint.objects.activrect.isDrawing = false;
+                        //KW block
+                        kw.handlers.kwfixD3JS(paint.objects.activrect.type);
+                        // set color autocreate collum right click
+                        db.handler.setColorAutoCreate();
+                        // set dataType rightbar
+                        rightbar.handlers.setDataType();
+                        //set datatype  pref value in rightbar
+                        rightbar.handlers.cleanoptiondataType();
+                        if (paint.objects.activrect.type != "") rightbar.handlers.showoptiondataType(paint.objects.activrect.type);
                     }
                 }
-            }
-            if (paint.objects.activrect.isDrawing) {
-                paint.objects.activrect.isActive = true;
-                paint.objects.activrect.isDrag = true;
-                paint.objects.activrect.isDrawing = false;
-            }
+                paint.abs.handlers.showcoord(paint.objects.activrect.rectData);
+                paint.statefix.mousedown = false;
+            })
+            .on('mousemove', function() {
+                if (paint.statefix.mousedown) return;
 
-            paint.statefix.mousedown = false;
-        })
+                if (paint.objects.global.keyDelevent) return;
+                if (paint.objects.global.mousedown && paint.objects.activrect.isActive && !paint.objects.activrect.isDrag) {
+                    paint.objects.activrect.m2 = d3.mouse(this);
+                    paint.objects.activrect.rectData[1] = { x: paint.objects.activrect.m2[0], y: paint.objects.activrect.m2[1] };
+                    paint.handlers.updateRect();
+                    paint.abs.handlers.showcoord(paint.objects.activrect.rectData);
+                }
+            })
+            .on('mouseup', function() {
+                if (paint.statefix.mousedown) return;
+                if (paint.objects.global.keyDelevent) return;
 
-        .on('contextmenu', function() {
-            d3.event.preventDefault();
-            paint.objects.global.mouseEvent = d3.event;
-            paint.objects.activrect.m1 = d3.mouse(this);
-
-            if (paint.objects.global.mouseEvent.path[0].nodeName.length == 3) {
-                db.logic.init(paint.objects.activrect.m1);
-                paint.zoom.statedblclick = false;
                 paint.objects.global.mousedown = false;
-            }
-            paint.statefix.mousedown = false;
-            /*
 
-                        $('svg').on('mousemove', function(e) {
-                            var offset = $(this).offset();
-                            var relativeX = (e.pageX - offset.left);
-                            var relativeY = (e.pageY - offset.top);
-                            console.log('$', [relativeX, relativeY]);
-                        });
-                         */
+                if (!paint.objects.global.nopush) {
+                    var newobj = $.extend({}, paint.objects.activrect);
+                    // newobj.isActive = true;
+                    if (!newobj.isDataServerSide) {
+                        if (!paint.handlers.compareOldRect(newobj)) {
+                            if (paint.handlers.littlerect(newobj)) { // fix little dote rectangle
+                                paint.handlers.removesvgelems(newobj);
+                                paint.objects.activrect = $.extend({}, paint.objects.disactiv[paint.objects.disactiv.length - 1]);
+                                paint.objects.activrect.isActive = true;
+                                paint.objects.activrect.isDrag = true;
+                                paint.objects.activrect.isDrawing = false;
+                                rightbar.dataTable.emmitchangerect(paint.objects.activrect); //rightbar emmit change activ rect state
+                                paint.abs.handlers.showcoord(paint.objects.activrect.rectData); // abs show swith activ rect
+                                paint.handlers.activRect();
+                                // set dataType rightbar
+                                rightbar.handlers.setDataType();
+                                //set datatype  pref value in rightbar
+                                rightbar.handlers.cleanoptiondataType();
+                                if (paint.objects.activrect.type != "") {
+                                    rightbar.handlers.showoptiondataType(paint.objects.activrect.type);
+                                    paint.statefix.mousedown = false;
+                                    return;
+                                }
+                            }
+                            paint.objects.activrect.isActive = true;
+                            paint.objects.activrect.isDrag = true;
+                            paint.objects.activrect.isDrawing = false;
+                            paint.objects.disactiv.push(newobj);
+                            paint.objects.global.nopush = true;
+                        }
+                    }
+                }
+                if (paint.objects.activrect.isDrawing) {
+                    paint.objects.activrect.isActive = true;
+                    paint.objects.activrect.isDrag = true;
+                    paint.objects.activrect.isDrawing = false;
+                }
+                paint.statefix.mousedown = false;
+            })
+            .on('contextmenu', function() {
+                d3.event.preventDefault();
+                paint.objects.global.mouseEvent = d3.event;
+                paint.objects.activrect.m1 = d3.mouse(this);
 
-
-        });
+                if (paint.objects.global.mouseEvent.path[0].nodeName.length == 3) {
+                    db.logic.init(paint.objects.activrect.m1);
+                    paint.zoom.statedblclick = false;
+                    paint.objects.global.mousedown = false;
+                }
+                paint.statefix.mousedown = false;
+                /*
+                            $('svg').on('mousemove', function(e) {
+                                var offset = $(this).offset();
+                                var relativeX = (e.pageX - offset.left);
+                                var relativeY = (e.pageY - offset.top);
+                                console.log('$', [relativeX, relativeY]);
+                            });
+                             */
+            });
 
     }
 };
@@ -772,8 +766,6 @@ paint.init = function() {
         }
     });
 };
-
-
 
 document.addEventListener('keydown', function(event) {
     var key = event.key;
