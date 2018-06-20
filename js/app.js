@@ -841,7 +841,7 @@ temp.DataWorkspace = {
     data: {},
     page: {},
     activpage: 0,
-    images: {},
+    images: [],
     arrdata: [],
     initwindow: function() {
         temp.helpfunc.cleanImg();

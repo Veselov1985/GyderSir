@@ -5,7 +5,7 @@
          ["Vats"],
          ["Ibans"],
          ["KeyWord"],
-         ["MainHeader"],
+    //     ["MainHeader"],
          ['ExcludingTaxesAmounts'],
          ['InvoiceDates'],
          ['ItemNumbers'],
@@ -97,6 +97,8 @@
      //ABS WRAP
      rightbar.elements.checkAbsolut = $('#checkAbsolut');
      rightbar.elements.wrapAbs = $('#wrapAbs');
+     // MainHeader  btn
+     rightbar.elements.main_btn=$('#main_btn');
 
  };
 
@@ -736,13 +738,13 @@
          var selected = rightbar.dataTable.set.dt.$('tr.selected');
          if (selected.length == 0) return;
          var DataTypeName = selected.find('td').text();
-         if (DataTypeName == 'MainHeader') { // mainHeader clear prew
-             paint.objects.disactiv.forEach(function(val, i) {
-                 if (val.type == 'MainHeader') {
-                     paint.objects.disactiv[i].type = 'TableDatas';
-                 }
-             });
-         }
+        //  if (DataTypeName == 'MainHeader') { // mainHeader clear prew
+        //      paint.objects.disactiv.forEach(function(val, i) {
+        //          if (val.type == 'MainHeader') {
+        //              paint.objects.disactiv[i].type = 'TableDatas';
+        //          }
+        //      });
+        //  }
          paint.objects.activrect.type = DataTypeName;
          rightbar.data.global.dataType.forEach(function(val) {
              if (val.DataType == paint.objects.activrect.type) {
@@ -897,6 +899,36 @@
      });
 
 
+     // MainHeader Add in rectangle 
+
+     rightbar.elements.main_btn.on('click',function(){
+        if(temp.DataWorkspace.images.length==0) return;
+        var DataTypeName = 'MainHeader';
+       
+            paint.objects.disactiv.forEach(function(val, i) {
+                if (val.type == 'MainHeader') {
+                    paint.objects.disactiv[i].type = 'TableDatas';
+                }
+            });
+        paint.objects.activrect.type = DataTypeName;
+        rightbar.data.global.dataType.forEach(function(val) {
+            if (val.DataType == paint.objects.activrect.type) {
+                paint.objects.activrect.Pk = val.Pk;
+            }
+        });
+
+        paint.objects.disactiv.forEach(function(val, i) {
+            if (val.id == paint.objects.activrect.id) {
+                val.type = paint.objects.activrect.type;
+                val.Pk = paint.objects.activrect.Pk;
+            }
+        });
+
+        temp.helpfunc.modalInfo(['Info', 'MainHeader add in rectangle']);
+
+     });
+
+
 
      rightbar.elements.deleteAmount.on('click', function() {
          if (rightbar.elements.selAmount.attr('hidden') != 'hidden' && rightbar.elements.selAmount.attr('disabled') != 'disabled') {
@@ -923,6 +955,7 @@
              rightbaraction.Ajax.sendDeletePref(temp.routes.sendDeleteAlternateUrl, { Pk: Pkdelete }, rightbaraction.handlers.sendDeleteAlternatesuccess, rightbaraction.handlers.sendDeleteAlternateerror);
          }
      });
+
 
 
 
