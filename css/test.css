@@ -230,7 +230,7 @@ table.dataTable tbody td {
 }
 
 .btn-secondary {
-    background-color: #86A1BF;
+    background-color: #86A1BF !important;
 }
 
 .testmodal {
@@ -286,9 +286,7 @@ table.dataTable tbody td {
     opacity: 0.2 !important;
 }
 
-
 .nav-link {
     padding: .4rem .2rem !important;
     display: block !important;
-
 }

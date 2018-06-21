@@ -3,6 +3,7 @@ kw.data = [
     'ExcludingTaxesAmounts',
     'InvoiceDates',
     'ItemNumbers',
+    'InvoiceNumber',
     'OrderNumbers',
     'Quantities',
     'TotalBedrags',
@@ -79,11 +80,11 @@ kw.handlers = {
             return kw.elements.textarea_label.object.text();
         }
     },
-    KwClear:function(){
+    KwClear: function() {
         kw.handlers.textarea.clearVal();
         kw.handlers.label.clearLabel();
     },
-    KwToggle:function(){
+    KwToggle: function() {
         kw.handlers.hideabsolutePosToggle();
         kw.handlers.hideWrapfieldContentToggle();
         kw.handlers.hidesaveDataType();
@@ -117,7 +118,7 @@ kw.handlers = {
     },
     setTab: function() {
         if (kw.state) { // edit KW on 
-         
+
             kw.handlers.KwToggle();
             kw.state = !kw.state;
         }
@@ -129,8 +130,8 @@ kw.handlers = {
         });
         return arr;
     },
-    delEndKW: function(str) {   
-        return (str.trim()!='Quantities') ? str.split('').splice(0, str.length - 1).join('') : 'Quantity';
+    delEndKW: function(str) {
+        return (str.trim() != 'Quantities') ? str.split('').splice(0, str.length - 1).join('') : 'Quantity';
     },
     kwfixD3JS: function(type) {
         if (!kw.handlers.compareNeedKw(type) && kw.state && rightbar.data.global.currenttab == 1) {

@@ -5,9 +5,10 @@
          ["Vats"],
          ["Ibans"],
          ["KeyWord"],
-    //     ["MainHeader"],
+         //     ["MainHeader"],
          ['ExcludingTaxesAmounts'],
          ['InvoiceDates'],
+         ['InvoiceNumber'],
          ['ItemNumbers'],
          ['OrderNumbers'],
          ['Quantities'],
@@ -28,6 +29,7 @@
              { DataType: 'MainHeader', Pk: false },
              { DataType: 'ExcludingTaxesAmounts', Pk: false },
              { DataType: 'InvoiceDates', Pk: false },
+             { DataType: 'InvoiceNumber', Pk: false },
              { DataType: 'ItemNumbers', Pk: false },
              { DataType: 'OrderNumbers', Pk: false },
              { DataType: 'Quantities', Pk: false },
@@ -98,7 +100,7 @@
      rightbar.elements.checkAbsolut = $('#checkAbsolut');
      rightbar.elements.wrapAbs = $('#wrapAbs');
      // MainHeader  btn
-     rightbar.elements.main_btn=$('#main_btn');
+     rightbar.elements.main_btn = $('#main_btn');
 
  };
 
@@ -161,12 +163,12 @@
          select.remove();
      },
      currenttabchange: function(e) {
-         var $href= $(e.target).attr('href');
-        if( $href == '#set') return 1;
-         if( $href == '#change') return 2;
-         if( $href == '#header_xml') return 3
+         var $href = $(e.target).attr('href');
+         if ($href == '#set') return 1;
+         if ($href == '#change') return 2;
+         if ($href == '#header_xml') return 3
 
-       
+
      },
      togleshowelem: function(elem) {
          elem.is(":hidden") ? elem.attr("hidden", false) : elem.attr('hidden', true);
@@ -449,7 +451,8 @@
              text == 'Quantities' ||
              text == 'TotalBedrags' ||
              text == 'UnitPrices' ||
-             text == 'VatAmounts'
+             text == 'VatAmounts' ||
+             text == 'InvoiceNumber'
          ) return;
 
          rightbar.data.global.dataType.forEach(function(val) {
@@ -617,33 +620,33 @@
      //change tab show
 
      $('#dataType a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-         if (rightbar.handlers.currenttabchange(e)==2) {
+         if (rightbar.handlers.currenttabchange(e) == 2) {
              rightbar.handlers.inittoggle();
-             rightbar.data.global.currenttab = 1;    // Change
+             rightbar.data.global.currenttab = 1; // Change
              // KW block
              kw.handlers.changeTab(rightbar.dataTable.change.object.find('tr.selected'));
              hx.helpfunc.showElem(hx.elements.fieldPref);
-              hx.helpfunc.hideElem(hx.elements.savdelDHeaderXML);
-              hx.helpfunc.hideElem( hx.elements.editXML);
-         } else if(rightbar.handlers.currenttabchange(e)==1){
+             hx.helpfunc.hideElem(hx.elements.savdelDHeaderXML);
+             hx.helpfunc.hideElem(hx.elements.editXML);
+         } else if (rightbar.handlers.currenttabchange(e) == 1) {
              rightbar.handlers.inittoggle();
              rightbar.handlers.initsettabstate();
-             rightbar.data.global.currenttab = 0;    //Set
+             rightbar.data.global.currenttab = 0; //Set
              hx.helpfunc.showElem(hx.elements.fieldPref);
              kw.handlers.setTab();
              hx.helpfunc.hideElem(hx.elements.savdelDHeaderXML);
-             hx.helpfunc.hideElem( hx.elements.editXML);
-         }else{      
-            rightbar.data.global.currenttab = 3;                          //Tab Header XML
-            hx.helpfunc.hideElem(hx.elements.fieldPref);
-            hx.helpfunc.showElem(hx.elements.savdelDHeaderXML);
-            hx.helpfunc.showElem( hx.elements.editXML);
-            hx.helpfunc.hideElem(hx.elements.tabSaveNameXML);
-            hx.helpfunc.showElem(hx.elements.HeaderXmlList);   
-            hx.helpfunc.hideElem(hx.elements.saveNewXml); 
-            hx.helpfunc.showElem(hx.elements.edit_XML_btn);  
-            // change tab and select Selected
-          hx.handlears.setHeaderXmlSelected();
+             hx.helpfunc.hideElem(hx.elements.editXML);
+         } else {
+             rightbar.data.global.currenttab = 3; //Tab Header XML
+             hx.helpfunc.hideElem(hx.elements.fieldPref);
+             hx.helpfunc.showElem(hx.elements.savdelDHeaderXML);
+             hx.helpfunc.showElem(hx.elements.editXML);
+             hx.helpfunc.hideElem(hx.elements.tabSaveNameXML);
+             hx.helpfunc.showElem(hx.elements.HeaderXmlList);
+             hx.helpfunc.hideElem(hx.elements.saveNewXml);
+             hx.helpfunc.showElem(hx.elements.edit_XML_btn);
+             // change tab and select Selected
+             hx.handlears.setHeaderXmlSelected();
          }
      });
 
@@ -738,13 +741,13 @@
          var selected = rightbar.dataTable.set.dt.$('tr.selected');
          if (selected.length == 0) return;
          var DataTypeName = selected.find('td').text();
-        //  if (DataTypeName == 'MainHeader') { // mainHeader clear prew
-        //      paint.objects.disactiv.forEach(function(val, i) {
-        //          if (val.type == 'MainHeader') {
-        //              paint.objects.disactiv[i].type = 'TableDatas';
-        //          }
-        //      });
-        //  }
+         //  if (DataTypeName == 'MainHeader') { // mainHeader clear prew
+         //      paint.objects.disactiv.forEach(function(val, i) {
+         //          if (val.type == 'MainHeader') {
+         //              paint.objects.disactiv[i].type = 'TableDatas';
+         //          }
+         //      });
+         //  }
          paint.objects.activrect.type = DataTypeName;
          rightbar.data.global.dataType.forEach(function(val) {
              if (val.DataType == paint.objects.activrect.type) {
@@ -782,7 +785,8 @@
              selected == "Quantities" ||
              selected == "TotalBedrags" ||
              selected == "UnitPrices" ||
-             selected == "VatAmounts"
+             selected == "VatAmounts" ||
+             selected == 'InvoiceNumber'
          ) {
              return;
          }
@@ -901,30 +905,30 @@
 
      // MainHeader Add in rectangle 
 
-     rightbar.elements.main_btn.on('click',function(){
-        if(temp.DataWorkspace.images.length==0) return;
-        var DataTypeName = 'MainHeader';
-       
-            paint.objects.disactiv.forEach(function(val, i) {
-                if (val.type == 'MainHeader') {
-                    paint.objects.disactiv[i].type = 'TableDatas';
-                }
-            });
-        paint.objects.activrect.type = DataTypeName;
-        rightbar.data.global.dataType.forEach(function(val) {
-            if (val.DataType == paint.objects.activrect.type) {
-                paint.objects.activrect.Pk = val.Pk;
-            }
-        });
+     rightbar.elements.main_btn.on('click', function() {
+         if (temp.DataWorkspace.images.length == 0) return;
+         var DataTypeName = 'MainHeader';
 
-        paint.objects.disactiv.forEach(function(val, i) {
-            if (val.id == paint.objects.activrect.id) {
-                val.type = paint.objects.activrect.type;
-                val.Pk = paint.objects.activrect.Pk;
-            }
-        });
+         paint.objects.disactiv.forEach(function(val, i) {
+             if (val.type == 'MainHeader') {
+                 paint.objects.disactiv[i].type = 'TableDatas';
+             }
+         });
+         paint.objects.activrect.type = DataTypeName;
+         rightbar.data.global.dataType.forEach(function(val) {
+             if (val.DataType == paint.objects.activrect.type) {
+                 paint.objects.activrect.Pk = val.Pk;
+             }
+         });
 
-        temp.helpfunc.modalInfo(['Info', 'MainHeader add in rectangle']);
+         paint.objects.disactiv.forEach(function(val, i) {
+             if (val.id == paint.objects.activrect.id) {
+                 val.type = paint.objects.activrect.type;
+                 val.Pk = paint.objects.activrect.Pk;
+             }
+         });
+
+         temp.helpfunc.modalInfo(['Info', 'MainHeader add in rectangle']);
 
      });
 

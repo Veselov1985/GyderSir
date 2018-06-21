@@ -42,9 +42,9 @@ temp.routes = {
     editKWProccessUrl: temp.root + 'api/datatypes/saveautodatatype',
 
     //Header XML 
-    getallheaderdatatypesUrl:temp.root +  'api/datatypes/getallheaderdatatypes',
-    createorupdateheaderdatatypeUrl:temp.root + 'api/datatypes/createorupdateheaderdatatype',
-    deleteheaderdatatypeUrl:temp.root +  'api/datatypes/deleteheaderdatatype',
+    getallheaderdatatypesUrl: temp.root + 'api/datatypes/getallheaderdatatypes',
+    createorupdateheaderdatatypeUrl: temp.root + 'api/datatypes/createorupdateheaderdatatype',
+    deleteheaderdatatypeUrl: temp.root + 'api/datatypes/deleteheaderdatatype',
 
 };
 
@@ -626,7 +626,10 @@ temp.helpfunc = {
                 val.type != 'Quantities' &&
                 val.type != 'TotalBedrags' &&
                 val.type != 'UnitPrices' &&
-                val.type != 'VatAmounts') {
+                val.type != 'VatAmounts' &&
+                val.type != 'InvoiceNumber'
+
+            ) {
                 newDataType = val.type;
                 val.type = 'TableDatas';
             }
@@ -641,7 +644,8 @@ temp.helpfunc = {
                 val.type == 'Quantities' ||
                 val.type == 'TotalBedrags' ||
                 val.type == 'UnitPrices' ||
-                val.type == 'VatAmounts'
+                val.type == 'VatAmounts' ||
+                val.type == 'InvoiceNumber'
             ) {
                 obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Data: val.value });
             } else if (val.type == 'MainHeader') {
@@ -718,8 +722,7 @@ temp.helpfunc = {
         console.log(jqXHR);
     },
 
-    successfindTemplaite: function(data, textStatus, jqXHR) {
-    },
+    successfindTemplaite: function(data, textStatus, jqXHR) {},
 
     createpageList: function(arrimg) {
         if (!$('img').is('#dynamicImg')) {
@@ -1235,13 +1238,13 @@ temp.Ajax = {
                 error(textStatus);
             },
             beforeSend: function() {
-                pm.handlers.showPreloader();                //
-               // load.handlers.togleLoader();
+                pm.handlers.showPreloader(); //
+                // load.handlers.togleLoader();
                 load.handlers.showLoader(load.elements.load_btn_load_temp, load.elements.boss_btn_load_temp);
             },
             complete: function() {
-               // load.handlers.togleLoader();
-               pm.handlers.hidePreloader(); 
+                // load.handlers.togleLoader();
+                pm.handlers.hidePreloader();
                 load.handlers.hideLoader(load.elements.load_btn_load_temp, load.elements.boss_btn_load_temp);
             }
         });
@@ -1267,7 +1270,7 @@ temp.Ajax = {
             beforeSend: function() {
                 load.handlers.togleLoader();
                 load.handlers.showLoader(load.elements.load_btn_save_temp, load.elements.boss_btn_save_temp);
-                pm.handlers.showPreloader();  // main preloader
+                pm.handlers.showPreloader(); // main preloader
 
             },
             complete: function() {
@@ -1318,8 +1321,7 @@ temp.Ajax = {
             error: function(jqXHR, textStatus, errorThrown) {
                 error(errorThrown);
             },
-            beforeSend: function() {
-            },
+            beforeSend: function() {},
             complete: function() {
                 pm.handlers.check(); // preload--
             }
@@ -1334,10 +1336,10 @@ $(document).ready(function() {
 
     temp.Ajax.sendRenderProccessUrl('', temp.render.templaite.success, temp.render.templaite.error);
     rightpref.Ajax.sendRenderDataTypeProccess();
-    rightpref.Ajax.sendRenderAmountProccess(); 
-    rightpref.Ajax.sendRenderDataProccess(); 
-    rightpref.Ajax.sendRenderRegexProccess(); 
-    rightpref.Ajax.sendRenderAlternateProccess(); 
+    rightpref.Ajax.sendRenderAmountProccess();
+    rightpref.Ajax.sendRenderDataProccess();
+    rightpref.Ajax.sendRenderRegexProccess();
+    rightpref.Ajax.sendRenderAlternateProccess();
     hx.ajax.getAllHeader(null);
 
 });

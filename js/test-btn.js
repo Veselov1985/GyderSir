@@ -6,7 +6,7 @@
      pdf_image: [],
      page: 0,
      pages: 0,
-     xmlOutout:''
+     xmlOutout: ''
  };
 
  var test = {};
@@ -59,7 +59,7 @@
              },
              beforeSend: function() {
                  load.handlers.showLoader(load.elements.load_btn_test, load.elements.boss_btn_test);
-                 pm.handlers.showPreloader();  // main preloader
+                 pm.handlers.showPreloader(); // main preloader
              },
              complete: function() {
                  load.handlers.hideLoader(load.elements.load_btn_test, load.elements.boss_btn_test);
@@ -80,7 +80,7 @@
      initDataTableHeader: function(dataHeader) {
          test.handlers.clean(test.objects.dataTableHeader);
          test.objects.dataTableHeader.dt = test.objects.dataTableHeader.object.DataTable({
-            "ordering":  false,
+             "ordering": false,
              "select": false,
              "responsive": true,
              "data": dataHeader,
@@ -92,7 +92,7 @@
          test.handlers.clean(test.objects.dataTableLines);
          test.handlers.formColumnDefs(dataLines);
          test.objects.dataTableLines.dt = test.objects.dataTableLines.object.DataTable({
-            "ordering":  false,
+             "ordering": false,
              "select": false,
              "responsive": true,
              "data": dataLines.td,
@@ -233,9 +233,9 @@
          });
      },
      addXmlStr: function(text) {
-         zaglyshka.data.xmlOutput='';
+         zaglyshka.data.xmlOutput = '';
          zaglyshka.data.xml[0] = text;
-         zaglyshka.data.xmlOutput=text;
+         zaglyshka.data.xmlOutput = text;
      },
      addNameTemplaite: function(name) {
          test.elements.testfindtemp_btn.val(name);
@@ -246,7 +246,7 @@
          test.handlers.addHeadArr(data.Pages); // change create table and fix multi page show
          test.handlers.setControlView();
          test.handlers.addImgArr(data.Pages);
-         test.handlers.addXmlStr( xml.init.getData(data));   //   <=======   xml.js 
+         test.handlers.addXmlStr(xml.init.getData(data)); //   <=======   xml.js 
          test.handlers.initDataTableHeader(zaglyshka.data.header);
          test.handlers.initDataTableLines(zaglyshka.data.lines[zaglyshka.data.page])
          test.handlers.slideinit();
@@ -312,6 +312,10 @@
 
              if (!val.InvoiceDates) {
                  arrclone[i].InvoiceDates = [];
+             }
+
+             if (!val.InvoiceNumber) {
+                 arrclone[i].InvoiceNumber = [];
              }
 
              if (!val.ItemNumbers) {
