@@ -56,5 +56,7 @@ filter.handlers = {
 
     enabled: function() {
         temp.elementControl.object.btn_filter.attr('disabled', false);
+        temp.elementControl.object.btn_filter.removeClass('filterActive');
+        temp.elementControl.object.btn_filter.addClass('filterNotActive');
     },
 };

@@ -3,7 +3,7 @@ kw.data = [
     'ExcludingTaxesAmounts',
     'InvoiceDates',
     'ItemNumbers',
-    'InvoiceNumber',
+    'InvoiceNumbers',
     'OrderNumbers',
     'Quantities',
     'TotalBedrags',

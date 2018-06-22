@@ -8,7 +8,7 @@
          //     ["MainHeader"],
          ['ExcludingTaxesAmounts'],
          ['InvoiceDates'],
-         ['InvoiceNumber'],
+         ['InvoiceNumbers'],
          ['ItemNumbers'],
          ['OrderNumbers'],
          ['Quantities'],
@@ -29,7 +29,7 @@
              { DataType: 'MainHeader', Pk: false },
              { DataType: 'ExcludingTaxesAmounts', Pk: false },
              { DataType: 'InvoiceDates', Pk: false },
-             { DataType: 'InvoiceNumber', Pk: false },
+             { DataType: 'InvoiceNumbers', Pk: false },
              { DataType: 'ItemNumbers', Pk: false },
              { DataType: 'OrderNumbers', Pk: false },
              { DataType: 'Quantities', Pk: false },
@@ -452,7 +452,7 @@
              text == 'TotalBedrags' ||
              text == 'UnitPrices' ||
              text == 'VatAmounts' ||
-             text == 'InvoiceNumber'
+             text == 'InvoiceNumbers'
          ) return;
 
          rightbar.data.global.dataType.forEach(function(val) {
@@ -621,7 +621,11 @@
 
      $('#dataType a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
          if (rightbar.handlers.currenttabchange(e) == 2) {
+
              rightbar.handlers.inittoggle();
+             if (rightbar.elements.input_new_typedata.is(":visible") == true) {
+                 rightbar.elements.saveDataType.attr('hidden', false);
+             }
              rightbar.data.global.currenttab = 1; // Change
              // KW block
              kw.handlers.changeTab(rightbar.dataTable.change.object.find('tr.selected'));
@@ -786,7 +790,7 @@
              selected == "TotalBedrags" ||
              selected == "UnitPrices" ||
              selected == "VatAmounts" ||
-             selected == 'InvoiceNumber'
+             selected == 'InvoiceNumbers'
          ) {
              return;
          }
@@ -823,6 +827,7 @@
              selected == "Quantities" ||
              selected == "TotalBedrags" ||
              selected == "UnitPrices" ||
+             selected == "InvoiceNumbers" ||
              selected == "VatAmounts"
          ) {
              return;

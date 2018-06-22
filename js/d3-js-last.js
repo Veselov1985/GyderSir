@@ -718,7 +718,7 @@ paint.init = function() {
     paint.zoom.elements.btn_zoom_minus.on('click', paint.zoom.handlers.backtopaint);
 
     paint.handlers.regulations();
-    paint.zoom.elements.checkAbsolut.attr('disabled', false);
+    // paint.zoom.elements.checkAbsolut.attr('disabled', false); hidden absolute block
 
     paint.zoom.elements.checkAbsolut.on('change', function() {
         if (this.checked) {

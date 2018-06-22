@@ -627,7 +627,7 @@ temp.helpfunc = {
                 val.type != 'TotalBedrags' &&
                 val.type != 'UnitPrices' &&
                 val.type != 'VatAmounts' &&
-                val.type != 'InvoiceNumber'
+                val.type != 'InvoiceNumbers'
 
             ) {
                 newDataType = val.type;
@@ -645,7 +645,7 @@ temp.helpfunc = {
                 val.type == 'TotalBedrags' ||
                 val.type == 'UnitPrices' ||
                 val.type == 'VatAmounts' ||
-                val.type == 'InvoiceNumber'
+                val.type == 'InvoiceNumbers'
             ) {
                 obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Data: val.value });
             } else if (val.type == 'MainHeader') {
@@ -1122,6 +1122,7 @@ temp.init = {
                 data.Pks = fix(data.Pks);
                 ////////////////////////////////////////////////////////////////////////////
                 if (data.Pks.length > 1) {
+
                     filter.handlers.toggleLight();
 
                     // check id pdf download and button not push
@@ -1146,7 +1147,10 @@ temp.init = {
                     paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
                     temp.DataWorkspace.initwindow();
                 } else if (data.Pks.length == 1) {
-                    filter.handlers.toggleLight();
+
+                    filter.handlers.toggleLight(); // filter fix
+
+
                     temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
                     temp.Data.leftTempList.data = [
                         ["Create new Template", "fa fa-plus-circle"]

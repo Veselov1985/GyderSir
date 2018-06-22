@@ -314,8 +314,8 @@
                  arrclone[i].InvoiceDates = [];
              }
 
-             if (!val.InvoiceNumber) {
-                 arrclone[i].InvoiceNumber = [];
+             if (!val.InvoiceNumbers) {
+                 arrclone[i].InvoiceNumbers = [];
              }
 
              if (!val.ItemNumbers) {
