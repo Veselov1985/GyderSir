@@ -231,6 +231,7 @@ temp.elementLeftBar = {
             // template save
 
             applymodal_tempresult.elements.apply_tempresult_save_temp.on('click', function() {
+                var state = false;
                 var newNametemp = applymodal_tempresult.elements.applymodal_tempresult_input.val();
                 if (newNametemp == '') {
                     applymodal_tempresult.handlers.close();
@@ -243,8 +244,14 @@ temp.elementLeftBar = {
                     if (val.Name == newNametemp) {
                         temp.elementLeftBar.Templaite.Pk = val.Pk;
                         temp.Data.leftTempList.datas.Pk = val.Pk;
+                        state = true;
                     }
+
                 });
+                if (!state) {
+                    temp.elementLeftBar.Templaite.Pk = '';
+                    temp.Data.leftTempList.datas.Pk = '';
+                }
 
                 var success = function(data) {
                     // add new create templaite in list
@@ -700,10 +707,13 @@ temp.helpfunc = {
     cookfilesend: function() {
         var $arrOpt = temp.elementLeftBar.object.modalWindow.find('#rowIndent form');
         $.each($arrOpt, function(i) {
-            temp.Data.LoadPdfOpt.advanc_settings_search.push([($(this).find('select option:selected').text()), $(this).find('input').val()]);
-            temp.Data.LoadPdfOpt.nameTemplate = temp.elementLeftBar.dataTable.active;
-            temp.elementLeftBar.object.modalWindow.modal('hide');
+            var $that = $(this);
+            if ($that.find('input').val() != '') {
+                temp.Data.LoadPdfOpt.advanc_settings_search.push([($that.find('select option:selected').text()), $that.find('input').val()]);
+                temp.Data.LoadPdfOpt.nameTemplate = temp.elementLeftBar.dataTable.active;
+            }
         });
+        temp.elementLeftBar.object.modalWindow.modal('hide');
     },
     // advanced option to load pdf file
     addadvancedoption: function() {
@@ -1100,6 +1110,11 @@ temp.init = {
         });
 
         temp.elementLeftBar.object.btn_save_search.click(function() {
+            if (temp.Data.LoadPdfOpt.file_pdf.__proto__.constructor.name != "FormData") {
+                temp.helpfunc.modalInfo(['Info', 'Please download .pdf file']);
+                return;
+            } // if pdf file not load 
+
             // clear global state
             temp.helpfunc.cleanImg();
             temp.helpfunc.clearglobalstate();
@@ -1229,6 +1244,7 @@ temp.render = {
 
 temp.Ajax = {
     sendFileToProccess: function(url, success, error) {
+
         $.ajax({
             url: temp.routes.sendFileToProccessUrl,
             data: temp.Data.LoadPdfOpt.file_pdf,

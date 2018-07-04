@@ -290,3 +290,8 @@ table.dataTable tbody td {
     padding: .4rem .2rem !important;
     display: block !important;
 }
+
+.btn-p-30 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
