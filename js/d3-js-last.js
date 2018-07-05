@@ -453,6 +453,7 @@ paint.handlers = {
         }
         paint.objects.activrect.rect.style('cursor', 'move');
         paint.handlers.updateRect();
+        au.init(e, 'dragRect'); // => au.js
     },
     dragPoint1: function() {
         var e = d3.event;
@@ -460,6 +461,7 @@ paint.handlers = {
             .attr('cx', paint.objects.activrect.rectData[0].x += e.dx)
             .attr('cy', paint.objects.activrect.rectData[0].y += e.dy);
         paint.handlers.updateRect();
+        au.init(e, 'dragPoint1'); // => au.js
     },
     dragPoint2: function() {
         var e = d3.event;
@@ -467,6 +469,7 @@ paint.handlers = {
             .attr('cx', paint.objects.activrect.rectData[1].x += e.dx)
             .attr('cy', paint.objects.activrect.rectData[1].y += e.dy);
         paint.handlers.updateRect();
+        au.init(e, 'dragPoint2'); // => au.js
     },
     dragPoint3: function() {
         var e = d3.event;
@@ -474,6 +477,7 @@ paint.handlers = {
             .attr('cx', paint.objects.activrect.rectData[1].x += e.dx)
             .attr('cy', paint.objects.activrect.rectData[0].y += e.dy);
         paint.handlers.updateRect();
+        au.init(e, 'dragPoint3'); // => au.js
     },
 
     dragPoint4: function() {
@@ -482,6 +486,7 @@ paint.handlers = {
             .attr('cx', paint.objects.activrect.rectData[0].x += e.dx)
             .attr('cy', paint.objects.activrect.rectData[1].y += e.dy);
         paint.handlers.updateRect();
+        au.init(e, 'dragPoint4'); // => au.js
     },
 
     compare: function() {
@@ -606,6 +611,10 @@ paint.handlers = {
                         //set datatype  pref value in rightbar
                         rightbar.handlers.cleanoptiondataType();
                         if (paint.objects.activrect.type != "") rightbar.handlers.showoptiondataType(paint.objects.activrect.type);
+
+
+                        // au.js if click circle and active rectangle
+                        au.data.state = true;
                     }
                     // check if rectangle
                     if ($node == 'rect' && !paint.handlers.compare()) {
@@ -626,6 +635,9 @@ paint.handlers = {
                         //set datatype  pref value in rightbar
                         rightbar.handlers.cleanoptiondataType();
                         if (paint.objects.activrect.type != "") rightbar.handlers.showoptiondataType(paint.objects.activrect.type);
+
+                        // au.js if click rectangle => drag rectangle 
+                        au.data.state = true;
                     }
                 }
                 paint.abs.handlers.showcoord(paint.objects.activrect.rectData);
@@ -647,6 +659,7 @@ paint.handlers = {
                 if (paint.objects.global.keyDelevent) return;
 
                 paint.objects.global.mousedown = false;
+                au.data.state = false;
 
                 if (!paint.objects.global.nopush) {
                     var newobj = $.extend({}, paint.objects.activrect);

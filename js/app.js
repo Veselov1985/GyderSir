@@ -212,12 +212,10 @@ temp.elementLeftBar = {
                 }
             });
 
-
             // delete templaite
 
             applymodal.elements.apply_del_temp.off('click').on('click', function() {
                 applymodal.handlers.close();
-
                 //temp.Ajax.sendDeleteTemplaiteProccess();
                 temp.elementLeftBar.dataTable.deleteTemp();
             });
@@ -246,10 +244,9 @@ temp.elementLeftBar = {
                         temp.Data.leftTempList.datas.Pk = val.Pk;
                         state = true;
                     }
-
                 });
                 if (!state) {
-                    temp.elementLeftBar.Templaite.Pk = '';
+                    temp.elementLeftBar.Templaite.Pk = ''; // if create new templaite and new Name need clean Templaite PK => create clone PK in new templaite
                     temp.Data.leftTempList.datas.Pk = '';
                 }
 
