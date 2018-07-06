@@ -372,7 +372,7 @@ paint.handlers = {
         paint.handlers.disactivRect();
         paint.objects.activrect.id = paint.handlers.generId();
         paint.objects.activrect.rectData = [{ x: paint.objects.activrect.m1[0], y: paint.objects.activrect.m1[1] }, { x: paint.objects.activrect.m1[0], y: paint.objects.activrect.m1[1] }];
-        paint.objects.activrect.type = '';
+        paint.objects.activrect.type = 'TableDatas';
         paint.objects.activrect.Pk = '';
         paint.objects.activrect.value = '';
         if (paint.objects.activrect.datatype) {
@@ -453,7 +453,8 @@ paint.handlers = {
         }
         paint.objects.activrect.rect.style('cursor', 'move');
         paint.handlers.updateRect();
-        au.init(e, 'dragRect'); // => au.js
+        au.init.recognizeAuto(e, 'dragRect');
+        // au.init(e, 'dragRect'); // => au.js
     },
     dragPoint1: function() {
         var e = d3.event;
@@ -461,7 +462,8 @@ paint.handlers = {
             .attr('cx', paint.objects.activrect.rectData[0].x += e.dx)
             .attr('cy', paint.objects.activrect.rectData[0].y += e.dy);
         paint.handlers.updateRect();
-        au.init(e, 'dragPoint1'); // => au.js
+        au.init.recognizeAuto(e, 'dragPoint1');
+        //  au.init(e, 'dragPoint1'); // => au.js
     },
     dragPoint2: function() {
         var e = d3.event;
@@ -469,7 +471,8 @@ paint.handlers = {
             .attr('cx', paint.objects.activrect.rectData[1].x += e.dx)
             .attr('cy', paint.objects.activrect.rectData[1].y += e.dy);
         paint.handlers.updateRect();
-        au.init(e, 'dragPoint2'); // => au.js
+        au.init.recognizeAuto(e, 'dragPoint2');
+        //au.init(e, 'dragPoint2'); // => au.js
     },
     dragPoint3: function() {
         var e = d3.event;
@@ -477,7 +480,8 @@ paint.handlers = {
             .attr('cx', paint.objects.activrect.rectData[1].x += e.dx)
             .attr('cy', paint.objects.activrect.rectData[0].y += e.dy);
         paint.handlers.updateRect();
-        au.init(e, 'dragPoint3'); // => au.js
+        au.init.recognizeAuto(e, 'dragPoint3');
+        // au.init(e, 'dragPoint3'); // => au.js
     },
 
     dragPoint4: function() {
@@ -486,7 +490,8 @@ paint.handlers = {
             .attr('cx', paint.objects.activrect.rectData[0].x += e.dx)
             .attr('cy', paint.objects.activrect.rectData[1].y += e.dy);
         paint.handlers.updateRect();
-        au.init(e, 'dragPoint4'); // => au.js
+        au.init.recognizeAuto(e, 'dragPoint4');
+        // au.init(e, 'dragPoint4'); // => au.js
     },
 
     compare: function() {
@@ -586,6 +591,8 @@ paint.handlers = {
                         paint.objects.activrect.isDrawing = true;
                     }
                     if ($node == 'circle') {
+                        // au.js if click circle and active rectangle
+                        au.data.state = true;
                         paint.objects.global.nopush = true;
                         paint.handlers.disactivRect();
                         var IdNode = paint.objects.global.mouseEvent.path[0].classList[1];
@@ -613,11 +620,12 @@ paint.handlers = {
                         if (paint.objects.activrect.type != "") rightbar.handlers.showoptiondataType(paint.objects.activrect.type);
 
 
-                        // au.js if click circle and active rectangle
-                        au.data.state = true;
+
                     }
                     // check if rectangle
                     if ($node == 'rect' && !paint.handlers.compare()) {
+                        // au.js if click rectangle => drag rectangle 
+                        au.data.state = true;
                         paint.objects.global.nopush = true;
                         paint.handlers.disactivRect();
                         paint.handlers.swithactivRect();
@@ -635,9 +643,6 @@ paint.handlers = {
                         //set datatype  pref value in rightbar
                         rightbar.handlers.cleanoptiondataType();
                         if (paint.objects.activrect.type != "") rightbar.handlers.showoptiondataType(paint.objects.activrect.type);
-
-                        // au.js if click rectangle => drag rectangle 
-                        au.data.state = true;
                     }
                 }
                 paint.abs.handlers.showcoord(paint.objects.activrect.rectData);
@@ -655,11 +660,12 @@ paint.handlers = {
                 }
             })
             .on('mouseup', function() {
+                au.data.state = false;
                 if (paint.statefix.mousedown) return;
                 if (paint.objects.global.keyDelevent) return;
 
                 paint.objects.global.mousedown = false;
-                au.data.state = false;
+
 
                 if (!paint.objects.global.nopush) {
                     var newobj = $.extend({}, paint.objects.activrect);

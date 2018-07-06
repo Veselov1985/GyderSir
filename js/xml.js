@@ -34,14 +34,14 @@ xml.handlers = {
         });
         return str;
     },
-    checkHeaderNull:function(arr){
-         var stateHeader =false;
-         var stateData=false;
-      var headerArr= arr.filter(function(val,i){ return (typeof val.Header)=='string'});
-     if (headerArr.length==0) { stateHeader=true; return true;}
-      var dataArr= arr.filter(function(val,i){ return (typeof val.Data)=='string'});
-     if ( dataArr.length==0) {stateData=true; return true;}
-       return  false;
+    checkHeaderNull: function(arr) {
+        var stateHeader = false;
+        var stateData = false;
+        var headerArr = arr.filter(function(val, i) { return (typeof val.Header) == 'string'; });
+        if (headerArr.length == 0) { stateHeader = true; return true; }
+        var dataArr = arr.filter(function(val, i) { return (typeof val.Data) == 'string'; });
+        if (dataArr.length == 0) { stateData = true; return true; }
+        return false;
     },
     headerSir: function(arrHeader) {
         var init = '';
@@ -64,9 +64,9 @@ xml.handlers = {
         var str = '';
         page.forEach(function(val, i) {
             val.TableLines.forEach(function(v, j) {
-                if(xml.handlers.checkHeaderNull(v.Columns)){    // check null Header tag
-                   
-                }else{
+                if (xml.handlers.checkHeaderNull(v.Columns)) { // check null Header tag
+
+                } else {
                     str += '<Line>';
                     v.Columns.forEach(function(d, k) {
                         var HeaderTag = xml.handlers.deleteSpase(d.Header).replace(/\s/g, '_');
@@ -79,7 +79,7 @@ xml.handlers = {
                     str += '</Line>';
                 }
 
-                }); 
+            });
         });
         return str;
     },

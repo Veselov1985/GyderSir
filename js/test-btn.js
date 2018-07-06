@@ -248,7 +248,7 @@
          test.handlers.addImgArr(data.Pages);
          test.handlers.addXmlStr(xml.init.getData(data)); //   <=======   xml.js 
          test.handlers.initDataTableHeader(zaglyshka.data.header);
-         test.handlers.initDataTableLines(zaglyshka.data.lines[zaglyshka.data.page])
+         test.handlers.initDataTableLines(zaglyshka.data.lines[zaglyshka.data.page]);
          test.handlers.slideinit();
          test.handlers.addxmlfield();
          test.handlers.addNameTemplaite(data.TemplateName);

@@ -96,7 +96,7 @@
             arr = arr.filter(function(val, i) {
                 return val != "";
             });
-            return arr.map(function(val) { return hx.helpfunc.low(val) });
+            return arr.map(function(val) { return hx.helpfunc.low(val); });
         },
         setNewLineTextArea: function(text) {
             if (text == null) return '';
@@ -150,7 +150,7 @@
             }
         },
         findDataHeader: function(text) {
-            return arr = hx.data.list.filter(function(val, i) {
+            return hx.data.list.filter(function(val, i) {
                 return val.Name == text;
             })[0];
         },

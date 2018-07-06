@@ -166,7 +166,7 @@
          var $href = $(e.target).attr('href');
          if ($href == '#set') return 1;
          if ($href == '#change') return 2;
-         if ($href == '#header_xml') return 3
+         if ($href == '#header_xml') return 3;
 
 
      },
