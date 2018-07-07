@@ -1,5 +1,6 @@
 var au = {};
 au.data = {
+    Of: true,
     points: {
         point1: '',
         point2: '',
@@ -28,6 +29,31 @@ au.data = {
     },
     arrMemory: []
 };
+
+au.elements = {};
+au.elements.init = function() {
+    au.elements.switcher = $('[data-toggle="hurkanSwitch"]');
+    au.elements.switcher.hurkanSwitch({
+        // Callbacks
+        'on': function(r) { au.data.Of = false; },
+        'off': function(r) { au.data.Of = true; },
+        // label text
+        'onTitle': 'On',
+        'offTitle': 'Of',
+        'responsive': true,
+        'animate': true,
+        // danger,success,info,primary,default,warning
+        'offColor': '',
+        'onColor': 'info',
+        // additional CSS class
+        'className': 'mr-2 mb-1 ml-2',
+        // default width
+        'width': 30
+    });
+    $('.hurkanSwitch .active').click();
+
+};
+
 
 au.d3 = {
     updateRect: function() {
@@ -313,6 +339,7 @@ au.handlers = {
 
 au.init = {
     recognizeAuto: function(event, whatdo) {
+        if (au.data.Of) return; // toggle switcher state in view
         //  if (!au.data.state) return; // not mousedown;
         au.handlers.findHeader(event, whatdo);
     }

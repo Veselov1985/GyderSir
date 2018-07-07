@@ -488,6 +488,21 @@ temp.helpfunc = {
             filter.handlers.addData([temp.elementLeftBar.Templaite.name, temp.img.off]); // filter add data
         }
     },
+    deleteZeroCordRect: function(arr) {
+        return arr.filter(function(val) {
+            var X0 = val.rectData[0].x;
+            var Y0 = val.rectData[0].y;
+            var X1 = val.rectData[1].x;
+            var Y1 = val.rectData[1].y;
+            var X = Math.abs(X0 - X1) < 5; //px   x(width) or Y(height) rectangle <5 px
+            var Y = Math.abs(Y0 - Y1) < 5; //px
+            if (X && Y) {
+                return false;
+            } else {
+                return true;
+            }
+        });
+    },
     createresponsedata: function() {
         var empty = {
             Base64Img: "",
@@ -570,13 +585,15 @@ temp.helpfunc = {
 
     grabrect: function() {
         paint.objects.global.collect = [];
+        paint.objects.disactiv = temp.helpfunc.deleteZeroCordRect(paint.objects.disactiv); // clear zero rectangles
         paint.objects.global.disactivpage[temp.DataWorkspace.activpage] = (paint.objects.disactiv.map(function(val) { return $.extend({}, val); }).slice());
 
         paint.objects.datafromserver.datafromserverpage.forEach(function(val, i) {
             if (paint.objects.global.disactivpage[i] == undefined) {
                 paint.objects.global.collect[i] = val;
             } else {
-                paint.objects.global.collect[i] = paint.objects.global.disactivpage[i];
+
+                paint.objects.global.collect[i] = temp.helpfunc.deleteZeroCordRect(paint.objects.global.disactivpage[i]); // need fix zero coord
             }
         });
 
@@ -1358,5 +1375,6 @@ $(document).ready(function() {
     rightpref.Ajax.sendRenderRegexProccess();
     rightpref.Ajax.sendRenderAlternateProccess();
     hx.ajax.getAllHeader(null);
+    au.elements.init();
 
 });
