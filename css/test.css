@@ -296,10 +296,10 @@ table.dataTable tbody td {
     padding-right: 2rem;
 }
 
-html,
-body {
-    font-family: arial, tahoma
+#info_zoom,#page_info_control{
+    width: 4em;
 }
+
 
 .hurkanSwitch>.hurkanSwitch-switch-box>.hurkanSwitch-switch-item.active.hurkanSwitch-switch-item-status-off {
     padding-right: 15px;
