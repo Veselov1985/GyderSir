@@ -111,8 +111,8 @@
                                     </div>
                                     <div></div>
 
-                                    <a id="main_btn" class="btn btn-sm btn-secondary mb-1 btnnotextcenter" href="#"><span class="">MainHeader</span>
-                                        </a>
+                                    <!-- <a id="" class="btn btn-sm btn-secondary mb-1 btnnotextcenter" href="#"><span class="">MainHeader</span>
+                                        </a> -->
 
                                     <div class="input-group input-group-sm mr-2 mb-1 ml-2">
                                         <span class="input-group-btn">
@@ -231,6 +231,58 @@
 
 
                             <div class="tab-pane active" id="header_xml" role="tabpanel">
+
+                                <!--HeaderSettings -->
+                                 <div id="HeaderSettings" class="mt-2">
+                                        <form>
+                                                <div class="form-group row">
+                                                            <small class="col-sm-6 pt-1">MainHeader:</small>
+                                                            <div class="col-sm-6">
+                                                                <button id='main_btn' class="bnt btn-sm btn-secondary pull-right">Apply</button>
+                                                            </div>
+                                                 </div>
+            
+                                                 <div class="form-group row">
+                                                                <small class="col-sm-6 pt-1">Position Header:</small>
+                                                                <div class="col-sm-6 input-group input-group-sm">
+                                                                    <div class="input-group input-group-sm">      
+                                                                        <input id="hp_input" type="text" class="text-center form-control form-control-sm">
+                                                                    <div class="input-group-append">
+                                                                        <button id="hp_edit" class="btn btn-sm btn-secondary">
+                                                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="input-group-append">
+                                                                        <button id="hp_delete" class="btn btn-sm btn-secondary" >
+                                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                    </button>
+                                                                    </div>
+                                                                </div>
+                                                         </div>
+                                                    </div> 
+                                                    <div class="form-group row">
+                                                            <small class="col-sm-3 pt-1">Regex:</small>
+                                                            <div class="col-sm-9 input-group input-group-sm">
+                                                                <div class="input-group input-group-sm">      
+                                                                    <input id="hr_input" type="text" class="text-center form-control form-control-sm">
+                                                                <div class="input-group-append">
+                                                                    <button id="hr_edit" class="btn btn-sm btn-secondary">
+                                                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                                </button>
+                                                                </div>
+                                                                <div class="input-group-append">
+                                                                    <button id="hr_delete" class="btn btn-sm btn-secondary" >
+                                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                </button>
+                                                                </div>
+                                                            </div>
+                                                     </div>
+                                                </div> 
+                                            </form>
+                                 </div>
+                             <!--  HeaderSettings -->
+
+
                                 <div id="HeaderXmlList">
                                     <table cellpadding="0" cellspacing="0" border="0" width="100%" item-height="auto" class="display table table-bordered" id="table_xml">
                                     </table>
@@ -250,17 +302,17 @@
 
                                 <div id="savdelDHeaderXML" class="row mt-2" hidden='hidden'>
                                     <div class="col pr-1">
-                                        <a id="btn_apply_xml" class="btn btn-sm d-block d-sm-inline-block d-lg-block mb-1 btn-secondary " href="#">Apply
+                                        <a id="btn_apply_xml" class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary " href="#">Apply
                                             <!-- <i class="fa fa-check-circle fa-lg"></i>   -->
                                         </a>
                                     </div>
                                     <div class="col pr-1">
-                                        <a id="btn_new_xml" class="btn btn-sm d-block d-sm-inline-block d-lg-block mb-1 btn-secondary " href="#">Add new
+                                        <a id="btn_new_xml" class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary " href="#">Add new
                                             <!-- <i class="fa fa-plus-square-o fa-lg"></i>   -->
                                         </a>
                                     </div>
                                     <div class="col pr-1">
-                                        <a id="btn_del_xml" class="btn btn-sm d-block d-sm-inline-block d-lg-block mb-1 btn-secondary " href="#">Delete
+                                        <a id="btn_del_xml" class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary " href="#">Delete
                                         <!-- <i class="fa fa-trash fa-lg"></i>   -->
                                         </a>
                                     </div>
@@ -268,7 +320,7 @@
 
                                 <div id="saveNewXml" class="row mt-2" hidden='hidden'>
                                     <div class="col pr-1">
-                                        <a id="btn_xml_ok" class="btn btn-sm d-block d-sm-inline-block d-lg-block mb-1 btn-secondary " href="#">Ok
+                                        <a id="btn_xml_ok" class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary " href="#">Ok
                                                 
                                             </a>
                                     </div>
@@ -284,12 +336,12 @@
                                     <form>
                                         <div class="form-group">
                                             <label for="comment" id='textarea_label_xml'></label>
-                                            <textarea class="form-control" rows="10" id="textarea_xml"></textarea>
+                                            <textarea class="form-control" rows="5" id="textarea_xml"></textarea>
                                         </div>
                                     </form>
-                                    <div id="edit_XML_btn" class="row mt-1">
+                                    <div id="edit_XML_btn" class="row">
                                         <div class="col pr-1">
-                                            <a id="btn_edit_xml" class="btn btn-sm d-block d-sm-inline-block d-lg-block mb-1 btn-secondary mt-2" href="#">Edit</a>
+                                            <a id="btn_edit_xml" class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary" href="#">Edit</a>
                                         </div>
                                     </div>
 
