@@ -688,6 +688,7 @@
              rightbar.handlers.showoptiondataType($that.addClass('selected').find('td').text());
          }
          rightbar.handlers.emmitsetchangetab($that.find('td').text(), $that);
+         ph.helpfunc.setSelectedChoiseFromClickTable($that);
      });
 
      // page fix set =>change
@@ -705,6 +706,7 @@
 
      rightbar.dataTable.change.object.on('click', 'tr', function(e) {
          var $that = $(this);
+
          if ($that.hasClass('selected')) {
              $that.removeClass('selected');
          }
@@ -725,6 +727,8 @@
          kw.handlers.changeTabSetNew(rightbar.dataTable.change.object, $that);
 
          rightbar.handlers.emmitsetchangetab($that.find('td').text(), $that);
+         //ph block
+         ph.helpfunc.setSelectedChoiseFromClickTable($that);
 
      });
 

@@ -22,9 +22,8 @@ rightpref.Ajax = {
             error: function(jqXHR, textStatus, errorThrown) {
                 rightpref.handlers.DataTypeerror(errorThrown);
             },
-            beforeSend: function() {
-            },
-            complete:function(){
+            beforeSend: function() {},
+            complete: function() {
                 pm.handlers.check(); //preload
             }
         });
@@ -44,9 +43,8 @@ rightpref.Ajax = {
             error: function(jqXHR, textStatus, errorThrown) {
                 rightpref.handlers.Amounterror(jqXHR);
             },
-            beforeSend: function() {
-            },
-            complete:function(){
+            beforeSend: function() {},
+            complete: function() {
                 pm.handlers.check(); // preload
             }
         });
@@ -67,9 +65,8 @@ rightpref.Ajax = {
             error: function(jqXHR, textStatus, errorThrown) {
                 rightpref.handlers.Dataerror(errorThrown);
             },
-            beforeSend: function() {
-            },
-            complete:function(){
+            beforeSend: function() {},
+            complete: function() {
                 pm.handlers.check();
             }
         });
@@ -90,8 +87,7 @@ rightpref.Ajax = {
             error: function(jqXHR, textStatus, errorThrown) {
                 rightpref.handlers.Regexerror(errorThrown);
             },
-            beforeSend: function() {
-            },
+            beforeSend: function() {},
             complete: function() {
                 pm.handlers.check(); // preload--
             }
@@ -114,8 +110,7 @@ rightpref.Ajax = {
             error: function(jqXHR, textStatus, errorThrown) {
                 rightpref.handlers.Alternateerror(errorThrown);
             },
-            beforeSend: function() {
-            },
+            beforeSend: function() {},
             complete: function() {
                 pm.handlers.check(); // preload--
             }
@@ -125,6 +120,7 @@ rightpref.Ajax = {
 
 rightpref.handlers = {
     DataTypesuccess: function(data) {
+
         data.Data.forEach(function(val) {
             var findfield, fieldPk, state;
             for (var key in val) {
@@ -148,10 +144,9 @@ rightpref.handlers = {
         rightbar.dataTable.clean(rightbar.dataTable.change.object);
         rightbar.dataTable.init(rightbar.dataTable.set, rightbar.zag.dataTable);
         rightbar.dataTable.init(rightbar.dataTable.change, rightbar.zag.dataTable);
-     
+
     },
-    DataTypeerror: function(data) {
-    },
+    DataTypeerror: function(data) {},
     Amountsuccess: function(data) {
         data.Data.forEach(function(val) {
             rightbar.data.global.amount.push(val);

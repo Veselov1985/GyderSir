@@ -210,6 +210,17 @@
                                         </a>
                                     </div>
                                 </div>
+                                <div id="ph_container" class="row mt-2">
+                                    <div class="col-sm-3">Pages:</div>
+                                    <div class="col-sm-9">
+                                        <select class="custom-select custom-select-sm" name="place" id="ph_select">
+                                           <option value="1" selected>All</option>
+                                           <option value="2">First</option>
+                                           <option value="3">Last</option>
+                                             </select>
+                                    </div>
+
+                                </div>
 
                                 <div id="tabSaveNameData" class="" hidden>
                                     <div class="form-group row">
@@ -233,54 +244,54 @@
                             <div class="tab-pane active" id="header_xml" role="tabpanel">
 
                                 <!--HeaderSettings -->
-                                 <div id="HeaderSettings" class="mt-2">
-                                        <form>
-                                                <div class="form-group row">
-                                                            <small class="col-sm-6 pt-1">MainHeader:</small>
-                                                            <div class="col-sm-6">
-                                                                <button id='main_btn' class="bnt btn-sm btn-secondary pull-right">Apply</button>
-                                                            </div>
-                                                 </div>
-            
-                                                 <div class="form-group row">
-                                                                <small class="col-sm-6 pt-1">Position Header:</small>
-                                                                <div class="col-sm-6 input-group input-group-sm">
-                                                                    <div class="input-group input-group-sm">      
-                                                                        <input id="hp_input" type="text" class="text-center form-control form-control-sm">
-                                                                    <div class="input-group-append">
-                                                                        <button id="hp_edit" class="btn btn-sm btn-secondary">
+                                <div id="HeaderSettings" class="mt-2">
+                                    <form>
+                                        <div class="form-group row">
+                                            <small class="col-sm-6 pt-1">MainHeader:</small>
+                                            <div class="col-sm-6">
+                                                <button id='main_btn' class="bnt btn-sm btn-secondary pull-right">Apply</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <small class="col-sm-6 pt-1">Position Header:</small>
+                                            <div class="col-sm-6 input-group input-group-sm">
+                                                <div class="input-group input-group-sm">
+                                                    <input id="hp_input" type="text" class="text-center form-control form-control-sm">
+                                                    <div class="input-group-append">
+                                                        <button id="hp_edit" class="btn btn-sm btn-secondary">
                                                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                                                     </button>
-                                                                    </div>
-                                                                    <div class="input-group-append">
-                                                                        <button id="hp_delete" class="btn btn-sm btn-secondary" >
+                                                    </div>
+                                                    <div class="input-group-append">
+                                                        <button id="hp_delete" class="btn btn-sm btn-secondary">
                                                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                                                     </button>
-                                                                    </div>
-                                                                </div>
-                                                         </div>
-                                                    </div> 
-                                                    <div class="form-group row">
-                                                            <small class="col-sm-3 pt-1">Regex:</small>
-                                                            <div class="col-sm-9 input-group input-group-sm">
-                                                                <div class="input-group input-group-sm">      
-                                                                    <input id="hr_input" type="text" class="text-center form-control form-control-sm">
-                                                                <div class="input-group-append">
-                                                                    <button id="hr_edit" class="btn btn-sm btn-secondary">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <small class="col-sm-3 pt-1">Regex:</small>
+                                            <div class="col-sm-9 input-group input-group-sm">
+                                                <div class="input-group input-group-sm">
+                                                    <input id="hr_input" type="text" class="text-center form-control form-control-sm">
+                                                    <div class="input-group-append">
+                                                        <button id="hr_edit" class="btn btn-sm btn-secondary">
                                                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                                                 </button>
-                                                                </div>
-                                                                <div class="input-group-append">
-                                                                    <button id="hr_delete" class="btn btn-sm btn-secondary" >
+                                                    </div>
+                                                    <div class="input-group-append">
+                                                        <button id="hr_delete" class="btn btn-sm btn-secondary">
                                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                                                 </button>
-                                                                </div>
-                                                            </div>
-                                                     </div>
-                                                </div> 
-                                            </form>
-                                 </div>
-                             <!--  HeaderSettings -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!--  HeaderSettings -->
 
 
                                 <div id="HeaderXmlList">
@@ -921,6 +932,7 @@
     <script src="js/preload_main.js"></script>
     <script src="js/coord-convert.js"></script>
     <script src="js/auto-update-table.js"></script>
+    <script src="js/place-header.js"></script>
     <script src="js/app.js"></script>
 
 </body>
