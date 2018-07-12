@@ -137,7 +137,7 @@ temp.elementLeftBar = {
                 } else {
 
                     temp.elementLeftBar.dataTable.active = $that.find('td:first').text();
-                    if (temp.elementLeftBar.dataTable.active.toLowerCase().trim() != 'Create new Template'.toLowerCase()) {
+                    if (temp.elementLeftBar.dataTable.active.toLowerCase().trim() != 'Create new Template'.toLowerCase() && temp.DataWorkspace.images.length > 0) {
                         temp.elementLeftBar.Templaite.state = 'temp';
                         if (temp.DataWorkspace.images.length > 0 && temp.elementLeftBar.Templaite.Pk == temp.zeroGuid) {
                             applymodal.handlers.show('Close Templaite without saving', 8);
@@ -174,6 +174,7 @@ temp.elementLeftBar = {
                             applymodal.handlers.show('Close Templaite without saving', 8);
                         } else if (temp.DataWorkspace.images.length > 0) {
                             temp.helpfunc.changeTempNotCreate();
+                            ph.objects.data=ph.objects.default;
                             temp.elementLeftBar.Templaite.state = '';
                         } else {
                             temp.elementLeftBar.Templaite.state = '';
@@ -311,6 +312,7 @@ temp.elementLeftBar = {
                     var success = function(data) {
 
                         if (data.IsSuccess == true) {
+                            ph.data.object=ph.data.default; // Scope Default if templaite delete
                             $selected.addClass('deleteRow');
                             temp.helpfunc.changeData(deleterow);
                             temp.elementLeftBar.dataTable.clean();
@@ -353,6 +355,7 @@ temp.helpfunc = {
             if (val.Name == $that.find('td:first').text()) {
 
                 temp.elementLeftBar.Templaite.origin = val;
+                ph.handlers.reverseToFront(val.Scopes);
             }
         });
 
@@ -420,6 +423,7 @@ temp.helpfunc = {
     changeTempNotLoad: function() {
         temp.elementLeftBar.Templaite.Pk = temp.zeroGuid; //Pk empty row
         temp.elementLeftBar.Templaite.Name = '';
+        ph.handlers.data=ph.handlers.default;
         var e = temp.elementLeftBar.Templaite.e;
         temp.helpfunc.modalLoad(e);
     },
@@ -508,6 +512,9 @@ temp.helpfunc = {
             Base64Img: "",
             TableDatas: [{
                 Data: null,
+                Regex:null,
+                Position:'',
+                Reserve:[],
                 DataType: { Pk: "00000000-0000-0000-0000-000000000000", Name: "", IsText: false },
                 Rect: { X0: { X: 0, Y: 0 }, X1: { X: 0, Y: 0 } }
             }],
@@ -527,6 +534,7 @@ temp.helpfunc = {
             Template: {
                 Pk: temp.elementLeftBar.Templaite.Pk, //temp.Data.leftTempList.datas.Pk
                 Name: temp.elementLeftBar.Templaite.Name, //temp.Data.leftTempList.datas.Name
+                Scopes:ph.handlers.reverseToServer(),  // Scope Pages Settings all,first,last
                 Pages: function() {
                     var obj = temp.helpfunc.collectdata();
                     var imgarr = [];
@@ -670,9 +678,9 @@ temp.helpfunc = {
             ) {
                 obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Data: val.value });
             } else if (val.type == 'MainHeader') {
-                obj[val.type] = { Rect: temp.helpfunc.percentchangecord(val.rectData) };
+                obj[val.type] = { Rect: temp.helpfunc.percentchangecord(val.rectData),Data:val.value};
             } else {
-                obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
+                obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData),Position:val.position,Regex:val.regex,Reserve:val.reserve,Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
             }
         });
         return obj;
@@ -1152,6 +1160,7 @@ temp.init = {
                 ////////////////////////////////////////////////////////////////////////////
                 if (data.Pks.length > 1) {
 
+                    ph.data.object=ph.data.default;   // set default pages objects
                     filter.handlers.toggleLight();
 
                     // check id pdf download and button not push
@@ -1178,7 +1187,7 @@ temp.init = {
                 } else if (data.Pks.length == 1) {
 
                     filter.handlers.toggleLight(); // filter fix
-
+                     
 
                     temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
                     temp.Data.leftTempList.data = [
@@ -1200,6 +1209,7 @@ temp.init = {
                             $that.parent().parent().addClass('selected');
                         }
                     });
+                      ph.handlers.reverseToFront(oneData[0].Scopes);       // add Scopes in object pages all,first,last
                     temp.elementLeftBar.Templaite.Name = oneData[0].Name;
                     temp.elementLeftBar.Templaite.Pk = oneData[0].Pk;
                     temp.elementLeftBar.Templaite.name = oneData[0].Name;
@@ -1209,6 +1219,7 @@ temp.init = {
                     paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
                     temp.DataWorkspace.initwindow();
                 } else {
+                    ph.data.object=ph.data.default;    // default Scopes from object Page all,first,Last
                     temp.control.templaite.unselectDataTable();
                     temp.elementLeftBar.dataTable.clean();
                     temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);

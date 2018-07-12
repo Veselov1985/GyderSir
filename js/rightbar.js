@@ -914,10 +914,10 @@
 
      // MainHeader Add in rectangle 
 
-     rightbar.elements.main_btn.on('click', function() {
+     rightbar.elements.main_btn.on('click', function(e) {
+         e.preventDefault();
          if (temp.DataWorkspace.images.length == 0) return;
          var DataTypeName = 'MainHeader';
-
          paint.objects.disactiv.forEach(function(val, i) {
              if (val.type == 'MainHeader') {
                  paint.objects.disactiv[i].type = 'TableDatas';
@@ -929,14 +929,12 @@
                  paint.objects.activrect.Pk = val.Pk;
              }
          });
-
          paint.objects.disactiv.forEach(function(val, i) {
              if (val.id == paint.objects.activrect.id) {
                  val.type = paint.objects.activrect.type;
                  val.Pk = paint.objects.activrect.Pk;
              }
          });
-
          temp.helpfunc.modalInfo(['Info', 'MainHeader add in rectangle']);
 
      });

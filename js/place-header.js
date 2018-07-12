@@ -15,7 +15,21 @@ ph.data = { //1-all,2-first,3-last
         TotalBedrags: 3,
         UnitPrices: 1,
         VatAmounts: 3,
-    }
+    },
+    default:{
+        Vats: 1,
+        Ibans: 1,
+        ExcludingTaxesAmounts: 3,
+        InvoiceDates: 1,
+        InvoiceNumbers: 1,
+        ItemNumbers: 1,
+        OrderNumbers: 1,
+        Quantities: 1,
+        TotalBedrags: 3,
+        UnitPrices: 1,
+        VatAmounts: 3,
+    },
+    
 
 };
 
@@ -58,6 +72,24 @@ ph.helpfunc = {
 };
 
 ph.handlers = {
+    reverseToServer:function(){
+      var res=[];
+        for (key in ph.data.object) {
+          res.push(
+                {
+                  Name:key,
+                  Data:ph.data.object[key]
+                }
+            );
+          }
+        return res;
+    },
+    reverseToFront:function(dataArr){
+        dataArr.forEach(function(el) {
+            ph.data.object[el.Name]=el.Data;
+        });
+
+    },
 
 };
 

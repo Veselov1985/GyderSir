@@ -1,4 +1,5 @@
     var hx = {};
+    var hp={};
     hx.data = {
         list: [],
         tableList: [],
@@ -63,8 +64,8 @@
                 "pagingType": 'simple_numbers',
                 "order": [],
                 "lengthMenu": [
-                    [8],
-                    [8]
+                    [10],
+                    [10]
                 ],
                 "select": true,
                 "responsive": true,
@@ -281,6 +282,16 @@
         },
 
     };
+    hp.handlears={
+        setPosition:function(){
+            hx.elements.hp_input.val(paint.objects.activrect.position.join(','));
+        },
+        setRegex:function(){
+            hx.elements.hr_input.val(paint.objects.activrect.regex);
+           
+        },
+
+    };
 
     hx.action = function() {
         hx.elements.btn_new_xml.on('click', function() {
@@ -404,41 +415,62 @@
         // position block
 
     
-        hx.elements.hp_edit.on('click',function(){
+        hx.elements.hp_edit.on('click',function(e){
+            e.preventDefault();
             var data = hx.helpfunc.input.get(hx.elements.hp_input);
             // check data position
             var checkData=hx.helpfunc.checkDataPosition(data);
             if(checkData!='error' || checkData.length==0){
-                console.log(checkData);
+                paint.objects.activrect.position=checkData;  // set position [];
+                paint.objects.disactiv.forEach(function(val,i){
+                    if(val.id==paint.objects.activrect.id){
+                     paint.objects.disactiv[i].position=checkData;
+                    }
+                });
+
+                temp.helpfunc.modalInfo(['Position Header', 'Set']);
             }else {
                 temp.helpfunc.modalInfo(['Position Header', 'Wrong Enter']); // if enter not number
               window.setTimeout(function(){hx.elements.hp_input.focus();},3500);
             }
         });
 
-        hx.elements.hp_delete.on('click',function(){
+        hx.elements.hp_delete.on('click',function(e){
+            e.preventDefault();
+            if(temp.DataWorkspace.images.length<1) return;
             hx.helpfunc.input.set(hx.elements.hp_input,'');
-            // need clear paint.objects.activerect
-            
+            paint.objects.activrct.position=[];
+            temp.helpfunc.modalInfo(['Position Header', 'Clean']);
+
         });
 
 
 
         // block regex
-        hx.elements.hr_edit.on('click',function(){
+        hx.elements.hr_edit.on('click',function(e){
+            e.preventDefault();
             var data = hx.helpfunc.input.get(hx.elements.hr_input);
+            paint.objects.activrect.regex=data;
+            paint.objects.disactiv.forEach(function(val,i){
+                if(val.id==paint.objects.activrect.id){
+                 paint.objects.disactiv[i].regex=data;
+                }
+            })
+            temp.helpfunc.modalInfo(['Regex Header', 'Set']);
             
         });
-        hx.elements.hr_delete.on('click',function(){
+        hx.elements.hr_delete.on('click',function(e){
+            e.preventDefault();
             hx.helpfunc.input.set(hx.elements.hr_input,'');
-             // need clear paint.objects.activerect
+           paint.objects.activrect.regex=''
+           paint.objects.disactiv.forEach(function(val,i){
+               if(val.id==paint.objects.activrect.id){
+                paint.objects.disactiv[i].regex='';
+               }
+           })
+
+           temp.helpfunc.modalInfo(['Regex Header', 'Clean']);
         });
-
-
-
-
-
-
 
 
 
