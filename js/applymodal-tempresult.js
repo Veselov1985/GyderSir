@@ -58,7 +58,6 @@ applymodal_tempresult.handlers = {
         applymodal_tempresult.elements.applymodal_tempresult_text.text('');
         applymodal_tempresult.elements.applymodal_tempresult_input.val('');
     }
-
 };
 
 applymodal_tempresult.init();
