@@ -102,21 +102,29 @@ temp.elementLeftBar = {
                 "select": true,
                 "responsive": true,
                 "data": leftTempListData,
-                "columnDefs": [{
+                "columnDefs": [
+                    {
+                        'targets': 0,
+                        'orderable': false,
+                        'searchable': false,
+                        'className':'',
+                        'render': function(data, type, full, meta) {
+                            return  data;
+                        }
+                    }, 
+                    {
                     'targets': 1,
                     'orderable': false,
                     'searchable': false,
-                    'className': 'dt-body-center',
+                    'className':'dt-body-center',
                     'render': function(data, type, full, meta) {
                         return '<i  class=" ' + data + ' "  aria-hidden="true"></i>';
                     }
                 }],
-
-                "columns": [{
-                    title: "Template"
-                }, {
-                    title: "Status"
-                }, ],
+                "columns": [
+                 { title: "Template" },
+                 {title: "Status" }
+                ],
                 "dom": /* "<'row'<'col-md-6'l><'col-md-6'>>*/ "t<'clear'><'row'<'col-md-12'p>>",
             });
 
