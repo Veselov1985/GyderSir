@@ -514,7 +514,7 @@ temp.helpfunc = {
                 Data: null,
                 Regex:null,
                 Position:'',
-                Reserve:[],
+                Reserve:'',
                 DataType: { Pk: "00000000-0000-0000-0000-000000000000", Name: "", IsText: false },
                 Rect: { X0: { X: 0, Y: 0 }, X1: { X: 0, Y: 0 } }
             }],

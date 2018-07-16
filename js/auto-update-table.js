@@ -25,7 +25,7 @@ au.data = {
         pointElement4: [],
         regex:'',
         position:[],
-        reserve:[],
+        reserve:'',
         isDrag: false,
         isActive: false,
         isDrawing: false,
