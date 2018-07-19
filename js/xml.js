@@ -1,7 +1,8 @@
 var xml = {};
 xml.data = {
     headerXML: '<?xml version="1.0" encoding="UTF-8"?>',
-    $em: 0
+    $em: 0,
+    Scopes: [],
 };
 xml.handlers = {
     removeStringError: function(str) {
@@ -27,7 +28,7 @@ xml.handlers = {
         return '<Info><ProcessingDate>' + xml.handlers.removeStringError(date) + '</ProcessingDate><TemplateName>' + xml.handlers.removeStringError(nameTemp) + '</TemplateName></Info>';
     },
     PageSir: function(page) {
-        var str = xml.handlers.headerSir(page[0].DataTypes);
+        var str = xml.handlers.headerSir(page);
         page.forEach(function(val, i) {
             var st = xml.handlers.tableBodySir(page);
             str += st;
@@ -43,18 +44,24 @@ xml.handlers = {
         if (dataArr.length == 0) { stateData = true; return true; }
         return false;
     },
-    headerSir: function(arrHeader) {
+    headerSir: function(arrPage) {
+        var lastPageI = arrPage.length - 1;
+        var Scopes = xml.data.Scopes;
         var init = '';
-        if (arrHeader.length == 0) return '<Headers>Empty</Headers>';
-        arrHeader.forEach(function(val, i) {
-            var HeaderTag = xml.handlers.deleteSpase(val.Name).replace(/\s/g, '_');
-            var $text = xml.handlers.deleteSpase(val.Data);
-            HeaderTag = (HeaderTag == "") ? xml.handlers.emtyHeader() : HeaderTag;
-            HeaderTag = xml.handlers.remomeXMLEror(HeaderTag);
-            $text = xml.handlers.removeStringError($text);
-            init += '<' + HeaderTag + '>' + $text + '</' + HeaderTag + '>';
+        arrPage.forEach(function(pageI, i) {
+            var page = i;
+            pageI.DataTypes.forEach(function(val) {
+                if (test.handlers.ruleScope(val.Name, Scopes, page, lastPageI)) { // check rule from Header 1-all 2 First 3-Last page (only Datatype from DataBase)
+                    var HeaderTag = xml.handlers.deleteSpase(val.Name).replace(/\s/g, '_');
+                    var $text = xml.handlers.deleteSpase(val.Data);
+                    HeaderTag = (HeaderTag == "") ? xml.handlers.emtyHeader() : HeaderTag;
+                    HeaderTag = xml.handlers.remomeXMLEror(HeaderTag);
+                    $text = xml.handlers.removeStringError($text);
+                    init += '<' + HeaderTag + '>' + $text + '</' + HeaderTag + '>';
+                }
+            });
         });
-        return '<Headers>' + init + '</Headers>';
+        return '<Headers>' + (init == '') ? '<Headers>Empty</Headers>' : init + '</Headers>';
     },
     tableBodySir: function(page) {
         var str = xml.handlers.tableSirLines(page);
@@ -86,6 +93,7 @@ xml.handlers = {
 };
 xml.init = {
     getData: function(data) {
+        xml.data.Scopes = data.Scopes;
         xml.data.$em = 0;
         return xml.data.headerXML + '<GliderSir>' + xml.handlers.infoSir(data.ProcessingDate, data.TemplateName) + xml.handlers.PageSir(data.Pages) + '</GliderSir>';
     },

@@ -631,6 +631,8 @@
              kw.handlers.changeTab(rightbar.dataTable.change.object.find('tr.selected'));
              hx.helpfunc.showElem(hx.elements.fieldPref);
              hx.helpfunc.hideElem(hx.elements.savdelDHeaderXML);
+             hx.helpfunc.hideElem($('#absolutePos'));
+
              hx.helpfunc.hideElem(hx.elements.editXML);
          } else if (rightbar.handlers.currenttabchange(e) == 1) {
              rightbar.handlers.inittoggle();
