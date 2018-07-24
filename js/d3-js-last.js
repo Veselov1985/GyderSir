@@ -3,7 +3,6 @@ paint.abs = {};
 
 paint.statefix = false;
 
-
 paint.statefix = {
     mousedown: false,
     mousemove: false,
@@ -40,7 +39,6 @@ paint.zoom.elements = {
     ypos: { id: 'ypos' },
     widthpos: { id: 'widthpos' },
     heightpos: { id: 'heightpos' },
-
 };
 
 paint.zoom.init = function() {
@@ -249,9 +247,9 @@ paint.objects = {
         m2: [],
         type: '',
         value: '',
-        regex:'',
-        position:'',
-        reserve:'',
+        regex: '',
+        position: '',
+        reserve: '',
         rectData: [],
         datatype: [],
         rectangleElement: [],
@@ -295,9 +293,9 @@ paint.handlers = {
                                 paint.objects.global.nopush = false;
                                 paint.handlers.disactivRect();
                                 paint.objects.activrect.id = paint.handlers.generId();
-                                paint.objects.activrect.regex=cord.regex?cord.regex:'';
-                                paint.objects.activrect.position=cord.position?cord.position:[];
-                                paint.objects.activrect.reserve='';
+                                paint.objects.activrect.regex = cord.regex ? cord.regex : '';
+                                paint.objects.activrect.position = cord.position ? cord.position : [];
+                                paint.objects.activrect.reserve = '';
                                 paint.objects.activrect.type = type;
                                 paint.objects.activrect.value = cord.Data ? cord.Data : '';
                                 paint.objects.activrect.rectData = paint.handlers.parsedataservercord(cord);
@@ -308,7 +306,7 @@ paint.handlers = {
                                 paint.objects.disactiv.push($.extend({}, paint.objects.activrect));
                                 if (paint.objects.datafromserver.arrdata[type].length - 1 == i) {
                                     rightbar.dataTable.emmitchangerect($.extend({}, paint.objects.activrect));
-                                    hp.handlears.setPosition();  
+                                    hp.handlears.setPosition();
                                     hp.handlears.setRegex();
                                 }
                             });
@@ -319,9 +317,9 @@ paint.handlers = {
                                 paint.objects.activrect.id = paint.handlers.generId();
                                 paint.objects.activrect.type = type;
                                 paint.objects.activrect.value = cord.Data ? cord.Data : '';
-                                paint.objects.activrect.regex=cord.regex?cord.regex:'';
-                                paint.objects.activrect.position=cord.position?cord.position:[];
-                                paint.objects.activrect.reserve='';
+                                paint.objects.activrect.regex = cord.regex ? cord.regex : '';
+                                paint.objects.activrect.position = cord.position ? cord.position : [];
+                                paint.objects.activrect.reserve = '';
                                 paint.objects.activrect.rectData = paint.handlers.parsedataservercord(cord);
                                 paint.handlers.initrectpoint();
                                 paint.handlers.updateRect();
@@ -330,7 +328,7 @@ paint.handlers = {
                                 paint.objects.disactiv.push($.extend({}, paint.objects.activrect));
                                 if (paint.objects.datafromserver.arrdata[type].length - 1 == i) {
                                     rightbar.dataTable.emmitchangerect($.extend({}, paint.objects.activrect));
-                                    hp.handlears.setPosition();  
+                                    hp.handlears.setPosition();
                                     hp.handlears.setRegex();
                                 }
                             });
@@ -348,9 +346,9 @@ paint.handlers = {
                                 paint.objects.activrect.Pk = val.DataType.Pk;
                                 val.Data ? paint.objects.activrect.value = val.Data : paint.objects.activrect.value = '';
                                 paint.objects.activrect.rectData = paint.handlers.parsedataservercord(val);
-                                paint.objects.activrect.regex = (val.Regex && val.Regex!='')?val.Regex:'';
-                                paint.objects.activrect.position=(val.Position && val.Position.length>0)?val.Position:[];
-                                paint.objects.activrect.reserve='';
+                                paint.objects.activrect.regex = (val.Regex && val.Regex != '') ? val.Regex : '';
+                                paint.objects.activrect.position = (val.Position && val.Position.length > 0) ? val.Position : [];
+                                paint.objects.activrect.reserve = '';
                                 paint.handlers.initrectpoint();
                                 paint.handlers.updateRect();
                                 paint.objects.activrect.isDrag = false;
@@ -358,7 +356,7 @@ paint.handlers = {
                                 paint.objects.disactiv.push($.extend({}, paint.objects.activrect));
                                 if (paint.objects.datafromserver.arrdata[type].length - 1 == i) {
                                     rightbar.dataTable.emmitchangerect($.extend({}, paint.objects.activrect));
-                                    hp.handlears.setPosition();  
+                                    hp.handlears.setPosition();
                                     hp.handlears.setRegex();
 
                                 }
@@ -372,9 +370,9 @@ paint.handlers = {
                     paint.handlers.disactivRect();
                     paint.objects.activrect = cord;
                     if (!paint.objects.activrect.value) paint.objects.activrect.value = ''; //check if value ==undefined
-                    paint.objects.activrect.regex=val.regex?val.regex:'';
-                    paint.objects.activrect.position=val.position?val.position:[];
-                    paint.objects.activrect.reserve='';
+                    paint.objects.activrect.regex = val.regex ? val.regex : '';
+                    paint.objects.activrect.position = val.position ? val.position : [];
+                    paint.objects.activrect.reserve = '';
                     paint.handlers.initrectpoint();
                     paint.handlers.updateRect();
                     paint.objects.activrect.isDrag = false;
@@ -382,7 +380,7 @@ paint.handlers = {
                     paint.objects.disactiv.push($.extend({}, paint.objects.activrect));
                     if (paint.objects.datafromserver.arrdata.length - 1 == i) {
                         rightbar.dataTable.emmitchangerect($.extend({}, paint.objects.activrect));
-                        hp.handlears.setPosition();  
+                        hp.handlears.setPosition();
                         hp.handlears.setRegex();
                     }
                 });
@@ -399,9 +397,9 @@ paint.handlers = {
         paint.objects.activrect.type = 'TableDatas';
         paint.objects.activrect.Pk = '';
         paint.objects.activrect.value = '';
-        paint.objects.activrect.regex='';
-        paint.objects.activrect.position=[];
-        paint.objects.activrect.reserve='';
+        paint.objects.activrect.regex = '';
+        paint.objects.activrect.position = [];
+        paint.objects.activrect.reserve = '';
         if (paint.objects.activrect.datatype) {
             paint.objects.activrect.datatype = [];
         }
@@ -589,15 +587,11 @@ paint.handlers = {
         var cord2 = obj.rectData[1];
         if (Math.abs(cord1.x - cord2.x) < 10 && Math.abs(cord1.y - cord2.y) < 10) return true;
         return false;
-
     },
 
     regulations: function() {
         paint.objects.global.svg = d3.select('#pdfWindow').append('svg');
-
         paint.handlers.createNewRecData();
-
-
         paint.objects.global.svg.on('mousedown', function(e) {
                 if (paint.statefix.mousedown) return;
                 paint.statefix.mousedown = true;
