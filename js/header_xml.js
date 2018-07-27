@@ -1,5 +1,5 @@
     var hx = {};
-    var hp={};
+    var hp = {};
     hx.data = {
         list: [],
         tableList: [],
@@ -12,15 +12,15 @@
         hx.dataTable.set.object = $('#table_xml');
         hx.elements.fieldPref = $('#fieldPref');
         //HeaderSettings
-        hx.elements.HeaderSettings=$('#HeaderSettings');
+        hx.elements.HeaderSettings = $('#HeaderSettings');
         //block position
-        hx.elements.hp_input=$('#hp_input');
-        hx.elements.hp_edit=$('#hp_edit');
-        hx.elements.hp_delete=$('#hp_delete');
+        hx.elements.hp_input = $('#hp_input');
+        hx.elements.hp_edit = $('#hp_edit');
+        hx.elements.hp_delete = $('#hp_delete');
         // block regex
-        hx.elements.hr_input=$('#hr_input');
-        hx.elements.hr_edit=$('#hr_edit');
-        hx.elements.hr_delete=$('#hr_delete');
+        hx.elements.hr_input = $('#hr_input');
+        hx.elements.hr_edit = $('#hr_edit');
+        hx.elements.hr_delete = $('#hr_delete');
         // btn
         hx.elements.savdelDHeaderXML = $('#savdelDHeaderXML'); // block btn
         hx.elements.btn_apply_xml = $('#btn_apply_xml');
@@ -76,30 +76,29 @@
                 "dom": "t<'clear'><'row'<'col-md-12'p>>",
             });
         },
-
     };
 
     hx.helpfunc = {
-        input:{
-            get:function(inp){
+        input: {
+            get: function(inp) {
                 return inp.val();
             },
-            set:function(inp,data){
-               inp.val(data);
+            set: function(inp, data) {
+                inp.val(data);
             },
         },
-        checkDataPosition:function(str){
-            var arr,error,result;
-            result=[];
-            arr =str.split(',');
-           arr.forEach(function(val){
-               if($.isNumeric(val)){
-                 result.push(+val);
-               }else {
-                   error=true;
-               }
-           })
-           if(error==true){return 'error'}else{return result;}
+        checkDataPosition: function(str) {
+            var arr, error, result;
+            result = [];
+            arr = str.split(',');
+            arr.forEach(function(val) {
+                if ($.isNumeric(val)) {
+                    result.push(+val);
+                } else {
+                    error = true;
+                }
+            });
+            if (error == true) { return 'error'; } else { return result; }
         },
         clearListTable: function() {
             hx.data.tableList = [];
@@ -280,17 +279,36 @@
             });
             if (temp.DataWorkspace.images.length > 0) hx.handlears.setchangeselectdatatype();
         },
-
     };
-    hp.handlears={
-        setPosition:function(){
+
+    hp.handlears = {
+        setPosition: function() {
             hx.elements.hp_input.val(paint.objects.activrect.position.join(','));
         },
-        setRegex:function(){
+        setRegex: function() {
             hx.elements.hr_input.val(paint.objects.activrect.regex);
-           
-        },
 
+        },
+        cleanMemoryPosition: function(rect, rectval) {
+            paint.objects.disactiv = paint.objects.disactiv.map(function(val) {
+                if (rect.id == val.id) {
+                    val.position = rectval;
+                    return val;
+                } else {
+                    return val;
+                }
+            });
+        },
+        clenMemoryRegex: function(rect, rectrRegexVal) {
+            paint.objects.disactiv = paint.objects.disactiv.map(function(val, i) {
+                if (rect.id == val.id) {
+                    val.regex = rectrRegexVal;
+                    return val;
+                } else {
+                    return val;
+                }
+            });
+        },
     };
 
     hx.action = function() {
@@ -318,7 +336,7 @@
             if ($tr.length > 0) {
                 $tr.removeClass('selected');
             }
-        })
+        });
 
         hx.elements.btn_xml_ok.on('click', function(e) {
             e.preventDefault();
@@ -375,7 +393,7 @@
             } else {
                 temp.helpfunc.modalInfo(['XML Header', 'Need select at least one']); // option show modal Info
             }
-        })
+        });
 
         hx.elements.input_new_HEaderXml.keyup(function() {
             var text = $(this).val();
@@ -414,67 +432,48 @@
 
         // position block
 
-    
-        hx.elements.hp_edit.on('click',function(e){
+
+        hx.elements.hp_edit.on('click', function(e) {
             e.preventDefault();
             var data = hx.helpfunc.input.get(hx.elements.hp_input);
             // check data position
-            var checkData=hx.helpfunc.checkDataPosition(data);
-            if(checkData!='error' || checkData.length==0){
-                paint.objects.activrect.position=checkData;  // set position [];
-                paint.objects.disactiv.forEach(function(val,i){
-                    if(val.id==paint.objects.activrect.id){
-                     paint.objects.disactiv[i].position=checkData;
-                    }
-                });
-
-                temp.helpfunc.modalInfo(['Position Header', 'Set']);
-            }else {
+            var checkData = hx.helpfunc.checkDataPosition(data);
+            if (checkData != 'error' || checkData.length == 0) {
+                paint.objects.activrect.position = checkData; // set position [];
+                hp.handlears.cleanMemoryPosition(paint.objects.activrect, checkData);
+                temp.helpfunc.modalInfo(['Position Header Edit', 'Set']);
+            } else {
                 temp.helpfunc.modalInfo(['Position Header', 'Wrong Enter']); // if enter not number
-              window.setTimeout(function(){hx.elements.hp_input.focus();},3500);
+                window.setTimeout(function() { hx.elements.hp_input.focus(); }, 3500);
             }
         });
 
-        hx.elements.hp_delete.on('click',function(e){
+        hx.elements.hp_delete.on('click', function(e) {
             e.preventDefault();
-            if(temp.DataWorkspace.images.length<1) return;
-            hx.helpfunc.input.set(hx.elements.hp_input,'');
-            paint.objects.activrct.position=[];
+            if (temp.DataWorkspace.images.length < 1) return;
+            hx.helpfunc.input.set(hx.elements.hp_input, '');
+            paint.objects.activrect.position = [];
+            hp.handlears.cleanMemoryPosition(paint.objects.activrect, []);
             temp.helpfunc.modalInfo(['Position Header', 'Clean']);
 
         });
 
-
-
         // block regex
-        hx.elements.hr_edit.on('click',function(e){
+        hx.elements.hr_edit.on('click', function(e) {
             e.preventDefault();
             var data = hx.helpfunc.input.get(hx.elements.hr_input);
-            paint.objects.activrect.regex=data;
-            paint.objects.disactiv.forEach(function(val,i){
-                if(val.id==paint.objects.activrect.id){
-                 paint.objects.disactiv[i].regex=data;
-                }
-            })
+            paint.objects.activrect.regex = data;
+            hp.handlears.clenMemoryRegex(paint.objects.activrect, data);
             temp.helpfunc.modalInfo(['Regex Header', 'Set']);
-            
+
         });
-        hx.elements.hr_delete.on('click',function(e){
+        hx.elements.hr_delete.on('click', function(e) {
             e.preventDefault();
-            hx.helpfunc.input.set(hx.elements.hr_input,'');
-           paint.objects.activrect.regex=''
-           paint.objects.disactiv.forEach(function(val,i){
-               if(val.id==paint.objects.activrect.id){
-                paint.objects.disactiv[i].regex='';
-               }
-           })
-
-           temp.helpfunc.modalInfo(['Regex Header', 'Clean']);
+            hx.helpfunc.input.set(hx.elements.hr_input, '');
+            paint.objects.activrect.regex = '';
+            hp.handlears.clenMemoryRegex(paint.objects.activrect, '');
+            temp.helpfunc.modalInfo(['Regex Header', 'Clean']);
         });
-
-
-
-
     };
 
     hx.ajax = {

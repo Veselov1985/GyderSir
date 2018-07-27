@@ -61,7 +61,7 @@ xml.handlers = {
                 }
             });
         });
-        return '<Headers>' + (init == '') ? '<Headers>Empty</Headers>' : init + '</Headers>';
+        return (init == '') ? '<Headers>Empty</Headers>' : '<Headers>' + init + '</Headers>';
     },
     tableBodySir: function(page) {
         var str = xml.handlers.tableSirLines(page);
@@ -72,7 +72,6 @@ xml.handlers = {
         page.forEach(function(val, i) {
             val.TableLines.forEach(function(v, j) {
                 if (xml.handlers.checkHeaderNull(v.Columns)) { // check null Header tag
-
                 } else {
                     str += '<Line>';
                     v.Columns.forEach(function(d, k) {
@@ -85,7 +84,6 @@ xml.handlers = {
                     });
                     str += '</Line>';
                 }
-
             });
         });
         return str;

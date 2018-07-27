@@ -268,7 +268,7 @@
      sendTestsuccess: function(data) {
          zaglyshka.data.pages = data.Pages.length;
          test.handlers.addLinesArr(data.Pages, data.Scopes); // Scopes => [{name:string,Data:number}] 1-All 2 -first 3-last Page
-         test.handlers.addHeadArr(data.Pages); // change create table and fix multi page show 
+         test.handlers.addHeadArr(data.Pages); // change create table and fix multi page show   Scopes => [{name:string,Data:number}] 1-All 2 -first 3-last Page
          test.handlers.setControlView();
          test.handlers.addImgArr(data.Pages);
          test.handlers.addXmlStr(xml.init.getData(data)); //   <=======   xml.js 

@@ -370,8 +370,8 @@ paint.handlers = {
                     paint.handlers.disactivRect();
                     paint.objects.activrect = cord;
                     if (!paint.objects.activrect.value) paint.objects.activrect.value = ''; //check if value ==undefined
-                    paint.objects.activrect.regex = val.regex ? val.regex : '';
-                    paint.objects.activrect.position = val.position ? val.position : [];
+                    paint.objects.activrect.regex = cord.regex ? cord.regex : '';
+                    paint.objects.activrect.position = cord.position ? cord.position : [];
                     paint.objects.activrect.reserve = '';
                     paint.handlers.initrectpoint();
                     paint.handlers.updateRect();

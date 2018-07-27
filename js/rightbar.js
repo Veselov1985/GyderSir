@@ -76,21 +76,16 @@
      rightbar.elements.selDate = $('#selDate');
      rightbar.elements.selReg = $('#selReg');
      rightbar.elements.selalternate = $('#selalternate');
-
      // cont btn add & dell
      rightbar.elements.savdelData = $('#savdelData');
-
      // buttons tab 
      rightbar.elements.btn_apply_not = $('#btn_apply_not');
      rightbar.elements.btn_add_type = $('#btn_add_type');
      rightbar.elements.btn_del_type = $('#btn_del_type');
-
      //button save datatype
      rightbar.elements.btn_save_datatype = $('#btn_save_datatype');
-
      //input new name typedata
      rightbar.elements.input_new_typedata = $('#input_new_typedata');
-
      //btn_dell preference
      rightbar.elements.deleteAmount = $('#deleteAmount');
      rightbar.elements.deleteDate = $('#deleteDate');
@@ -101,9 +96,7 @@
      rightbar.elements.wrapAbs = $('#wrapAbs');
      // MainHeader  btn
      rightbar.elements.main_btn = $('#main_btn');
-
  };
-
 
  rightbar.dataTable = {
      set: {
@@ -151,10 +144,7 @@
      checkdatatype: function() {
          if (rightbar.data.global.activrect.type.length == 0 && rightbar.dataTable.set.dt.$('tr.selected').length > 0) {
              rightbar.dataTable.set.dt.$('tr.selected').removeClass('selected');
-
-         } else {
-
-         }
+         } else {}
      }
  };
 
@@ -167,8 +157,6 @@
          if ($href == '#set') return 1;
          if ($href == '#change') return 2;
          if ($href == '#header_xml') return 3;
-
-
      },
      togleshowelem: function(elem) {
          elem.is(":hidden") ? elem.attr("hidden", false) : elem.attr('hidden', true);
@@ -196,18 +184,16 @@
      findactivdatatype: function() { // {set{name: Pk: Text:},change{Name: ,Pk: , Text:}}
          var set = rightbar.dataTable.set.dt.$('tr.selected');
          var change = rightbar.dataTable.change.dt.$('tr.selected');
-
          return {
              set: {
                  activtr: set,
                  Name: set.length > 0 ? set.find('td').text() : '',
-                 Pk: ''
+                 Pk: '',
              },
              change: {
                  activtr: change,
                  Name: change.length > 0 ? change.find('td').text() : '',
                  Pk: '',
-
              }
          };
      },
@@ -220,9 +206,7 @@
             }
             */
          var select = $e_curr.parent().parent().find('select');
-
          if (!select.is(':hidden')) {
-
              var input = $e_curr.parent().parent().find('input:not([type="checkbox"])');
              if (input.length > 0) {
                  var $newhtml = input;
@@ -248,10 +232,9 @@
              }
              var datas = rightbar.handlers.formdataoption(selectfield.attr('data-sel'), addselectcont);
              rightbar.handlers.setneedAjax(selectfield, e, datas);
-
          }
-
      },
+
      setneedAjax: function(select, e, data) {
          var res = select.attr('data-sel');
          if (res == 'AmountNotation') rightbaraction.Ajax.sendAddAmountProccess(data, e);
@@ -288,7 +271,6 @@
                  $(val.rectangleElement[0][0]).attr('class', 'rectdis');
              }
              $(paint.objects.activrect.rectangleElement[0][0]).attr('class', 'rectangle');
-
          });
 
      },
@@ -364,7 +346,6 @@
          var res = [false];
          rightbar.data.global.checkboxList.forEach(function(val, i) {
              if (val.prop('checked') == true) {
-
                  if (val.attr('id') == 'checkText') {
                      res[0] = true;
                      res.push(rightbar.elements.input_new_typedata.val()); //name datatype
@@ -391,7 +372,6 @@
              DataNotation: null,
              IsText: false
          };
-
          var arr = rightbar.handlers.findactivcheckbox();
          var result = rightbar.data.global.dataType.filter(function(val) {
              if (val.DataType == arr[1]) return true;
@@ -400,7 +380,6 @@
          if (result.length > 0) {
              obj.Pk = result[0].Pk;
              obj.Name = result[0].DataType;
-
          } else {
              obj.Pk = '';
              obj.Name = arr[1];
@@ -436,7 +415,6 @@
              dataType: arr[1],
              pref: arr[2],
              val: arr[3]
-
          };
      },
      showoptiondataType: function(text) {
