@@ -64,8 +64,8 @@
                 "pagingType": 'simple_numbers',
                 "order": [],
                 "lengthMenu": [
-                    [10],
-                    [10]
+                    [15],
+                    [15]
                 ],
                 "select": true,
                 "responsive": true,

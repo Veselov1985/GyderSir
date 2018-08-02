@@ -124,8 +124,8 @@
              "pagingType": 'simple_numbers',
              "order": [],
              "lengthMenu": [
-                 [13],
-                 [13]
+                 [15],
+                 [15]
              ],
              "select": true,
              "responsive": true,
@@ -598,8 +598,10 @@
      //change tab show
 
      $('#dataType a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-         if (rightbar.handlers.currenttabchange(e) == 2) {
 
+         if (rightbar.handlers.currenttabchange(e) == 2) {
+             var absReserve = $('#absolutePos');
+             hx.helpfunc.hideElem(absReserve);
              rightbar.handlers.inittoggle();
              if (rightbar.elements.input_new_typedata.is(":visible") == true) {
                  rightbar.elements.saveDataType.attr('hidden', false);
@@ -609,7 +611,7 @@
              kw.handlers.changeTab(rightbar.dataTable.change.object.find('tr.selected'));
              hx.helpfunc.showElem(hx.elements.fieldPref);
              hx.helpfunc.hideElem(hx.elements.savdelDHeaderXML);
-             hx.helpfunc.hideElem($('#absolutePos'));
+             hx.helpfunc.hideElem(absReserve);
 
              hx.helpfunc.hideElem(hx.elements.editXML);
          } else if (rightbar.handlers.currenttabchange(e) == 1) {
@@ -750,9 +752,7 @@
              }
          });
          applymodal.handlers.close();
-
      });
-
 
      // btn dell datatype tabs change=>open modal
 
@@ -793,8 +793,6 @@
 
      //-----------------------------------------------------------------------------
 
-
-
      rightbar.elements.btn_add_type.on('click', function(e) {
          var selected = rightbar.dataTable.change.dt.$('tr.selected').find('td').text();
          e.preventDefault();
@@ -816,14 +814,11 @@
          ) {
              return;
          }
-
-
          rightbar.elements.input_new_typedata.val(rightbar.handlers.findactivdatatype().change.Name);
          rightbar.elements.tabSaveNameData.attr("hidden", false);
          rightbar.elements.dataTypeList1.attr("hidden", true);
          rightbar.elements.savdelData.attr("hidden", true);
          rightbar.elements.input_new_typedata.focus();
-
      });
 
      //-----------------------------------------------------------------------------------------
