@@ -12,7 +12,6 @@ temp.routes = {
     sendRenderAlternateProccessUrl: temp.root + 'api/datatypes/getalternates',
 
     // block rightbar // save del DataType
-
     sendDeleteDataTypeProccessUrl: temp.root + 'api/datatypes/deletedatatype',
     sendSaveDataTypeProccessUrl: temp.root + 'api/datatypes/savedatatype',
 
@@ -23,14 +22,10 @@ temp.routes = {
     sendAddAlternateProccessUrl: temp.root + 'api/datatypes/savealternate',
 
     // delete pref
-
     sendDeleteAmountUrl: temp.root + 'api/datatypes/deleteamountnotation',
     sendDeleteDateUrl: temp.root + 'api/datatypes/deletedatanotation',
     sendDeleteRegexUrl: temp.root + 'api/datatypes/deleteregex',
     sendDeleteAlternateUrl: temp.root + 'api/datatypes/deletealternate',
-
-
-
     sendFileToProccessUrl: temp.root + 'api/pdf/ocrpdffindtable',
     sendSaveTempaiteProccess: temp.root + 'api/template/savetemplate',
     sendDeleteTemplaiteProccess: temp.root + 'api/template/deletetemplate',
@@ -45,7 +40,6 @@ temp.routes = {
     getallheaderdatatypesUrl: temp.root + 'api/datatypes/getallheaderdatatypes',
     createorupdateheaderdatatypeUrl: temp.root + 'api/datatypes/createorupdateheaderdatatype',
     deleteheaderdatatypeUrl: temp.root + 'api/datatypes/deleteheaderdatatype',
-
 };
 
 temp.html = {
@@ -131,11 +125,8 @@ temp.elementLeftBar = {
             // select fix
 
             temp.elementLeftBar.dataTable.object.off('click').on('click', 'tr', function(e) {
-
                 var $that = $(this);
-
                 temp.elementLeftBar.Templaite.that = $that;
-
                 if ($that.find('i').attr('class') == ' fa fa-trash ') {
                     e.preventDefault();
                     return false;
@@ -143,7 +134,6 @@ temp.elementLeftBar = {
                     e.preventDefault();
                     return false;
                 } else {
-
                     temp.elementLeftBar.dataTable.active = $that.find('td:first').text();
                     if (temp.elementLeftBar.dataTable.active.toLowerCase().trim() != 'Create new Template'.toLowerCase() && temp.DataWorkspace.images.length > 0) {
                         temp.elementLeftBar.Templaite.state = 'temp';
@@ -152,7 +142,6 @@ temp.elementLeftBar = {
                         } else if (temp.DataWorkspace.images.length > 0) {
                             temp.helpfunc.changeTempNotSaving();
                             temp.elementLeftBar.Templaite.state = '';
-
                         } else if (!temp.DataWorkspace.images.length) { // initial state => pdf not load
                             temp.Data.leftTempList.data.forEach(function(val, i) {
                                 if (val[1] == temp.img.activ) val[1] = temp.img.off;
@@ -192,33 +181,28 @@ temp.elementLeftBar = {
             });
 
             // togle templaite state
-
             applymodal.elements.apply_togle_state.off('click').on('click', function() {
                 applymodal.handlers.close();
                 if (temp.elementLeftBar.Templaite.state == 'temp') { // choise templite
                     temp.helpfunc.changeTempNotSaving();
                     led.action.ledOff();
-
                 }
                 if (temp.elementLeftBar.Templaite.state == 'load') {
-
                     temp.helpfunc.changeTempNotLoad();
-
                 }
                 if (temp.elementLeftBar.Templaite.state == 'newtemp') { /// create new
-
                     temp.helpfunc.changeTempNotCreate();
                     led.action.ledOff();
                 }
                 temp.elementLeftBar.Templaite.state = '';
             });
 
-
             // delete template modal window
             temp.elementLeftBar.object.btn_del_temp.click(function(e) {
                 e.preventDefault();
-                if (temp.elementLeftBar.dataTable.object.find('.selected').length != 0 && temp.elementLeftBar.dataTable.object.find('.selected')['0'].children[0].innerHTML != 'Create new Template') {
-                    var namedeleterow = temp.elementLeftBar.dataTable.object.find('.selected').find('td.sorting_1').text();
+                var selected$ = temp.elementLeftBar.dataTable.object.find('.selected');
+                if (selected$.length != 0 && selected$['0'].children[0].innerHTML != 'Create new Template') {
+                    var namedeleterow = selected$.find('td.sorting_1').text();
                     applymodal.handlers.show('Delete Templaite ' + namedeleterow, 1);
                 }
             });
@@ -263,7 +247,6 @@ temp.elementLeftBar = {
 
                 var success = function(data) {
                     // add new create templaite in list
-
                     temp.Data.leftTempList.datas.Pk = data.Pk;
                     temp.Data.leftTempList.datas.Name = data.Name;
                     temp.elementLeftBar.Templaite.name = data.Name;
@@ -277,17 +260,17 @@ temp.elementLeftBar = {
                     temp.helpfunc.searchPage(); // need search page
                     temp.elementLeftBar.dataTable.object.find('i').each(function() {
                         $that = $(this);
+                        var parent$2 = $that.parent().parent();
                         if ($that.attr('class').trim() == temp.img.activ) {
-                            $that.parent().parent().addClass('selected');
+                            parent$2.addClass('selected');
                         } else {
-                            $that.parent().parent().removeClass('selected');
+                            parent$2.removeClass('selected');
                         }
                     });
                 };
                 var error = function(data) {
                     console.log(data);
                 };
-
                 temp.Data.leftTempList.datas = temp.helpfunc.createresponsedata().Template;
                 temp.elementLeftBar.Templaite.name = '';
                 temp.Ajax.sendSaveTemplaiteProccess(temp.Data.leftTempList.datas, success, error);
@@ -295,7 +278,6 @@ temp.elementLeftBar = {
             });
 
             // save result modal window   btn=> applymodal_tempresult.elements.apply_tempresult_save_result
-
             temp.elementLeftBar.object.btn_save_result.on('click', function() {
                 if (zaglyshka.data.header.length == 0 || zaglyshka.data.xml.length == 0 || zaglyshka.data.pdf_image == 0) return;
                 applymodal_tempresult.handlers.showresult();
@@ -308,19 +290,15 @@ temp.elementLeftBar = {
             if ($selected.length != 0) {
                 if ($selected['0'].children[0].innerHTML != 'Create new Template') {
                     var deleterow = $selected.find('td:first').text();
-
                     var findPk = function() {
                         var Pk;
                         temp.Data.leftTempList.list.forEach(function(val, i) {
                             if (val.Name == deleterow) Pk = val.Pk;
-
                         });
                         return Pk;
                     };
 
-
                     var success = function(data) {
-
                         if (data.IsSuccess == true) {
                             ph.data.object = ph.data.default; // Scope Default if templaite delete
                             $selected.addClass('deleteRow');
@@ -328,22 +306,15 @@ temp.elementLeftBar = {
                             temp.elementLeftBar.dataTable.clean();
                             temp.elementLeftBar.dataTable.active = '';
                             temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-
                             filter.handlers.deletefilter(data); //filter delete fix
-
                             temp.Data.leftTempList.list = temp.Data.leftTempList.list.filter(function(val) {
                                 return val.Pk != data.Pk;
                             });
-
-
                             temp.elementLeftBar.Templaite.origin = {};
                             paint.handlers.clearsvgcontent();
                             temp.helpfunc.clearglobalstate(true);
-
                             temp.helpfunc.modalInfo(['Delete Templaite', deleterow]);
-
                             paint.init();
-
                         }
                     };
                     var error = function(data) {
@@ -361,32 +332,26 @@ temp.helpfunc = {
     changeTempNotSaving: function() {
         var $that = temp.elementLeftBar.Templaite.that;
         temp.Data.leftTempList.list.forEach(function(val) {
-
             if (val.Name == $that.find('td:first').text()) {
-
                 temp.elementLeftBar.Templaite.origin = val;
                 ph.handlers.reverseToFront(val.Scopes);
             }
         });
-
         temp.elementLeftBar.Templaite.Pk = temp.elementLeftBar.Templaite.origin.Pk;
         temp.elementLeftBar.Templaite.Name = temp.elementLeftBar.Templaite.origin.Name;
-
         paint.handlers.clearsvgcontent();
         temp.helpfunc.clearglobalstate(true);
 
-
         //  temp.elementLeftBar.Templaite.origin
-
         temp.elementLeftBar.Templaite.origin.Pages.forEach(function(val) {
             paint.objects.datafromserver.datafromserverpage.push(val);
-
         });
+
         temp.elementLeftBar.Templaite.origin.Pages.forEach(function(val) {
             paint.objects.datafromserver.removelistpage.push(val);
         });
-        paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
 
+        paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
         temp.Data.leftTempList.data.forEach(function(val, i) {
             if (val[1] == temp.img.activ) val[1] = temp.img.off;
             if (val[0] == temp.elementLeftBar.Templaite.origin.Name) val[1] = temp.img.activ;
@@ -404,15 +369,13 @@ temp.helpfunc = {
                 $that.parent().parent().addClass('selected');
             }
         });
-
         temp.DataWorkspace.initwindow();
-
     },
+
     searchPage: function() {
         var infopages = temp.elementLeftBar.dataTable.dt.page.info().pages;
         var result = false;
         for (var i = 0; i <= infopages - 1; i++) {
-
             var res = temp.elementLeftBar.dataTable.object.find('i');
             res.each(function() {
                 $that = $(this);
@@ -427,9 +390,8 @@ temp.helpfunc = {
                 temp.elementLeftBar.dataTable.dt.page(i + 1).draw(false);
             }
         }
-
-
     },
+
     changeTempNotLoad: function() {
         temp.elementLeftBar.Templaite.Pk = temp.zeroGuid; //Pk empty row
         temp.elementLeftBar.Templaite.Name = '';
@@ -437,26 +399,25 @@ temp.helpfunc = {
         var e = temp.elementLeftBar.Templaite.e;
         temp.helpfunc.modalLoad(e);
     },
+
     changeTempNotCreate: function() {
         //Clear SVG and clear All rectangle
         temp.elementLeftBar.Templaite.Pk = temp.zeroGuid; //Pk empty row
         temp.elementLeftBar.Templaite.Name = '';
-
         temp.elementLeftBar.Templaite.origin = {};
         temp.helpfunc.clearglobalstate(true);
-
         temp.Data.leftTempList.data.forEach(function(val, i) {
             if (val[1] == temp.img.activ) val[1] = temp.img.off;
-
         });
         temp.elementLeftBar.dataTable.clean();
         temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
         temp.elementLeftBar.dataTable.object.find('i').each(function() {
-            $that = $(this);
+            var $that = $(this);
+            var parent$2 = $that.parent().parent();
             if ($that.attr('class').trim() == 'fa fa-plus-circle') {
-                $that.parent().parent().addClass('selected');
+                parent$2.addClass('selected');
             } else {
-                $that.parent().parent().removeClass('selected');
+                parent$2.removeClass('selected');
             }
         });
         paint.init();
@@ -479,13 +440,15 @@ temp.helpfunc = {
     },
     addTemplaite: function() {
         var add = true;
+        var circle = 'fa fa-plus-circle';
+        var trash = 'fa fa-trash';
         temp.Data.leftTempList.list.forEach(function(val, i) {
             if (val.Pk == temp.Data.leftTempList.datas.Pk) {
                 add = false;
                 temp.Data.leftTempList.list[i] = temp.Data.leftTempList.datas;
                 temp.Data.leftTempList.data.forEach(function(val, i) {
-                    if (val[1] != 'fa fa-plus-circle' && val[1] != 'fa fa-trash') temp.Data.leftTempList.data[i][1] = temp.img.off;
-                    if (val[1] != 'fa fa-plus-circle' && temp.Data.leftTempList.data[i][0] == temp.Data.leftTempList.datas.Name) {
+                    if (val[1] != circle && val[1] != trash) temp.Data.leftTempList.data[i][1] = temp.img.off;
+                    if (val[1] != circle && temp.Data.leftTempList.data[i][0] == temp.Data.leftTempList.datas.Name) {
                         temp.Data.leftTempList.data[i][1] = temp.img.activ;
                     }
                 });
@@ -493,12 +456,10 @@ temp.helpfunc = {
         });
         if (add) {
             temp.Data.leftTempList.list.push(temp.Data.leftTempList.datas);
-
             temp.Data.leftTempList.data.forEach(function(val, i) {
-                if (val[1] != 'fa fa-plus-circle' && val[1] != 'fa fa-trash') temp.Data.leftTempList.data[i][1] = temp.img.off;
+                if (val[1] != circle && val[1] != trash) temp.Data.leftTempList.data[i][1] = temp.img.off;
             });
             temp.Data.leftTempList.data.push([temp.elementLeftBar.Templaite.name, temp.img.activ]);
-
             filter.handlers.addData([temp.elementLeftBar.Templaite.name, temp.img.off]); // filter add data
         }
     },
@@ -575,7 +536,6 @@ temp.helpfunc = {
                     });
 
                     // add OcrStrings ==> send OCR DATA from server
-
                     obj.page = obj.page.map(function(val, i) {
                         if (temp.serverInfo[i]) {
                             val.OcrStrings = temp.serverInfo[i];
@@ -583,7 +543,6 @@ temp.helpfunc = {
                             val.OcrStrings = empty.OcrStrings;
                         }
                         return val;
-
                     });
                     return obj.page;
                 }(),
@@ -610,22 +569,18 @@ temp.helpfunc = {
             if (paint.objects.global.disactivpage[i] == undefined) {
                 paint.objects.global.collect[i] = val;
             } else {
-
                 paint.objects.global.collect[i] = temp.helpfunc.deleteZeroCordRect(paint.objects.global.disactivpage[i]); // need fix zero coord
             }
         });
 
         if (paint.objects.global.collect.length == 0) {
-
             temp.DataWorkspace.images.forEach(function(val, i) {
                 paint.objects.global.collect.push(undefined);
             });
-
             paint.objects.global.collect[temp.DataWorkspace.activpage] = paint.objects.global.disactivpage[temp.DataWorkspace.activpage];
-
         }
-
     },
+
     grabpagedata: function() {
         var res = [];
         paint.objects.global.collect.forEach(function(val, i) {
@@ -638,6 +593,7 @@ temp.helpfunc = {
         });
         return res;
     },
+
     thisIsText: function(pk) {
         var res = false;
         var IsText;
@@ -761,7 +717,6 @@ temp.helpfunc = {
 
     errorfindTemplaite: function(jqXHR, textStatus, errorThrown) {
         temp.helpfunc.modalInfo(['Eror server', '#404']);
-        console.log(jqXHR);
     },
 
     successfindTemplaite: function(data, textStatus, jqXHR) {},
@@ -931,16 +886,17 @@ temp.control = {
             });
         },
         renderDataTemplaite: function(data) {
+            var base64Title = 'data:image/jpeg;base64,';
             var pages = [];
             $.each(data, function(i, v) {
-                pages.push('data:image/jpeg;base64,' + v.Base64Img);
+                pages.push(base64Title + v.Base64Img);
             });
             temp.DataWorkspace.images = pages;
             temp.elementLeftBar.Templaite.OnlyImages = [];
             temp.elementLeftBar.Templaite.OnlyText = [];
             data.forEach(function(val, i) {
-                temp.elementLeftBar.Templaite.OnlyImages[i] = 'data:image/jpeg;base64,' + val.OnlyImages;
-                temp.elementLeftBar.Templaite.OnlyText[i] = 'data:image/jpeg;base64,' + val.OnlyText;
+                temp.elementLeftBar.Templaite.OnlyImages[i] = base64Title + val.OnlyImages;
+                temp.elementLeftBar.Templaite.OnlyText[i] = base64Title + val.OnlyText;
             });
         },
 
@@ -991,6 +947,7 @@ temp.control = {
     },
 
     addemptyData: function(arr, n, pos) {
+        var base64Length = 'data:image/jpeg;base64,'.length;
         var position = pos;
         var clone = arr.slice(0);
         var data = {
@@ -1004,9 +961,9 @@ temp.control = {
             OnlyText: "",
         };
         for (var i = 0; i < n; i++) {
-            data.Base64Img = temp.DataWorkspace.images[position + 1].substring('data:image/jpeg;base64,'.length);
-            data.OnlyImages = temp.elementLeftBar.Templaite.OnlyImages[positions + 1].substring('data:image/jpeg;base64,'.length);
-            data.OnlyText = temp.elementLeftBar.Templaite.OnlyText[position + 1].substring('data:image/jpeg;base64,'.length);
+            data.Base64Img = temp.DataWorkspace.images[position + 1].substring(base64Length);
+            data.OnlyImages = temp.elementLeftBar.Templaite.OnlyImages[positions + 1].substring(base64Length);
+            data.OnlyText = temp.elementLeftBar.Templaite.OnlyText[position + 1].substring(base64Length);
             clone.push(data);
             position++;
         }
@@ -1387,7 +1344,6 @@ temp.Ajax = {
 $(document).ready(function() {
     temp.init.element();
     temp.init.eventHandler();
-
     temp.Ajax.sendRenderProccessUrl('', temp.render.templaite.success, temp.render.templaite.error);
     rightpref.Ajax.sendRenderDataTypeProccess();
     rightpref.Ajax.sendRenderAmountProccess();
@@ -1396,5 +1352,4 @@ $(document).ready(function() {
     rightpref.Ajax.sendRenderAlternateProccess();
     hx.ajax.getAllHeader(null);
     au.elements.init();
-
 });

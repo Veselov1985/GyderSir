@@ -3,7 +3,7 @@
     hx.data = {
         list: [],
         tableList: [],
-    }
+    };
 
     hx.elements = {};
     hx.init = function() {
@@ -214,7 +214,7 @@
                 if (val[0] == name) {
                     state = true;
                 }
-            })
+            });
             if (!state) hx.data.tableList.push([name]);
         },
         //////////////////////////////////////////////////////////////////
@@ -259,10 +259,10 @@
         },
         ///////////////////////////////////////////////////////////////////////
         setHeaderXmlSelected: function() {
-
+            var tr$ = hx.dataTable.set.object.find('tr');
             if (paint.objects.activrect.value == '' && !hx.handlears.test()) {
 
-                $.each(hx.dataTable.set.object.find('tr'), function(i, val) {
+                $.each(tr$, function(i, val) {
                     var $tr = $(this);
                     $tr.removeClass('selected');
                 });
@@ -270,7 +270,7 @@
                 hx.helpfunc.clearTextArea();
                 return;
             }
-            $.each(hx.dataTable.set.object.find('tr'), function(i, val) {
+            $.each(tr$, function(i, val) {
                 var $tr = $(this);
                 $tr.removeClass('selected');
                 if (paint.objects.activrect.value == $tr.find('td').text().trim() && hx.handlears.test()) {
@@ -287,7 +287,6 @@
         },
         setRegex: function() {
             hx.elements.hr_input.val(paint.objects.activrect.regex);
-
         },
         cleanMemoryPosition: function(rect, rectval) {
             paint.objects.disactiv = paint.objects.disactiv.map(function(val) {
@@ -342,9 +341,9 @@
             e.preventDefault();
             var $input = hx.helpfunc.getInput();
             var $textarea = hx.helpfunc.splitData(hx.helpfunc.getValTextArea());
-            $textarea = hx.helpfunc.deleteDubl($textarea).join(',') // delete Dublicate
+            $textarea = hx.helpfunc.deleteDubl($textarea).join(','); // delete Dublicate
             if ($input.trim() != '') {
-                hx.ajax.editNewHeader({ Name: $input, Data: $textarea })
+                hx.ajax.editNewHeader({ Name: $input, Data: $textarea });
             } else {
                 temp.helpfunc.modalInfo(['XML Header', 'Field must not be empty']);
             }
@@ -372,7 +371,6 @@
                 if (newKeyWord) { // send toSave in database
 
                     // maybe need check error or replace newKeyWord
-
                     var newDataTextarea = hx.helpfunc.deleteDubl((hx.helpfunc.splitData(hx.helpfunc.getValTextArea())).concat(newKeyWord.toLowerCase().trim()));
                     hx.helpfunc.clearTextArea();
                     hx.helpfunc.setTextArea(newDataTextarea.join(","));
@@ -428,11 +426,7 @@
             }
         });
 
-
-
         // position block
-
-
         hx.elements.hp_edit.on('click', function(e) {
             e.preventDefault();
             var data = hx.helpfunc.input.get(hx.elements.hp_input);
@@ -455,7 +449,6 @@
             paint.objects.activrect.position = [];
             hp.handlears.cleanMemoryPosition(paint.objects.activrect, []);
             temp.helpfunc.modalInfo(['Position Header', 'Clean']);
-
         });
 
         // block regex
@@ -585,7 +578,7 @@
                     if ($tr.find('td').text().trim() == datas.Name) {
                         $tr.addClass('selected');
                     }
-                })
+                });
                 hx.helpfunc.setLabel(datas.Name);
                 hx.helpfunc.setTextArea(datas.Data);
                 if (temp.DataWorkspace.images.length > 0) hx.handlears.setchangeselectdatatype();
@@ -601,7 +594,7 @@
         editNewHeaderError: function(data) {
             console.log(data);
         },
-    }
+    };
 
     hx.init();
     hx.action();

@@ -16,7 +16,7 @@ ph.data = { //1-all,2-first,3-last
         UnitPrices: 1,
         VatAmounts: 3,
     },
-    default:{
+    default: {
         Vats: 1,
         Ibans: 1,
         ExcludingTaxesAmounts: 3,
@@ -29,8 +29,6 @@ ph.data = { //1-all,2-first,3-last
         UnitPrices: 1,
         VatAmounts: 3,
     },
-    
-
 };
 
 ph.helpfunc = {
@@ -67,37 +65,30 @@ ph.helpfunc = {
     optionValSelected: function(val) {
         ph.helpfunc.removeselected();
         ph.helpfunc.addselected(ph.elements.ph_select.find('option[value="' + val + '"]'));
-
     },
 };
 
 ph.handlers = {
-    reverseToServer:function(){
-      var res=[];
-        for (key in ph.data.object) {
-          res.push(
-                {
-                  Name:key,
-                  Data:ph.data.object[key]
-                }
-            );
-          }
+    reverseToServer: function() {
+        var res = [];
+        for (var key in ph.data.object) {
+            res.push({
+                Name: key,
+                Data: ph.data.object[key]
+            });
+        }
         return res;
     },
-    reverseToFront:function(dataArr){
+    reverseToFront: function(dataArr) {
         dataArr.forEach(function(el) {
-            ph.data.object[el.Name]=el.Data;
+            ph.data.object[el.Name] = el.Data;
         });
-
     },
-
 };
-
 
 ph.init = function() {
     ph.elements.ph_container = $('#ph_container');
     ph.elements.ph_select = $('#ph_select');
-
     ph.elements.ph_container.on('change', function(e) {
         var textTDSelected = ph.helpfunc.getSelectTD();
         if (textTDSelected != '' && ph.data.object[textTDSelected]) {
@@ -107,13 +98,7 @@ ph.init = function() {
             ph.helpfunc.addselected(option);
             ph.data.object[textTDSelected] = +valpage;
         }
-
-
     });
-
-
-
-
 };
 
 ph.init();

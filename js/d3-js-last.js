@@ -168,7 +168,6 @@ paint.zoom.handlers = {
             width: Math.abs(paint.objects.activrect.rectData[1].x - paint.objects.activrect.rectData[0].x),
             height: Math.abs(paint.objects.activrect.rectData[1].y - paint.objects.activrect.rectData[0].y)
         });
-
         paint.objects.point1 = d3.select(paint.objects.activrect.pointElement1[0][0]).data(paint.objects.activrect.rectData);
         paint.objects.point1.attr('r', 3)
             .attr('cx', paint.objects.activrect.rectData[0].x)
@@ -186,6 +185,7 @@ paint.zoom.handlers = {
             .attr('cx', paint.objects.activrect.rectData[0].x)
             .attr('cy', paint.objects.activrect.rectData[1].y);
     },
+
     createzoomsvg: function() {
         paint.zoom.global.svg = d3.select('#pdfWindow').append('svg').attr('width', paint.zoom.data.widthheight[0]).attr('height', paint.zoom.data.widthheight[1]).call(d3.behavior.zoom().scaleExtent([1, 10]).on("zoom", paint.zoom.handlers.zoomed));
         var g = paint.zoom.global.svg.append("g");
@@ -194,22 +194,21 @@ paint.zoom.handlers = {
             .style("fill", "none")
             .style("pointer-events", "all");
         paint.zoom.global.container = g.append('g');
-
         paint.zoom.global.img = $('#dynamicImg').clone();
-
         $('#dynamicImg').remove();
         paint.zoom.elements.pdfWindow.width(paint.zoom.data.widthheight[0]).height(paint.zoom.data.widthheight[1]);
     },
+
     addfild: function() {
         paint.zoom.handlers.creatDataPaint();
         paint.zoom.handlers.createNewRecData();
     },
+
     backtopaint: function() {
         if (paint.zoom.global.state) {
             paint.zoom.handlers.swithstate();
             paint.zoom.elements.info_zoom.val('100%');
             paint.objects.datafromserver.arrdata = paint.objects.global.disactivpage[temp.DataWorkspace.activpage];
-
             paint.zoom.handlers.removesvg();
             paint.zoom.global.img.appendTo($('#pdfWindow'));
             paint.objects.disactiv = [];
@@ -278,11 +277,8 @@ paint.handlers = {
         paint.objects.disactiv = [];
         // new templaite create
         if (!paint.objects.datafromserver.arrdata) return;
-
         if (paint.objects.datafromserver.arrdata.length != 0) {
-
             if (!Array.isArray(paint.objects.datafromserver.arrdata)) {
-
                 for (var type in paint.objects.datafromserver.arrdata) {
                     //  if (type != 'CustomData' && type != 'Base64Img') {};
                     if (paint.objects.datafromserver.arrdata[type] == null) continue;
@@ -333,7 +329,6 @@ paint.handlers = {
                                 }
                             });
                         }
-
                     } else if (type == 'TableDatas') {
                         // render dataTable from the server 
                         paint.objects.datafromserver.arrdata[type].forEach(function(val, i) {
@@ -358,7 +353,6 @@ paint.handlers = {
                                     rightbar.dataTable.emmitchangerect($.extend({}, paint.objects.activrect));
                                     hp.handlears.setPosition();
                                     hp.handlears.setRegex();
-
                                 }
                             }
                         });
@@ -425,9 +419,7 @@ paint.handlers = {
             width: Math.abs(paint.objects.activrect.rectData[1].x - paint.objects.activrect.rectData[0].x),
             height: Math.abs(paint.objects.activrect.rectData[1].y - paint.objects.activrect.rectData[0].y)
         });
-
         var radius = 4; // settings radius all point
-
         paint.objects.point1 = d3.select(paint.objects.activrect.pointElement1[0][0]).data(paint.objects.activrect.rectData);
         paint.objects.point1.attr('r', radius)
             .attr('cx', paint.objects.activrect.rectData[0].x)
@@ -643,9 +635,6 @@ paint.handlers = {
                         hp.handlears.setPosition();
                         hp.handlears.setRegex();
                         if (paint.objects.activrect.type != "") rightbar.handlers.showoptiondataType(paint.objects.activrect.type);
-
-
-
                     }
                     // check if rectangle
                     if ($node == 'rect' && !paint.handlers.compare()) {
@@ -691,10 +680,7 @@ paint.handlers = {
                 au.data.state = false;
                 if (paint.statefix.mousedown) return;
                 if (paint.objects.global.keyDelevent) return;
-
                 paint.objects.global.mousedown = false;
-
-
                 if (!paint.objects.global.nopush) {
                     var newobj = $.extend({}, paint.objects.activrect);
                     // newobj.isActive = true;
@@ -745,16 +731,8 @@ paint.handlers = {
                     paint.objects.global.mousedown = false;
                 }
                 paint.statefix.mousedown = false;
-                /*
-                            $('svg').on('mousemove', function(e) {
-                                var offset = $(this).offset();
-                                var relativeX = (e.pageX - offset.left);
-                                var relativeY = (e.pageY - offset.top);
-                                console.log('$', [relativeX, relativeY]);
-                            });
-                             */
-            });
 
+            });
     }
 };
 

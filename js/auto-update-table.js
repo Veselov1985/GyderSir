@@ -23,9 +23,9 @@ au.data = {
         pointElement2: [],
         pointElement3: [],
         pointElement4: [],
-        regex:'',
-        position:[],
-        reserve:'',
+        regex: '',
+        position: [],
+        reserve: '',
         isDrag: false,
         isActive: false,
         isDrawing: false,
@@ -180,8 +180,8 @@ au.helpfunc = {
             }
         });
         return header;
-
     },
+
     lookAroundZeroString: function(lengZero) {
         var findLineArr;
         var Down = au.helpfunc.lookDown();
@@ -242,7 +242,6 @@ au.helpfunc = {
             }
         });
         if (res.length != 0) {
-
             res = au.helpfunc.getMaxinValue(res);
             return [true, res];
         } else {
@@ -320,25 +319,19 @@ au.handlers = {
             // var zero => Header
             header = zero; // [array header included active rectangle]
             table = UpDown.splice(1); // [rect ander header,arrline collumns]
-
             //
-
             if (au.helpfunc.checkIntersectionRect(au.helpfunc.filterInTableActiveRect(header).concat(au.helpfunc.filterInmultiArr(table[0], table[1])))) return; // if rect intersections
-
-
             au.helpfunc.TableRooles(e, w, header, table);
         } else { // Table Collumns click => Change Header
             // var zero => Table Line
             // var UpDown => THeder Line
             header = UpDown.splice(1);
             table = zero; // included activerectangle
-
             if (au.helpfunc.checkIntersectionRect(au.helpfunc.filterInTableActiveRect(table).concat(au.helpfunc.filterInmultiArr(header[0], header[1])))) return; // if rect intersections
             au.helpfunc.HeaderRooles(e, w, header, table);
         }
     },
 };
-
 
 au.init = {
     recognizeAuto: function(event, whatdo) {

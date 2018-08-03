@@ -32,14 +32,14 @@ applymodal.handlers = {
             var i = temp.elementLeftBar.dataTable.object.find('i');
             i.each(function() {
                 var $that = $(this);
+                var parent$2 = $that.parent().parent();
                 if ($that.attr('class').trim() == temp.img.activ) {
-                    $that.parent().parent().addClass('selected');
+                    parent$2.addClass('selected');
                 } else {
-                    $that.parent().parent().removeClass('selected');
+                    parent$2.removeClass('selected');
                 }
             });
         }
-        
         applymodal.elements.window.find('button').each(function() {
             $(this).attr('hidden', true);
         });

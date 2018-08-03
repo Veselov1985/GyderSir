@@ -21,7 +21,6 @@ multidel.handlers = {
             var compare = true;
             arrChildrenRect.forEach(function(elChild) {
                 if (elChild.id == val.id) compare = false;
-
             });
             return compare;
         });

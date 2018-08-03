@@ -18,9 +18,7 @@ rightbaraction.Ajax = {
             },
             beforeSend: function() {
                 load.handlers.showLoader(load.elements.load_btn_del_datatype, load.elements.boss_btn_del_datatype);
-
             },
-
             complete: function() {
                 load.handlers.hideLoader(load.elements.load_btn_del_datatype, load.elements.boss_btn_del_datatype);
             }
@@ -69,7 +67,6 @@ rightbaraction.Ajax = {
                 rightbaraction.handlers.sendAddAmounterror(jqXHR);
             },
             beforeSend: function() {},
-
             complete: function() {}
         });
     },
@@ -90,7 +87,6 @@ rightbaraction.Ajax = {
                 rightbaraction.handlers.sendAddDateerror(jqXHR);
             },
             beforeSend: function() {},
-
             complete: function() {}
         });
     },
@@ -136,13 +132,13 @@ rightbaraction.Ajax = {
         });
     },
 
-    sendDeletePref:function(url,datas,done,error){
+    sendDeletePref: function(url, datas, done, error) {
         $.ajax({
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            url:url,
+            url: url,
             type: "POST",
             data: JSON.stringify(datas),
             dataType: 'json',
@@ -150,7 +146,7 @@ rightbaraction.Ajax = {
                 done(data);
             },
             error: function(jqXHR, textStatus, errorThrown) {
-               error(jqXHR);
+                error(jqXHR);
             },
             beforeSend: function() {},
             complete: function() {}
@@ -259,42 +255,42 @@ rightbaraction.handlers = {
         rightbar.handlers.togleshowelem(bodyselect);
         rightbar.handlers.togleshowelem($e_curr.parent().prev());
     },
-     DeleteOptionPref:function(selectEl,Pk){
-     selectEl.find('option').each(function(i,val){
-     if(Pk==val.value)  $(this).remove();
-     })
+    DeleteOptionPref: function(selectEl, Pk) {
+        selectEl.find('option').each(function(i, val) {
+            if (Pk == val.value) $(this).remove();
+        })
     },
-    clearListMemory:function(list,Pk){
-        list=list.filter(function(val){
-         return val.Pk!=Pk;
+    clearListMemory: function(list, Pk) {
+        list = list.filter(function(val) {
+            return val.Pk != Pk;
         })
         return list;
     },
-    initselectedFirst:function(select){
-        select.find('option:first').attr('selected',true);
+    initselectedFirst: function(select) {
+        select.find('option:first').attr('selected', true);
     },
-    sendDeleteAmountsuccess:function(data){
-        rightbaraction.handlers.DeleteOptionPref(rightbar.elements.selAmount,data)
-        rightbar.data.global.amount= rightbaraction.handlers.clearListMemory(rightbar.data.global.amount,data)
+    sendDeleteAmountsuccess: function(data) {
+        rightbaraction.handlers.DeleteOptionPref(rightbar.elements.selAmount, data)
+        rightbar.data.global.amount = rightbaraction.handlers.clearListMemory(rightbar.data.global.amount, data)
         rightbaraction.handlers.initselectedFirst(rightbar.elements.selAmount);
     },
-    sendDeleteAmounterror:function(error){console.log(error)},
-    sendDeleteDatesuccess:function(data){
-        rightbaraction.handlers.DeleteOptionPref(rightbar.elements.selDate,data)
-        rightbar.data.global.date=rightbaraction.handlers.clearListMemory(rightbar.data.global.date,data )
+    sendDeleteAmounterror: function(error) { console.log(error) },
+    sendDeleteDatesuccess: function(data) {
+        rightbaraction.handlers.DeleteOptionPref(rightbar.elements.selDate, data)
+        rightbar.data.global.date = rightbaraction.handlers.clearListMemory(rightbar.data.global.date, data)
         rightbaraction.handlers.initselectedFirst(rightbar.elements.selDate);
     },
-    sendDeleteDateerror:function(error){console.log(error)},
-    sendDeleteRegexsuccess:function(data){
-        rightbaraction.handlers.DeleteOptionPref(rightbar.elements.selReg,data)
-        rightbar.data.global.regex= rightbaraction.handlers.clearListMemory(rightbar.data.global.regex ,data)
+    sendDeleteDateerror: function(error) { console.log(error) },
+    sendDeleteRegexsuccess: function(data) {
+        rightbaraction.handlers.DeleteOptionPref(rightbar.elements.selReg, data)
+        rightbar.data.global.regex = rightbaraction.handlers.clearListMemory(rightbar.data.global.regex, data)
         rightbaraction.handlers.initselectedFirst(rightbar.elements.selReg);
     },
-    sendDeleteRegexerror:function(error){console.log(error)},
-    sendDeleteAlternatesuccess:function(data){
-        rightbaraction.handlers.DeleteOptionPref(rightbar.elements.selalternate,data)
-        rightbar.data.global.alternate=rightbaraction.handlers.clearListMemory(rightbar.data.global.alternate,data)
+    sendDeleteRegexerror: function(error) { console.log(error) },
+    sendDeleteAlternatesuccess: function(data) {
+        rightbaraction.handlers.DeleteOptionPref(rightbar.elements.selalternate, data)
+        rightbar.data.global.alternate = rightbaraction.handlers.clearListMemory(rightbar.data.global.alternate, data)
         rightbaraction.handlers.initselectedFirst(rightbar.elements.selalternate);
     },
-    sendDeleteAlternateerror:function(error){console.log(error)},
+    sendDeleteAlternateerror: function(error) { console.log(error) },
 };

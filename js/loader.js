@@ -26,13 +26,9 @@ load.init = function() {
     load.elements.load_btn_add_datatype = $('.load_btn_add_datatype');
     load.elements.load_btn_del_datatype = $('.load_btn_del_datatype');
     load.elements.load_btn_test = $('.load_btn_test');
-
     load.elements.btn_save_datatype = $('.load_btn_save_datatype');
-
     //loaderworkSpase
     load.elements.loaderworkSpase = $('.loaderworkSpase');
-
-
     //bosselem
     load.elements.boss_btn_del = $('.boss_btn_del');
     load.elements.boss_btn_load_temp = $('.boss_btn_load_temp');
@@ -41,9 +37,7 @@ load.init = function() {
     load.elements.boss_btn_add_datatype = $('.boss_btn_add_datatype');
     load.elements.boss_btn_del_datatype = $('.boss_btn_del_datatype');
     load.elements.boss_btn_test = $('.boss_btn_test');
-
     load.elements.boss_btn_save_datatype = $('.btn_save_datatype');
-
 };
 load.init();
 //loader button dell  block action

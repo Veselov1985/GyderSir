@@ -118,7 +118,6 @@ kw.handlers = {
     },
     setTab: function() {
         if (kw.state) { // edit KW on 
-
             kw.handlers.KwToggle();
             kw.state = !kw.state;
         }
