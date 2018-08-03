@@ -626,6 +626,7 @@ paint.handlers = {
                             }
                         });
                         paint.handlers.activRect();
+                        led.action.ledRect(); // check led
                         hx.handlears.setHeaderXmlSelected(); //  set Header Xml hx.js
                         paint.objects.activrect.isActive = true;
                         paint.objects.activrect.isDrag = true;
@@ -654,6 +655,7 @@ paint.handlers = {
                         paint.handlers.disactivRect();
                         paint.handlers.swithactivRect();
                         paint.handlers.activRect();
+                        led.action.ledRect(); // check led MainHeader
                         hx.handlears.setHeaderXmlSelected(); //  set Header Xml hx.js
                         paint.objects.activrect.isActive = true;
                         paint.objects.activrect.isDrag = true;

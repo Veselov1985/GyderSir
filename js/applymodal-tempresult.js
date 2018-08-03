@@ -14,7 +14,7 @@ applymodal_tempresult.init = function() {
 
     applymodal_tempresult.elements.applymodal_tempresult.on('shown.bs.modal', function() {
         applymodal_tempresult.elements.applymodal_tempresult_input.focus();
-        applymodal_tempresult.elements.applymodal_tempresult_input[0].selectionEnd=0;
+        applymodal_tempresult.elements.applymodal_tempresult_input[0].selectionEnd = 0;
 
     });
     // esc fix
@@ -62,8 +62,8 @@ applymodal_tempresult.handlers = {
 
 applymodal_tempresult.init();
 applymodal_tempresult.elements.apply_tempresult_save_result.on('click', function() {
-    var FileName = applymodal_tempresult.elements.applymodal_tempresult_input.val()+ '.xml';
-    var filecontent =zaglyshka.data.xmlOutput;    // test.elements.textarea.text().replace(/\r|\n+/g, ''); //  xml = xml.replace(/\r|\n/g, ''); 
+    var FileName = applymodal_tempresult.elements.applymodal_tempresult_input.val() + '.xml';
+    var filecontent = zaglyshka.data.xmlOutput; // test.elements.textarea.text().replace(/\r|\n+/g, ''); //  xml = xml.replace(/\r|\n/g, ''); 
     var saveData = (function() {
         window.URL = window.URL || window.webkitURL;
         var a = document.createElement("a");
@@ -71,8 +71,8 @@ applymodal_tempresult.elements.apply_tempresult_save_result.on('click', function
         a.style = "display:none";
         return function(data, fileName) {
             var json = filecontent,
-                blob = new Blob([json], {type:"text/xml"});
-                url = window.URL.createObjectURL(blob);
+                blob = new Blob([json], { type: "text/xml" });
+            url = window.URL.createObjectURL(blob);
             a.href = url;
             a.download = fileName;
             a.click();
@@ -82,4 +82,4 @@ applymodal_tempresult.elements.apply_tempresult_save_result.on('click', function
     saveData(filecontent, FileName);
     applymodal_tempresult.elements.applymodal_tempresult_input.val(applymodal_tempresult.handlers.getdate());
     applymodal_tempresult.handlers.close();
-})
+});

@@ -193,10 +193,11 @@ temp.elementLeftBar = {
 
             // togle templaite state
 
-            applymodal.elements.apply_togle_state.on('click', function() {
+            applymodal.elements.apply_togle_state.off('click').on('click', function() {
                 applymodal.handlers.close();
                 if (temp.elementLeftBar.Templaite.state == 'temp') { // choise templite
                     temp.helpfunc.changeTempNotSaving();
+                    led.action.ledOff();
 
                 }
                 if (temp.elementLeftBar.Templaite.state == 'load') {
@@ -207,6 +208,7 @@ temp.elementLeftBar = {
                 if (temp.elementLeftBar.Templaite.state == 'newtemp') { /// create new
 
                     temp.helpfunc.changeTempNotCreate();
+                    led.action.ledOff();
                 }
                 temp.elementLeftBar.Templaite.state = '';
             });
@@ -301,7 +303,7 @@ temp.elementLeftBar = {
         },
 
         deleteTemp: function(select) {
-
+            led.action.ledOff();
             var $selected = temp.elementLeftBar.dataTable.object.find('.selected');
             if ($selected.length != 0) {
                 if ($selected['0'].children[0].innerHTML != 'Create new Template') {
@@ -1056,12 +1058,13 @@ temp.init = {
         temp.elementLeftBar.object.btn_load_temp.click(function(e) {
             temp.elementLeftBar.Templaite.e = e;
             temp.elementLeftBar.Templaite.state = 'load';
-            if (temp.DataWorkspace.images.length > 0 && temp.elementLeftBar.Templaite.Pk == '') {
+            if (temp.DataWorkspace.images.length > 0 && temp.elementLeftBar.Templaite.Pk == temp.zeroGuid) {
                 applymodal.handlers.show('Close Templaite without saving', 8);
             } else {
                 temp.helpfunc.changeTempNotLoad();
+                temp.elementLeftBar.Templaite.state = "";
             }
-            temp.elementLeftBar.Templaite.state = "";
+
         });
 
         // filter_btn
@@ -1144,7 +1147,7 @@ temp.init = {
                 temp.helpfunc.modalInfo(['Info', 'Please download .pdf file']);
                 return;
             } // if pdf file not load 
-
+            led.action.ledOff(); // off led MainHeader
             // clear global state
             temp.helpfunc.cleanImg();
             temp.helpfunc.clearglobalstate();

@@ -139,8 +139,8 @@
      emmitchangerect: function(activ) {
          rightbar.data.global.activrect = activ;
          rightbar.dataTable.checkdatatype();
-
      },
+
      checkdatatype: function() {
          if (rightbar.data.global.activrect.type.length == 0 && rightbar.dataTable.set.dt.$('tr.selected').length > 0) {
              rightbar.dataTable.set.dt.$('tr.selected').removeClass('selected');
@@ -206,8 +206,9 @@
             }
             */
          var select = $e_curr.parent().parent().find('select');
+         var parent$2 = $e_curr.parent().parent();
          if (!select.is(':hidden')) {
-             var input = $e_curr.parent().parent().find('input:not([type="checkbox"])');
+             var input = parent$2.find('input:not([type="checkbox"])');
              if (input.length > 0) {
                  var $newhtml = input;
                  var $old = select;
@@ -223,8 +224,8 @@
              // $('#_' + $oldId).focus();
              $newhtml.focus();
          } else {
-             var selectfield = $e_curr.parent().parent().find('select');
-             var inputfield = $e_curr.parent().parent().find('input:not([type="checkbox"])');
+             var selectfield = parent$2.find('select');
+             var inputfield = parent$2.find('input:not([type="checkbox"])');
              var addselectcont = inputfield.val(); // input field
              if (addselectcont == '') {
                  inputfield.focus();
@@ -313,7 +314,8 @@
      },
 
      finddeleterowDatatype: function() {
-         return rightbar.dataTable.change.object.find('.selected').length > 0 ? rightbar.dataTable.change.object.find('.selected').text() : false;
+         var selected = rightbar.dataTable.change.object.find('.selected');
+         return selected.length > 0 ? selected.text() : false;
      },
 
      deletedatatype: function() {
@@ -332,9 +334,10 @@
 
      initsettabstate: function() {
          rightbar.data.global.checkboxList.forEach(function(val, i) {
+             var parent$3 = val.parent().parent().parent();
              val.prop('checked', false);
-             var inp = val.parent().parent().parent().find('input:not([type="checkbox"])');
-             var sel = val.parent().parent().parent().find('select');
+             var inp = parent$3.find('input:not([type="checkbox"])');
+             var sel = parent$3.find('select');
              sel.attr('disabled', true);
              sel.attr('hidden', false);
              inp.attr('hidden', true);
@@ -352,10 +355,11 @@
                      res.push('Text');
                      res.push('');
                  } else {
+                     var parent$3 = val.parent().parent().parent();
                      res[0] = true;
                      res.push(rightbar.elements.input_new_typedata.val()); //name datatype
-                     res.push(val.parent().parent().parent().prev().text().trim()); // pref name
-                     res.push(val.parent().parent().parent().find('select').find('option:selected').text()); // pref value
+                     res.push(parent$3.prev().text().trim()); // pref name
+                     res.push(parent$3.find('select').find('option:selected').text()); // pref value
                  }
 
              }
@@ -552,8 +556,8 @@
          rightbar.elements.tabSaveNameData.attr("hidden", true);
          rightbar.elements.dataTypeList1.attr("hidden", false);
          rightbar.elements.savdelData.attr("hidden", false);
-
      },
+
      clearstatePref: function() {
          var checkbox = rightbar.data.global.checkboxList;
          var select = rightbar.elements.wrapfieldContent.find('select');
@@ -583,7 +587,6 @@
      rightbar.dataTable.clean(rightbar.dataTable.change.object);
      rightbar.dataTable.init(rightbar.dataTable.set, rightbar.zag.dataTable);
      rightbar.dataTable.init(rightbar.dataTable.change, rightbar.zag.dataTable);
-
 
      rightbar.data.global.checkboxList = [rightbar.elements.checkAmount,
          rightbar.elements.checkDate,
@@ -653,6 +656,7 @@
 
      rightbar.dataTable.set.object.on('click', 'tr', function(e) {
          var $that = $(this);
+         var text$ = $that.addClass('selected').find('td').text();
 
          if ($that.hasClass('selected')) {
              $that.removeClass('selected');
@@ -662,12 +666,12 @@
          if (!rightbar.handlers.checktypeinactivrect()) {
              rightbar.handlers.clearstatePref();
              rightbar.handlers.cleanoptiondataType();
-             rightbar.handlers.showoptiondataType($that.addClass('selected').find('td').text());
+             rightbar.handlers.showoptiondataType(text$);
          } else {
-             rightbar.handlers.findrectofdatatype($that.addClass('selected').find('td').text());
+             rightbar.handlers.findrectofdatatype(text$);
              rightbar.handlers.clearstatePref();
              rightbar.handlers.cleanoptiondataType();
-             rightbar.handlers.showoptiondataType($that.addClass('selected').find('td').text());
+             rightbar.handlers.showoptiondataType(text$);
          }
          rightbar.handlers.emmitsetchangetab($that.find('td').text(), $that);
          ph.helpfunc.setSelectedChoiseFromClickTable($that);
@@ -688,6 +692,7 @@
 
      rightbar.dataTable.change.object.on('click', 'tr', function(e) {
          var $that = $(this);
+         var text$ = $that.addClass('selected').find('td').text();
 
          if ($that.hasClass('selected')) {
              $that.removeClass('selected');
@@ -696,12 +701,12 @@
          if (!rightbar.handlers.checktypeinactivrect()) {
              rightbar.handlers.clearstatePref();
              rightbar.handlers.cleanoptiondataType();
-             rightbar.handlers.showoptiondataType($that.addClass('selected').find('td').text());
+             rightbar.handlers.showoptiondataType(text$);
          } else {
-             rightbar.handlers.findrectofdatatype($that.addClass('selected').find('td').text());
+             rightbar.handlers.findrectofdatatype(text$);
              rightbar.handlers.clearstatePref();
              rightbar.handlers.cleanoptiondataType();
-             rightbar.handlers.showoptiondataType($that.addClass('selected').find('td').text());
+             rightbar.handlers.showoptiondataType(text$);
          }
 
          //KW block 
@@ -731,20 +736,12 @@
          var selected = rightbar.dataTable.set.dt.$('tr.selected');
          if (selected.length == 0) return;
          var DataTypeName = selected.find('td').text();
-         //  if (DataTypeName == 'MainHeader') { // mainHeader clear prew
-         //      paint.objects.disactiv.forEach(function(val, i) {
-         //          if (val.type == 'MainHeader') {
-         //              paint.objects.disactiv[i].type = 'TableDatas';
-         //          }
-         //      });
-         //  }
          paint.objects.activrect.type = DataTypeName;
          rightbar.data.global.dataType.forEach(function(val) {
              if (val.DataType == paint.objects.activrect.type) {
                  paint.objects.activrect.Pk = val.Pk;
              }
          });
-
          paint.objects.disactiv.forEach(function(val, i) {
              if (val.id == paint.objects.activrect.id) {
                  val.type = paint.objects.activrect.type;
@@ -755,7 +752,6 @@
      });
 
      // btn dell datatype tabs change=>open modal
-
 
      rightbar.elements.btn_del_type.on('click', function(e) {
          var selected = rightbar.dataTable.change.dt.$('tr.selected').find('td').text();
@@ -788,7 +784,6 @@
      applymodal.elements.apply_del_typedata.on('click', function() {
          rightbar.handlers.deletedatatype();
          applymodal.handlers.close();
-
      });
 
      //-----------------------------------------------------------------------------
@@ -829,24 +824,16 @@
          if (rightbar.elements.input_new_typedata.val() != '' && rightbar.handlers.findactivcheckbox()[0]) {
              e.preventDefault();
              applymodal.handlers.show('Save type ' + rightbar.elements.input_new_typedata.val(), 6);
-
          }
-
      });
-
 
      // add new typedata
 
      applymodal.elements.apply_save_typedata.on('click', function() {
-
          //rightbar.handlers.findactivcheckbox();
-
          rightbar.handlers.addnewdatatype();
-
          rightbar.handlers.toggleinputfield();
-
          applymodal.handlers.close();
-
      });
      //-----------------------------------------------------------------------------------------
 
@@ -855,7 +842,6 @@
      rightbar.elements.btn_cancel_datatype.on('click', function() {
 
          rightbar.handlers.toggleinputfield();
-
      });
 
      //--------------------------------------------------------------------------------------------
@@ -872,23 +858,19 @@
              rightbar.handlers.clearinputfield();
              rightbar.elements.fieldPref.find('.checkdat').removeClass('checkdat');
              rightbar.data.global.checkboxList.forEach(function(val, i) {
+                 var select$ = val.parent().parent().parent().find('select');
                  if (val.attr('id') != $that.attr('id')) {
                      val.prop('checked', false);
-                     if (val.attr('id') != 'checkText') val.parent().parent().parent().find('select').attr('disabled', true);
+                     if (val.attr('id') != 'checkText') select$.attr('disabled', true);
                  } else {
-                     if (val.attr('id') != 'checkText') val.parent().parent().parent().find('select').attr('disabled', false);
+                     if (val.attr('id') != 'checkText') select$.attr('disabled', false);
                      val.prop('checked', true);
                  }
-
              });
-
          });
-
      });
 
-
      // MainHeader Add in rectangle 
-
      rightbar.elements.main_btn.on('click', function(e) {
          e.preventDefault();
          if (temp.DataWorkspace.images.length == 0) return;
@@ -910,11 +892,9 @@
                  val.Pk = paint.objects.activrect.Pk;
              }
          });
-         temp.helpfunc.modalInfo(['Info', 'MainHeader add in rectangle']);
-
+         led.action.ledOn(); // led on if MainHeader add in Rectangle
+         temp.helpfunc.modalInfo(['MainHeader add in rectangle', '']);
      });
-
-
 
      rightbar.elements.deleteAmount.on('click', function() {
          if (rightbar.elements.selAmount.attr('hidden') != 'hidden' && rightbar.elements.selAmount.attr('disabled') != 'disabled') {
@@ -941,30 +921,7 @@
              rightbaraction.Ajax.sendDeletePref(temp.routes.sendDeleteAlternateUrl, { Pk: Pkdelete }, rightbaraction.handlers.sendDeleteAlternatesuccess, rightbaraction.handlers.sendDeleteAlternateerror);
          }
      });
-
-
-
-
-
-     /*
-         $('#optionwiev').on('change', function(e) {
-             console.log(($(this.options[this.selectedIndex])));
-         })
-         $('select').each(function() {
-             $(this).on('change', function() {
-                 var newactiv = $(this.options[this.selectedIndex]);
-                 var oldactiv = $(this).find('option:selected');
-                 console.log(newactiv);
-                 console.log(oldactiv);
-                 console.log($("#optionwiev option:selected").text());
-             })
-         })
-
-
-     */
  };
-
-
 
  rightbar.init();
  rightbar.initdoo();
