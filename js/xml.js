@@ -80,9 +80,7 @@ xml.handlers = {
                     str += '<Line>';
                     v.Columns.forEach(function(d, k) {
                         var HeaderTag = xml.handlers.deleteSpase(d.Header).replace(/\s/g, '_');
-
                         var $text = xml.handlers.newLineText(d.Data); // replace '↵' to => ';'
-
                         HeaderTag = (HeaderTag == "") ? xml.handlers.emtyHeader() : HeaderTag;
                         HeaderTag = xml.handlers.remomeXMLEror(HeaderTag);
                         $text = xml.handlers.removeStringError($text);
