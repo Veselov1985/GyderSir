@@ -10,7 +10,6 @@ temp.routes = {
     sendRenderDataProccessUrl: temp.root + 'api/datatypes/getdatanotations',
     sendRenderRegexProccessUrl: temp.root + 'api/datatypes/getregexs',
     sendRenderAlternateProccessUrl: temp.root + 'api/datatypes/getalternates',
-
     // block rightbar // save del DataType
     sendDeleteDataTypeProccessUrl: temp.root + 'api/datatypes/deletedatatype',
     sendSaveDataTypeProccessUrl: temp.root + 'api/datatypes/savedatatype',
@@ -422,7 +421,6 @@ temp.helpfunc = {
         });
         paint.init();
         temp.elementLeftBar.Templaite.state = '';
-
     },
     arrayClone: function(arr) {
         var i, copy;
