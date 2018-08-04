@@ -445,9 +445,9 @@
         hx.elements.hp_delete.on('click', function(e) {
             e.preventDefault();
             if (temp.DataWorkspace.images.length < 1) return;
-            hx.helpfunc.input.set(hx.elements.hp_input, '');
-            paint.objects.activrect.position = [];
-            hp.handlears.cleanMemoryPosition(paint.objects.activrect, []);
+            hx.helpfunc.input.set(hx.elements.hp_input, '0');
+            paint.objects.activrect.position = [0];
+            hp.handlears.cleanMemoryPosition(paint.objects.activrect, [0]);
             temp.helpfunc.modalInfo(['Position Header', 'Clean']);
         });
 

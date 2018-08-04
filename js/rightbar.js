@@ -1,5 +1,4 @@
  var rightbar = {};
-
  rightbar.zag = {
      dataTable: [
          ["Vats"],
@@ -17,7 +16,6 @@
          ['VatAmounts'],
      ],
  };
-
  rightbar.data = {
      global: {
          checkboxList: [],
@@ -43,9 +41,7 @@
          alternate: []
      },
  };
-
  rightbar.elements = {};
-
  rightbar.init = function() {
      // container #fieldPref
      rightbar.elements.fieldPref = $('#fieldPref');
@@ -142,9 +138,10 @@
      },
 
      checkdatatype: function() {
-         if (rightbar.data.global.activrect.type.length == 0 && rightbar.dataTable.set.dt.$('tr.selected').length > 0) {
-             rightbar.dataTable.set.dt.$('tr.selected').removeClass('selected');
-         } else {}
+         var trSelected$ = rightbar.dataTable.set.dt.$('tr.selected');
+         if (rightbar.data.global.activrect.type.length == 0 && trSelected$.length > 0) {
+             trSelected$.removeClass('selected');
+         }
      }
  };
 
@@ -200,11 +197,6 @@
      addnewpref: function(e) {
          e.preventDefault();
          var $e_curr = $(e.currentTarget);
-         /*   if ($e_curr.parent().prev().is(':hidden')) {
-
-                return;
-            }
-            */
          var select = $e_curr.parent().parent().find('select');
          var parent$2 = $e_curr.parent().parent();
          if (!select.is(':hidden')) {
@@ -266,10 +258,11 @@
      },
      findrectofdatatype: function(nameDataType) {
          paint.objects.disactiv.forEach(function(val, i) {
+             var elem$ = $(val.rectangleElement[0][0]);
              if (val.type.toLowerCase().trim() == nameDataType.toLowerCase().trim()) {
-                 $(val.rectangleElement[0][0]).attr('class', 'datacheck');
+                 elem$.attr('class', 'datacheck');
              } else {
-                 $(val.rectangleElement[0][0]).attr('class', 'rectdis');
+                 elem$.attr('class', 'rectdis');
              }
              $(paint.objects.activrect.rectangleElement[0][0]).attr('class', 'rectangle');
          });
@@ -436,17 +429,13 @@
              text == 'VatAmounts' ||
              text == 'InvoiceNumbers'
          ) return;
-
          rightbar.data.global.dataType.forEach(function(val) {
-
              if (val.DataType == text) {
                  rightbar.handlers.colorsetdataType(rightbar.handlers.findfieldelement(val));
              }
          });
-
      },
      findfieldelement: function(val) {
-
          for (var key in val) {
              if (key != 'DataType' && key != 'Pk')
                  var find = key;
@@ -483,7 +472,6 @@
      },
 
      findactivoption: function(elem, text) {
-
          elem.find('option').each(function(val) {
              var $that = $(this);
              $that.prop('selected', false);
@@ -526,7 +514,6 @@
          var $that = $this;
          var settr = rightbar.dataTable.set.object.find('tr');
          var changetr = rightbar.dataTable.change.object.find('tr');
-
          if (!$this.hasClass('selected')) {
              rightbar.handlers.removeselectedAll(settr);
              rightbar.handlers.removeselectedAll(changetr);
@@ -587,7 +574,6 @@
      rightbar.dataTable.clean(rightbar.dataTable.change.object);
      rightbar.dataTable.init(rightbar.dataTable.set, rightbar.zag.dataTable);
      rightbar.dataTable.init(rightbar.dataTable.change, rightbar.zag.dataTable);
-
      rightbar.data.global.checkboxList = [rightbar.elements.checkAmount,
          rightbar.elements.checkDate,
          rightbar.elements.checkReg,
@@ -601,7 +587,6 @@
      //change tab show
 
      $('#dataType a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-
          if (rightbar.handlers.currenttabchange(e) == 2) {
              var absReserve = $('#absolutePos');
              hx.helpfunc.hideElem(absReserve);
