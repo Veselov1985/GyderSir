@@ -7,7 +7,15 @@ xml.data = {
 xml.handlers = {
     newLineText: function(str) {
         if (typeof str != 'string') return '';
-        return str.trim().replace(/(\r\n|\n|\r)/gm, ";"); // replace '↵' to => ';'
+        str = str.replace(/(\r\n|\n|\r)/gm, ";"); // replace '↵' to => ';'
+        return xml.handlers.deleteEndStr(str.trim());
+    },
+    deleteEndStr: function(str) {
+        var strLastIndex = str.length - 1;
+        if (str[strLastIndex] == ';') {
+            str = str.slice(0, -1);
+        }
+        return str;
     },
     removeStringError: function(str) {
         return str.replace(/>/g, '&gt;')
@@ -26,7 +34,7 @@ xml.handlers = {
     },
     deleteSpase: function(str) {
         if (typeof str != 'string') return '';
-        return str.trim().replace(/\n/g, '_');
+        return str.trim().replace(/\s+/g, '_');
     },
     infoSir: function(date, nameTemp) {
         return '<Info><ProcessingDate>' + xml.handlers.removeStringError(date) + '</ProcessingDate><TemplateName>' + xml.handlers.removeStringError(nameTemp) + '</TemplateName></Info>';
@@ -79,7 +87,7 @@ xml.handlers = {
                 } else {
                     str += '<Line>';
                     v.Columns.forEach(function(d, k) {
-                        var HeaderTag = xml.handlers.deleteSpase(d.Header).replace(/\s/g, '_');
+                        var HeaderTag = xml.handlers.deleteSpase(d.Header).replace(/\s+/g, '_');
                         var $text = xml.handlers.newLineText(d.Data); // replace '↵' to => ';'
                         HeaderTag = (HeaderTag == "") ? xml.handlers.emtyHeader() : HeaderTag;
                         HeaderTag = xml.handlers.remomeXMLEror(HeaderTag);
