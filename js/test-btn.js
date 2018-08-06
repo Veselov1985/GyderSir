@@ -241,6 +241,7 @@
                  var data;
                  if (el.Data != null) {
                      data = el.Data;
+                     data = xml.handlers.newLineText(data); // replace '↵' to => ';' in dataTable Lines
                  } else {
                      data = "-";
                  }

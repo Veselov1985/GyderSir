@@ -64,7 +64,7 @@ xml.handlers = {
             var page = i;
             pageI.DataTypes.forEach(function(val) {
                 if (test.handlers.ruleScope(val.Name, Scopes, page, lastPageI)) { // check rule from Header 1-all 2 First 3-Last page (only Datatype from DataBase)
-                    var HeaderTag = xml.handlers.deleteSpase(val.Name).replace(/\s/g, '_');
+                    var HeaderTag = xml.handlers.deleteSpase(val.Name);
                     var $text = xml.handlers.newLineText(val.Data); // // replace '↵' to => ';'
                     HeaderTag = (HeaderTag == "") ? xml.handlers.emtyHeader() : HeaderTag;
                     HeaderTag = xml.handlers.remomeXMLEror(HeaderTag);
@@ -87,7 +87,7 @@ xml.handlers = {
                 } else {
                     str += '<Line>';
                     v.Columns.forEach(function(d, k) {
-                        var HeaderTag = xml.handlers.deleteSpase(d.Header).replace(/\s+/g, '_');
+                        var HeaderTag = xml.handlers.deleteSpase(d.Header);
                         var $text = xml.handlers.newLineText(d.Data); // replace '↵' to => ';'
                         HeaderTag = (HeaderTag == "") ? xml.handlers.emtyHeader() : HeaderTag;
                         HeaderTag = xml.handlers.remomeXMLEror(HeaderTag);
