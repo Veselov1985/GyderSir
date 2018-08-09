@@ -40,11 +40,9 @@ xml.handlers = {
         return '<Info><ProcessingDate>' + xml.handlers.removeStringError(date) + '</ProcessingDate><TemplateName>' + xml.handlers.removeStringError(nameTemp) + '</TemplateName></Info>';
     },
     PageSir: function(page) {
-        var str = xml.handlers.headerSir(page);
-        page.forEach(function(val, i) {
-            var st = xml.handlers.tableBodySir(page);
-            str += st;
-        });
+        var str = xml.handlers.headerSir(page); // block Header
+        var st = xml.handlers.tableBodySir(page); // block table Lines =>argument = array pages => return table
+        str += st;
         return str;
     },
     checkHeaderNull: function(arr) {
