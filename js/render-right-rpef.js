@@ -154,7 +154,7 @@ rightpref.handlers = {
         rightpref.handlers.renderfieldoptions(rightbar.data.global.amount, rightbar.elements.selAmount);
     },
     Amounterror: function(data) {
-        alert('hi' + data);
+        console.log('hi' + data);
     },
     Datasuccess: function(data) {
         data.Data.forEach(function(val) {
@@ -163,7 +163,7 @@ rightpref.handlers = {
         rightpref.handlers.renderfieldoptions(rightbar.data.global.date, rightbar.elements.selDate);
     },
     Dataerror: function(data) {
-        alert(data);
+        console.log(data);
     },
     Regexsuccess: function(data) {
         data.Data.forEach(function(val) {
@@ -172,7 +172,7 @@ rightpref.handlers = {
         rightpref.handlers.renderfieldoptions(rightbar.data.global.regex, rightbar.elements.selReg);
     },
     Regexerror: function(data) {
-        alert(data);
+        console.log(data);
     },
     Alternatesuccess: function(data) {
         data.Data.forEach(function(val) {
@@ -181,7 +181,7 @@ rightpref.handlers = {
         rightpref.handlers.renderfieldoptions(rightbar.data.global.alternate, rightbar.elements.selalternate);
     },
     Alternateerror: function(data) {
-        alert(data);
+        console.log(data);
     },
     renderfieldoptions: function(list, selectId) {
         list.forEach(function(val) {
