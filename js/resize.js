@@ -51,10 +51,12 @@ resize.handlers = {
                 if (Math.abs(oldCoord[0].x - newCoord[0].x) < 1 &&
                     Math.abs(oldCoord[1].x - newCoord[1].x) < 1 &&
                     Math.abs(oldCoord[0].y - newCoord[0].y) < 1 &&
-                    Math.abs(oldCoord[1].y - newCoord[1].y) < 1) { paint.objects.disactiv[j].autoCreate = 'rectauto';
-                    count++; }
+                    Math.abs(oldCoord[1].y - newCoord[1].y) < 1) {
+                    paint.objects.disactiv[j].autoCreate = 'rectauto';
+                    count++;
+                }
             });
-        })
+        });
     },
 
     parsedataservercord: function(cord) {
@@ -69,12 +71,12 @@ resize.handlers = {
     grabCreateColorRect: function() {
         return resize.data.compareOldColorCreate.filter(function(el) {
             return el.autoCreate == "rectauto";
-        })
+        });
     },
     percentCoord: function(arr) {
         return arr.map(function(el) {
             return temp.helpfunc.percentchangecord(el.rectData);
-        })
+        });
     }
 };
 resize.logic = {
@@ -85,6 +87,7 @@ resize.logic = {
 
 $(window).on("resize", resize.handlers.debounce(function() {
     if (paint.objects.global.wh.length < 1) return;
+    // if (paint.objects.disactiv.length == 0) return;
     if (paint.zoom.global.state) return;
     if (resize.data.compareOldColorCreate == "") resize.data.compareOldColorCreate = paint.objects.disactiv.map(function(obj) { return $.extend({}, obj); });
     resize.data.prew.widthimg = paint.objects.global.wh[0];

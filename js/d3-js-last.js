@@ -72,10 +72,12 @@ paint.abs.handlers = {
         rightbar.elements.wrapAbs.attr('hidden', 'hidden');
     },
     showcoord: function(activrect) {
-        paint.zoom.elements.xpos.val(activrect[0].x.toFixed(0));
-        paint.zoom.elements.ypos.val(activrect[1].y.toFixed(0));
-        paint.zoom.elements.widthpos.val((Math.abs(activrect[1].x - activrect[0].x)).toFixed(0));
-        paint.zoom.elements.heightpos.val((Math.abs(activrect[1].y - activrect[0].y)).toFixed(0));
+        if (activrect[0].x.toFixed(0)) {
+            paint.zoom.elements.xpos.val(activrect[0].x.toFixed(0));
+            paint.zoom.elements.ypos.val(activrect[1].y.toFixed(0));
+            paint.zoom.elements.widthpos.val((Math.abs(activrect[1].x - activrect[0].x)).toFixed(0));
+            paint.zoom.elements.heightpos.val((Math.abs(activrect[1].y - activrect[0].y)).toFixed(0));
+        }
     },
     backnewobjrecdata: function() {
         return [$.extend({}, paint.objects.activrect.rectData[0]), $.extend({}, paint.objects.activrect.rectData[1])];
@@ -411,7 +413,7 @@ paint.handlers = {
         paint.objects.activrect.pointElement4 = paint.objects.global.svg.append('circle').attr('class', 'pointC ' + paint.objects.activrect.id).call(d3.behavior.drag().on('drag', paint.handlers.dragPoint4));
     },
     updateRect: function() {
-        paint.abs.handlers.showcoord(paint.objects.activrect.rectData);
+        // paint.abs.handlers.showcoord(paint.objects.activrect.rectData);
         paint.objects.activrect.rect = d3.select(paint.objects.activrect.rectangleElement[0][0]);
         paint.objects.activrect.rect.attr({
             x: paint.objects.activrect.rectData[1].x - paint.objects.activrect.rectData[0].x > 0 ? paint.objects.activrect.rectData[0].x : paint.objects.activrect.rectData[1].x,
@@ -448,7 +450,7 @@ paint.handlers = {
                 var newobj = $.extend({}, paint.objects.disactiv[i]);
                 paint.objects.activrect = newobj;
                 rightbar.dataTable.emmitchangerect(paint.objects.activrect); //rightbar emmit change activ rect state
-                paint.abs.handlers.showcoord(paint.objects.activrect.rectData); // abs show swith activ rect
+                //  paint.abs.handlers.showcoord(paint.objects.activrect.rectData); // abs show swith activ rect
             }
         });
     },
@@ -594,7 +596,7 @@ paint.handlers = {
                 var $node = paint.objects.global.mouseEvent.path[0].nodeName;
                 paint.objects.global.mousedown = true;
                 if (paint.objects.global.keyDelevent && $node == 'rect') {
-                    paint.handlers.deleteRect();
+                    // paint.handlers.deleteRect();  // if need  function delete rectangle ( dell + click ) 
                     paint.statefix.mousedown = false;
                 } else {
                     paint.objects.global.nopush = false;
@@ -614,7 +616,7 @@ paint.handlers = {
                                 var newobj = $.extend({}, paint.objects.disactiv[i]);
                                 paint.objects.activrect = newobj;
                                 rightbar.dataTable.emmitchangerect(paint.objects.activrect); //rightbar emmit change activ rect state
-                                paint.abs.handlers.showcoord(paint.objects.activrect.rectData); // abs show swith activ rect
+                                // paint.abs.handlers.showcoord(paint.objects.activrect.rectData); // abs show swith activ rect
                             }
                         });
                         paint.handlers.activRect();
@@ -662,7 +664,7 @@ paint.handlers = {
                         if (paint.objects.activrect.type != "") rightbar.handlers.showoptiondataType(paint.objects.activrect.type);
                     }
                 }
-                paint.abs.handlers.showcoord(paint.objects.activrect.rectData);
+                // paint.abs.handlers.showcoord(paint.objects.activrect.rectData);
                 paint.statefix.mousedown = false;
             })
             .on('mousemove', function() {
@@ -673,7 +675,7 @@ paint.handlers = {
                     paint.objects.activrect.m2 = d3.mouse(this);
                     paint.objects.activrect.rectData[1] = { x: paint.objects.activrect.m2[0], y: paint.objects.activrect.m2[1] };
                     paint.handlers.updateRect();
-                    paint.abs.handlers.showcoord(paint.objects.activrect.rectData);
+                    // paint.abs.handlers.showcoord(paint.objects.activrect.rectData);
                 }
             })
             .on('mouseup', function() {
@@ -693,7 +695,7 @@ paint.handlers = {
                                 paint.objects.activrect.isDrag = true;
                                 paint.objects.activrect.isDrawing = false;
                                 rightbar.dataTable.emmitchangerect(paint.objects.activrect); //rightbar emmit change activ rect state
-                                paint.abs.handlers.showcoord(paint.objects.activrect.rectData); // abs show swith activ rect
+                                // paint.abs.handlers.showcoord(paint.objects.activrect.rectData); // abs show swith activ rect
                                 paint.handlers.activRect();
                                 // set dataType rightbar
                                 rightbar.handlers.setDataType();
