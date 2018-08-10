@@ -1,5 +1,6 @@
-html,
-body {}
+body {
+    overflow-y: scroll;
+}
 
 #workSpase {
     /* border: 1px solid black; */
@@ -296,10 +297,10 @@ table.dataTable tbody td {
     padding-right: 2rem;
 }
 
-#info_zoom,#page_info_control{
+#info_zoom,
+#page_info_control {
     width: 4em;
 }
-
 
 .hurkanSwitch>.hurkanSwitch-switch-box>.hurkanSwitch-switch-item.active.hurkanSwitch-switch-item-status-off {
     padding-right: 15px;

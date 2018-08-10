@@ -35,7 +35,7 @@ kw.handlers = {
     hideabsolutePosToggle: function() {
         var state = kw.elements.absolutePos.object.attr('hidden');
         (state == 'hidden') ? state = false: state = true;
-        kw.elements.absolutePos.object.attr('hidden', state);
+        kw.elements.absolutePos.object.attr('hidden', true); // always hidden block absolut position: 
     },
     hidesaveDataType: function() {
         var state = rightbar.elements.saveDataType.attr('hidden');

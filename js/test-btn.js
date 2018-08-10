@@ -24,7 +24,8 @@
      textarea: { id: 'textarea' },
      btn_test_prew: { id: 'btn_test_prew' },
      btn_test_next: { id: 'btn_test_next' },
-     btn_test_view: { id: 'btn_test_view' }
+     btn_test_view: { id: 'btn_test_view' },
+     result_test_btn: { id: 'result_test_btn' },
  };
 
  test.objects = {
@@ -279,6 +280,7 @@
          test.handlers.addxmlfield();
          test.handlers.addNameTemplaite(data.TemplateName);
          test.elements.modalwindow.modal('show');
+
      },
      sendTesterror: function(data) {
          console.log(data);
@@ -310,6 +312,9 @@
      test.elements.btn_test_next = $('#' + test.elements.btn_test_next.id);
      test.elements.btn_test_prew = $('#' + test.elements.btn_test_prew.id);
      test.elements.btn_test_view = $('#' + test.elements.btn_test_view.id);
+
+     // show prew result btn
+     test.elements.result_test_btn = $('#' + test.elements.result_test_btn.id);
  };
 
  test.init();
@@ -389,4 +394,14 @@
      test.handlers.setControlView();
      test.handlers.clean(test.objects.dataTableLines);
      test.handlers.initDataTableLines(zaglyshka.data.lines[zaglyshka.data.page]);
+ });
+
+
+ test.elements.result_test_btn.on('click', function() {
+     if (zaglyshka.data.pages != 0) {
+         test.elements.modalwindow.modal('show');
+     } else {
+         temp.helpfunc.modalInfo(['No Data to Show', '']);
+     }
+
  });

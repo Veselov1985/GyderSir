@@ -419,7 +419,7 @@ paint.handlers = {
             width: Math.abs(paint.objects.activrect.rectData[1].x - paint.objects.activrect.rectData[0].x),
             height: Math.abs(paint.objects.activrect.rectData[1].y - paint.objects.activrect.rectData[0].y)
         });
-        var radius = 4; // settings radius all point
+        var radius = 5; // settings radius all point
         paint.objects.point1 = d3.select(paint.objects.activrect.pointElement1[0][0]).data(paint.objects.activrect.rectData);
         paint.objects.point1.attr('r', radius)
             .attr('cx', paint.objects.activrect.rectData[0].x)
