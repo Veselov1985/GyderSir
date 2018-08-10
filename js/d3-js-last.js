@@ -596,7 +596,7 @@ paint.handlers = {
                 var $node = paint.objects.global.mouseEvent.path[0].nodeName;
                 paint.objects.global.mousedown = true;
                 if (paint.objects.global.keyDelevent && $node == 'rect') {
-                    // paint.handlers.deleteRect();  // if need  function delete rectangle ( dell + click ) 
+                    // paint.handlers.deleteRect();          // if need  function delete rectangle ( dell + click )  remove -  10/08/2018 23/35
                     paint.statefix.mousedown = false;
                 } else {
                     paint.objects.global.nopush = false;
