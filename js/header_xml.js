@@ -18,7 +18,7 @@
         hx.elements.hp_edit = $('#hp_edit');
         hx.elements.hp_delete = $('#hp_delete');
         // block regex
-        hx.elements.hr_input = $('#hr_input');
+        hx.elements.hr_input = $('#hr_input'); // regexInput
         hx.elements.hr_edit = $('#hr_edit');
         hx.elements.hr_delete = $('#hr_delete');
         // btn
@@ -41,6 +41,7 @@
         //input new
         hx.elements.tabSaveNameXML = $('#tabSaveNameXML');
         hx.elements.input_new_HEaderXml = $('#input_new_HEaderXml');
+
     };
 
     hx.dataTable = {
@@ -86,6 +87,12 @@
             set: function(inp, data) {
                 inp.val(data);
             },
+        },
+        setRegex: function(inp, data) {
+            hx.helpfunc.input.set(inp, data);
+        },
+        clearRegex: function(el) {
+            hx.helpfunc.input.set(el, '');
         },
         checkDataPosition: function(str) {
             var arr, error, result;
@@ -176,6 +183,7 @@
             if (arr.length > 0) {
                 hx.data.list = hx.data.list.concat(arr.map(function(val, i) {
                     val.Data = (val.Data.split().map(function(v, j) { return hx.helpfunc.low(v); })).join(',');
+                    val.Regex = val.Regex == null ? "" : val.Regex;
                     return val;
                 }));
             }
@@ -200,6 +208,7 @@
             hx.data.list = hx.data.list.map(function(val, i) {
                 if (obj.Name == val.Name) {
                     val.Data = obj.Data;
+                    val.Regex = obj.Regex;
                     state = true;
                     return val;
                 } else {
@@ -312,6 +321,7 @@
 
     hx.action = function() {
         hx.elements.btn_new_xml.on('click', function() {
+            hx.helpfunc.clearRegex(hx.elements.hr_input, '');
             hx.helpfunc.clearInput();
             hx.helpfunc.clearLabel();
             hx.helpfunc.clearTextArea();
@@ -320,7 +330,7 @@
             hx.helpfunc.hideElem(hx.elements.savdelDHeaderXML);
             hx.helpfunc.showElem(hx.elements.saveNewXml);
             hx.helpfunc.hideElem(hx.elements.edit_XML_btn);
-        })
+        });
 
         hx.elements.btn_new_xml_cancel.on('click', function() {
             hx.helpfunc.clearInput();
@@ -341,9 +351,10 @@
             e.preventDefault();
             var $input = hx.helpfunc.getInput();
             var $textarea = hx.helpfunc.splitData(hx.helpfunc.getValTextArea());
+            var $regex = hx.helpfunc.input.get(hx.elements.hr_input).trim();
             $textarea = hx.helpfunc.deleteDubl($textarea).join(','); // delete Dublicate
             if ($input.trim() != '') {
-                hx.ajax.editNewHeader({ Name: $input, Data: $textarea });
+                hx.ajax.editNewHeader({ Name: $input, Data: $textarea, Regex: $regex });
             } else {
                 temp.helpfunc.modalInfo(['XML Header', 'Field must not be empty']);
             }
@@ -365,20 +376,27 @@
             var $text = $selected.find('td').text();
             if ($selected.length != 0) {
                 // logic add Header  Xml in rect
-                paint.objects.activrect.value = $text;
-                ///////////////////////////// block add new keyword in dataBase
-                var newKeyWord = cc.init();
-                if (newKeyWord) { // send toSave in database
+                var dataObject = hx.data.list.filter(function(val, i) {
+                    if (val.Name == $text) return true;
+                    return false;
+                })[0];
 
+
+                paint.objects.activrect.value = $text;
+                paint.objects.activrect.regex = '';
+                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ///////////////////////////// block add new keyword in dataBase
+                /*      var newKeyWord = cc.init();
+                if (newKeyWord) { // send toSave in database
                     // maybe need check error or replace newKeyWord
                     var newDataTextarea = hx.helpfunc.deleteDubl((hx.helpfunc.splitData(hx.helpfunc.getValTextArea())).concat(newKeyWord.toLowerCase().trim()));
                     hx.helpfunc.clearTextArea();
                     hx.helpfunc.setTextArea(newDataTextarea.join(","));
-                    hx.elements.btn_edit_xml.click();
+                    hx.elements.btn_edit_xml.click(); 
                 }
+ */
 
-
-                /////////////////////////////
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 paint.objects.disactiv = paint.objects.disactiv.map(function(val, i) {
                     if (paint.objects.activrect.id == val.id) {
                         val.value = $text;
@@ -404,7 +422,8 @@
                 var $text = $selected.find('td').text().trim();
                 var $data = hx.helpfunc.splitData(hx.helpfunc.getValTextArea());
                 $data = hx.helpfunc.deleteDubl($data).join(',');
-                hx.ajax.editNewHeader({ Name: $text, Data: $data });
+                var $regex = hx.helpfunc.input.get(hx.elements.hr_input).trim();
+                hx.ajax.editNewHeader({ Name: $text, Data: $data, Regex: $regex });
             } else {
                 temp.helpfunc.modalInfo(['XML Header', 'Need select at least one']);
             }
@@ -415,6 +434,7 @@
             if ($selected.parent().attr('class').indexOf('selected') != -1) { // unselected tr
                 hx.helpfunc.clearTextArea();
                 hx.helpfunc.clearLabel();
+                hx.helpfunc.clearRegex(hx.elements.hr_input);
             } else {
                 $.each(hx.dataTable.set.object.find('tr'), function(i, val) {
                     $(this).removeClass('selected');
@@ -423,6 +443,7 @@
                 var objHeader = hx.handlears.findDataHeader(text); // =>{Name: Data:}
                 hx.helpfunc.setLabel(objHeader.Name);
                 hx.helpfunc.setTextArea(objHeader.Data);
+                hx.helpfunc.setRegex(hx.elements.hr_input, objHeader.Regex);
             }
         });
 
@@ -581,6 +602,7 @@
                 });
                 hx.helpfunc.setLabel(datas.Name);
                 hx.helpfunc.setTextArea(datas.Data);
+                hx.helpfunc.setRegex(hx.elements.hr_input, datas.Regex);
                 if (temp.DataWorkspace.images.length > 0) hx.handlears.setchangeselectdatatype();
             } else {
                 temp.helpfunc.modalInfo(['XML Header', 'Error,try latter']);

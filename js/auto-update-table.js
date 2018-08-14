@@ -35,7 +35,7 @@ au.data = {
 
 au.elements = {};
 au.elements.init = function() {
-    au.elements.switcher = $('[data-toggle="hurkanSwitch"]');
+    au.elements.switcher = $('#switch-table');
     au.elements.switcher.hurkanSwitch({
         // Callbacks
         'on': function(r) { au.data.Of = false; },

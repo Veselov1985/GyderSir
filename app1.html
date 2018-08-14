@@ -101,16 +101,31 @@
                                         <option value="text" id="optionwiev_text"> Text only</option>
                                         <option value="img" id="optionwiev_img">Image only</option>
                                     </select>
+                                    <!-- <div id="switch-layout" data-toggle="hurkanSwitch">
+                                        <input type="checkbox" checked name="demo2" hidden>
+                                    </div>
+                                    <div></div> -->
+
+                                    <div id="layout_content" class="btn-group btn-group-toggle mb-1 ml-2">
+                                        <label class="btn btn-secondary  btn-sm active focus">
+                                          <input id="btn_layout_off"  type="radio" name="options"  autocomplete="off" checked> Layout Off
+                                        </label>
+                                        <label class="btn btn-secondary btn-sm">
+                                          <input id="btn_layout_on"  type="radio" name="options" autocomplete="off" > Layout On
+                                        </label>
+                                    </div>
+
                                 </div>
                             </div>
 
                             <div class="col-lg-6 pl-lg-0">
                                 <div class="form-inline justify-content-lg-end">
 
-                                    <div data-toggle="hurkanSwitch">
+                                    <div id="switch-table" data-toggle="hurkanSwitch">
                                         <input type="checkbox" checked name="demo1" hidden>
                                     </div>
                                     <div></div>
+
 
                                     <!-- <a id="" class="btn btn-sm btn-secondary mb-1 btnnotextcenter" href="#"><span class="">MainHeader</span>
                                         </a> -->
@@ -941,6 +956,7 @@
     <script src="js/preload_main.js"></script>
     <script src="js/coord-convert.js"></script>
     <script src="js/auto-update-table.js"></script>
+    <script src="js/layout-template.js"></script>
     <script src="js/place-header.js"></script>
     <script src="js/led.js"></script>
     <script src="js/app.js"></script>
