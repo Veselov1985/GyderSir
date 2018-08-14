@@ -380,8 +380,6 @@
                     if (val.Name == $text) return true;
                     return false;
                 })[0];
-
-
                 paint.objects.activrect.value = $text;
                 paint.objects.activrect.regex = '';
                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -400,6 +398,7 @@
                 paint.objects.disactiv = paint.objects.disactiv.map(function(val, i) {
                     if (paint.objects.activrect.id == val.id) {
                         val.value = $text;
+                        val.regex = '';
                         return val;
                     } else {
                         return val;
