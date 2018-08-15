@@ -229,6 +229,10 @@
         //////////////////////////////////////////////////////////////////
         setchangeselectdatatype: function() { // need switch page
 
+
+
+
+
             if (!paint.objects.activrect.value) return; // clear in future  // issue trim()
             var pages, pageStart;
             var state = false;
@@ -248,6 +252,12 @@
                         var objHeader = hx.handlears.findDataHeader($text); // =>{Name: Data:}
                         hx.helpfunc.setLabel(objHeader.Name);
                         hx.helpfunc.setTextArea(objHeader.Data);
+
+                        if (paint.objects.activrect.regex == '') {
+                            hx.helpfunc.setRegex(hx.elements.hr_input, objHeader.Regex); // if not change default regex in database
+                        } else {
+                            hx.helpfunc.setRegex(hx.elements.hr_input, paint.objects.activrect.regex); // manual change for this rectangle
+                        }
                     }
                 });
                 if (state) break;
@@ -277,6 +287,7 @@
                 });
                 hx.helpfunc.clearLabel();
                 hx.helpfunc.clearTextArea();
+                hx.helpfunc.setRegex(hx.elements.hr_input, paint.objects.activrect.regex);
                 return;
             }
             $.each(tr$, function(i, val) {
@@ -287,6 +298,7 @@
                 }
             });
             if (temp.DataWorkspace.images.length > 0) hx.handlears.setchangeselectdatatype();
+
         },
     };
 

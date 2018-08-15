@@ -635,7 +635,7 @@ paint.handlers = {
                         rightbar.handlers.cleanoptiondataType();
                         // set position Header and Regex in DataTables
                         hp.handlears.setPosition();
-                        hp.handlears.setRegex();
+                        // hp.handlears.setRegex();
                         if (paint.objects.activrect.type != "") rightbar.handlers.showoptiondataType(paint.objects.activrect.type);
                     }
                     // check if rectangle
@@ -660,7 +660,7 @@ paint.handlers = {
                         //set datatype  pref value in rightbar
                         rightbar.handlers.cleanoptiondataType();
                         hp.handlears.setPosition();
-                        hp.handlears.setRegex();
+                        // hp.handlears.setRegex();
                         if (paint.objects.activrect.type != "") rightbar.handlers.showoptiondataType(paint.objects.activrect.type);
                     }
                 }
