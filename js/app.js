@@ -185,6 +185,7 @@ temp.elementLeftBar = {
                 if (temp.elementLeftBar.Templaite.state == 'temp') { // choise templite
                     temp.helpfunc.changeTempNotSaving();
                     led.action.ledOff();
+                    lt.view.setOff();
                 }
                 if (temp.elementLeftBar.Templaite.state == 'load') {
                     temp.helpfunc.changeTempNotLoad();
@@ -192,6 +193,7 @@ temp.elementLeftBar = {
                 if (temp.elementLeftBar.Templaite.state == 'newtemp') { /// create new
                     temp.helpfunc.changeTempNotCreate();
                     led.action.ledOff();
+                    lt.view.setOff();
                 }
                 temp.elementLeftBar.Templaite.state = '';
             });
@@ -285,6 +287,7 @@ temp.elementLeftBar = {
 
         deleteTemp: function(select) {
             led.action.ledOff();
+            lt.view.setOff();
             var $selected = temp.elementLeftBar.dataTable.object.find('.selected');
             if ($selected.length != 0) {
                 if ($selected['0'].children[0].innerHTML != 'Create new Template') {
@@ -1103,6 +1106,7 @@ temp.init = {
                 return;
             } // if pdf file not load 
             led.action.ledOff(); // off led MainHeader
+            lt.view.setOff(); // off layout
             // clear global state
             temp.helpfunc.cleanImg();
             temp.helpfunc.clearglobalstate();
