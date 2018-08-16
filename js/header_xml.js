@@ -388,8 +388,8 @@
                     return false;
                 })[0];
                 paint.objects.activrect.value = $text;
-                paint.objects.activrect.regex = dataObject.Regex;
-                hx.helpfunc.setRegex(hx.elements.hr_input, dataObject.Regex);
+                paint.objects.activrect.regex = (dataObject.Regex.trim() == "") ? '^.*$?' : dataObject.Regex.trim();
+                hx.helpfunc.setRegex(hx.elements.hr_input, paint.objects.activrect.regex);
 
                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 ///////////////////////////// block add new keyword in dataBase
@@ -450,7 +450,7 @@
                 var objHeader = hx.handlears.findDataHeader(text); // =>{Name: Data:}
                 hx.helpfunc.setLabel(objHeader.Name);
                 hx.helpfunc.setTextArea(objHeader.Data);
-                hx.helpfunc.setRegex(hx.elements.hr_input, objHeader.Regex);
+                hx.helpfunc.setRegex(hx.elements.hr_input, (objHeader.Regex == "") ? '^.*$?' : objHeader.Regex);
             }
         });
 
