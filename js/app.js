@@ -185,7 +185,6 @@ temp.elementLeftBar = {
                 if (temp.elementLeftBar.Templaite.state == 'temp') { // choise templite
                     temp.helpfunc.changeTempNotSaving();
                     led.action.ledOff();
-                    lt.view.setOff();
                 }
                 if (temp.elementLeftBar.Templaite.state == 'load') {
                     temp.helpfunc.changeTempNotLoad();
@@ -268,6 +267,7 @@ temp.elementLeftBar = {
                             parent$2.removeClass('selected');
                         }
                     });
+                    lt.view.setOff();
                 };
                 var error = function(data) {
                     console.log(data);
@@ -338,6 +338,7 @@ temp.helpfunc = {
                 temp.elementLeftBar.Templaite.origin = val;
                 ph.handlers.reverseToFront(val.Scopes);
             }
+            lt.view.setOff();
         });
         temp.elementLeftBar.Templaite.Pk = temp.elementLeftBar.Templaite.origin.Pk;
         temp.elementLeftBar.Templaite.Name = temp.elementLeftBar.Templaite.origin.Name;

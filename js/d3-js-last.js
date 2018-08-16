@@ -291,7 +291,7 @@ paint.handlers = {
                                 paint.objects.global.nopush = false;
                                 paint.handlers.disactivRect();
                                 paint.objects.activrect.id = paint.handlers.generId();
-                                paint.objects.activrect.regex = cord.regex ? cord.regex : '';
+                                paint.objects.activrect.regex = (cord.regex && cord.regex != "") ? cord.regex : '/^.*$?/';
                                 paint.objects.activrect.position = cord.position ? cord.position : [0];
                                 paint.objects.activrect.reserve = '';
                                 paint.objects.activrect.type = type;
@@ -315,7 +315,7 @@ paint.handlers = {
                                 paint.objects.activrect.id = paint.handlers.generId();
                                 paint.objects.activrect.type = type;
                                 paint.objects.activrect.value = cord.Data ? cord.Data : '';
-                                paint.objects.activrect.regex = cord.regex ? cord.regex : '';
+                                paint.objects.activrect.regex = (cord.regex && cord.regex != "") ? cord.regex : '/^.*$?/';
                                 paint.objects.activrect.position = cord.position ? cord.position : [0];
                                 paint.objects.activrect.reserve = '';
                                 paint.objects.activrect.rectData = paint.handlers.parsedataservercord(cord);
@@ -343,7 +343,7 @@ paint.handlers = {
                                 paint.objects.activrect.Pk = val.DataType.Pk;
                                 val.Data ? paint.objects.activrect.value = val.Data : paint.objects.activrect.value = '';
                                 paint.objects.activrect.rectData = paint.handlers.parsedataservercord(val);
-                                paint.objects.activrect.regex = (val.Regex && val.Regex != '') ? val.Regex : '';
+                                paint.objects.activrect.regex = (val.Regex && val.Regex != '') ? val.Regex : '/^.*$?/';
                                 paint.objects.activrect.position = (val.Position && val.Position.length > 0) ? val.Position : [0];
                                 paint.objects.activrect.reserve = '';
                                 paint.handlers.initrectpoint();
@@ -366,7 +366,7 @@ paint.handlers = {
                     paint.handlers.disactivRect();
                     paint.objects.activrect = cord;
                     if (!paint.objects.activrect.value) paint.objects.activrect.value = ''; //check if value ==undefined
-                    paint.objects.activrect.regex = cord.regex ? cord.regex : '';
+                    paint.objects.activrect.regex = (cord.regex && cord.regex != "") ? cord.regex : '/^.*$?/';
                     paint.objects.activrect.position = cord.position ? cord.position : [0];
                     paint.objects.activrect.reserve = '';
                     paint.handlers.initrectpoint();

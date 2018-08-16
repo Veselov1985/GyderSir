@@ -228,11 +228,6 @@
         },
         //////////////////////////////////////////////////////////////////
         setchangeselectdatatype: function() { // need switch page
-
-
-
-
-
             if (!paint.objects.activrect.value) return; // clear in future  // issue trim()
             var pages, pageStart;
             var state = false;
@@ -393,7 +388,9 @@
                     return false;
                 })[0];
                 paint.objects.activrect.value = $text;
-                paint.objects.activrect.regex = '';
+                paint.objects.activrect.regex = dataObject.Regex;
+                hx.helpfunc.setRegex(hx.elements.hr_input, dataObject.Regex);
+
                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 ///////////////////////////// block add new keyword in dataBase
                 /*      var newKeyWord = cc.init();
@@ -404,13 +401,12 @@
                     hx.helpfunc.setTextArea(newDataTextarea.join(","));
                     hx.elements.btn_edit_xml.click(); 
                 }
- */
-
+                */
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 paint.objects.disactiv = paint.objects.disactiv.map(function(val, i) {
                     if (paint.objects.activrect.id == val.id) {
                         val.value = $text;
-                        val.regex = '';
+                        val.regex = dataObject.Regex;
                         return val;
                     } else {
                         return val;
@@ -486,17 +482,17 @@
         // block regex
         hx.elements.hr_edit.on('click', function(e) {
             e.preventDefault();
-            var data = hx.helpfunc.input.get(hx.elements.hr_input);
-            paint.objects.activrect.regex = data;
+            var data = hx.helpfunc.input.get(hx.elements.hr_input).trim();
+            paint.objects.activrect.regex = (data == "") ? '/^.*$?/' : data;
             hp.handlears.clenMemoryRegex(paint.objects.activrect, data);
             temp.helpfunc.modalInfo(['Regex Header', 'Set']);
 
         });
         hx.elements.hr_delete.on('click', function(e) {
             e.preventDefault();
-            hx.helpfunc.input.set(hx.elements.hr_input, '');
-            paint.objects.activrect.regex = '';
-            hp.handlears.clenMemoryRegex(paint.objects.activrect, '');
+            hx.helpfunc.input.set(hx.elements.hr_input, '/^.*$?/');
+            paint.objects.activrect.regex = '/^.*$?/';
+            hp.handlears.clenMemoryRegex(paint.objects.activrect, '/^.*$?/');
             temp.helpfunc.modalInfo(['Regex Header', 'Clean']);
         });
     };

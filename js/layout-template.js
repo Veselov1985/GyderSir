@@ -6,7 +6,12 @@ lt.memory = {
     DataPrew: {
         removeListPage: [],
         disactivpage: [],
-        datafromserverpage: []
+        datafromserverpage: [],
+        Name: [],
+        name: [],
+        TempPk: [],
+        datasPk: [],
+        origin: []
     },
     templaiteForAll: []
 };
@@ -21,13 +26,17 @@ lt.handlers = {
     getActivepage: function() {
         return temp.DataWorkspace.activpage;
     },
-
     SaveInMemory: function() {
         lt.memory.DataPrew.removeListPage = paint.objects.datafromserver.removelistpage;
         lt.memory.DataPrew.disactivPage = paint.objects.global.disactivpage;
         lt.memory.DataPrew.datafromserverpage = paint.objects.datafromserver.datafromserverpage;
-    },
+        lt.memory.DataPrew.TempPk = temp.elementLeftBar.Templaite.Pk;
+        lt.memory.DataPrew.datasPk = temp.Data.leftTempList.datas.Pk;
+        lt.memory.DataPrew.name = temp.elementLeftBar.Templaite.name;
+        lt.memory.DataPrew.Name = temp.elementLeftBar.Templaite.Name;
+        lt.memory.DataPrew.origin = $.extend({}, temp.elementLeftBar.Templaite.origin);
 
+    },
     cloneTemplaite: function() {
         var iterator = temp.DataWorkspace.images.length;
         var arr = [];
@@ -36,7 +45,6 @@ lt.handlers = {
         }
         lt.memory.templaiteForAll = [].concat(arr);
     },
-
     setFalseRemoveListPage: function(pages) {
         var arr = [];
         for (var i = 0; i < pages; i++) {
@@ -44,12 +52,15 @@ lt.handlers = {
         }
         paint.objects.datafromserver.removelistpage = [].concat(arr);
     },
-
     setCloneDepedence: function() {
         var pages = temp.DataWorkspace.images.length;
         lt.handlers.setFalseRemoveListPage(pages);
         paint.objects.global.disactivpage = [].concat(lt.memory.templaiteForAll);
-
+        temp.elementLeftBar.Templaite.Pk = temp.zeroGuid;
+        temp.Data.leftTempList.datas.Pk = temp.zeroGuid;
+        temp.elementLeftBar.Templaite.name = '';
+        temp.elementLeftBar.Templaite.Name = '';
+        temp.elementLeftBar.Templaite.origin = {};
     },
     setViewClone: function() {
         paint.objects.datafromserver.arrdata = paint.objects.global.disactivpage[temp.DataWorkspace.activpage];
@@ -61,6 +72,11 @@ lt.handlers = {
         paint.objects.datafromserver.removelistpage = lt.memory.DataPrew.removeListPage;
         paint.objects.global.disactivpage = lt.memory.DataPrew.disactivPage;
         paint.objects.datafromserver.datafromserverpage = lt.memory.DataPrew.datafromserverpage;
+        temp.elementLeftBar.Templaite.Pk = lt.memory.DataPrew.TempPk;
+        temp.Data.leftTempList.datas.Pk = lt.memory.DataPrew.datasPk;
+        temp.elementLeftBar.Templaite.name = lt.memory.DataPrew.name;
+        temp.elementLeftBar.Templaite.Name = lt.memory.DataPrew.Name;
+        temp.elementLeftBar.Templaite.origin = $.extend({}, lt.memory.DataPrew.origin);
     },
     setViewBack: function() {
         if (paint.objects.datafromserver.removelistpage[temp.DataWorkspace.activpage] != false) {
@@ -72,12 +88,11 @@ lt.handlers = {
         paint.handlers.clearsvgcontent();
         temp.DataWorkspace.initwindow();
     }
-
 };
 
 lt.helpfunc = {
     checkPdfLoad: function() {
-        return temp.DataWorkspace.images.length > 0; //  load => true , not load => false
+        return temp.DataWorkspace.images.length > 1; //  load => true , not load => false and not need for One Page Templaite
     }
 };
 
@@ -87,19 +102,16 @@ lt.view = {
         var parent$ = lt.elements.off.parent();
         parent$.addClass('focus active');
     },
-
     setOn: function() {
         lt.view.destroySetButton();
         var parent$ = lt.elements.on.parent();
         parent$.addClass('focus active');
     },
-
     destroySetButton: function() {
         var elem$ = lt.elements.layout_content.find('.active');
         elem$.removeClass('active');
         elem$.removeClass('focus');
     },
-
     checkActivebutton: function(e) {
         var elem = $(e.target);
         return elem.parent().hasClass('active focus'); // if buuton active = return true  disactive => false
