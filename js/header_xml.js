@@ -483,7 +483,7 @@
         hx.elements.hr_edit.on('click', function(e) {
             e.preventDefault();
             var data = hx.helpfunc.input.get(hx.elements.hr_input).trim();
-            paint.objects.activrect.regex = (data == "") ? '^.*$?' : data;
+            paint.objects.activrect.regex = (data.trim() == "") ? '^.*$?' : data;
             hp.handlears.clenMemoryRegex(paint.objects.activrect, data);
             temp.helpfunc.modalInfo(['Regex Header', 'Set']);
 
