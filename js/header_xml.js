@@ -483,16 +483,16 @@
         hx.elements.hr_edit.on('click', function(e) {
             e.preventDefault();
             var data = hx.helpfunc.input.get(hx.elements.hr_input).trim();
-            paint.objects.activrect.regex = (data == "") ? '/^.*$?/' : data;
+            paint.objects.activrect.regex = (data == "") ? '^.*$?' : data;
             hp.handlears.clenMemoryRegex(paint.objects.activrect, data);
             temp.helpfunc.modalInfo(['Regex Header', 'Set']);
 
         });
         hx.elements.hr_delete.on('click', function(e) {
             e.preventDefault();
-            hx.helpfunc.input.set(hx.elements.hr_input, '/^.*$?/');
-            paint.objects.activrect.regex = '/^.*$?/';
-            hp.handlears.clenMemoryRegex(paint.objects.activrect, '/^.*$?/');
+            hx.helpfunc.input.set(hx.elements.hr_input, '^.*$?');
+            paint.objects.activrect.regex = '^.*$?';
+            hp.handlears.clenMemoryRegex(paint.objects.activrect, '^.*$?');
             temp.helpfunc.modalInfo(['Regex Header', 'Clean']);
         });
     };
