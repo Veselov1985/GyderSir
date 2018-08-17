@@ -6,7 +6,7 @@ cc = {
 
 cc.helpfunc = {
     compareInit: function(f, s) {
-        return (f.X0.Y < s.X1.Y && f.X1.Y > s.X0.Y && f.X1.X > s.X0.X && f.X0.X < s.X1.X);
+        return (f.X0.Y < s.X1.Y && f.X1.Y > s.X0.Y && f.X1.X > s.X1.X && f.X0.X < s.X0.X + 6 && f.X0.X < s.X1.X);
     },
 };
 
@@ -35,11 +35,11 @@ cc.handlers = {
     convertServerRect: function(obj) {
         return {
             X0: { X: cc.handlers.convertAbsCoordW(obj.Xpos), Y: cc.handlers.convertAbsCoordH(obj.Ypos) },
-            X1: { X: cc.handlers.convertAbsCoordW(obj.Xpos + obj.XDim), Y: cc.handlers.convertAbsCoordH(obj.Ypos + obj.YDim) },
+            X1: { X: cc.handlers.convertAbsCoordW(obj.XDim), Y: cc.handlers.convertAbsCoordH(obj.Ypos + obj.YDim) },
         };
     },
     findActiveCoordInServer: function(front, serverList) {
-        var res = false;
+        var res = '';
         serverList.forEach(function(val, i) {
             var wordSever = val.Sentence;
             var RectServer = {
@@ -50,10 +50,11 @@ cc.handlers = {
             };
             RectServer = cc.handlers.convertServerRect(RectServer);
             if (cc.helpfunc.compareInit(front, RectServer)) {
-                res = wordSever;
+                res += wordSever + '*';
             }
         });
-        return res; //if not found=> boolean , string=> secuss
+        if (res == "") return false;
+        return res.replace(/\*/g, " ").trim(); //if not found=> boolean , string=> secuss
     }
 };
 

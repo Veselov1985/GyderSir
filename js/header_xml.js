@@ -324,6 +324,19 @@
                 }
             });
         },
+        editKeyWordForHeader: function() {
+            var $selected = hx.dataTable.set.dt.$('tr.selected');
+            if ($selected.length > 0) {
+                var $text = $selected.find('td').text().trim();
+                var $data = hx.helpfunc.splitData(hx.helpfunc.getValTextArea());
+                $data = hx.helpfunc.deleteDubl($data).join(',');
+                var $regex = hx.helpfunc.input.get(hx.elements.hr_input).trim();
+                hx.ajax.editNewHeader({ Name: $text, Data: $data, Regex: $regex });
+            } else {
+                temp.helpfunc.modalInfo(['XML Header', 'Need select at least one']);
+            }
+        },
+
     };
 
     hx.action = function() {
@@ -393,15 +406,14 @@
 
                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 ///////////////////////////// block add new keyword in dataBase
-                /*      var newKeyWord = cc.init();
+                var newKeyWord = cc.init();
                 if (newKeyWord) { // send toSave in database
-                    // maybe need check error or replace newKeyWord
                     var newDataTextarea = hx.helpfunc.deleteDubl((hx.helpfunc.splitData(hx.helpfunc.getValTextArea())).concat(newKeyWord.toLowerCase().trim()));
                     hx.helpfunc.clearTextArea();
                     hx.helpfunc.setTextArea(newDataTextarea.join(","));
-                    hx.elements.btn_edit_xml.click(); 
+                    hp.handlears.editKeyWordForHeader();
                 }
-                */
+
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 paint.objects.disactiv = paint.objects.disactiv.map(function(val, i) {
                     if (paint.objects.activrect.id == val.id) {
@@ -424,16 +436,7 @@
         });
 
         hx.elements.btn_edit_xml.on('click', function() {
-            var $selected = hx.dataTable.set.dt.$('tr.selected');
-            if ($selected.length > 0) {
-                var $text = $selected.find('td').text().trim();
-                var $data = hx.helpfunc.splitData(hx.helpfunc.getValTextArea());
-                $data = hx.helpfunc.deleteDubl($data).join(',');
-                var $regex = hx.helpfunc.input.get(hx.elements.hr_input).trim();
-                hx.ajax.editNewHeader({ Name: $text, Data: $data, Regex: $regex });
-            } else {
-                temp.helpfunc.modalInfo(['XML Header', 'Need select at least one']);
-            }
+            hp.handlears.editKeyWordForHeader();
         });
 
         hx.dataTable.set.object.on('click', 'tr', function(e) {
