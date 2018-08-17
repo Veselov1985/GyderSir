@@ -99,13 +99,23 @@
             result = [];
             arr = str.split(',');
             arr.forEach(function(val) {
-                if ($.isNumeric(val)) {
-                    result.push(+val);
+                if ($.isNumeric(val) || val == '*') {
+                    if (val != "*") {
+                        result.push(+val);
+                    } else {
+                        result.push(val);
+                    }
                 } else {
                     error = true;
                 }
             });
-            if (error == true) { return 'error'; } else { return result; }
+            if (error == true) { return 'error'; } else { return hx.helpfunc.checkdataPositionStar(result); }
+        },
+        checkdataPositionStar: function(val) {
+            var arr = val.filter(function(val, i) {
+                if (val == '*') { return true; } else { return false; }
+            });
+            if (arr.length > 0) { return arr[0]; } else { return val; }
         },
         clearListTable: function() {
             hx.data.tableList = [];
@@ -299,7 +309,7 @@
 
     hp.handlears = {
         setPosition: function() {
-            hx.elements.hp_input.val(paint.objects.activrect.position.join(','));
+            hx.elements.hp_input.val((paint.objects.activrect.position.length == 0) ? '*' : paint.objects.activrect.position.join(','));
         },
         setRegex: function() {
             hx.elements.hr_input.val(paint.objects.activrect.regex);
@@ -307,7 +317,7 @@
         cleanMemoryPosition: function(rect, rectval) {
             paint.objects.disactiv = paint.objects.disactiv.map(function(val) {
                 if (rect.id == val.id) {
-                    val.position = rectval;
+                    val.position = (rectval == '*') ? [] : rectval;
                     return val;
                 } else {
                     return val;
@@ -464,7 +474,7 @@
             // check data position
             var checkData = hx.helpfunc.checkDataPosition(data);
             if (checkData != 'error' || checkData.length == 0) {
-                paint.objects.activrect.position = checkData; // set position [];
+                paint.objects.activrect.position = (checkData == "*") ? [] : checkData; // set position [];
                 hp.handlears.cleanMemoryPosition(paint.objects.activrect, checkData);
                 temp.helpfunc.modalInfo(['Position Header Edit', 'Set']);
             } else {

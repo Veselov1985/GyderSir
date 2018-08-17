@@ -648,7 +648,7 @@ temp.helpfunc = {
             } else if (val.type == 'MainHeader') {
                 obj[val.type] = { Rect: temp.helpfunc.percentchangecord(val.rectData), Data: val.value };
             } else {
-                obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
+                obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
             }
         });
         return obj;

@@ -292,7 +292,7 @@ paint.handlers = {
                                 paint.handlers.disactivRect();
                                 paint.objects.activrect.id = paint.handlers.generId();
                                 paint.objects.activrect.regex = (cord.regex && cord.regex != "") ? cord.regex : '^.*$?';
-                                paint.objects.activrect.position = cord.position ? cord.position : [0];
+                                paint.objects.activrect.position = (cord.position && cord.position.length != 0) ? cord.position : (cord.position && cord.position.length == 0) ? [] : [0];
                                 paint.objects.activrect.reserve = '';
                                 paint.objects.activrect.type = type;
                                 paint.objects.activrect.value = cord.Data ? cord.Data : '';
@@ -316,7 +316,7 @@ paint.handlers = {
                                 paint.objects.activrect.type = type;
                                 paint.objects.activrect.value = cord.Data ? cord.Data : '';
                                 paint.objects.activrect.regex = (cord.regex && cord.regex != "") ? cord.regex : '^.*$?';
-                                paint.objects.activrect.position = cord.position ? cord.position : [0];
+                                paint.objects.activrect.position = (cord.position && cord.position.length != 0) ? cord.position : (cord.position && cord.position.length == 0) ? [] : [0];
                                 paint.objects.activrect.reserve = '';
                                 paint.objects.activrect.rectData = paint.handlers.parsedataservercord(cord);
                                 paint.handlers.initrectpoint();
@@ -344,7 +344,7 @@ paint.handlers = {
                                 val.Data ? paint.objects.activrect.value = val.Data : paint.objects.activrect.value = '';
                                 paint.objects.activrect.rectData = paint.handlers.parsedataservercord(val);
                                 paint.objects.activrect.regex = (val.Regex && val.Regex != '') ? val.Regex : '^.*$?';
-                                paint.objects.activrect.position = (val.Position && val.Position.length > 0) ? val.Position : [0];
+                                paint.objects.activrect.position = (val.Position && val.Position.length != 0) ? val.Position : (val.Position && val.Position.length == 0) ? [] : [0];
                                 paint.objects.activrect.reserve = '';
                                 paint.handlers.initrectpoint();
                                 paint.handlers.updateRect();
@@ -367,7 +367,7 @@ paint.handlers = {
                     paint.objects.activrect = cord;
                     if (!paint.objects.activrect.value) paint.objects.activrect.value = ''; //check if value ==undefined
                     paint.objects.activrect.regex = (cord.regex && cord.regex != "") ? cord.regex : '^.*$?';
-                    paint.objects.activrect.position = cord.position ? cord.position : [0];
+                    paint.objects.activrect.position = (cord.position && cord.position.length != 0) ? cord.position : (cord.position && cord.position.length != 0) ? [] : [0];
                     paint.objects.activrect.reserve = '';
                     paint.handlers.initrectpoint();
                     paint.handlers.updateRect();
@@ -601,9 +601,13 @@ paint.handlers = {
                 } else {
                     paint.objects.global.nopush = false;
                     paint.objects.activRect = {};
-                    if ($node.length == 3 && !paint.objects.global.keyDelevent) {
+                    if ($node.length == 3 && !paint.objects.global.keyDelevent) { // click on svg
                         paint.handlers.createNewRec();
                         paint.objects.activrect.isDrawing = true;
+                        hx.helpfunc.clearTextArea();
+                        hx.helpfunc.clearLabel();
+                        hx.helpfunc.clearRegex(hx.elements.hr_input);
+
                     }
                     if ($node == 'circle') {
                         // au.js if click circle and active rectangle
