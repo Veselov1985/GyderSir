@@ -293,6 +293,7 @@
                 hx.helpfunc.clearLabel();
                 hx.helpfunc.clearTextArea();
                 hx.helpfunc.setRegex(hx.elements.hr_input, paint.objects.activrect.regex);
+                hp.handlears.setPosition();
                 return;
             }
             $.each(tr$, function(i, val) {

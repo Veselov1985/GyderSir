@@ -344,6 +344,14 @@ paint.handlers = {
                                 val.Data ? paint.objects.activrect.value = val.Data : paint.objects.activrect.value = '';
                                 paint.objects.activrect.rectData = paint.handlers.parsedataservercord(val);
                                 paint.objects.activrect.regex = (val.Regex && val.Regex != '') ? val.Regex : '^.*$?';
+
+
+                                /*@discription 
+                                come at server Position:[] => need Position:null
+  
+  
+                                */
+
                                 paint.objects.activrect.position = (val.Position && val.Position.length != 0) ? val.Position : (val.Position && val.Position.length == 0) ? [] : [0];
                                 paint.objects.activrect.reserve = '';
                                 paint.handlers.initrectpoint();
