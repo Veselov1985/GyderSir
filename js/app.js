@@ -646,7 +646,13 @@ temp.helpfunc = {
             ) {
                 obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Data: val.value });
             } else if (val.type == 'MainHeader') {
-                obj[val.type] = { Rect: temp.helpfunc.percentchangecord(val.rectData), Data: val.value };
+                obj[val.type] = { Rect: temp.helpfunc.percentchangecord(val.rectData) };
+                if (obj.TableDatas == undefined) {
+                    obj.TableDatas = [];
+                }
+                val.type = 'TableDatas';
+                newDataType = 'TableDatas';
+                obj.TableDatas.push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
             } else {
                 obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
             }

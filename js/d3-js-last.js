@@ -266,6 +266,26 @@ paint.objects = {
 };
 
 paint.handlers = {
+    checkMainHeader: function(mainHeader, rect) {
+        if (mainHeader.Rect == null) return;
+        var maiHeaderCoord = paint.handlers.parsedataservercord(mainHeader);
+        if (paint.handlers.compareCoord(maiHeaderCoord, rect)) {
+            paint.objects.activrect.type = 'MainHeader';
+        }
+    },
+    compareCoord: function(main, rect) {
+        if (
+            main[0].x == rect.rectData[0].x &&
+            main[0].y == rect.rectData[0].y &&
+            main[1].x == rect.rectData[1].x &&
+            main[1].y == rect.rectData[1].y
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+
     parsedataservercord: function(cord) {
         return [{ x: paint.handlers.convertcordabsx(cord.Rect.X0.X, paint.objects.global.wh), y: paint.handlers.convertcordabsy(cord.Rect.X0.Y, paint.objects.global.wh) }, { x: paint.handlers.convertcordabsx(cord.Rect.X1.X, paint.objects.global.wh), y: paint.handlers.convertcordabsy(cord.Rect.X1.Y, paint.objects.global.wh) }];
     },
@@ -286,29 +306,29 @@ paint.handlers = {
                     if (paint.objects.datafromserver.arrdata[type] == null) continue;
                     if (type != 'TableDatas' && type != 'CustomData' && type != 'Base64Img' && type != 'OnlyImages' && type != 'OnlyText' && type != 'OcrStrings') {
                         if (type == 'MainHeader' && paint.objects.datafromserver.arrdata[type].Rect == null) continue; // main header initial state from server
-                        if (type == 'MainHeader') {
-                            new Array(paint.objects.datafromserver.arrdata[type]).forEach(function(cord, i) {
-                                paint.objects.global.nopush = false;
-                                paint.handlers.disactivRect();
-                                paint.objects.activrect.id = paint.handlers.generId();
-                                paint.objects.activrect.regex = (cord.regex && cord.regex != "") ? cord.regex : '^.*$?';
-                                paint.objects.activrect.position = (cord.position && cord.position.length != 0) ? cord.position : (cord.position && cord.position.length == 0) ? [] : [0];
-                                paint.objects.activrect.reserve = '';
-                                paint.objects.activrect.type = type;
-                                paint.objects.activrect.value = cord.Data ? cord.Data : '';
-                                paint.objects.activrect.rectData = paint.handlers.parsedataservercord(cord);
-                                paint.handlers.initrectpoint();
-                                paint.handlers.updateRect();
-                                paint.objects.activrect.isDrag = false;
-                                paint.objects.activrect.isDataServerSide = true;
-                                paint.objects.disactiv.push($.extend({}, paint.objects.activrect));
-                                if (paint.objects.datafromserver.arrdata[type].length - 1 == i) {
-                                    rightbar.dataTable.emmitchangerect($.extend({}, paint.objects.activrect));
-                                    hp.handlears.setPosition();
-                                    hp.handlears.setRegex();
-                                }
-                            });
-                        } else {
+                        if (type != 'MainHeader') {
+                            //     new Array(paint.objects.datafromserver.arrdata[type]).forEach(function(cord, i) {
+                            //         paint.objects.global.nopush = false;
+                            //         paint.handlers.disactivRect();
+                            //         paint.objects.activrect.id = paint.handlers.generId();
+                            //         paint.objects.activrect.regex = (cord.regex && cord.regex != "") ? cord.regex : '^.*$?';
+                            //         paint.objects.activrect.position = (cord.position && cord.position.length != 0) ? cord.position : (cord.position && cord.position.length == 0) ? [] : [0];
+                            //         paint.objects.activrect.reserve = '';
+                            //         paint.objects.activrect.type = type;
+                            //         paint.objects.activrect.value = cord.Data ? cord.Data : '';
+                            //         paint.objects.activrect.rectData = paint.handlers.parsedataservercord(cord);
+                            //         paint.handlers.initrectpoint();
+                            //         paint.handlers.updateRect();
+                            //         paint.objects.activrect.isDrag = false;
+                            //         paint.objects.activrect.isDataServerSide = true;
+                            //         paint.objects.disactiv.push($.extend({}, paint.objects.activrect));
+                            //         if (paint.objects.datafromserver.arrdata[type].length - 1 == i) {
+                            //             rightbar.dataTable.emmitchangerect($.extend({}, paint.objects.activrect));
+                            //             hp.handlears.setPosition();
+                            //             hp.handlears.setRegex();
+                            //         }
+                            //     });
+                            // } else {
                             paint.objects.datafromserver.arrdata[type].forEach(function(cord, i) {
                                 paint.objects.global.nopush = false;
                                 paint.handlers.disactivRect();
@@ -343,17 +363,12 @@ paint.handlers = {
                                 paint.objects.activrect.Pk = val.DataType.Pk;
                                 val.Data ? paint.objects.activrect.value = val.Data : paint.objects.activrect.value = '';
                                 paint.objects.activrect.rectData = paint.handlers.parsedataservercord(val);
+
+
                                 paint.objects.activrect.regex = (val.Regex && val.Regex != '') ? val.Regex : '^.*$?';
-
-
-                                /*@discription 
-                                come at server Position:[] => need Position:null
-  
-  
-                                */
-
                                 paint.objects.activrect.position = (val.Position && val.Position.length != 0) ? val.Position : (val.Position && val.Position.length == 0) ? [] : [0];
                                 paint.objects.activrect.reserve = '';
+                                paint.handlers.checkMainHeader(paint.objects.datafromserver.arrdata['MainHeader'], paint.objects.activrect);
                                 paint.handlers.initrectpoint();
                                 paint.handlers.updateRect();
                                 paint.objects.activrect.isDrag = false;
