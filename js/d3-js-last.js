@@ -267,7 +267,7 @@ paint.objects = {
 
 paint.handlers = {
     checkMainHeader: function(mainHeader, rect) {
-        if (mainHeader.Rect == null) return;
+        if (mainHeader == undefined || mainHeader.Rect == null) return;
         var maiHeaderCoord = paint.handlers.parsedataservercord(mainHeader);
         if (paint.handlers.compareCoord(maiHeaderCoord, rect)) {
             paint.objects.activrect.type = 'MainHeader';
@@ -306,7 +306,7 @@ paint.handlers = {
                     if (paint.objects.datafromserver.arrdata[type] == null) continue;
                     if (type != 'TableDatas' && type != 'CustomData' && type != 'Base64Img' && type != 'OnlyImages' && type != 'OnlyText' && type != 'OcrStrings') {
                         if (type == 'MainHeader' && paint.objects.datafromserver.arrdata[type].Rect == null) continue; // main header initial state from server
-                        if (type != 'MainHeader') {
+                        if (type != 'MainHeader') { // mainHeader now checked in block DataTables (function checkMainHeader )
                             //     new Array(paint.objects.datafromserver.arrdata[type]).forEach(function(cord, i) {
                             //         paint.objects.global.nopush = false;
                             //         paint.handlers.disactivRect();
