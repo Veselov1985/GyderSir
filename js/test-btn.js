@@ -250,6 +250,20 @@
                  zaglyshka.data.lines[iteration].td[i].push(data);
              });
          });
+         test.handlers.cleanEmptyTd();
+
+     },
+     cleanEmptyTd: function() {
+         zaglyshka.data.lines = zaglyshka.data.lines.map(function(val, i) {
+             var tdArrayClean = val.td.filter(function(arr, j) {
+                 if (arr.filter(function(z) { return z != ''; }).length != 0) {
+                     return true;
+                 } else {
+                     return false;
+                 }
+             });
+             return { th: val.th, td: tdArrayClean };
+         });
      },
      setControlView: function() {
          test.elements.btn_test_view.val(zaglyshka.data.page + 1 + " (" + zaglyshka.data.pages + ")");

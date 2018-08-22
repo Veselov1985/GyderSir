@@ -53,10 +53,24 @@ xml.handlers = {
         var stateHeader = false;
         var stateData = false;
         var headerArr = arr.filter(function(val, i) { return (typeof val.Header) == 'string'; });
-        if (headerArr.length == 0) { stateHeader = true; return true; }
-        var dataArr = arr.filter(function(val, i) { return (typeof val.Data) == 'string'; });
-        if (dataArr.length == 0) { stateData = true; return true; }
+        if (headerArr.length == 0) { stateHeader = true; }
+        var dataArr = arr.filter(function(val, i) {
+            if ((typeof val.Data) == 'string') {
+                if (val.Data.toLowerCase() !== 'Exception whith Regex'.toLowerCase() && val.Data != '') {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        });
+        if (dataArr.length == 0) { stateData = true; }
+        if (stateHeader) return true;
+        if (stateData) return true;
         return false;
+
+
     },
     headerSir: function(arrPage) {
         var lastPageI = arrPage.length - 1;
