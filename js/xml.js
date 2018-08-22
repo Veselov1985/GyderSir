@@ -18,11 +18,15 @@ xml.handlers = {
         return str;
     },
     removeStringError: function(str) {
-        return str.replace(/>/g, '&gt;')
+        var s = str.replace(/>/g, '&gt;')
             .replace(/</g, '&lt;')
             .replace(/&/g, '&amp;')
             .replace(/\'/g, '&apos;')
             .replace(/"/g, '&quot;');
+        if (s.toLowerCase() == 'Exception whith Regex'.toLowerCase()) {
+            return '';
+        }
+        return s;
     },
     remomeXMLEror: function(str) {
         return str.replace(/[^a-zA-ZА-Яа-я0-9\s]/g, '_');

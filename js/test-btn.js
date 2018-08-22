@@ -243,6 +243,7 @@
                  if (el.Data != null) {
                      data = el.Data;
                      data = xml.handlers.newLineText(data); // replace '↵' to => ';' in dataTable Lines
+                     if (data.toLowerCase() == 'Exception whith Regex'.toLowerCase()) data = '';
                  } else {
                      data = "-";
                  }
