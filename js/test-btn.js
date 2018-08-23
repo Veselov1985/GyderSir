@@ -217,6 +217,15 @@
                  });
              }
          });
+         test.handlers.clearHeaderTable();
+     },
+
+     clearHeaderTable: function() {
+         var res = zaglyshka.data.header.filter(function(val, i) {
+             var r = val.filter(function(v, j) { return v != 'empty'; });
+             if (r.length == 0) { return false; } else { return true; }
+         });
+         zaglyshka.data.header = (res.length != 0) ? res : [].concat(zaglyshka.data.header);
      },
      addHeadArr: function(arr) {
          arr.forEach(function(val, i) { // add th for page num      
