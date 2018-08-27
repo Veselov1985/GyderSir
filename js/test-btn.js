@@ -408,7 +408,6 @@
      test.handlers.setControlView();
      test.handlers.clean(test.objects.dataTableLines);
      test.handlers.initDataTableLines(zaglyshka.data.lines[zaglyshka.data.page]);
-
  });
 
  test.elements.btn_test_prew.on('click', function() {
@@ -420,12 +419,10 @@
      test.handlers.initDataTableLines(zaglyshka.data.lines[zaglyshka.data.page]);
  });
 
-
  test.elements.result_test_btn.on('click', function() {
      if (zaglyshka.data.pages != 0) {
          test.elements.modalwindow.modal('show');
      } else {
          temp.helpfunc.modalInfo(['No Data to Show', '']);
      }
-
  });
