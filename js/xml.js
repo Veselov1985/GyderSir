@@ -7,7 +7,9 @@ xml.data = {
 xml.handlers = {
     newLineText: function(str) {
         if (typeof str != 'string') return '';
-        str = str.replace(/(\r\n|\n|\r)/gm, ";"); // replace '↵' to => ';'
+        str = str.replace(/(\r\n|\n|\r)/gm, ";").split(';') // replace '↵' to => ';'
+            .map(function(val) { return val.trim(); })
+            .join(';');
         return xml.handlers.deleteEndStr(str.trim());
     },
     deleteEndStr: function(str) {

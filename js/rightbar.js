@@ -746,7 +746,7 @@
              selected == "Vats" ||
              selected == "Ibans" ||
              selected == "KeyWord" ||
-             selected == "MainHeader" ||
+             // selected == "MainHeader" ||
              selected == "ExcludingTaxesAmounts" ||
              selected == "InvoiceDates" ||
              selected == "ItemNumbers" ||
@@ -757,9 +757,11 @@
              selected == "VatAmounts" ||
              selected == 'InvoiceNumbers'
          ) {
+             temp.helpfunc.modalInfo(['Delete Datatype', 'These types can not be removed']);
              return;
          }
-         if (!rightbar.handlers.finddeleterowDatatype()) {
+         if (selected == '') { // no selected dataType in Datatable
+             temp.helpfunc.modalInfo(['Delete Datatype', 'No selection']);
              return;
          } else {
              applymodal.handlers.show('Delete Type ' + rightbar.handlers.finddeleterowDatatype(), 5);
@@ -781,7 +783,7 @@
              selected == "Vats" ||
              selected == "Ibans" ||
              selected == "KeyWord" ||
-             selected == "MainHeader" ||
+             // selected == "MainHeader" ||
              selected == "ExcludingTaxesAmounts" ||
              selected == "InvoiceDates" ||
              selected == "ItemNumbers" ||
@@ -792,6 +794,7 @@
              selected == "InvoiceNumbers" ||
              selected == "VatAmounts"
          ) {
+             temp.helpfunc.modalInfo(['For create New DataType', 'Remove selection in Table']);
              return;
          }
          rightbar.elements.input_new_typedata.val(rightbar.handlers.findactivdatatype().change.Name);
