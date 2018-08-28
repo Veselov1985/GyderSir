@@ -465,6 +465,7 @@ temp.helpfunc = {
             filter.handlers.addData([temp.elementLeftBar.Templaite.name, temp.img.off]); // filter add data
         }
     },
+
     deleteZeroCordRect: function(arr) {
         return arr.filter(function(val) {
             var X0 = val.rectData[0].x;
@@ -609,43 +610,28 @@ temp.helpfunc = {
     },
 
     arrchangeobjdata: function(arr) {
+
+        var getCurentTypeRect = function(text) {
+            return rightbar.data.global.dataType.filter(function(val) {
+                if (val.DataType.toLowerCase().trim() == text.toLowerCase().trim()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }).length > 0;
+        };
+
         var obj = {};
         arr.forEach(function(val, i) {
             var newDataType = false;
-            if (val.type != 'Ibans' &&
-                val.type != 'Vats' &&
-                val.type != 'KeyWord' &&
-                val.type != 'MainHeader' &&
-                val.type != 'ExcludingTaxesAmounts' &&
-                val.type != 'InvoiceDates' &&
-                val.type != 'ItemNumbers' &&
-                val.type != 'OrderNumbers' &&
-                val.type != 'Quantities' &&
-                val.type != 'TotalBedrags' &&
-                val.type != 'UnitPrices' &&
-                val.type != 'VatAmounts' &&
-                val.type != 'InvoiceNumbers'
-
-            ) {
+            if (obj[val.type] == undefined) obj[val.type] = [];
+            if (!getCurentTypeRect(val.type)) {
                 newDataType = val.type;
                 val.type = 'TableDatas';
-            }
-            if (obj[val.type] == undefined) obj[val.type] = [];
-            if (val.type == 'Ibans' ||
-                val.type == 'Vats' ||
-                val.type == 'KeyWord' ||
-                val.type == 'ExcludingTaxesAmounts' ||
-                val.type == 'InvoiceDates' ||
-                val.type == 'ItemNumbers' ||
-                val.type == 'OrderNumbers' ||
-                val.type == 'Quantities' ||
-                val.type == 'TotalBedrags' ||
-                val.type == 'UnitPrices' ||
-                val.type == 'VatAmounts' ||
-                val.type == 'InvoiceNumbers'
-            ) {
+                obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
+            } else if (val.type != 'MainHeader') {
                 obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Data: val.value });
-            } else if (val.type == 'MainHeader') {
+            } else {
                 obj[val.type] = { Rect: temp.helpfunc.percentchangecord(val.rectData) };
                 if (obj.TableDatas == undefined) {
                     obj.TableDatas = [];
@@ -653,8 +639,6 @@ temp.helpfunc = {
                 val.type = 'TableDatas';
                 newDataType = 'TableDatas';
                 obj.TableDatas.push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
-            } else {
-                obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
             }
         });
         return obj;
