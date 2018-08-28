@@ -91,6 +91,7 @@ xml.handlers = {
                 }
             });
         });
+        xml.data.$em = 0;
         return (init == '') ? '<Headers>Empty</Headers>' : '<Headers>' + init + '</Headers>';
     },
     tableBodySir: function(page) {
@@ -113,6 +114,8 @@ xml.handlers = {
                         str += '<' + HeaderTag + '>' + $text + '</' + HeaderTag + '>';
                     });
                     str += '</Line>';
+                    xml.data.$em = 0;
+
                 }
             });
         });
