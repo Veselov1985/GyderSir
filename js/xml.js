@@ -115,7 +115,6 @@ xml.handlers = {
                     });
                     str += '</Line>';
                     xml.data.$em = 0;
-
                 }
             });
         });
