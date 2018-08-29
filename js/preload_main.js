@@ -6,6 +6,7 @@ pm.data = {
 
 pm.init = function() {
     pm.element.preloader = $('#preloader');
+    pm.element.preloader1 = $('#preloader1');
 };
 
 pm.handlers = {
@@ -18,7 +19,13 @@ pm.handlers = {
     check: function() {
         pm.data.state++;
         pm.data.state == 7 ? pm.handlers.hidePreloader() : null;
-    }
+    },
+    hidePreloader1: function() {
+        pm.element.preloader1.attr('hidden', 'hidden');
+    },
+    showPreloader1: function() {
+        pm.element.preloader1.attr('hidden', false);
+    },
 };
 
 pm.init();

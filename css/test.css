@@ -267,6 +267,18 @@ table.dataTable tbody td {
     opacity: 0.5;
 }
 
+#preloader1 {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    outline: 0;
+    background-color: #bac1ca;
+    opacity: 0.5;
+}
+
 .progress {
     position: inherit;
     top: 45% !important;

@@ -613,7 +613,7 @@ temp.helpfunc = {
 
         var getCurentTypeRect = function(text) {
             return rightbar.data.global.dataType.filter(function(val) {
-                if (val.DataType.toLowerCase().trim() == text.toLowerCase().trim()) {
+                if (val.DataType.toLowerCase().trim() == text.toLowerCase().trim() && val.Pk == false) {
                     return true;
                 } else {
                     return false;
@@ -624,22 +624,43 @@ temp.helpfunc = {
         var obj = {};
         arr.forEach(function(val, i) {
             var newDataType = false;
-            if (obj[val.type] == undefined) obj[val.type] = [];
-            if (!getCurentTypeRect(val.type)) {
+            if (getCurentTypeRect(val.type)) {
+                if (val.type == 'MainHeader') {
+                    if (obj[val.type] == undefined) obj[val.type] = [];
+                    obj[val.type] = { Rect: temp.helpfunc.percentchangecord(val.rectData) };
+                    if (obj.TableDatas == undefined) {
+                        obj.TableDatas = [];
+                    }
+                    val.type = 'TableDatas';
+                    newDataType = 'TableDatas';
+                    if (obj[val.type] == undefined) obj[val.type] = [];
+                    obj.TableDatas.push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
+                } else {
+                    if (obj[val.type] == undefined) obj[val.type] = [];
+                    obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Data: val.value });
+                }
+            } else {
                 newDataType = val.type;
                 val.type = 'TableDatas';
+                if (obj[val.type] == undefined) obj[val.type] = [];
                 obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
-            } else if (val.type != 'MainHeader') {
-                obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Data: val.value });
-            } else {
-                obj[val.type] = { Rect: temp.helpfunc.percentchangecord(val.rectData) };
-                if (obj.TableDatas == undefined) {
-                    obj.TableDatas = [];
-                }
-                val.type = 'TableDatas';
-                newDataType = 'TableDatas';
-                obj.TableDatas.push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
             }
+
+            // if (getCurentTypeRect(val.type)) {
+            //     newDataType = val.type;
+            //     val.type = 'TableDatas';
+            //     obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
+            // } else if (val.type != 'MainHeader') {
+            //     obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Data: val.value });
+            // } else {
+            //     obj[val.type] = { Rect: temp.helpfunc.percentchangecord(val.rectData) };
+            //     if (obj.TableDatas == undefined) {
+            //         obj.TableDatas = [];
+            //     }
+            //     val.type = 'TableDatas';
+            //     newDataType = 'TableDatas';
+            //     obj.TableDatas.push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
+            // }
         });
         return obj;
     },
@@ -827,6 +848,8 @@ temp.elementControl = {
         }
     },
 };
+
+
 
 temp.DataWorkspace = {
     object: {},
@@ -1146,6 +1169,7 @@ temp.init = {
                     paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
                     temp.DataWorkspace.initwindow();
                 } else if (data.Pks.length == 1) {
+                    gf.init(data); // fast request to the server => get response result 
 
                     filter.handlers.toggleLight(); // filter fix
 
@@ -1179,6 +1203,10 @@ temp.init = {
                     temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
                     paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
                     temp.DataWorkspace.initwindow();
+
+
+                    //  setTimeout(function() { test.elements.test_btn.click(); }, 3000);
+                    // Get result if found only one Templaite
                 } else {
                     ph.data.object = ph.data.default; // default Scopes from object Page all,first,Last
                     temp.control.templaite.unselectDataTable();
