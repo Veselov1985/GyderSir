@@ -1170,10 +1170,7 @@ temp.init = {
                     temp.DataWorkspace.initwindow();
                 } else if (data.Pks.length == 1) {
                     gf.init(data); // fast request to the server => get response result 
-
                     filter.handlers.toggleLight(); // filter fix
-
-
                     temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
                     temp.Data.leftTempList.data = [
                         ["Create new Template", "fa fa-plus-circle"]
@@ -1198,13 +1195,12 @@ temp.init = {
                     temp.elementLeftBar.Templaite.Name = oneData[0].Name;
                     temp.elementLeftBar.Templaite.Pk = oneData[0].Pk;
                     temp.elementLeftBar.Templaite.name = oneData[0].Name;
+                    temp.elementLeftBar.Templaite.origin = oneData[0];
                     temp.control.templaite.renderDataTemplaite(data.Template.Pages);
                     temp.control.templaite.renderDataListPaint(oneData[0].Pages);
                     temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
                     paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
                     temp.DataWorkspace.initwindow();
-
-
                     //  setTimeout(function() { test.elements.test_btn.click(); }, 3000);
                     // Get result if found only one Templaite
                 } else {
@@ -1226,11 +1222,9 @@ temp.init = {
             };
             temp.Ajax.sendFileToProccess(null, success, error);
         });
-
         temp.elementControl.object.btn_page_next.click(function() {
             temp.elementControl.nextPage();
         });
-
         temp.elementControl.object.btn_page_prew.click(function() {
             temp.elementControl.prewPage();
         });

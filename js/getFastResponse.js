@@ -34,12 +34,9 @@ gf.init = function(data) {
     var base64 = gf.handlers.getPagesBase64(data);
     var templaite = gf.handlers.getTemplaiteInList(data);
     var currentTemp = gf.handlers.setCurrentOcrStringAndBase64(templaite, Ocr, base64);
-
     test.handlers.CleanDataTest();
     test.handlers.cleanimg();
     test.handlers.clean(test.objects.dataTableHeader);
     test.handlers.clean(test.objects.dataTableLines);
-
-
     gf.handlers.sendProcess(test.fix.addVatsandIbans(currentTemp));
 };

@@ -71,8 +71,6 @@ xml.handlers = {
         if (stateHeader) return true;
         if (stateData) return true;
         return false;
-
-
     },
     headerSir: function(arrPage) {
         var lastPageI = arrPage.length - 1;
