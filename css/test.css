@@ -482,3 +482,12 @@ table.dataTable tbody td {
 .hurkanSwitch.switch-responsive>.hurkanSwitch-switch-box {
     display: block !important
 }
+
+.tippy-tooltip {
+    /* Your styling here. Example: */
+    background-color: white;
+    color: black;
+    font-size: 10px;
+    border: 1px solid #b2b2b2;
+    line-height: 4px;
+}
