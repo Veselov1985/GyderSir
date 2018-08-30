@@ -85,7 +85,7 @@
                 <div class="container-fluid px-lg-0 border-bottom sticky-top bg-white">
                     <div class="pt-1 px-lg-1" id="controls">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-inline">
                                     <div class="input-group input-group-sm mr-sm-2 mb-1">
                                         <span class="input-group-btn">
@@ -108,25 +108,47 @@
 
                                     <div id="layout_content" class="btn-group btn-group-toggle mb-1 ml-2">
                                         <label class="btn btn-secondary  btn-sm active focus">
-                                          <input id="btn_layout_off"  type="radio" name="options"  autocomplete="off" checked> Layout Off
+                                          <input id="btn_layout_off"  type="radio" name="options"  autocomplete="off" checked> L Off
                                         </label>
                                         <label class="btn btn-secondary btn-sm">
-                                          <input id="btn_layout_on"  type="radio" name="options" autocomplete="off" > Layout On
+                                          <input id="btn_layout_on"  type="radio" name="options" autocomplete="off" > L On
                                         </label>
                                     </div>
 
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 pl-lg-0">
+                            <div class="col-lg-8 pl-lg-0">
+
+
+
                                 <div class="form-inline justify-content-lg-end">
+
+                                    <div class="input-group input-group-sm mr-1">
+                                        <div class="input-group-prepend">
+                                            <span class="pr-1 pt-1" style="font-size:14px">Use Page:</span>
+                                        </div>
+
+                                        <input id="ft_input" type="text" class="form-control mb-1" style="width:5vw">
+
+                                    </div>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="pr-1 pt-1" style="font-size:14px">Copy From:</span>
+                                        </div>
+                                        <select id="ft_select" class="custom-select custom-select-sm mb-1" style="width:3vw">
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                </select>
+                                        <span class="input-group-btn">
+                                        <button id="ft_btn" class="btn btn-secondary btn-sm">Apply</button>
+                                    </span>
+                                    </div>
 
                                     <div id="switch-table" data-toggle="hurkanSwitch">
                                         <input type="checkbox" checked name="demo1" hidden>
                                     </div>
                                     <div></div>
-
-
                                     <!-- <a id="" class="btn btn-sm btn-secondary mb-1 btnnotextcenter" href="#"><span class="">MainHeader</span>
                                         </a> -->
 
@@ -149,7 +171,7 @@
                                         <i class="load_btn_test floatImgandI fa fa-lg fa-spinner fa-spin" hidden ></i>
                                         
                                     </a>
-                                    <a id="result_test_btn" class="btn btn-sm btn-secondary mb-1 ml-2 btnnotextcenter" href="#"><span class="prettyText"> Result&nbsp;</span>    
+                                    <a id="result_test_btn" class="btn btn-sm btn-secondary mb-1 ml-2 btnnotextcenter" href="#"><span class=""> Result&nbsp;</span>    
                                     </a>
                                 </div>
                             </div>
@@ -926,6 +948,7 @@
      -->
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="js/tooltip.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <!--  <script src="js/jquery.dataTables.min.js"></script> -->
     <script src="js/hurkanSwitch.js"></script>
@@ -964,6 +987,7 @@
     <script src="js/place-header.js"></script>
     <script src="js/led.js"></script>
     <script src="js/getFastResponse.js"></script>
+    <script src="js/flex-temp.js"></script>
     <script src="js/app.js"></script>
 </body>
 
