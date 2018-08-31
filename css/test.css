@@ -485,6 +485,7 @@ table.dataTable tbody td {
 
 .tippy-tooltip {
     /* Your styling here. Example: */
+    font-family: sans-serif;
     background-color: white;
     color: black;
     font-size: 10px;
