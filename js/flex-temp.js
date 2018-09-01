@@ -163,7 +163,6 @@ ft.copy = {
     },
     getDataFrom: function(numPage, Templaite) {
         return ft.copy.filterTableInServer(Templaite.Pages[numPage - 1]);
-
     },
 
     filterTableInServer: function(temp) { //return [] rect Data Table 
@@ -207,8 +206,6 @@ ft.copy = {
         return t;
     },
 };
-
-
 
 
 ft.paint = {
