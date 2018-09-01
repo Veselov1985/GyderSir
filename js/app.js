@@ -331,6 +331,14 @@ temp.elementLeftBar = {
 };
 
 temp.helpfunc = {
+    deleteRepeatInArr: function(arr) {
+        var obj = {};
+        for (var i = 0; i < arr.length; i++) {
+            var str = arr[i];
+            obj[str] = true;
+        }
+        return Object.keys(obj);
+    },
     changeTempNotSaving: function() {
         var $that = temp.elementLeftBar.Templaite.that;
         temp.Data.leftTempList.list.forEach(function(val) {
@@ -1130,17 +1138,10 @@ temp.init = {
             var success = function(data) {
                 temp.serverInfo = []; // clean data prew server
                 filter.handlers.filterClear();
+                ft.helpfunc.select.renderSelect(data.Template.Pages); // render option in select Copy from
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // fix b. end
-                var fix = function(arr) {
-                    var obj = {};
-                    for (var i = 0; i < arr.length; i++) {
-                        var str = arr[i];
-                        obj[str] = true;
-                    }
-                    return Object.keys(obj);
-                };
-                data.Pks = fix(data.Pks);
+                data.Pks = temp.helpfunc.deleteRepeatInArr(data.Pks);
                 ////////////////////////////////////////////////////////////////////////////
                 if (data.Pks.length > 1) {
 

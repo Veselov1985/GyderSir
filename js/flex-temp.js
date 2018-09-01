@@ -1,5 +1,4 @@
 var ft = {};
-
 ft.elements = {};
 
 ft.elInit = function() {
@@ -21,16 +20,16 @@ ft.validate = {
     },
     shakeValidate: function(string) {
         var p;
-        var PageFrom = ft.helpfunc.select.getOptionVal();
+        var PageFrom = +ft.helpfunc.select.getOptionVal();
         if (ft.validate.digitTest(string)) {
             p = ft.parsing.digitPars(string, PageFrom);
-
+            ft.copy.init(PageFrom, p);
         } else if (ft.validate.nTest(string)) {
             p = ft.parsing.nPars(string, PageFrom);
-
+            ft.copy.init(PageFrom, p);
         } else if (ft.validate.starTest(string)) {
             p = ft.parsing.starPars(string, PageFrom);
-
+            ft.copy.init(PageFrom, p);
         } else {
             temp.helpfunc.modalInfo(['Field Copy To', 'Incorrect Enter']);
         }
@@ -38,9 +37,9 @@ ft.validate = {
     digitTest: function(str) {
         var pagesInDocument = temp.DataWorkspace.images.length;
         var test = true;
-        var res = str.split(',');
+        var res = str.split(',').filter(function(val) { return val != ''; }); // remove empty enter => ,, or ,1,2,
         res.forEach(function(val) {
-            if (!$.isNumeric(val) || +val > pagesInDocument) test = false;
+            if (!$.isNumeric(val) || +val > pagesInDocument || +val <= 0) test = false;
         });
         return test;
     },
@@ -48,17 +47,12 @@ ft.validate = {
         var res;
         var test = false;
         var pagesInDocument = temp.DataWorkspace.images.length;
-        var matchN = string.match(/n/ig);
-        if (matchN == null || matchN.length > 1) {
-            test = false;
-        } else {
-            res = string.split('');
-            if (res.length == 1 && res[0] == 'n') {
-                test = true;
-            }
-            if (res.length == 3 && res[0] == 'n' && res[1] == '-' && $.isNumeric(res[2]) && +res[2] < pagesInDocument) {
-                test = true;
-            }
+        res = string.split('');
+        if (res.length == 1 && res[0] == 'n') {
+            test = true;
+        }
+        if (res.length == 3 && res[0] == 'n' && res[1] == '-' && $.isNumeric(res[2]) && +res[2] < pagesInDocument) {
+            test = true;
         }
         return test;
     },
@@ -66,26 +60,27 @@ ft.validate = {
         var res, test;
         var pagesInDocument = temp.DataWorkspace.images.length;
         test = false;
-        var matchN = string.match(/\*/ig);
-        if (matchN == null || matchN.length > 1) {
-            test = false;
-        } else {
-            res = string.split('');
-            if (res[0] == '*' && res[1] == "-" && $.isNumeric(res[2]) && pagesInDocument - (+res[2]) > 0) {
-                test = true;
-            }
-            var fromUpToAll = res.join('').split('-');
-            if ($.isNumeric(fromUpToAll[0]) &&
-                +fromUpToAll[0] < pagesInDocument &&
-                fromUpToAll[1] == "*" &&
-                $.isNumeric(fromUpToAll[2]) &&
-                +fromUpToAll[2] < pagesInDocument &&
-                (pagesInDocument - +fromUpToAll[0] - +fromUpToAll[2]) > 0
-            ) {
-                test = true;
-            } else if (fromUpToAll.length == 1 && fromUpToAll[0] == "*") {
-                test = true;
-            }
+        res = string.split('');
+        if (res.length == 3 && res[0] == '*' && res[1] == "-" && $.isNumeric(res[2]) && pagesInDocument - (+res[2]) > 0) { //  *-1
+            test = true;
+        }
+        if (res.length == 3 && res[2] == '*' && res[1] == "-" && $.isNumeric(res[0]) && pagesInDocument - (+res[0]) > 0) { // 2-*
+            test = true;
+        }
+        var fromUpToAll = res.join('').split('-');
+        if (
+            fromUpToAll.length == 3 && // 2-*-1
+            $.isNumeric(fromUpToAll[0]) &&
+            $.isNumeric(fromUpToAll[2]) &&
+            fromUpToAll[1] == "*" &&
+            +fromUpToAll[0] < pagesInDocument &&
+            +fromUpToAll[2] < pagesInDocument &&
+            (+fromUpToAll[0] - 1) > 0 &&
+            (pagesInDocument - (+fromUpToAll[0] - 1) - +fromUpToAll[2]) > 0
+        ) {
+            test = true;
+        } else if (fromUpToAll.length == 1 && fromUpToAll[0] == "*") { // => '*' 
+            test = true;
         }
         return test;
     },
@@ -96,67 +91,147 @@ ft.parsing = {
         var PageFrom = +ft.helpfunc.select.getOptionVal();
     },
     digitPars: function(str, cf) { // cf => value selected option
-        return str.split(',').filter(function(val, i) {
+        var p = str.split(',').filter(function(val, i) {
             return +val != cf;
-        });
+        }).filter(function(val) { return val != ''; }); // fix => ,3,4,
+        // need clear repeat in p  fix this => 4,4
+        return temp.helpfunc.deleteRepeatInArr(p).map(function($val) { return +$val; });
     },
     nPars: function(str, cf) {
         var p;
         var pagesInDocument = temp.DataWorkspace.images.length;
         var res = str.split("");
-        if (res.length == 1) {
-            p = [pagesInDocument].filter(function(val) { return pagesInDocument != val; });
-        } else {
-            p = [pagesInDocument - (+res[2])].filter(function(val) { return pagesInDocument != val; });
-        }
-        return p;
-    },
-    starPars: function(str, cf) {
-        var p, res, arr;
-        p = [];
-        arr = [];
-        var pagesInDocument = temp.DataWorkspace.images.length;
-        res = str.split('-');
-        if (res.length == 1 && res[0] == "*") {
-            arr.length = pagesInDocument;
-            arr.forEach(function(val, i) {
-                p.push(i + 1);
-            });
-        } else if (res.length == 2) {
-            if (res[0] == "*") { //*-1
-                arr.length = pagesInDocument - (+res[1]);
-                arr.forEach(function(val, i) {
-                    p.push(i + 1);
-                });
-
-            } else if (res[1] == '*') { //2 -*
-                arr.length = pagesInDocument;
-                arr.forEach(function(val, i) {
-                    if (val >= +res[0]) {
-                        p.push(i + 1);
-                    }
-                });
-            }
-        } else if (res.length == 3) { // 2-*-1
-            arr.length = pagesInDocument - (+res[2]);
-            arr.forEach(function(val, i) {
-                if (val >= +res[0]) {
-                    p.push(i + 1);
-                }
-            });
+        if (res.length == 1) { // n
+            p = [pagesInDocument];
+        } else { // n-5
+            p = [pagesInDocument - (+res[2])];
         }
         return p.filter(function(val) {
             return val != cf;
+        }).map(function($val) { return +$val; });
+    },
+    starPars: function(str, cf) {
+        var p, res, len;
+        p = [];
+        var pagesInDocument = temp.DataWorkspace.images.length;
+        res = str.split('-');
+        if (res.length == 1 && res[0] == "*") {
+            len = pagesInDocument;
+            for (var i = 1; i <= len; i++) {
+                p.push(i);
+            }
+        } else if (res.length == 2) {
+            if (res[0] == "*") { //*-1
+                len = pagesInDocument - (+res[1]);
+                for (var i = 1; i <= len; i++) {
+                    p.push(i);
+                }
+            } else if (res[1] == '*') { //2 -*
+                len = pagesInDocument;
+                for (var i = +res[0]; i <= len; i++) {
+                    p.push(i);
+                }
+            }
+        } else if (res.length == 3) { // 2-*-1
+            len = pagesInDocument - (+res[2]);
+
+            for (var i = +res[0]; i <= len; i++) {
+                p.push(i);
+            }
+        }
+        return p.filter(function(val) {
+            return val != cf;
+        }).map(function($val) { return +$val; });
+    },
+};
+
+ft.copy = {
+    init: function(from, to) {
+        if (ft.copy.isEmptyPages(to)) return;
+        var Templaite = temp.helpfunc.createresponsedata().Template;
+        var DataFrom = ft.copy.getDataFrom(from, Templaite);
+        var newTemplaite = ft.copy.initCopareFromtoToData(DataFrom, to, Templaite);
+        ft.paint.init(newTemplaite);
+    },
+    isEmptyPages: function(arr) {
+        if (arr.length == 0) {
+            temp.helpfunc.modalInfo(['Field Copy To', 'Incorrect Enter(No pages found for stitching)']);
+            return true;
+        } else {
+            return false;
+        }
+    },
+    getDataFrom: function(numPage, Templaite) {
+        return ft.copy.filterTableInServer(Templaite.Pages[numPage - 1]);
+
+    },
+
+    filterTableInServer: function(temp) { //return [] rect Data Table 
+        return temp.TableDatas.filter(function(rect) {
+            return rect.DataType.Name == "TableDatas";
         });
+    },
+    initCopareFromtoToData: function(fromTableData, toPages, Templaite) {
+        var tempTo = ft.copy.filterTableinTo(Templaite, toPages);
+        var resTemp = ft.copy.mergerDataFromTo(fromTableData, tempTo, toPages);
+        return resTemp;
+    },
+    filterTableinTo: function(Templaite, pageArr) {
+
+        var pages = Templaite.Pages.map(function(page, i) {
+            if (ft.helpfunc.compareNumberInArr(i + 1, pageArr)) {
+                page.TableDatas = page.TableDatas.filter(function(rect) {
+                    return rect.DataType.Name != "TableDatas";
+                });
+                return page;
+
+            } else {
+                return page;
+            }
+        });
+        Templaite.Pages = pages;
+        return Templaite;
+
+    },
+    mergerDataFromTo: function(f, t, pages) {
+        var page = t.Pages.map(function(p, i) {
+            if (ft.helpfunc.compareNumberInArr(i + 1, pages)) {
+                if (p.TableDatas == undefined) p.TableDatas = [];
+                p.TableDatas = p.TableDatas.concat(f);
+                return p;
+            } else {
+                return p;
+            }
+        });
+        t.Pages = page;
+        return t;
     },
 };
 
 
-ft.handlers = {
+
+
+ft.paint = {
+    init: function(temps) {
+        ft.paint.clearPrevData(temps);
+        paint.objects.datafromserver.arrdata = temps.Pages[temp.DataWorkspace.activpage];
+        temp.DataWorkspace.initwindow();
+
+    },
+    clearPrevData: function(temp) {
+        paint.objects.disactiv = [];
+        paint.objects.datafromserver.removelistpage = temp.Pages;
+        paint.objects.global.disactivpage = [];
+        paint.objects.datafromserver.datafromserverpage = temp.Pages;
+        paint.handlers.clearsvgcontent();
+    }
 
 };
 
 ft.helpfunc = {
+    compareNumberInArr: function(n, arr) {
+        return arr.filter(function(val) { return val == n; }).length > 0;
+    },
     input: {
         getValue: function() {
             return ft.elements.ft_input.val();
