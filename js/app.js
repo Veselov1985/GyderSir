@@ -217,7 +217,7 @@ temp.elementLeftBar = {
 
             // show save templaite modal window  
             temp.elementLeftBar.object.btn_save_temp.on('click', function() {
-                applymodal_tempresult.elements.applymodal_tempresult_input.val(temp.elementLeftBar.Templaite.origin.Name);
+                applymodal_tempresult.elements.applymodal_tempresult_input.val(temp.elementLeftBar.dataTable.object.find('.selected td:first').text());
                 applymodal_tempresult.handlers.showtemp();
             });
 

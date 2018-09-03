@@ -216,11 +216,15 @@ ft.paint = {
         temp.DataWorkspace.initwindow();
 
     },
-    clearPrevData: function(temp) {
+    clearPrevData: function(temps) {
+        temp.elementLeftBar.Templaite.Pk = temp.zeroGuid; //Pk empty row
+        temp.elementLeftBar.Templaite.Name = '';
+        temp.elementLeftBar.Templaite.name = '';
+        temp.elementLeftBar.Templaite.origin = {};
         paint.objects.disactiv = [];
-        paint.objects.datafromserver.removelistpage = temp.Pages;
+        paint.objects.datafromserver.removelistpage = temps.Pages;
         paint.objects.global.disactivpage = [];
-        paint.objects.datafromserver.datafromserverpage = temp.Pages;
+        paint.objects.datafromserver.datafromserverpage = temps.Pages;
         paint.handlers.clearsvgcontent();
     }
 

@@ -143,7 +143,10 @@ db.handler = {
         paint.objects.disactiv.forEach(function(element, i) {
             if (element.autoCreate == 'rectauto') $('#' + element.id).addClass('rectauto');
         });
-        $('#' + paint.objects.activrect.id).removeClass('rectauto').addClass('rect');
+        if (paint.objects.activrect.id != "") {
+            $('#' + paint.objects.activrect.id).removeClass('rectauto').addClass('rect');
+        }
+
     }
 };
 
