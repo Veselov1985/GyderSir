@@ -179,6 +179,7 @@ ft.copy = {
 
         var pages = Templaite.Pages.map(function(page, i) {
             if (ft.helpfunc.compareNumberInArr(i + 1, pageArr)) {
+                if (!page.TableDatas) { page.TableDatas = []; }
                 page.TableDatas = page.TableDatas.filter(function(rect) {
                     return rect.DataType.Name != "TableDatas";
                 });
