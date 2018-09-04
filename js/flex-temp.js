@@ -185,7 +185,6 @@ ft.copy = {
         return resTemp;
     },
     filterTableinTo: function(Templaite, pageArr) {
-
         var pages = Templaite.Pages.map(function(page, i) {
             if (ft.helpfunc.compareNumberInArr(i + 1, pageArr)) {
                 if (!page.TableDatas) { page.TableDatas = []; }
