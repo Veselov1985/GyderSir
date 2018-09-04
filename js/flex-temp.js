@@ -167,7 +167,7 @@ ft.copy = {
     },
     getMainHeader: function(f, temps) {
         var Obj = temps.Pages[f - 1];
-        if (Obj.MainHeader.Rect) {
+        if (Obj.MainHeader) {
             return Obj.MainHeader;
         } else {
             return null;
