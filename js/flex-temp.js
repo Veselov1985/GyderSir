@@ -150,7 +150,8 @@ ft.copy = {
         if (ft.copy.isEmptyPages(to)) return;
         var Templaite = temp.helpfunc.createresponsedata().Template;
         var DataFrom = ft.copy.getDataFrom(from, Templaite);
-        var newTemplaite = ft.copy.initCopareFromtoToData(DataFrom, to, Templaite);
+        var MainHeaderFrom = ft.copy.getMainHeader(from, Templaite);
+        var newTemplaite = ft.copy.initCopareFromtoToData(DataFrom, to, Templaite, MainHeaderFrom);
         ft.paint.init(newTemplaite);
     },
     isEmptyPages: function(arr) {
@@ -164,15 +165,23 @@ ft.copy = {
     getDataFrom: function(numPage, Templaite) {
         return ft.copy.filterTableInServer(Templaite.Pages[numPage - 1]);
     },
+    getMainHeader: function(f, temps) {
+        var Obj = temps.Pages[f - 1];
+        if (Obj.MainHeader.Rect) {
+            return Obj.MainHeader;
+        } else {
+            return null;
+        }
+    },
 
     filterTableInServer: function(temp) { //return [] rect Data Table 
         return temp.TableDatas.filter(function(rect) {
             return rect.DataType.Name == "TableDatas";
         });
     },
-    initCopareFromtoToData: function(fromTableData, toPages, Templaite) {
+    initCopareFromtoToData: function(fromTableData, toPages, Templaite, mainHeader) {
         var tempTo = ft.copy.filterTableinTo(Templaite, toPages);
-        var resTemp = ft.copy.mergerDataFromTo(fromTableData, tempTo, toPages);
+        var resTemp = ft.copy.mergerDataFromTo(fromTableData, tempTo, toPages, mainHeader);
         return resTemp;
     },
     filterTableinTo: function(Templaite, pageArr) {
@@ -184,20 +193,21 @@ ft.copy = {
                     return rect.DataType.Name != "TableDatas";
                 });
                 return page;
-
             } else {
                 return page;
             }
         });
         Templaite.Pages = pages;
         return Templaite;
-
     },
-    mergerDataFromTo: function(f, t, pages) {
+
+    mergerDataFromTo: function(f, t, pages, mainHeader) {
         var page = t.Pages.map(function(p, i) {
             if (ft.helpfunc.compareNumberInArr(i + 1, pages)) {
                 if (p.TableDatas == undefined) p.TableDatas = [];
                 p.TableDatas = p.TableDatas.concat(f);
+                if (!p.MainHeader) p.MainHeader = {};
+                p.MainHeader = mainHeader;
                 return p;
             } else {
                 return p;
@@ -208,14 +218,13 @@ ft.copy = {
     },
 };
 
-
 ft.paint = {
     init: function(temps) {
         ft.paint.clearPrevData(temps);
         paint.objects.datafromserver.arrdata = temps.Pages[temp.DataWorkspace.activpage];
         temp.DataWorkspace.initwindow();
-
     },
+
     clearPrevData: function(temps) {
         temp.elementLeftBar.Templaite.Pk = temp.zeroGuid; //Pk empty row
         temp.elementLeftBar.Templaite.Name = '';
@@ -227,7 +236,6 @@ ft.paint = {
         paint.objects.datafromserver.datafromserverpage = temps.Pages;
         paint.handlers.clearsvgcontent();
     }
-
 };
 
 ft.helpfunc = {
