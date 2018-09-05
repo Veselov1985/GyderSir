@@ -55,10 +55,9 @@ xml.handlers = {
         var stateHeader = false;
         var stateData = false;
         var headerArr = arr.filter(function(val, i) { return (typeof val.Header) == 'string'; });
-        if (headerArr.length == 0) { stateHeader = true; }
         var dataArr = arr.filter(function(val, i) {
             if ((typeof val.Data) == 'string') {
-                if (val.Data.toLowerCase() !== 'Exception whith Regex'.toLowerCase() && val.Data != '') {
+                if (val.Data.toLowerCase().trim() !== 'Exception whith Regex'.toLowerCase() && val.Data.trim() != '') {
                     return true;
                 } else {
                     return false;
@@ -67,10 +66,14 @@ xml.handlers = {
                 return false;
             }
         });
+        if (headerArr.length == 0) { stateHeader = true; }
         if (dataArr.length == 0) { stateData = true; }
-        if (stateHeader) return true;
-        if (stateData) return true;
-        return false;
+
+        if (stateData || stateHeader) {
+            return true;
+        } else {
+            return false;
+        }
     },
     headerSir: function(arrPage) {
         var lastPageI = arrPage.length - 1;
@@ -109,7 +112,7 @@ xml.handlers = {
                         HeaderTag = (HeaderTag == "") ? xml.handlers.emtyHeader() : HeaderTag;
                         HeaderTag = xml.handlers.remomeXMLEror(HeaderTag);
                         $text = xml.handlers.removeStringError($text);
-                        str += '<' + HeaderTag + '>' + $text + '</' + HeaderTag + '>';
+                        str += '<' + HeaderTag.toLowerCase() + '>' + $text + '</' + HeaderTag.toLowerCase() + '>';
                     });
                     str += '</Line>';
                     xml.data.$em = 0;

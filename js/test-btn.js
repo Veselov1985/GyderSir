@@ -244,7 +244,7 @@
      },
      cookHeaderLines: function(arr, iter) { //TableLines  
          arr.forEach(function(val, i) {
-             zaglyshka.data.lines[iter].th.push(val.Header);
+             zaglyshka.data.lines[iter].th.push(val.Header.toLowerCase());
          });
      },
      cookDataCell: function(arr, iteration) {
