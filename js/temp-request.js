@@ -207,7 +207,7 @@ tr.ajax = {
 
 tr.action = function() {
     tr.elements.btn_temp_request.on('click', function() {
-        tr.data.windowChild = window.open('./TempRequest.html', 'request', "width=600,height=400,left=20px,top=20px,menubar=yes,toolbar=yes,location=yes,resizable=yes,scrollbars=yes");
+        tr.data.windowChild = window.open('TempRequest.html', 'request', "width=600,height=400,left=20px,top=20px,menubar=yes,toolbar=yes,location=yes,resizable=yes,scrollbars=yes");
         //  tr.ajax.getTemplate();
         tr.dataTable.init(tr.dataTable.object, tr.data.zag);
         // tr.elements.temp_request_modal.modal('show');
@@ -215,7 +215,29 @@ tr.action = function() {
     });
 
 
+    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+    var eventer = window[eventMethod];
+    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
 
+    // Listen to message from child window
+    eventer(messageEvent, function(e) {
+        console.log('origin: ', e.origin);
+
+        console.log('parent received message!: ', e.data);
+    }, false);
+
+
+
+
+    /*
+    @discription 
+    @ need add EventEmmiter 
+
+    tr.data.windowChild.postMessage({ token: 'aaa', secret: 'bbb' }, '*');
+    
+    
+    
+    */
 
     // cancel modal
     tr.elements.temp_request_cancel.on('click', function() {
