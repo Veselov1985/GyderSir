@@ -1135,93 +1135,7 @@ temp.init = {
             temp.helpfunc.cookfilesend();
             temp.helpfunc.addadvancedoption();
             filter.handlers.enabled();
-            var success = function(data) {
-                temp.serverInfo = []; // clean data prew server
-                filter.handlers.filterClear();
-                ft.helpfunc.select.renderSelect(data.Template.Pages); // render option in select Copy from
-                //////////////////////////////////////////////////////////////////////////////////////////////////////////
-                // fix b. end
-                data.Pks = temp.helpfunc.deleteRepeatInArr(data.Pks);
-                ////////////////////////////////////////////////////////////////////////////
-                if (data.Pks.length > 1) {
-
-                    ph.data.object = ph.data.default; // set default pages objects
-                    filter.handlers.toggleLight();
-
-                    // check id pdf download and button not push
-                    temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
-
-                    temp.Data.leftTempList.data = [
-                        ["Create new Template", "fa fa-plus-circle"]
-                    ];
-
-                    temp.elementLeftBar.dataTable.clean();
-                    data.Pks.forEach(function(val) {
-                        for (var i = 0; i < temp.Data.leftTempList.list.length; i++) {
-                            if (val == temp.Data.leftTempList.list[i].Pk) temp.Data.leftTempList.data.push([temp.Data.leftTempList.list[i].Name, temp.img.off]);
-                        }
-                    });
-                    temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-                    temp.elementLeftBar.Templaite.Pk = data.Template.Pk;
-                    temp.elementLeftBar.Templaite.name = data.Template.Name;
-                    temp.control.templaite.renderDataTemplaite(data.Template.Pages);
-                    temp.control.templaite.renderDataListPaint(data.Template.Pages);
-                    temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
-                    paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
-                    temp.DataWorkspace.initwindow();
-                } else if (data.Pks.length == 1) {
-                    gf.init(data); // fast request to the server => get response result 
-                    filter.handlers.toggleLight(); // filter fix
-                    temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
-                    temp.Data.leftTempList.data = [
-                        ["Create new Template", "fa fa-plus-circle"]
-                    ];
-                    temp.elementLeftBar.dataTable.clean();
-                    data.Pks.forEach(function(val) {
-                        for (var i = 0; i < temp.Data.leftTempList.list.length; i++) {
-                            if (val == temp.Data.leftTempList.list[i].Pk) temp.Data.leftTempList.data.push([temp.Data.leftTempList.list[i].Name, temp.img.activ]);
-                        }
-                    });
-                    var oneData = temp.Data.leftTempList.list.filter(function(val, i) {
-                        return val.Pk == data.Pks[0];
-                    });
-                    temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-                    temp.elementLeftBar.dataTable.object.find('i').each(function() {
-                        $that = $(this);
-                        if ($that.attr('class').trim() == temp.img.activ) {
-                            $that.parent().parent().addClass('selected');
-                        }
-                    });
-                    ph.handlers.reverseToFront(oneData[0].Scopes); // add Scopes in object pages all,first,last
-                    temp.elementLeftBar.Templaite.Name = oneData[0].Name;
-                    temp.elementLeftBar.Templaite.Pk = oneData[0].Pk;
-                    temp.elementLeftBar.Templaite.name = oneData[0].Name;
-                    temp.elementLeftBar.Templaite.origin = oneData[0];
-                    temp.control.templaite.renderDataTemplaite(data.Template.Pages);
-                    temp.control.templaite.renderDataListPaint(oneData[0].Pages);
-                    temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
-                    paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
-                    temp.DataWorkspace.initwindow();
-                    //  setTimeout(function() { test.elements.test_btn.click(); }, 3000);
-                    // Get result if found only one Templaite
-                } else {
-                    ph.data.object = ph.data.default; // default Scopes from object Page all,first,Last
-                    temp.control.templaite.unselectDataTable();
-                    temp.elementLeftBar.dataTable.clean();
-                    temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-                    temp.elementLeftBar.Templaite.Pk = data.Template.Pk;
-                    temp.elementLeftBar.Templaite.name = data.Template.Name;
-                    temp.control.templaite.renderDataTemplaite(data.Template.Pages);
-                    temp.control.templaite.renderDataListPaint(data.Template.Pages);
-                    temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
-                    paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
-                    temp.DataWorkspace.initwindow();
-                }
-            };
-            var error = function(data) {
-                alert(data);
-            };
-            temp.Ajax.sendFileToProccess(null, success, error);
+            temp.Ajax.sendFileToProccess(null, temp.loadEvent.success, temp.loadEvent.error);
         });
         temp.elementControl.object.btn_page_next.click(function() {
             temp.elementControl.nextPage();
@@ -1230,6 +1144,95 @@ temp.init = {
             temp.elementControl.prewPage();
         });
     },
+};
+
+temp.loadEvent = {
+
+    success: function(data) {
+        temp.serverInfo = []; // clean data prew server
+        filter.handlers.filterClear();
+        ft.helpfunc.select.renderSelect(data.Template.Pages); // render option in select Copy from
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // fix b. end
+        data.Pks = temp.helpfunc.deleteRepeatInArr(data.Pks);
+        ////////////////////////////////////////////////////////////////////////////
+        if (data.Pks.length > 1) {
+            ph.data.object = ph.data.default; // set default pages objects
+            filter.handlers.toggleLight();
+            // check id pdf download and button not push
+            temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
+            temp.Data.leftTempList.data = [
+                ["Create new Template", "fa fa-plus-circle"]
+            ];
+            temp.elementLeftBar.dataTable.clean();
+            data.Pks.forEach(function(val) {
+                for (var i = 0; i < temp.Data.leftTempList.list.length; i++) {
+                    if (val == temp.Data.leftTempList.list[i].Pk) temp.Data.leftTempList.data.push([temp.Data.leftTempList.list[i].Name, temp.img.off]);
+                }
+            });
+            temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
+            temp.elementLeftBar.Templaite.Pk = data.Template.Pk;
+            temp.elementLeftBar.Templaite.name = data.Template.Name;
+            temp.control.templaite.renderDataTemplaite(data.Template.Pages);
+            temp.control.templaite.renderDataListPaint(data.Template.Pages);
+            temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
+            paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
+            temp.DataWorkspace.initwindow();
+        } else if (data.Pks.length == 1) {
+            gf.init(data); // fast request to the server => get response result 
+            filter.handlers.toggleLight(); // filter fix
+            temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
+            temp.Data.leftTempList.data = [
+                ["Create new Template", "fa fa-plus-circle"]
+            ];
+            temp.elementLeftBar.dataTable.clean();
+            data.Pks.forEach(function(val) {
+                for (var i = 0; i < temp.Data.leftTempList.list.length; i++) {
+                    if (val == temp.Data.leftTempList.list[i].Pk) temp.Data.leftTempList.data.push([temp.Data.leftTempList.list[i].Name, temp.img.activ]);
+                }
+            });
+            var oneData = temp.Data.leftTempList.list.filter(function(val, i) {
+                return val.Pk == data.Pks[0];
+            });
+            temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
+            temp.elementLeftBar.dataTable.object.find('i').each(function() {
+                $that = $(this);
+                if ($that.attr('class').trim() == temp.img.activ) {
+                    $that.parent().parent().addClass('selected');
+                }
+            });
+            ph.handlers.reverseToFront(oneData[0].Scopes); // add Scopes in object pages all,first,last
+            temp.elementLeftBar.Templaite.Name = oneData[0].Name;
+            temp.elementLeftBar.Templaite.Pk = oneData[0].Pk;
+            temp.elementLeftBar.Templaite.name = oneData[0].Name;
+            temp.elementLeftBar.Templaite.origin = oneData[0];
+            temp.control.templaite.renderDataTemplaite(data.Template.Pages);
+            temp.control.templaite.renderDataListPaint(oneData[0].Pages);
+            temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
+            paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
+            temp.DataWorkspace.initwindow();
+            //  setTimeout(function() { test.elements.test_btn.click(); }, 3000);
+            // Get result if found only one Templaite
+        } else {
+            ph.data.object = ph.data.default; // default Scopes from object Page all,first,Last
+            temp.control.templaite.unselectDataTable();
+            temp.elementLeftBar.dataTable.clean();
+            temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
+            temp.elementLeftBar.Templaite.Pk = data.Template.Pk;
+            temp.elementLeftBar.Templaite.name = data.Template.Name;
+            temp.control.templaite.renderDataTemplaite(data.Template.Pages);
+            temp.control.templaite.renderDataListPaint(data.Template.Pages);
+            temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
+            paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
+            temp.DataWorkspace.initwindow();
+        }
+
+    },
+    error: function(error) {
+        console.log(error);
+    },
+
+
 };
 
 temp.render = {
