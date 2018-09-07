@@ -98,7 +98,7 @@ trw.dataTable = {
             "data": data,
             "columnDefs": [{
                     'targets': 0,
-                    'orderable': false,
+                    'orderable': true,
                     'searchable': true,
                     'className': 'dt-body-center',
                     'render': function(data, type, full, meta) {
@@ -107,7 +107,7 @@ trw.dataTable = {
                 },
                 {
                     'targets': 1,
-                    'orderable': false,
+                    'orderable': true,
                     'searchable': true,
                     'className': 'dt-body-center',
                     'render': function(data, type, full, meta) {
@@ -116,8 +116,8 @@ trw.dataTable = {
                 },
                 {
                     'targets': 2,
-                    'orderable': false,
-                    'searchable': false,
+                    'orderable': true,
+                    'searchable': true,
                     'className': 'dt-body-center',
                     'render': function(data, type, full, meta) {
                         return data;

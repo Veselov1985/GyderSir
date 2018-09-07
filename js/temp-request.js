@@ -297,7 +297,6 @@ tr.action = function() {
             tr.ajax.getTemplateDocument(id);
 
              ----------------------------
-
             */
         } else {
             // need output message??
