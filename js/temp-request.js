@@ -115,7 +115,6 @@ tr.handlers = {
 
 
     getDocumentsuccess: function(data) {
-
         /*
         @need send to part pdf Load events
            temp.Data.LoadPdfOpt.file_pdf = new FormData();
@@ -123,8 +122,6 @@ tr.handlers = {
                 temp.Data.LoadPdfOpt.file_pdf.append(key, value);
             });
             temp.Ajax.sendFileToProccess(null,temp.loadEvent.success, temp.loadEvent.error);
-        
-     
                 tr.elements.temp_request_modal.modal('hide');
 
         */
@@ -203,41 +200,84 @@ tr.ajax = {
     },
 };
 
+tr.ACTIONSCREATER = {
+
+    saveTemplateNextStep: function(obj) {
+        // obj=> {id: number - delete Template}
+        return { event: 'NextStep', data: obj };
+    }
+
+    // part Actions createrow fow child
+};
+
+
+tr.chakeEvents = {
+    init: function(data) {
+        switch (data.event) {
+            case 'DocumentProcessing':
+                tr.chakeEvents.pdfDocumentWorker(data.data);
+                break;
+            case 'value2':
+                break;
+
+            default:
+
+                break;
+        }
+
+    },
+    pdfDocumentWorker: function(data) {
+        // child window send pdf document
+        // save id work pdf document
+        //  tr.data.id = data.id;
+
+    },
+
+};
+
+
+
+tr.EventEmmiter = {
+    listener: function(callback) {
+        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+        var eventer = window[eventMethod];
+        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+        // Listen to message from child window
+        eventer(messageEvent, function(e) {
+            console.log('origin: ', e.origin);
+            console.log('parent received message!: ', e.data);
+            callback(e);
+        }, false);
+    },
+    emit: function(data) {
+        //data => { event: 'name', data: '' }
+        tr.data.windowChild.postMessage(data, '*');
+
+    },
+    callbackHandlers: function(e) {
+        console.log(e);
+        tr.chakeEvents.init(e.data);
+    }
+};
+
 
 
 tr.action = function() {
     tr.elements.btn_temp_request.on('click', function() {
-        tr.data.windowChild = window.open('TempRequest.html', 'request', "width=600,height=400,left=20px,top=20px,menubar=yes,toolbar=yes,location=yes,resizable=yes,scrollbars=yes");
-        //  tr.ajax.getTemplate();
-        tr.dataTable.init(tr.dataTable.object, tr.data.zag);
-        // tr.elements.temp_request_modal.modal('show');
+        if (tr.data.windowChild.closed == true || typeof tr.data.windowChild == 'string') {
+            tr.data.windowChild = window.open('TempRequest.html', 'request', "width=600,height=400,left=20px,top=20px,menubar=yes,toolbar=yes,location=yes,resizable=yes,scrollbars=yes");
+        } else {
+            return;
 
+        }
+        //  tr.ajax.getTemplate();
+        //  tr.dataTable.init(tr.dataTable.object, tr.data.zag);
+        // tr.elements.temp_request_modal.modal('show');
     });
 
-
-    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-    var eventer = window[eventMethod];
-    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-
-    // Listen to message from child window
-    eventer(messageEvent, function(e) {
-        console.log('origin: ', e.origin);
-
-        console.log('parent received message!: ', e.data);
-    }, false);
+    tr.EventEmmiter.listener(tr.EventEmmiter.callbackHandlers); // listener message child
 
 
-
-
-    /*
-    @discription 
-    @ need add EventEmmiter 
-
-    tr.data.windowChild.postMessage({ token: 'aaa', secret: 'bbb' }, '*');
-    
-    
-    
-    */
 
     // cancel modal
     tr.elements.temp_request_cancel.on('click', function() {
@@ -251,7 +291,6 @@ tr.action = function() {
         if (trSelected.length > 0) {
             var id = tr.handlers.getIdSelectedTemplate(trSelected);
             tr.data.id = id;
-
             /* -----------------------------------------
             @need ajax to get pdf.file at the server
 
@@ -260,7 +299,6 @@ tr.action = function() {
              ----------------------------
 
             */
-
         } else {
             // need output message??
         }
