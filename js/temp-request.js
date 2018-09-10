@@ -37,8 +37,6 @@ tr.data = {
 
 tr.elements = {};
 
-
-
 tr.elements.init = function() {
     tr.elements.btn_temp_request = $('#btn_temp_request');
     // modal window
