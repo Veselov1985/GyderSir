@@ -1371,4 +1371,5 @@ $(document).ready(function() {
     rightpref.Ajax.sendRenderAlternateProccess();
     hx.ajax.getAllHeader(null);
     au.elements.init();
+    tr.init();
 });

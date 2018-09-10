@@ -1,8 +1,8 @@
 var tr = {};
+tr.routes = {};
+tr.debug = false;
+tr.routes.openWindow = tr.debug ? 'TemplateRequest/TempRequest' : 'TempRequest.html';
 
-tr.routes = {
-    openWindow: temp.debug ? 'TemplateRequest/TempRequest' : 'TempRequest.html'
-};
 tr.data = {
     windowChild: '',
     id: '',
@@ -317,4 +317,5 @@ tr.init = function() {
     tr.action();
 };
 
-tr.init();
+
+// tr.init();  replace in app.js
