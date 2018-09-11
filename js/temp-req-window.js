@@ -6,6 +6,9 @@ trw.routes = {
     getTemplateUrl: trw.root + '',
 };
 
+window.webkitStorageInfo = navigator.webkitTemporaryStorage || navigator.webkitPersistentStorage;
+document.origin = window.origin || self.origin;
+
 trw.elements = {};
 trw.data = {
     id: '',
@@ -48,29 +51,6 @@ trw.init = function() {
     trw.elements.temp_request_child_upload = $('#temp_request_child_upload');
     trw.elements.temp_request_child_update = $('#temp_request_child_update');
     trw.elements.temp_request_cancel = $('#temp_request_cancel');
-};
-
-
-
-trw.EventEmmiter = {
-    listen: function(callback) {
-        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-        var eventer = window[eventMethod];
-        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-        // Listen to message from parent window
-        eventer(messageEvent, function(e) {
-            console.log('origin: ', e.origin);
-            console.log('parent received message!: ', e.data);
-            callback(e.data);
-        }, false);
-    },
-    emit: function(data) {
-        // data => { token: 'aaa', secret: 'bbb' }
-        window.opener.postMessage(data, '*');
-    },
-    callbackHandlers: function(data) {
-        console.log(data);
-    }
 };
 
 trw.dataTable = {
@@ -149,10 +129,36 @@ trw.helpfunc = {
 
 };
 
+trw.EventEmmiter = {
+    listen: function(callback) {
+        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+        var eventer = window[eventMethod];
+        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+        // Listen to message from parent window
+        eventer(messageEvent, function(e) {
+            if (!trw.debug && e.origin != window.origin) return;
+            console.log('origin: ', e.origin);
+            console.log('parent received message!: ', e.data);
+            callback(e.data);
+        }, false);
+    },
+    emit: function(data) {
+        // data => { token: 'aaa', secret: 'bbb' }
+        window.opener.postMessage(data, '*');
+    },
+    callbackHandlers: function(data) {
+        console.log(data);
+    }
+};
+
+
 trw.ACTIONSCREATER = {
     documentProcessing: function(obj) {
-        return { event: 'DocumentProcessing', obj };
+        return { event: 'DocumentProcessing', data: obj };
     },
+    CloseWindow: function() {
+        return { event: 'CloseChild' };
+    }
 
 
 };
@@ -177,7 +183,9 @@ trw.chakeEvents = {
             var next = trw.data.zag[0];
             trw.Ajax.getTemplateDocument(next[3]);
         } else {
-            console.log('document not found');
+            // listen end doc => close window
+
+            trw.EventEmmiter.emit(trw.ACTIONSCREATER.CloseChild); // in future add sheck update list on the server
         }
 
 
@@ -211,7 +219,6 @@ trw.handlers = {
             return val.id != id;
         });
     }
-
 };
 
 
@@ -300,6 +307,7 @@ trw.action = function() {
             */
             trw.EventEmmiter.emit(id);
         } else {
+            console.log('no selected');
             // need output message??
         }
     });
