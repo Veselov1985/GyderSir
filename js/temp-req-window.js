@@ -144,7 +144,9 @@ trw.EventEmmiter = {
     },
     emit: function(data) {
         // data => { token: 'aaa', secret: 'bbb' }
-        window.opener.postMessage(data, '*');
+
+        self.opener.postMessage(data, '*');
+        // window.opener.postMessage(data, '*');
     },
     callbackHandlers: function(data) {
         console.log(data);
@@ -185,7 +187,7 @@ trw.chakeEvents = {
         } else {
             // listen end doc => close window
 
-            trw.EventEmmiter.emit(trw.ACTIONSCREATER.CloseChild); // in future add sheck update list on the server
+            trw.EventEmmiter.emit(trw.ACTIONSCREATER.CloseWindow()); // in future add sheck update list on the server
         }
 
 
@@ -235,6 +237,8 @@ trw.Ajax = {
             dataType: 'json',
             success: function(data, textStatus, jqXHR) {
                 trw.handlers.getTemplatesuccess(data);
+                Snackbar.show({ text: 'Data updated', pos: 'top-right' });
+
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(errorThrown);
@@ -307,8 +311,7 @@ trw.action = function() {
             */
             trw.EventEmmiter.emit(id);
         } else {
-            console.log('no selected');
-            // need output message??
+            Snackbar.show({ text: 'You must select at least one', pos: 'top-right' });
         }
     });
 
