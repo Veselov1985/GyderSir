@@ -618,7 +618,6 @@ temp.helpfunc = {
     },
 
     arrchangeobjdata: function(arr) {
-
         var getCurentTypeRect = function(text) {
             return rightbar.data.global.dataType.filter(function(val) {
                 if (val.DataType.toLowerCase().trim() == text.toLowerCase().trim() && val.Pk == false) {
@@ -653,22 +652,6 @@ temp.helpfunc = {
                 if (obj[val.type] == undefined) obj[val.type] = [];
                 obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
             }
-
-            // if (getCurentTypeRect(val.type)) {
-            //     newDataType = val.type;
-            //     val.type = 'TableDatas';
-            //     obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
-            // } else if (val.type != 'MainHeader') {
-            //     obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Data: val.value });
-            // } else {
-            //     obj[val.type] = { Rect: temp.helpfunc.percentchangecord(val.rectData) };
-            //     if (obj.TableDatas == undefined) {
-            //         obj.TableDatas = [];
-            //     }
-            //     val.type = 'TableDatas';
-            //     newDataType = 'TableDatas';
-            //     obj.TableDatas.push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
-            // }
         });
         return obj;
     },
@@ -678,11 +661,26 @@ temp.helpfunc = {
         arr.forEach(function(val, i) {
             res['X' + i] = { X: temp.helpfunc.blockcalcpercent(val.x, paint.objects.global.wh[0]), Y: temp.helpfunc.blockcalcpercent(val.y, paint.objects.global.wh[1]) };
         });
-        return res;
+        return temp.helpfunc.reverseCoordFix(res);
     },
 
     blockcalcpercent: function(coord, wh) {
         return +((coord.toFixed(3) * 100 / wh).toFixed(3));
+    },
+    reverseCoordFix: function(obj) {
+        var rectx0 = obj.X0.X;
+        var rectx1 = obj.X1.X;
+        var recty0 = obj.X0.Y;
+        var recty1 = obj.X1.Y;
+        if (obj.X0.X - obj.X1.X > 0) {
+            obj.X0.X = rectx1;
+            obj.X1.X = rectx0;
+        }
+        if (obj.X0.Y - obj.X1.Y > 0) {
+            obj.X0.Y = recty1;
+            obj.X1.Y = recty0;
+        }
+        return obj;
     },
 
     // change data after delete
