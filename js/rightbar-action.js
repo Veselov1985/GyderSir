@@ -274,23 +274,23 @@ rightbaraction.handlers = {
         rightbar.data.global.amount = rightbaraction.handlers.clearListMemory(rightbar.data.global.amount, data)
         rightbaraction.handlers.initselectedFirst(rightbar.elements.selAmount);
     },
-    sendDeleteAmounterror: function(error) { console.log(error) },
+    sendDeleteAmounterror: function(error) { console.log(error); },
     sendDeleteDatesuccess: function(data) {
         rightbaraction.handlers.DeleteOptionPref(rightbar.elements.selDate, data)
         rightbar.data.global.date = rightbaraction.handlers.clearListMemory(rightbar.data.global.date, data)
         rightbaraction.handlers.initselectedFirst(rightbar.elements.selDate);
     },
-    sendDeleteDateerror: function(error) { console.log(error) },
+    sendDeleteDateerror: function(error) { console.log(error); },
     sendDeleteRegexsuccess: function(data) {
         rightbaraction.handlers.DeleteOptionPref(rightbar.elements.selReg, data)
         rightbar.data.global.regex = rightbaraction.handlers.clearListMemory(rightbar.data.global.regex, data)
         rightbaraction.handlers.initselectedFirst(rightbar.elements.selReg);
     },
-    sendDeleteRegexerror: function(error) { console.log(error) },
+    sendDeleteRegexerror: function(error) { console.log(error); },
     sendDeleteAlternatesuccess: function(data) {
         rightbaraction.handlers.DeleteOptionPref(rightbar.elements.selalternate, data)
         rightbar.data.global.alternate = rightbaraction.handlers.clearListMemory(rightbar.data.global.alternate, data)
         rightbaraction.handlers.initselectedFirst(rightbar.elements.selalternate);
     },
-    sendDeleteAlternateerror: function(error) { console.log(error) },
+    sendDeleteAlternateerror: function(error) { console.log(error); },
 };
