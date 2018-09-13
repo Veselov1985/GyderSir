@@ -86,14 +86,67 @@ mp.helpfuncs = {
     parsing: {
         digitPars: function(string, from, FirstLastPage) {
             var p = ft.parsing.digitPars(string, from);
+
+            return mp.helpfuncs.parsing.filterPagePars(p, FirstLastPage);
+
+
         },
         nPars: function(string, from, FirstLastPage) {
-            var p = ft.parsing.nPars(string, from);
-        },
-        starPars: function(string, from, FirstLastPage) {
-            var p = ft.parsing.starPars(string, from);
-        },
+            var p;
+            var pagesInDocument = FirstLastPage.length;
+            var res = str.split("");
+            if (res.length == 1) { // n
+                p = [pagesInDocument];
+            } else { // n-5
+                p = [pagesInDocument - (+res[2])];
+            }
+            return p.filter(function(val) {
+                return val != cf;
+            }).map(function($val) { return +$val; });
+
+        }
     },
+    starPars: function(string, from, FirstLastPage) {
+        var p, res, len;
+        p = [];
+        var pagesInDocument = FirstLastPage.length;
+        res = str.split('-');
+        if (res.length == 1 && res[0] == "*") {
+            len = pagesInDocument;
+            for (var i = 1; i <= len; i++) {
+                p.push(i);
+            }
+        } else if (res.length == 2) {
+            if (res[0] == "*") { //*-1
+                len = pagesInDocument - (+res[1]);
+                for (var i = 1; i <= len; i++) {
+                    p.push(i);
+                }
+            } else if (res[1] == '*') { //2 -*
+                len = pagesInDocument;
+                for (var i = +res[0]; i <= len; i++) {
+                    p.push(i);
+                }
+            }
+        } else if (res.length == 3) { // 2-*-1
+            len = pagesInDocument - (+res[2]);
+
+            for (var i = +res[0]; i <= len; i++) {
+                p.push(i);
+            }
+        }
+        return p.filter(function(val) {
+            return val != cf;
+        }).map(function($val) { return +$val; });
+    },
+
+    filterPagePars: function(pageArr, arr) {
+        return pageArr.filter(function(val, i) {
+            return arr.length >= val;
+        });
+
+    }
+
 
 
 
@@ -145,16 +198,17 @@ mp.actions = {
     },
     init: function(arrRulle, PagesTemp, dataFromServer) {
         var Pages = [];
-        var initDataFromServerPage = [].length = dataFromServer.Pages.length;
+        var initDataFromServerPage = Array.apply(null, Array(dataFromServer.Pages.length)); // create empty array length
         // init first and last page
-        initDataFromServerPage.map(function(page, i) {
+        initDataFromServerPage = initDataFromServerPage.map(function(page, i) {
             if (i == 0 || i == initDataFromServerPage.length - 1) {
                 if (i == 0) { // first page [0]
                     return PagesTemp[i];
                 } else {
-                    return PagesTemp[PagesTemp - 1]; // last page [n];
+                    return PagesTemp[i]; // last page [n];
                 }
             } else {
+                return page;
 
             }
         });
@@ -162,6 +216,7 @@ mp.actions = {
         if (mp.helpfuncs.isEmptyCellInServerPages(initDataFromServerPage)) {
 
             initDataFromServerPage = mp.actions.fillOtherPages(initDataFromServerPage, arrRulle, PagesTemp, dataFromServer);
+            return initDataFromServerPage;
 
         } else {
             return initDataFromServerPage;
@@ -181,23 +236,30 @@ mp.actions = {
             // for rule 
             var p;
             var PageFrom = rule.CopyFrom;
-            if (mp.validate.digitTest(rule.Rule)) {
-                p = mp.parsing.digitPars(rule.Rule, PageFrom);
+            if (mp.helpfuncs.validate.digitTest(rule.Rule)) {
+                p = mp.helpfuncs.parsing.digitPars(rule.Rule, PageFrom);
                 // need filter list pages for this document length
-
-
-            } else if (mp.validate.nTest(rule.Rule)) {
-                p = mp.parsing.nPars(rule.Rule, PageFrom);
+                Temp = mp.copy.init(FirstLastPage, PageFrom, p, PagesTemp);
+            } else if (mp.helpfuncs.validate.nTest(rule.Rule)) {
+                p = mp.helpfuncs.parsing.nPars(rule.Rule, PageFrom);
                 // need filter list pages for this document length
+                Temp = mp.copy.init(FirstLastPage, PageFrom, p, PagesTemp);
 
-
-            } else if (mp.validate.starTest(rule.Rule)) {
-                p = mp.parsing.starPars(rule.Rule, PageFrom);
+            } else if (mp.helpfuncs.validate.starTest(rule.Rule)) {
+                p = mp.helpfuncs.parsing.starPars(rule.Rule, PageFrom);
                 // need filter list pages for this document length
-
+                Temp = mp.copy.init(FirstLastPage, PageFrom, p, PagesTemp);
             } else {
                 console.log('error when create rulle');
             }
+
+            /*
+            @@ discription 
+             @ maybe need check emptyPages and addOcrData and other
+              @mp.helpfuncs.isEmptyCellInServerPages
+            */
+
+            return Temp;
 
         });
 
@@ -206,9 +268,56 @@ mp.actions = {
 
 };
 
+mp.copy = {
+    init: function(TempArr, PageFrom, p, PagesTempStart) {
+        var DataFrom = mp.copy.getDataFrom(PageFrom, TempArr, PagesTempStart);
+        var MainHeaderFrom = mp.copy.getMainHeader(from, TempArr, PagesTempStart);
+        var Temp = mp.copy.insertData(DataFrom, MainHeaderFrom, p, TempArr);
+        return Temp;
+    },
+    getDataFrom: function(f, firstlastTemp, startTemp) {
+        var getDataTempCopy = mp.copy.whereGetData(firstlastTemp, startTemp, f);
+        return mp.copy.isTableDatasFilter(getDataTempCopy);
+    },
+    whereGetData: function(fl, start, f) {
+        if (fl[f - 1] != undefined) {
+            return firstlastTemp[f - 1];
+        } else {
+            return start[f - 1];
+        }
+    },
+    isTableDatasFilter: function(temp) {
+        return temp.TableDatas.filter(function(rect) {
+            return rect.DataType.Name == "TableDatas";
+        });
+    },
+    getMainHeader: function(firstlastTemp, startTemp, f) {
+        var getDataTempCopy = mp.copy.whereGetData(firstlastTemp, startTemp, f);
+
+        var Obj = getDataTempCopy;
+        if (Obj.MainHeader) {
+            return Obj.MainHeader;
+        } else {
+            return null;
+        }
+    },
+    insertData: function(TableDatas, MainHeader, pages, firstLastTemp) {
+        var page = firstLastTemp.Pages.map(function(p, i) {
+            if (ft.helpfunc.compareNumberInArr(i + 1, pages)) {
+                if (p.TableDatas == undefined) p.TableDatas = [];
+                p.TableDatas = p.TableDatas.concat(TableDatas);
+                if (!MainHeader) p.MainHeader = {};
+                p.MainHeader = MainHeader;
+                return p;
+            } else {
+                return p;
+            }
+        });
+        firstLastTemp.Pages = page;
+        return firstLastTemp;
+    },
+};
 
 mp.init = function() {};
-
-
 
 mp.init();
