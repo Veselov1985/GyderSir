@@ -23,12 +23,15 @@ ft.validate = {
         var PageFrom = +ft.helpfunc.select.getOptionVal();
         if (ft.validate.digitTest(string)) {
             p = ft.parsing.digitPars(string, PageFrom);
+            mp.handlers.AddRule(PageFrom, string); // multi-page.js
             ft.copy.init(PageFrom, p);
         } else if (ft.validate.nTest(string)) {
             p = ft.parsing.nPars(string, PageFrom);
+            mp.handlers.AddRule(PageFrom, string); // multi-page.js
             ft.copy.init(PageFrom, p);
         } else if (ft.validate.starTest(string)) {
             p = ft.parsing.starPars(string, PageFrom);
+            mp.handlers.AddRule(PageFrom, string); // multi-page.js
             ft.copy.init(PageFrom, p);
         } else {
             temp.helpfunc.modalInfo(['Field Copy To', 'Incorrect Enter']);

@@ -517,6 +517,9 @@ temp.helpfunc = {
                 Pk: temp.elementLeftBar.Templaite.Pk, //temp.Data.leftTempList.datas.Pk
                 Name: temp.elementLeftBar.Templaite.Name, //temp.Data.leftTempList.datas.Name
                 Scopes: ph.handlers.reverseToServer(), // Scope Pages Settings all,first,last
+                RuleFormingTemplate: mp.data.RuleArr, // multi-page.js memory to set rule,
+
+
                 Pages: function() {
                     var obj = temp.helpfunc.collectdata();
                     var imgarr = [];
@@ -1177,7 +1180,9 @@ temp.loadEvent = {
             paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
             temp.DataWorkspace.initwindow();
         } else if (data.Pks.length == 1) {
+
             gf.init(data); // fast request to the server => get response result 
+
             filter.handlers.toggleLight(); // filter fix
             temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
             temp.Data.leftTempList.data = [
@@ -1204,6 +1209,11 @@ temp.loadEvent = {
             temp.elementLeftBar.Templaite.Pk = oneData[0].Pk;
             temp.elementLeftBar.Templaite.name = oneData[0].Name;
             temp.elementLeftBar.Templaite.origin = oneData[0];
+
+            // block multi-page render
+
+            mp.actions.createTemplate(oneData[0], data.Template);
+
             temp.control.templaite.renderDataTemplaite(data.Template.Pages);
             temp.control.templaite.renderDataListPaint(oneData[0].Pages);
             temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
