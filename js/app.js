@@ -57,6 +57,7 @@ temp.img = {
 
 temp.zeroGuid = "00000000-0000-0000-0000-000000000000";
 temp.serverInfo = []; // forward server info ===> test
+temp.serverTemplate = [];
 
 temp.elementLeftBar = {
     Templaite: {
@@ -69,6 +70,7 @@ temp.elementLeftBar = {
         e: '',
         OnlyText: [],
         OnlyImages: [],
+        RuleArr: [],
     },
     object: {},
     dataTable: {
@@ -232,6 +234,7 @@ temp.elementLeftBar = {
                 }
                 temp.elementLeftBar.Templaite.name = newNametemp;
                 temp.elementLeftBar.Templaite.Name = newNametemp;
+                temp.elementLeftBar.Templaite.RuleArr = temp.elementLeftBar.Templaite.RuleArr.concat(mp.data.RuleArr);
 
                 temp.Data.leftTempList.list.forEach(function(val) {
                     if (val.Name == newNametemp) {
@@ -252,6 +255,7 @@ temp.elementLeftBar = {
                     temp.elementLeftBar.Templaite.name = data.Name;
                     temp.elementLeftBar.Templaite.Name = data.Name;
                     temp.elementLeftBar.Templaite.origin = temp.Data.leftTempList.datas;
+                    temp.elementLeftBar.Templaite.RuleArr = temp.RuleFormingTemplate;
                     temp.helpfunc.addTemplaite();
                     // filter.handlers.addTemplaite(); // in filter mode add in List after 
                     temp.Data.leftTempList.datas = {};
@@ -343,13 +347,16 @@ temp.helpfunc = {
         var $that = temp.elementLeftBar.Templaite.that;
         temp.Data.leftTempList.list.forEach(function(val) {
             if (val.Name == $that.find('td:first').text()) {
-                temp.elementLeftBar.Templaite.origin = val;
+                var deployedTemplate = mp.actions.createTemplate(val, temp.serverTemplate);
+
+                temp.elementLeftBar.Templaite.origin = deployedTemplate;
                 ph.handlers.reverseToFront(val.Scopes);
             }
             lt.view.setOff();
         });
         temp.elementLeftBar.Templaite.Pk = temp.elementLeftBar.Templaite.origin.Pk;
         temp.elementLeftBar.Templaite.Name = temp.elementLeftBar.Templaite.origin.Name;
+        temp.elementLeftBar.Templaite.RuleArr = temp.elementLeftBar.Templaite.origin.RuleFormingTemplate ? temp.elementLeftBar.Templaite.origin.RuleFormingTemplate : [];
         paint.handlers.clearsvgcontent();
         temp.helpfunc.clearglobalstate(true);
 
@@ -406,6 +413,7 @@ temp.helpfunc = {
     changeTempNotLoad: function() {
         temp.elementLeftBar.Templaite.Pk = temp.zeroGuid; //Pk empty row
         temp.elementLeftBar.Templaite.Name = '';
+        temp.elementLeftBar.Templaite.RuleArr = [];
         ph.handlers.data = ph.handlers.default;
         var e = temp.elementLeftBar.Templaite.e;
         temp.helpfunc.modalLoad(e);
@@ -416,6 +424,7 @@ temp.helpfunc = {
         temp.elementLeftBar.Templaite.Pk = temp.zeroGuid; //Pk empty row
         temp.elementLeftBar.Templaite.Name = '';
         temp.elementLeftBar.Templaite.origin = {};
+        temp.elementLeftBar.Templaite.RuleArr = [];
         temp.helpfunc.clearglobalstate(true);
         temp.Data.leftTempList.data.forEach(function(val, i) {
             if (val[1] == temp.img.activ) val[1] = temp.img.off;
@@ -517,9 +526,7 @@ temp.helpfunc = {
                 Pk: temp.elementLeftBar.Templaite.Pk, //temp.Data.leftTempList.datas.Pk
                 Name: temp.elementLeftBar.Templaite.Name, //temp.Data.leftTempList.datas.Name
                 Scopes: ph.handlers.reverseToServer(), // Scope Pages Settings all,first,last
-                RuleFormingTemplate: mp.data.RuleArr, // multi-page.js memory to set rule,
-
-
+                RuleFormingTemplate: temp.elementLeftBar.Templaite.RuleArr ? temp.elementLeftBar.Templaite.RuleArr : [], // multi-page.js memory to set rule,
                 Pages: function() {
                     var obj = temp.helpfunc.collectdata();
                     var imgarr = [];
@@ -1150,6 +1157,7 @@ temp.init = {
 temp.loadEvent = {
 
     success: function(data) {
+        temp.serverTemplate = data.Template;
         temp.serverInfo = []; // clean data prew server
         filter.handlers.filterClear();
         ft.helpfunc.select.renderSelect(data.Template.Pages); // render option in select Copy from
@@ -1181,7 +1189,16 @@ temp.loadEvent = {
             temp.DataWorkspace.initwindow();
         } else if (data.Pks.length == 1) {
 
-            gf.init(data); // fast request to the server => get response result 
+            var oneData = temp.Data.leftTempList.list.filter(function(val, i) {
+                return val.Pk == data.Pks[0];
+            });
+            /////////////////////////////////////////////////////////////////////
+            // block multi-page render
+
+            var deployedTemplate = mp.actions.createTemplate(oneData[0], data.Template);
+            /////////////////////////////////////////////////////////////////////////////
+
+            gf.init(deployedTemplate); // fast request to the server => get response result 
 
             filter.handlers.toggleLight(); // filter fix
             temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
@@ -1194,9 +1211,7 @@ temp.loadEvent = {
                     if (val == temp.Data.leftTempList.list[i].Pk) temp.Data.leftTempList.data.push([temp.Data.leftTempList.list[i].Name, temp.img.activ]);
                 }
             });
-            var oneData = temp.Data.leftTempList.list.filter(function(val, i) {
-                return val.Pk == data.Pks[0];
-            });
+
             temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
             temp.elementLeftBar.dataTable.object.find('i').each(function() {
                 $that = $(this);
@@ -1204,19 +1219,18 @@ temp.loadEvent = {
                     $that.parent().parent().addClass('selected');
                 }
             });
-            ph.handlers.reverseToFront(oneData[0].Scopes); // add Scopes in object pages all,first,last
-            temp.elementLeftBar.Templaite.Name = oneData[0].Name;
-            temp.elementLeftBar.Templaite.Pk = oneData[0].Pk;
-            temp.elementLeftBar.Templaite.name = oneData[0].Name;
-            temp.elementLeftBar.Templaite.origin = oneData[0];
+            ph.handlers.reverseToFront(deployedTemplate.Scopes); // add Scopes in object pages all,first,last
+            temp.elementLeftBar.Templaite.Name = deployedTemplate.Name;
+            temp.elementLeftBar.Templaite.Pk = deployedTemplate.Pk;
+            temp.elementLeftBar.Templaite.name = deployedTemplate.Name;
+            temp.elementLeftBar.Templaite.origin = deployedTemplate.Pages[0];
+            temp.elementLeftBar.Templaite.RuleArr = deployedTemplate.RuleFormingTemplate;
 
-            // block multi-page render
 
-            mp.actions.createTemplate(oneData[0], data.Template);
 
-            temp.control.templaite.renderDataTemplaite(data.Template.Pages);
-            temp.control.templaite.renderDataListPaint(oneData[0].Pages);
-            temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
+            temp.control.templaite.renderDataTemplaite(deployedTemplate.Pages);
+            temp.control.templaite.renderDataListPaint(deployedTemplate.Pages);
+            temp.control.templaite.saveServerInfo(deployedTemplate.Pages); //server info    paint.serverInfo
             paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
             temp.DataWorkspace.initwindow();
             //  setTimeout(function() { test.elements.test_btn.click(); }, 3000);
@@ -1228,6 +1242,7 @@ temp.loadEvent = {
             temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
             temp.elementLeftBar.Templaite.Pk = data.Template.Pk;
             temp.elementLeftBar.Templaite.name = data.Template.Name;
+            temp.elementLeftBar.Templaite.RuleArr = data.Template.RuleFormingTemplate;
             temp.control.templaite.renderDataTemplaite(data.Template.Pages);
             temp.control.templaite.renderDataListPaint(data.Template.Pages);
             temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
