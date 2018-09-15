@@ -17,6 +17,7 @@ resize.handlers = {
     debounce: function(func, wait, immediate) {
         var timeout;
         return function() {
+            if (d3.select('rect').length == 0) return;
             var defs = d3.select("defs");
             var svg = d3.select('svg');
             if (svg[0][0] != null && defs[0][0] == null) {
@@ -88,7 +89,8 @@ resize.logic = {
 $(window).on("resize", resize.handlers.debounce(function() {
     if (paint.objects.global.wh.length < 1) return;
     // if (paint.objects.disactiv.length == 0) return;
-    if (paint.zoom.global.state) return;
+    if (d3.select('rect'))
+        if (paint.zoom.global.state) return;
     if (resize.data.compareOldColorCreate == "") resize.data.compareOldColorCreate = paint.objects.disactiv.map(function(obj) { return $.extend({}, obj); });
     resize.data.prew.widthimg = paint.objects.global.wh[0];
     resize.data.prew.height = paint.objects.global.wh[1];

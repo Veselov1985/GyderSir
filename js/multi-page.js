@@ -127,12 +127,10 @@ mp.helpfuncs = {
             } else { // n-5
                 p = [pagesInDocument - (+res[2])];
             }
-            return p.filter(function(val) {
-                return val != cf;
-            }).map(function($val) { return +$val; });
+            return p.map(function($val) { return +$val; }); // delete 16/09/2018 .filter(function(val) {   return val != cf;})
         },
 
-        starPars: function(str, from, FirstLastPage) {
+        starPars: function(str, cf, FirstLastPage) {
             var p, res, len;
             p = [];
             var pagesInDocument = FirstLastPage.length;
@@ -161,9 +159,7 @@ mp.helpfuncs = {
                     p.push(i);
                 }
             }
-            return p.filter(function(val) {
-                return val != cf;
-            }).map(function($val) { return +$val; });
+            return p.map(function($val) { return +$val; }); // delete 16/09/2018 .filter(function(val) {   return val != cf;})
         },
 
         filterPagePars: function(pageArr, arr) {
@@ -178,7 +174,6 @@ mp.helpfuncs = {
 };
 
 mp.handlers = {
-
     AddRule: function(from, pString) {
         mp.data.RuleArr.push({
             CopyFrom: from,
@@ -191,7 +186,10 @@ mp.actions = {
 
     createTemplate: function(tempFind, dataFromServer) {
         // check if roole enabled
-        if (!mp.helpfuncs.checkRoole(tempFind)) return tempFind;
+        if (!mp.helpfuncs.checkRoole(tempFind)) {
+            tempFind.Pages = mp.copy.fillOcrBase64IOnlyImagesOnlyText(dataFromServer, tempFind.Pages);
+            return tempFind;
+        }
         var ruleArr = tempFind.RuleFormingTemplate;
         var Temp = mp.actions.rendererTemplate(ruleArr, tempFind, dataFromServer);
         return Temp;
@@ -228,7 +226,7 @@ mp.actions = {
                 if (i == 0) { // first page [0]
                     return PagesTemp[i];
                 } else {
-                    return PagesTemp[i]; // last page [n];
+                    return PagesTemp[PagesTemp.length - 1]; // last page [n];
                 }
             } else {
                 return page;
@@ -320,7 +318,6 @@ mp.copy = {
                 return p;
             }
         });
-
         return page;
     },
 

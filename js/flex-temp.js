@@ -94,9 +94,8 @@ ft.parsing = {
         var PageFrom = +ft.helpfunc.select.getOptionVal();
     },
     digitPars: function(str, cf) { // cf => value selected option
-        var p = str.split(',').filter(function(val, i) {
-            return +val != cf;
-        }).filter(function(val) { return val != ''; }); // fix => ,3,4,
+        var p = str.split(',') // delete part now .filter(function(val) { return val != cf;  })
+            .filter(function(val) { return val != ''; }); // fix => ,3,4,
         // need clear repeat in p  fix this => 4,4
         return temp.helpfunc.deleteRepeatInArr(p).map(function($val) { return +$val; });
     },
@@ -109,9 +108,7 @@ ft.parsing = {
         } else { // n-5
             p = [pagesInDocument - (+res[2])];
         }
-        return p.filter(function(val) {
-            return val != cf;
-        }).map(function($val) { return +$val; });
+        return p.map(function($val) { return +$val; }); // delete part now .filter(function(val) { return val != cf;  })
     },
     starPars: function(str, cf) {
         var p, res, len;
@@ -142,9 +139,7 @@ ft.parsing = {
                 p.push(i);
             }
         }
-        return p.filter(function(val) {
-            return val != cf;
-        }).map(function($val) { return +$val; });
+        return p.map(function($val) { return +$val; }); // delete part now .filter(function(val) { return val != cf;  })
     },
 };
 
@@ -265,6 +260,7 @@ ft.helpfunc = {
         },
 
     },
+
 };
 
 ft.tooltipInit = function() {

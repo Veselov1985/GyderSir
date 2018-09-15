@@ -172,7 +172,7 @@ temp.elementLeftBar = {
                             applymodal.handlers.show('Close Templaite without saving', 8);
                         } else if (temp.DataWorkspace.images.length > 0) {
                             temp.helpfunc.changeTempNotCreate();
-                            ph.objects.data = ph.objects.default;
+                            ph.data.objects = ph.data.default;
                             temp.elementLeftBar.Templaite.state = '';
                         } else {
                             temp.elementLeftBar.Templaite.state = '';
@@ -255,7 +255,6 @@ temp.elementLeftBar = {
                     temp.elementLeftBar.Templaite.name = data.Name;
                     temp.elementLeftBar.Templaite.Name = data.Name;
                     temp.elementLeftBar.Templaite.origin = temp.Data.leftTempList.datas;
-                    temp.elementLeftBar.Templaite.RuleArr = temp.RuleFormingTemplate;
                     temp.helpfunc.addTemplaite();
                     // filter.handlers.addTemplaite(); // in filter mode add in List after 
                     temp.Data.leftTempList.datas = {};
@@ -356,7 +355,9 @@ temp.helpfunc = {
         });
         temp.elementLeftBar.Templaite.Pk = temp.elementLeftBar.Templaite.origin.Pk;
         temp.elementLeftBar.Templaite.Name = temp.elementLeftBar.Templaite.origin.Name;
-        temp.elementLeftBar.Templaite.RuleArr = temp.elementLeftBar.Templaite.origin.RuleFormingTemplate ? temp.elementLeftBar.Templaite.origin.RuleFormingTemplate : [];
+        temp.elementLeftBar.Templaite.name = temp.elementLeftBar.Templaite.origin.Name;
+        mp.data.RuleArr == (emp.elementLeftBar.Templaite.origin.RuleFormingTemplate == undefined) ? [] : emp.elementLeftBar.Templaite.origin.RuleFormingTemplate;
+        temp.elementLeftBar.Templaite.RuleArr = mp.data.RuleArr;
         paint.handlers.clearsvgcontent();
         temp.helpfunc.clearglobalstate(true);
 
@@ -414,7 +415,8 @@ temp.helpfunc = {
         temp.elementLeftBar.Templaite.Pk = temp.zeroGuid; //Pk empty row
         temp.elementLeftBar.Templaite.Name = '';
         temp.elementLeftBar.Templaite.RuleArr = [];
-        ph.handlers.data = ph.handlers.default;
+        mp.data.RuleArr = [];
+        ph.data.object = ph.data.default;
         var e = temp.elementLeftBar.Templaite.e;
         temp.helpfunc.modalLoad(e);
     },
@@ -425,6 +427,7 @@ temp.helpfunc = {
         temp.elementLeftBar.Templaite.Name = '';
         temp.elementLeftBar.Templaite.origin = {};
         temp.elementLeftBar.Templaite.RuleArr = [];
+        mp.data.RuleArr = [];
         temp.helpfunc.clearglobalstate(true);
         temp.Data.leftTempList.data.forEach(function(val, i) {
             if (val[1] == temp.img.activ) val[1] = temp.img.off;
@@ -526,7 +529,7 @@ temp.helpfunc = {
                 Pk: temp.elementLeftBar.Templaite.Pk, //temp.Data.leftTempList.datas.Pk
                 Name: temp.elementLeftBar.Templaite.Name, //temp.Data.leftTempList.datas.Name
                 Scopes: ph.handlers.reverseToServer(), // Scope Pages Settings all,first,last
-                RuleFormingTemplate: temp.elementLeftBar.Templaite.RuleArr ? temp.elementLeftBar.Templaite.RuleArr : [], // multi-page.js memory to set rule,
+                RuleFormingTemplate: mp.data.RuleArr, // multi-page.js memory to set rule,
                 Pages: function() {
                     var obj = temp.helpfunc.collectdata();
                     var imgarr = [];
@@ -641,6 +644,7 @@ temp.helpfunc = {
         var obj = {};
         arr.forEach(function(val, i) {
             var newDataType = false;
+            if (val.type == undefined) return;
             if (getCurentTypeRect(val.type)) {
                 if (val.type == 'MainHeader') {
                     if (obj[val.type] == undefined) obj[val.type] = [];
@@ -1182,6 +1186,8 @@ temp.loadEvent = {
             temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
             temp.elementLeftBar.Templaite.Pk = data.Template.Pk;
             temp.elementLeftBar.Templaite.name = data.Template.Name;
+            temp.elementLeftBar.Templaite.RuleArr = data.Template.RuleFormingTemplate ? data.Template.RuleFormingTemplate : [];
+            mp.data.RuleArr = data.Template.RuleFormingTemplate ? data.Template.RuleFormingTemplate : [];
             temp.control.templaite.renderDataTemplaite(data.Template.Pages);
             temp.control.templaite.renderDataListPaint(data.Template.Pages);
             temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
@@ -1225,6 +1231,7 @@ temp.loadEvent = {
             temp.elementLeftBar.Templaite.name = deployedTemplate.Name;
             temp.elementLeftBar.Templaite.origin = deployedTemplate.Pages[0];
             temp.elementLeftBar.Templaite.RuleArr = deployedTemplate.RuleFormingTemplate;
+            mp.data.RuleArr = deployedTemplate.RuleFormingTemplate;
 
 
 
@@ -1241,8 +1248,9 @@ temp.loadEvent = {
             temp.elementLeftBar.dataTable.clean();
             temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
             temp.elementLeftBar.Templaite.Pk = data.Template.Pk;
-            temp.elementLeftBar.Templaite.name = data.Template.Name;
-            temp.elementLeftBar.Templaite.RuleArr = data.Template.RuleFormingTemplate;
+            temp.elementLeftBar.Templaite.name = data.Template.Name ? data.Template.Name : '';
+            temp.elementLeftBar.Templaite.RuleArr = data.Template.RuleFormingTemplate ? data.Template.RuleFormingTemplate : [];
+            mp.data.RuleArr = data.Template.RuleFormingTemplate ? data.Template.RuleFormingTemplate : [];
             temp.control.templaite.renderDataTemplaite(data.Template.Pages);
             temp.control.templaite.renderDataListPaint(data.Template.Pages);
             temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
