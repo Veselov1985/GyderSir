@@ -277,7 +277,7 @@ temp.elementLeftBar = {
                 };
                 temp.Data.leftTempList.datas = temp.helpfunc.createresponsedata().Template;
                 temp.elementLeftBar.Templaite.name = '';
-                temp.Ajax.sendSaveTemplaiteProccess(temp.Data.leftTempList.datas, success, error);
+                temp.Ajax.sendSaveTemplaiteProccess(test.fix.addVatsandIbans(temp.Data.leftTempList.datas), success, error);
                 applymodal_tempresult.handlers.close();
             });
 
