@@ -347,7 +347,6 @@ temp.helpfunc = {
         temp.Data.leftTempList.list.forEach(function(val) {
             if (val.Name == $that.find('td:first').text()) {
                 var deployedTemplate = mp.actions.createTemplate(val, temp.serverTemplate);
-
                 temp.elementLeftBar.Templaite.origin = deployedTemplate;
                 ph.handlers.reverseToFront(val.Scopes);
             }
@@ -356,7 +355,7 @@ temp.helpfunc = {
         temp.elementLeftBar.Templaite.Pk = temp.elementLeftBar.Templaite.origin.Pk;
         temp.elementLeftBar.Templaite.Name = temp.elementLeftBar.Templaite.origin.Name;
         temp.elementLeftBar.Templaite.name = temp.elementLeftBar.Templaite.origin.Name;
-        mp.data.RuleArr == (emp.elementLeftBar.Templaite.origin.RuleFormingTemplate == undefined) ? [] : emp.elementLeftBar.Templaite.origin.RuleFormingTemplate;
+        (temp.elementLeftBar.Templaite.origin.RuleFormingTemplate == undefined) ? mp.data.RuleArr = []: mp.data.RuleArr = temp.elementLeftBar.Templaite.origin.RuleFormingTemplate;
         temp.elementLeftBar.Templaite.RuleArr = mp.data.RuleArr;
         paint.handlers.clearsvgcontent();
         temp.helpfunc.clearglobalstate(true);
@@ -615,7 +614,14 @@ temp.helpfunc = {
                 res.push(temp.helpfunc.arrchangeobjdata(val));
             }
         });
-        return res;
+        return res.map(function(page) {
+            if (page.TableDatas.length == 1 && page.TableDatas[0].Rect.X0.X == 0 && page.TableDatas[0].Rect.X0.Y == 0 && page.TableDatas[0].Rect.X1.Y == 0 && page.TableDatas[0].Rect.X1.X == 0) {
+                page.TableDatas = [];
+                return page;
+            } else {
+                return page;
+            }
+        });
     },
 
     thisIsText: function(pk) {
@@ -667,6 +673,9 @@ temp.helpfunc = {
                 obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
             }
         });
+        if (obj.TableDatas.length == 1 && obj.TableDatas[0].Rect.X0.X == 0 && obj.TableDatas[0].Rect.X0.Y == 0 && obj.TableDatas[0].Rect.X1.Y == 0 && obj.TableDatas[0].Rect.X1.X == 0) {
+            obj.TableDatas = [];
+        }
         return obj;
     },
     percentchangecord: function(arr) {

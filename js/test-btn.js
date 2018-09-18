@@ -268,6 +268,7 @@
      cleanEmptyTd: function() {
          zaglyshka.data.lines = zaglyshka.data.lines.map(function(val, i) {
              var tdArrayClean = val.td.filter(function(arr, j) {
+                 if (arr == '-') return true;
                  if (arr.filter(function(z) { return z != ''; }).length != 0) {
                      return true;
                  } else {
@@ -329,7 +330,7 @@
      test.elements.testfindtemp_btn = $('#' + test.elements.testfindtemp_btn.id);
      test.elements.header_dataTables = $('#' + test.elements.header_dataTables.id);
      test.objects.dataTableHeader.object = test.elements.header_dataTables;
-     test.elements.info_server_header = $('#' + test.elements.info_server_header.id)
+     test.elements.info_server_header = $('#' + test.elements.info_server_header.id);
      test.elements.lines_dataTables = $('#' + test.elements.lines_dataTables.id);
      test.objects.dataTableLines.object = test.elements.lines_dataTables;
      test.elements.xmlfield = $('#' + test.elements.xmlfield.id);

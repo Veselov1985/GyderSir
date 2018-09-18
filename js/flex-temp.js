@@ -11,6 +11,22 @@ ft.actionsInit = function() {
     ft.elements.ft_btn.on('click', function() {
         ft.validate.init();
     });
+
+    ft.elements.ft_btn.on('mouseenter', function() {
+        Snackbar.show({ text: 'Rulle in Template: ' + ft.snackbar.viewRulle(), pos: 'top-right' });
+    });
+    ft.elements.ft_btn.on('mouseleave', function() {
+        Snackbar.close();
+    });
+
+};
+ft.snackbar = {
+    viewRulle: function() {
+        if (mp.data.RuleArr.length == 0) return 'Empty';
+        return mp.data.RuleArr.reduce(function(prew, next) {
+            return prew + ' From: ' + next.CopyFrom + ',Rule: ' + next.Rule;
+        }, '');
+    }
 };
 
 ft.validate = {
@@ -24,50 +40,53 @@ ft.validate = {
         if (ft.validate.digitTest(string)) {
             p = ft.parsing.digitPars(string, PageFrom);
             mp.handlers.AddRule(PageFrom, string); // multi-page.js
+            p = ft.parsing.PagesVerification(p); // get only existing pages
             ft.copy.init(PageFrom, p);
         } else if (ft.validate.nTest(string)) {
             p = ft.parsing.nPars(string, PageFrom);
             mp.handlers.AddRule(PageFrom, string); // multi-page.js
+            p = ft.parsing.PagesVerification(p); // get only existing pages 
             ft.copy.init(PageFrom, p);
         } else if (ft.validate.starTest(string)) {
             p = ft.parsing.starPars(string, PageFrom);
             mp.handlers.AddRule(PageFrom, string); // multi-page.js
+            p = ft.parsing.PagesVerification(p); // get only existing pages
             ft.copy.init(PageFrom, p);
         } else {
             temp.helpfunc.modalInfo(['Field Copy To', 'Incorrect Enter']);
         }
     },
     digitTest: function(str) {
-        var pagesInDocument = temp.DataWorkspace.images.length;
+
         var test = true;
         var res = str.split(',').filter(function(val) { return val != ''; }); // remove empty enter => ,, or ,1,2,
         res.forEach(function(val) {
-            if (!$.isNumeric(val) || +val > pagesInDocument || +val <= 0) test = false;
+            if (!$.isNumeric(val) || +val <= 0) test = false; // all number
         });
         return test;
     },
     nTest: function(string) {
         var res;
         var test = false;
-        var pagesInDocument = temp.DataWorkspace.images.length;
+        //  var pagesInDocument = temp.DataWorkspace.images.length;
         res = string.split('');
         if (res.length == 1 && res[0] == 'n') {
             test = true;
         }
-        if (res.length == 3 && res[0] == 'n' && res[1] == '-' && $.isNumeric(res[2]) && +res[2] < pagesInDocument) {
+        if (res.length == 3 && res[0] == 'n' && res[1] == '-' && $.isNumeric(res[2])) { //all - number
             test = true;
         }
         return test;
     },
     starTest: function(string) {
         var res, test;
-        var pagesInDocument = temp.DataWorkspace.images.length;
+        //  var pagesInDocument = temp.DataWorkspace.images.length;
         test = false;
         res = string.split('');
-        if (res.length == 3 && res[0] == '*' && res[1] == "-" && $.isNumeric(res[2]) && pagesInDocument - (+res[2]) > 0) { //  *-1
+        if (res.length == 3 && res[0] == '*' && res[1] == "-" && $.isNumeric(res[2])) { //  *-1
             test = true;
         }
-        if (res.length == 3 && res[2] == '*' && res[1] == "-" && $.isNumeric(res[0]) && pagesInDocument - (+res[0]) > 0) { // 2-*
+        if (res.length == 3 && res[2] == '*' && res[1] == "-" && $.isNumeric(res[0])) { // 2-*
             test = true;
         }
         var fromUpToAll = res.join('').split('-');
@@ -76,10 +95,7 @@ ft.validate = {
             $.isNumeric(fromUpToAll[0]) &&
             $.isNumeric(fromUpToAll[2]) &&
             fromUpToAll[1] == "*" &&
-            +fromUpToAll[0] < pagesInDocument &&
-            +fromUpToAll[2] < pagesInDocument &&
-            (+fromUpToAll[0] - 1) > 0 &&
-            (pagesInDocument - (+fromUpToAll[0] - 1) - +fromUpToAll[2]) > 0
+            (+fromUpToAll[0] - 1) > 0
         ) {
             test = true;
         } else if (fromUpToAll.length == 1 && fromUpToAll[0] == "*") { // => '*' 
@@ -141,6 +157,13 @@ ft.parsing = {
         }
         return p.map(function($val) { return +$val; }); // delete part now .filter(function(val) { return val != cf;  })
     },
+    PagesVerification: function(pArr) {
+        var pages = temp.DataWorkspace.images.length;
+        return pArr.filter(function(val) {
+            return val <= pages;
+        });
+    },
+
 };
 
 ft.copy = {
