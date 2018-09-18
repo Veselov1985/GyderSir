@@ -592,7 +592,7 @@ temp.helpfunc = {
             if (paint.objects.global.disactivpage[i] == undefined) {
                 paint.objects.global.collect[i] = val;
             } else {
-                paint.objects.global.collect[i] = temp.helpfunc.deleteZeroCordRect(paint.objects.global.disactivpage[i]); // need fix zero coord
+                paint.objects.global.collect[i] = paint.objects.global.disactivpage[i]; // need fix zero coord
             }
         });
 
