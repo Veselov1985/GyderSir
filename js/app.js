@@ -673,6 +673,11 @@ temp.helpfunc = {
                 obj[val.type].push({ Rect: temp.helpfunc.percentchangecord(val.rectData), Position: (val.position.length == 0) ? [] : val.position, Regex: val.regex, Reserve: val.reserve, Data: val.value, DataType: { Name: newDataType ? newDataType : val.type, Pk: val.Pk ? val.Pk : null, IsText: temp.helpfunc.thisIsText(val.Pk) } });
             }
         });
+        if (Object.keys(obj).length == 0) {
+            obj.Vats = [];
+            obj.TableDatas = [];
+            obj.Iban = [];
+        }
         if (obj.TableDatas.length == 1 && obj.TableDatas[0].Rect.X0.X == 0 && obj.TableDatas[0].Rect.X0.Y == 0 && obj.TableDatas[0].Rect.X1.Y == 0 && obj.TableDatas[0].Rect.X1.X == 0) {
             obj.TableDatas = [];
         }
