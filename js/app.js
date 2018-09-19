@@ -542,7 +542,7 @@ temp.helpfunc = {
 
                     imgarr.forEach(function(val, i) {
                         // obj.page[i].Base64Img = imgarr[i];
-                        obj.page[i].Base64Img = temp.serverTemplate.Pages[i];
+                        obj.page[i].Base64Img = temp.serverTemplate.Pages[i].Base64Img;
                     });
 
                     // if put btn test fix
