@@ -541,7 +541,8 @@ temp.helpfunc = {
                     }
 
                     imgarr.forEach(function(val, i) {
-                        obj.page[i].Base64Img = imgarr[i];
+                        // obj.page[i].Base64Img = imgarr[i];
+                        obj.page[i].Base64Img = temp.serverTemplate.Pages[i];
                     });
 
                     // if put btn test fix
@@ -1170,6 +1171,7 @@ temp.init = {
 temp.loadEvent = {
 
     success: function(data) {
+
         temp.serverTemplate = data.Template;
         temp.serverInfo = []; // clean data prew server
         filter.handlers.filterClear();
@@ -1238,13 +1240,13 @@ temp.loadEvent = {
             temp.elementLeftBar.Templaite.Name = deployedTemplate.Name;
             temp.elementLeftBar.Templaite.Pk = deployedTemplate.Pk;
             temp.elementLeftBar.Templaite.name = deployedTemplate.Name;
-            temp.elementLeftBar.Templaite.origin = deployedTemplate.Pages[0];
+            temp.elementLeftBar.Templaite.origin = deployedTemplate;
             temp.elementLeftBar.Templaite.RuleArr = deployedTemplate.RuleFormingTemplate;
             mp.data.RuleArr = deployedTemplate.RuleFormingTemplate;
 
 
 
-            temp.control.templaite.renderDataTemplaite(deployedTemplate.Pages);
+            temp.control.templaite.renderDataTemplaite(data.Template.Pages);
             temp.control.templaite.renderDataListPaint(deployedTemplate.Pages);
             temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
             paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
@@ -1266,7 +1268,6 @@ temp.loadEvent = {
             paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
             temp.DataWorkspace.initwindow();
         }
-
     },
     error: function(error) {
         console.log(error);

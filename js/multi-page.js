@@ -296,7 +296,6 @@ mp.copy = {
     },
     getMainHeader: function(firstlastTemp, startTemp, f) {
         var getDataTempCopy = mp.copy.whereGetData(firstlastTemp, startTemp, f);
-
         var Obj = getDataTempCopy;
         if (Obj.MainHeader) {
             return Obj.MainHeader;
