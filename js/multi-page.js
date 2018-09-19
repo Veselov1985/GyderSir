@@ -235,7 +235,7 @@ mp.actions = {
 
         if (mp.helpfuncs.isEmptyCellInServerPages(initDataFromServerPage)) {
             initDataFromServerPage = mp.actions.fillOtherPages(initDataFromServerPage, arrRulle, PagesTemp, dataFromServer);
-            return initDataFromServerPage;
+            return mp.copy.fillOcrBase64IOnlyImagesOnlyText(dataFromServer, initDataFromServerPage);
         } else {
             return mp.copy.fillOcrBase64IOnlyImagesOnlyText(dataFromServer, initDataFromServerPage); //
         }

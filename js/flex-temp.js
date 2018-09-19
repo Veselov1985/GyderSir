@@ -225,7 +225,7 @@ ft.copy = {
         var page = t.Pages.map(function(p, i) {
             if (ft.helpfunc.compareNumberInArr(i + 1, pages)) {
                 if (p.TableDatas == undefined) p.TableDatas = [];
-                p.TableDatas = p.TableDatas.concat(f);
+                p.TableDatas = [].concat(f);
                 if (!p.MainHeader) p.MainHeader = {};
                 p.MainHeader = mainHeader;
                 return p;

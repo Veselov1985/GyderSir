@@ -139,6 +139,7 @@
 
      checkdatatype: function() {
          var trSelected$ = rightbar.dataTable.set.dt.$('tr.selected');
+         if (!rightbar.data.global.activrect.type) return;
          if (rightbar.data.global.activrect.type.length == 0 && trSelected$.length > 0) {
              trSelected$.removeClass('selected');
          }

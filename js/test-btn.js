@@ -215,7 +215,9 @@
                  val.DataTypes.forEach(function(object) {
                      var DataTypeName = object.Name + 's';
                      if (test.handlers.ruleScope(DataTypeName, arrScopes, page, lastPage)) { // checkRuleScope
-                         zaglyshka.data.header.push([object.Name, object.Data, object.Format]);
+                         if (object.Data.trim() != '') {
+                             zaglyshka.data.header.push([object.Name, object.Data, object.Format]);
+                         }
                      }
                  });
              }
@@ -361,7 +363,7 @@
                  arrclone[i].KeyWord = [];
              }
              if (!val.MainHeader) {
-                 arrclone[i].MainHeader = [];
+                 arrclone[i].MainHeader = { Rect: null };
              }
              if (!val.ExcludingTaxesAmounts) {
                  arrclone[i].ExcludingTaxesAmounts = [];

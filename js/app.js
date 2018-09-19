@@ -503,14 +503,7 @@ temp.helpfunc = {
     createresponsedata: function() {
         var empty = {
             Base64Img: "",
-            TableDatas: [{
-                Data: null,
-                Regex: null,
-                Position: '',
-                Reserve: '',
-                DataType: { Pk: "00000000-0000-0000-0000-000000000000", Name: "", IsText: false },
-                Rect: { X0: { X: 0, Y: 0 }, X1: { X: 0, Y: 0 } }
-            }],
+            TableDatas: [],
             OnlyImages: "",
             OnlyText: "",
             OcrStrings: [{
@@ -950,6 +943,8 @@ temp.control = {
         },
 
         renderDataListPaint: function(pagearr) {
+            paint.objects.datafromserver.datafromserverpage = [];
+            paint.objects.datafromserver.removelistpage = [];
             pagearr.forEach(function(val) {
                 paint.objects.datafromserver.datafromserverpage.push(val);
             });
@@ -1251,7 +1246,7 @@ temp.loadEvent = {
 
             temp.control.templaite.renderDataTemplaite(deployedTemplate.Pages);
             temp.control.templaite.renderDataListPaint(deployedTemplate.Pages);
-            temp.control.templaite.saveServerInfo(deployedTemplate.Pages); //server info    paint.serverInfo
+            temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
             paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
             temp.DataWorkspace.initwindow();
             //  setTimeout(function() { test.elements.test_btn.click(); }, 3000);
