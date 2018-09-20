@@ -166,9 +166,7 @@ mp.helpfuncs = {
             return pageArr.filter(function(val, i) {
                 return arr.length >= val;
             });
-
         },
-
     },
 
 };
@@ -183,43 +181,39 @@ mp.handlers = {
 };
 
 mp.actions = {
-
-    createTemplate: function(tempFind, dataFromServer) {
+    createTemplate: function(tempFind) {
         // check if roole enabled
         if (!mp.helpfuncs.checkRoole(tempFind)) {
-            tempFind.Pages = mp.copy.fillOcrBase64IOnlyImagesOnlyText(dataFromServer, tempFind.Pages);
+            tempFind.Pages = mp.copy.fillOcrBase64IOnlyImagesOnlyText(tempFind.Pages);
             return tempFind;
         }
         var ruleArr = tempFind.RuleFormingTemplate;
-        var Temp = mp.actions.rendererTemplate(ruleArr, tempFind, dataFromServer);
-        return Temp;
-
+        return mp.actions.rendererTemplate(ruleArr, tempFind);
     },
-    rendererTemplate: function(arrRulle, PagesTemp, dataFromServer) {
+    rendererTemplate: function(arrRulle, PagesTemp) {
+        var pages = mp.actions.createPage(arrRulle, PagesTemp.Pages);
+        pages = mp.copy.fillOcrBase64IOnlyImagesOnlyText(pages);
         var newTemplaiteObj = {
             Pk: PagesTemp.Pk, //temp.Data.leftTempList.datas.Pk
             Name: PagesTemp.Name, //temp.Data.leftTempList.datas.Name
             Scopes: PagesTemp.Scopes, // Scope Pages Settings all,first,last   =>  NEED CHANGE PagesTemp.Scopes
             RuleFormingTemplate: PagesTemp.RuleFormingTemplate,
-            Pages: mp.actions.createPage(arrRulle, PagesTemp.Pages, dataFromServer)
+            Pages: pages
         };
-
         return newTemplaiteObj;
     },
-    createPage: function(arrRulle, PagesTemp, dataFromServer) {
-
-
-        switch (mp.helpfuncs.checkPage(PagesTemp, dataFromServer.Pages)) {
+    createPage: function(arrRulle, PagesTemp) {
+        switch (mp.helpfuncs.checkPage(PagesTemp, temp.serverTemplate.Pages)) {
             case 'match':
-                return mp.copy.fillOcrBase64IOnlyImagesOnlyText(dataFromServer, PagesTemp);
+                return PagesTemp;
                 break;
             case 'nomatch':
-                return mp.actions.init(arrRulle, PagesTemp, dataFromServer);
+                return mp.actions.init(arrRulle, PagesTemp);
                 break;
         }
     },
-    init: function(arrRulle, PagesTemp, dataFromServer) {
-        var initDataFromServerPage = Array.apply(null, Array(dataFromServer.Pages.length)); // create empty array length
+    init: function(arrRulle, PagesTemp) {
+        var initDataFromServerPage = Array.apply(null, Array(temp.serverTemplate.Pages.length)); // create empty array length
         // init first and last page
         initDataFromServerPage = initDataFromServerPage.map(function(page, i) {
             if (i == 0 || i == initDataFromServerPage.length - 1) {
@@ -234,48 +228,45 @@ mp.actions = {
         });
 
         if (mp.helpfuncs.isEmptyCellInServerPages(initDataFromServerPage)) {
-            initDataFromServerPage = mp.actions.fillOtherPages(initDataFromServerPage, arrRulle, PagesTemp, dataFromServer);
-            return mp.copy.fillOcrBase64IOnlyImagesOnlyText(dataFromServer, initDataFromServerPage);
+            initDataFromServerPage = mp.actions.fillOtherPages(initDataFromServerPage, arrRulle, PagesTemp);
+            return initDataFromServerPage;
         } else {
-            return mp.copy.fillOcrBase64IOnlyImagesOnlyText(dataFromServer, initDataFromServerPage); //
+            return initDataFromServerPage; //
         }
     },
 
-    fillOtherPages: function(FirstLastPage, Rulle, PagesTemp, dataFromServer) {
+    fillOtherPages: function(FirstLastPage, Rulle, PagesTemp) {
         var Temp = FirstLastPage;
-        Rulle.forEach(function(rule, i) {
+        Rulle.forEach(function(rule) {
             // for rule 
             var p;
             var PageFrom = rule.CopyFrom;
             if (mp.helpfuncs.validate.digitTest(rule.Rule)) {
                 p = mp.helpfuncs.parsing.digitPars(rule.Rule, PageFrom, FirstLastPage);
 
-                Temp = mp.copy.init(FirstLastPage, PageFrom, p, PagesTemp, dataFromServer);
+                Temp = mp.copy.init(Temp, PageFrom, p, PagesTemp);
             } else if (mp.helpfuncs.validate.nTest(rule.Rule)) {
                 p = mp.helpfuncs.parsing.nPars(rule.Rule, PageFrom, FirstLastPage);
 
-                Temp = mp.copy.init(FirstLastPage, PageFrom, p, PagesTemp, dataFromServer);
+                Temp = mp.copy.init(Temp, PageFrom, p, PagesTemp);
             } else if (mp.helpfuncs.validate.starTest(rule.Rule)) {
                 p = mp.helpfuncs.parsing.starPars(rule.Rule, PageFrom, FirstLastPage);
 
-                Temp = mp.copy.init(FirstLastPage, PageFrom, p, PagesTemp, dataFromServer);
+                Temp = mp.copy.init(Temp, PageFrom, p, PagesTemp);
             } else {
                 console.log('error when create rulle');
             }
         });
         return Temp;
     },
-
-
 };
 
 mp.copy = {
-    init: function(TempArr, PageFrom, p, PagesTempStart, server) {
+    init: function(TempArr, PageFrom, p, PagesTempStart) {
         var DataFrom = mp.copy.getDataFrom(PageFrom, TempArr, PagesTempStart);
         var MainHeaderFrom = mp.copy.getMainHeader(TempArr, PagesTempStart, PageFrom);
         var Temp = mp.copy.insertData(DataFrom, MainHeaderFrom, p, TempArr);
         Temp = mp.copy.fillEmtyPages(Temp);
-        Temp = mp.copy.fillOcrBase64IOnlyImagesOnlyText(server, Temp);
         return Temp;
     },
     getDataFrom: function(f, firstlastTemp, startTemp) {
@@ -332,12 +323,16 @@ mp.copy = {
         });
     },
 
-    fillOcrBase64IOnlyImagesOnlyText: function(server, Temp) {
-        return Temp.map(function(page, i) {
-            page.OnlyImages = server.Pages[i].OnlyImages;
-            page.OnlyText = server.Pages[i].OnlyText;
-            page.OcrStrings = server.Pages[i].OcrStrings;
-            page.Base64Img = server.Pages[i].Base64Img;
+    fillOcrBase64IOnlyImagesOnlyText: function(pages) {
+        var arr = temp.serverTemplate.Pages.map(function(p) {
+            return { im: p.OnlyImages, text: p.OnlyText, ocr: p.OcrStrings, base: p.Base64Img };
+        });
+        return arr.map(function(v, i) {
+            var page = pages[i];
+            page.OnlyImages = v.im;
+            page.OnlyText = v.text;
+            page.OcrStrings = v.ocr;
+            page.Base64Img = v.base;
             return page;
         });
     },

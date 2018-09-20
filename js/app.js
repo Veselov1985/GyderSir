@@ -541,8 +541,8 @@ temp.helpfunc = {
                     }
 
                     imgarr.forEach(function(val, i) {
-                        // obj.page[i].Base64Img = imgarr[i];
-                        obj.page[i].Base64Img = temp.serverTemplate.Pages[i].Base64Img;
+                        obj.page[i].Base64Img = imgarr[i];
+                        //  obj.page[i].Base64Img = temp.serverTemplate.Pages[i].Base64Img;
                     });
 
                     // if put btn test fix
@@ -924,6 +924,7 @@ temp.control = {
             });
         },
         saveServerInfo: function(arrData) {
+            temp.serverInfo = [];
             arrData.forEach(function(val, i) {
                 temp.serverInfo.push(val.OcrStrings);
             });
@@ -934,9 +935,10 @@ temp.control = {
             $.each(data, function(i, v) {
                 pages.push(base64Title + v.Base64Img);
             });
-            temp.DataWorkspace.images = pages;
+            temp.DataWorkspace.images = [];
             temp.elementLeftBar.Templaite.OnlyImages = [];
             temp.elementLeftBar.Templaite.OnlyText = [];
+            temp.DataWorkspace.images = pages;
             data.forEach(function(val, i) {
                 temp.elementLeftBar.Templaite.OnlyImages[i] = base64Title + val.OnlyImages;
                 temp.elementLeftBar.Templaite.OnlyText[i] = base64Title + val.OnlyText;
@@ -1171,9 +1173,8 @@ temp.init = {
 temp.loadEvent = {
 
     success: function(data) {
-
-        temp.serverTemplate = data.Template;
-        temp.serverInfo = []; // clean data prew server
+        temp.serverTemplate = $.extend({}, data.Template);
+        temp.control.templaite.saveServerInfo($.extend({}, data.Template).Pages);
         filter.handlers.filterClear();
         ft.helpfunc.select.renderSelect(data.Template.Pages); // render option in select Copy from
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1201,7 +1202,6 @@ temp.loadEvent = {
             mp.data.RuleArr = data.Template.RuleFormingTemplate ? data.Template.RuleFormingTemplate : [];
             temp.control.templaite.renderDataTemplaite(data.Template.Pages);
             temp.control.templaite.renderDataListPaint(data.Template.Pages);
-            temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
             paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
             temp.DataWorkspace.initwindow();
         } else if (data.Pks.length == 1) {
@@ -1212,8 +1212,14 @@ temp.loadEvent = {
             /////////////////////////////////////////////////////////////////////
             // block multi-page render
 
-            var deployedTemplate = mp.actions.createTemplate(oneData[0], data.Template);
+            var deployedTemplate = mp.actions.createTemplate(oneData[0], $.extend({}, data.Template));
+
             /////////////////////////////////////////////////////////////////////////////
+
+            console.log('0', deployedTemplate.Pages[0].Base64Img);
+            console.log('4', deployedTemplate.Pages[4].Base64Img);
+            console.log('5', deployedTemplate.Pages[5].Base64Img);
+
 
             gf.init(deployedTemplate); // fast request to the server => get response result 
 
@@ -1228,7 +1234,6 @@ temp.loadEvent = {
                     if (val == temp.Data.leftTempList.list[i].Pk) temp.Data.leftTempList.data.push([temp.Data.leftTempList.list[i].Name, temp.img.activ]);
                 }
             });
-
             temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
             temp.elementLeftBar.dataTable.object.find('i').each(function() {
                 $that = $(this);
@@ -1243,16 +1248,10 @@ temp.loadEvent = {
             temp.elementLeftBar.Templaite.origin = deployedTemplate;
             temp.elementLeftBar.Templaite.RuleArr = deployedTemplate.RuleFormingTemplate;
             mp.data.RuleArr = deployedTemplate.RuleFormingTemplate;
-
-
-
-            temp.control.templaite.renderDataTemplaite(data.Template.Pages);
+            temp.control.templaite.renderDataTemplaite(deployedTemplate.Pages);
             temp.control.templaite.renderDataListPaint(deployedTemplate.Pages);
-            temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
             paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
             temp.DataWorkspace.initwindow();
-            //  setTimeout(function() { test.elements.test_btn.click(); }, 3000);
-            // Get result if found only one Templaite
         } else {
             ph.data.object = ph.data.default; // default Scopes from object Page all,first,Last
             temp.control.templaite.unselectDataTable();
@@ -1264,7 +1263,6 @@ temp.loadEvent = {
             mp.data.RuleArr = data.Template.RuleFormingTemplate ? data.Template.RuleFormingTemplate : [];
             temp.control.templaite.renderDataTemplaite(data.Template.Pages);
             temp.control.templaite.renderDataListPaint(data.Template.Pages);
-            temp.control.templaite.saveServerInfo(data.Template.Pages); //server info    paint.serverInfo
             paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
             temp.DataWorkspace.initwindow();
         }
