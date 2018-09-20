@@ -184,11 +184,35 @@ mp.actions = {
     createTemplate: function(tempFind) {
         // check if roole enabled
         if (!mp.helpfuncs.checkRoole(tempFind)) {
+            var initDataFromServerPage = Array.apply(null, Array(temp.serverTemplate.Pages.length));
+            tempFind = mp.actions.renderTemplateNotRulle(initDataFromServerPage, tempFind);
+
             tempFind.Pages = mp.copy.fillOcrBase64IOnlyImagesOnlyText(tempFind.Pages);
             return tempFind;
         }
         var ruleArr = tempFind.RuleFormingTemplate;
         return mp.actions.rendererTemplate(ruleArr, tempFind);
+    },
+    renderTemplateNotRulle: function(init, TempFind) {
+
+        var pages = init.map(function(p, i) {
+            if (TempFind.Pages[i] !== undefined) {
+                return $.extend({}, TempFind.Pages[i]);
+            } else {
+                var page = mp.empty.page;
+                page.TableDatas = mp.empty.TableDatas;
+                return page;
+            }
+        });
+
+        return {
+            Pk: TempFind.Pk, //temp.Data.leftTempList.datas.Pk
+            Name: TempFind.Name, //temp.Data.leftTempList.datas.Name
+            Scopes: TempFind.Scopes, // Scope Pages Settings all,first,last   =>  NEED CHANGE PagesTemp.Scopes
+            RuleFormingTemplate: [],
+            Pages: pages
+        }
+
     },
     rendererTemplate: function(arrRulle, PagesTemp) {
         var pages = mp.actions.createPage(arrRulle, PagesTemp.Pages);
@@ -333,7 +357,7 @@ mp.copy = {
             page.OnlyText = v.text;
             page.OcrStrings = v.ocr;
             page.Base64Img = v.base;
-            return page;
+            return $.extend({}, page);
         });
     },
 };
