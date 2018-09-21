@@ -298,6 +298,8 @@
          test.elements.testfindtemp_btn.val(name);
      },
      sendTestsuccess: function(data) {
+         test.handlers.cleanimg();
+         test.handlers.CleanDataTest();
          zaglyshka.data.pages = data.Pages.length;
          test.handlers.addLinesArr(data.Pages, data.Scopes); // Scopes => [{name:string,Data:number}] 1-All 2 -first 3-last Page
          test.handlers.addHeadArr(data.Pages); // change create table and fix multi page show   Scopes => [{name:string,Data:number}] 1-All 2 -first 3-last Page
@@ -400,8 +402,6 @@
 
  test.elements.test_btn.on('click', function() {
      if (temp.DataWorkspace.images.length == 0 || temp.DataWorkspace.images.length == undefined) return;
-     test.handlers.CleanDataTest();
-     test.handlers.cleanimg();
      test.handlers.clean(test.objects.dataTableHeader);
      test.handlers.clean(test.objects.dataTableLines);
      test.ajax.sendTestProccess(test.fix.addVatsandIbans(temp.helpfunc.createresponsedata().Template));

@@ -609,6 +609,7 @@ temp.helpfunc = {
             }
         });
         return res.map(function(page) {
+            if (page.TableDatas == null) { page.TableDatas = []; }
             if (page.TableDatas.length == 1 && page.TableDatas[0].Rect.X0.X == 0 && page.TableDatas[0].Rect.X0.Y == 0 && page.TableDatas[0].Rect.X1.Y == 0 && page.TableDatas[0].Rect.X1.X == 0) {
                 page.TableDatas = [];
                 return page;
