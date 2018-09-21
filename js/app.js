@@ -1216,11 +1216,6 @@ temp.loadEvent = {
 
             /////////////////////////////////////////////////////////////////////////////
 
-            console.log('0', deployedTemplate.Pages[0].Base64Img);
-            console.log('4', deployedTemplate.Pages[4].Base64Img);
-            console.log('5', deployedTemplate.Pages[5].Base64Img);
-
-
             gf.init(deployedTemplate); // fast request to the server => get response result 
 
             filter.handlers.toggleLight(); // filter fix

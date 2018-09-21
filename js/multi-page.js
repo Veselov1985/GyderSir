@@ -204,6 +204,7 @@ mp.actions = {
                 return page;
             }
         });
+        mp.data.RuleArr = []; // state rulle in multi-page.js
 
         return {
             Pk: TempFind.Pk, //temp.Data.leftTempList.datas.Pk
