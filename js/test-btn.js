@@ -312,7 +312,6 @@
          test.handlers.addxmlfield();
          test.handlers.addNameTemplaite(data.TemplateName);
          test.elements.modalwindow.modal('show');
-
      },
      sendTesterror: function(data) {
          console.log(data);
