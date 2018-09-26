@@ -212,7 +212,7 @@ mp.actions = {
             Scopes: TempFind.Scopes, // Scope Pages Settings all,first,last   =>  NEED CHANGE PagesTemp.Scopes
             RuleFormingTemplate: [],
             Pages: pages
-        }
+        };
 
     },
     rendererTemplate: function(arrRulle, PagesTemp) {
