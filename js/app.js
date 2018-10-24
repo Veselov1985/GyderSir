@@ -57,6 +57,7 @@ temp.img = {
 
 temp.zeroGuid = "00000000-0000-0000-0000-000000000000";
 temp.serverInfo = []; // forward server info ===> test
+temp.ClassificationId = '';
 temp.serverTemplate = [];
 
 temp.elementLeftBar = {
@@ -355,6 +356,7 @@ temp.helpfunc = {
         temp.elementLeftBar.Templaite.Pk = temp.elementLeftBar.Templaite.origin.Pk;
         temp.elementLeftBar.Templaite.Name = temp.elementLeftBar.Templaite.origin.Name;
         temp.elementLeftBar.Templaite.name = temp.elementLeftBar.Templaite.origin.Name;
+        (temp.elementLeftBar.Templaite.origin.ClassificationId == undefined) ? temp.ClassificationId = temp.elementLeftBar.Templaite.origin.ClassificationId: temp.ClassificationId = '';
         (temp.elementLeftBar.Templaite.origin.RuleFormingTemplate == undefined) ? mp.data.RuleArr = []: mp.data.RuleArr = temp.elementLeftBar.Templaite.origin.RuleFormingTemplate;
         temp.elementLeftBar.Templaite.RuleArr = mp.data.RuleArr;
         paint.handlers.clearsvgcontent();
@@ -414,6 +416,7 @@ temp.helpfunc = {
         temp.elementLeftBar.Templaite.Pk = temp.zeroGuid; //Pk empty row
         temp.elementLeftBar.Templaite.Name = '';
         temp.elementLeftBar.Templaite.RuleArr = [];
+        temp.ClassificationId = '';
         mp.data.RuleArr = [];
         ph.data.object = ph.data.default;
         var e = temp.elementLeftBar.Templaite.e;
@@ -426,6 +429,7 @@ temp.helpfunc = {
         temp.elementLeftBar.Templaite.Name = '';
         temp.elementLeftBar.Templaite.origin = {};
         temp.elementLeftBar.Templaite.RuleArr = [];
+        mp.ClassificationId = '';
         mp.data.RuleArr = [];
         temp.helpfunc.clearglobalstate(true);
         temp.Data.leftTempList.data.forEach(function(val, i) {
@@ -516,12 +520,13 @@ temp.helpfunc = {
             }]
         };
 
-        return {
+        return temp.helpfunc.initHeaders({
             Template: {
                 Pk: temp.elementLeftBar.Templaite.Pk, //temp.Data.leftTempList.datas.Pk
                 Name: temp.elementLeftBar.Templaite.Name, //temp.Data.leftTempList.datas.Name
                 Scopes: ph.handlers.reverseToServer(), // Scope Pages Settings all,first,last
                 RuleFormingTemplate: mp.data.RuleArr, // multi-page.js memory to set rule,
+                ClassificationId: temp.ClassificationId,
                 Pages: function() {
                     var obj = temp.helpfunc.collectdata();
                     var imgarr = [];
@@ -564,7 +569,76 @@ temp.helpfunc = {
                     return obj.page;
                 }(),
             }
-        };
+        });
+
+    },
+    initHeaders: function(obj) {
+
+        var pageTable = obj.Template.Pages[0].TableDatas.filter(function(rect) {
+            return rect.Data == '';
+        });
+        var ismain = temp.helpfunc.isMainHeader(obj.Template.Pages[0].MainHeader);
+        if (ismain) {
+            var zeroLine = temp.helpfunc.zeroLine(ismain);
+
+            obj.Template.Headers = [].concat(temp.helpfunc.findRectInHeadLine(zeroLine, pageTable));
+        } else {
+            // not found MainHeader in Templaite
+            // we must find  the big rect row
+            obj.Template.Headers = temp.helpfunc.findBigRow(pageTable);
+        }
+        return obj;
+    },
+    isMainHeader: function(main) {
+        return main ? main.Rect : false;
+
+    },
+    zeroLine: function(rect) {
+        return rect.X0.Y < rect.X1.Y ? rect.X0.Y + (rect.X1.Y - rect.X0.Y) / 2 : rect.X1.Y + (rect.X0.Y - rect.X1.Y) / 2;
+    },
+    findRectInHeadLine: function(zero, rectArr) {
+        return rectArr.filter(function(rect) {
+            return (rect.Rect.X0.Y < rect.Rect.X1.Y) ? rect.Rect.X0.Y < zero && rect.Rect.X1.Y > zero : rect.Rect.X0.Y > zero && rect.Rect.X1.Y < zero;
+        }).map(function(rect) { return { Rect: rect.Rect }; });
+    },
+    findBigRow: function(table) {
+        var row = [];
+        var workArr = [].concat(table);
+        for (var i = 0; workArr.length != 0; i++) {
+            workArr = workArr.filter(function(rect) {
+                if (!Array.isArray(row[i])) row.push([]);
+                var rectY0 = rect.Rect.X0.Y;
+                var rectY1 = rect.Rect.X1.Y;
+                var zeroNext = workArr[i].Rect.X0.Y + (workArr[i].Rect.X1.Y - workArr[i].Rect.X0.Y) / 2;
+                if (rectY0 < zeroNext && rectY1 > zeroNext) {
+                    if (!Array.isArray(row[i])) row.push([]);
+                    row[i].push({ Rect: rect.Rect });
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+        }
+        var res = temp.helpfunc.IsMaxArr(row);
+        if (res.length == 1) {
+            return res;
+        } else {
+            return res[0];
+        }
+    },
+    IsMaxArr: function(arr) {
+        return arr.reduce(function(prew, next) {
+            if (prew.length > next.length && !Array.isArray(prew[0])) {
+                return prew;
+            } else if (next.length > prew.length && !Array.isArray(prew[0])) {
+                return next;
+            } else if (prew.length == next.length) {
+                return [prew, next];
+            } else if (Array.isArray(prew[0])) {
+                return prew[0].length > next.length ? prew : next;
+
+            }
+        });
     },
     collectdata: function() {
         return {
@@ -931,6 +1005,9 @@ temp.control = {
                 temp.serverInfo.push(val.OcrStrings);
             });
         },
+        saveClassId: function(data) {
+            temp.ClassificationId = data;
+        },
         renderDataTemplaite: function(data) {
             var base64Title = 'data:image/jpeg;base64,';
             var pages = [];
@@ -1177,6 +1254,7 @@ temp.loadEvent = {
     success: function(data) {
         temp.serverTemplate = $.extend({}, data.Template);
         temp.control.templaite.saveServerInfo($.extend({}, data.Template).Pages);
+        temp.control.templaite.saveClassId(data.Template.ClassificationId);
         filter.handlers.filterClear();
         ft.helpfunc.select.renderSelect(data.Template.Pages); // render option in select Copy from
         //////////////////////////////////////////////////////////////////////////////////////////////////////////

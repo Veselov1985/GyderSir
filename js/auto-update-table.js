@@ -106,7 +106,7 @@ au.d3 = {
         au.d3.updateRect();
     },
     dragPoint2: function(e, pos) {
-        var d4 = d3.select(au.data.copyrect.pointElement2[0][0])
+        var d4 = d3.select(au.data.copyrect.pointElement2[0][0]);
         if (pos == 'all') {
             d4.attr('cx', au.data.copyrect.rectData[1].x += e.dx)
                 .attr('cy', au.data.copyrect.rectData[1].y += e.dy);
