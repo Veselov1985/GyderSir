@@ -921,7 +921,7 @@ temp.elementControl = {
     object: {},
     nextPage: function() {
         if (temp.DataWorkspace.activpage < temp.DataWorkspace.images.length - 1) {
-            paint.objects.global.disactivpage[temp.DataWorkspace.activpage] = paint.objects.disactiv;
+            paint.objects.global.disactivpage[temp.DataWorkspace.activpage] = paint.objects.disactiv.map(function(obj) { return $.extend({}, obj); });
             if (paint.objects.datafromserver.removelistpage[temp.DataWorkspace.activpage + 1] != false) {
                 paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage + 1];
                 paint.objects.datafromserver.removelistpage[temp.DataWorkspace.activpage] = false;
@@ -937,7 +937,7 @@ temp.elementControl = {
     },
     prewPage: function() {
         if (temp.DataWorkspace.activpage != 0) {
-            paint.objects.global.disactivpage[temp.DataWorkspace.activpage] = paint.objects.disactiv;
+            paint.objects.global.disactivpage[temp.DataWorkspace.activpage] = paint.objects.disactiv.map(function(obj) { return $.extend({}, obj); });
             temp.DataWorkspace.activpage -= 1;
             if (paint.objects.datafromserver.removelistpage[temp.DataWorkspace.activpage] != false) {
                 paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
@@ -1285,16 +1285,18 @@ temp.loadEvent = {
             paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
             temp.DataWorkspace.initwindow();
         } else if (data.Pks.length == 1) {
-
-            var oneData = temp.Data.leftTempList.list.filter(function(val, i) {
-                return val.Pk == data.Pks[0];
-            });
+            /////////////////////////////////////////////////////////////////////
+            // var oneData = temp.Data.leftTempList.list.filter(function(val, i) {
+            //    return val.Pk == data.Pks[0];
+            // });
             /////////////////////////////////////////////////////////////////////
             // block multi-page render
-
-            var deployedTemplate = mp.actions.createTemplate(oneData[0], $.extend({}, data.Template));
-
+            // Now Front not render empty pages!!!!
+            //var deployedTemplate = mp.actions.createTemplate(oneData[0], $.extend({}, data.Template));
             /////////////////////////////////////////////////////////////////////////////
+
+            // TODO Server rendering pages
+            var deployedTemplate = $.extend({}, data.Template);
 
             gf.init(deployedTemplate); // fast request to the server => get response result 
 

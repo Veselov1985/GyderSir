@@ -305,7 +305,7 @@
          test.handlers.addHeadArr(data.Pages); // change create table and fix multi page show   Scopes => [{name:string,Data:number}] 1-All 2 -first 3-last Page
          test.handlers.setControlView();
          test.handlers.addImgArr(data.Pages);
-         test.handlers.addXmlStr(xml.init.getData(data)); //   <=======   xml.js 
+         test.handlers.addXmlStr(data.XmlData); // remove front rendering xml string(29/10/2018) test.handlers.addXmlStr(xml.init.getData(data)); //   <=======   xml.js 
          test.handlers.initDataTableHeader(zaglyshka.data.header);
          test.handlers.initDataTableLines(zaglyshka.data.lines[zaglyshka.data.page]);
          test.handlers.slideinit();

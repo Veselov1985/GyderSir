@@ -41,7 +41,18 @@ lt.handlers = {
         var iterator = temp.DataWorkspace.images.length;
         var arr = [];
         for (var i = 0; i < iterator; i++) {
-            arr.push(paint.objects.disactiv);
+            arr.push(paint.objects.disactiv.map(function(obj) {
+                    var keys = Object.keys(obj);
+                    keys.forEach(function(key) {
+                        if (Array.isArray(obj[key])) {
+                            obj.key = [].concat(obj[key]);
+                        } else if (typeof obj[key] == 'object') {
+                            obj.key = $.extend({}, obj[key]);
+                        }
+                    });
+                    return $.extend({}, obj);
+                })
+                .slice());
         }
         lt.memory.templaiteForAll = [].concat(arr);
     },
@@ -63,7 +74,7 @@ lt.handlers = {
         temp.elementLeftBar.Templaite.origin = {};
     },
     setViewClone: function() {
-        paint.objects.datafromserver.arrdata = paint.objects.global.disactivpage[temp.DataWorkspace.activpage];
+        paint.objects.datafromserver.arrdata = paint.objects.global.disactivpage[temp.DataWorkspace.activpage].map(function(obj) { return $.extend({}, obj); });
         paint.objects.disactiv = [];
         paint.handlers.clearsvgcontent();
         temp.DataWorkspace.initwindow();
