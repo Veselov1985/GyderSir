@@ -263,7 +263,7 @@ temp.elementLeftBar = {
                     temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
                     temp.helpfunc.searchPage(); // need search page
                     temp.elementLeftBar.dataTable.object.find('i').each(function() {
-                        $that = $(this);
+                      var $that = $(this);
                         var parent$2 = $that.parent().parent();
                         if ($that.attr('class').trim() == temp.img.activ) {
                             parent$2.addClass('selected');
@@ -349,7 +349,7 @@ temp.helpfunc = {
             if (val.Name == $that.find('td:first').text()) {
                 var deployedTemplate = mp.actions.createTemplate(val, temp.serverTemplate);
                 temp.elementLeftBar.Templaite.origin = deployedTemplate;
-                ph.handlers.reverseToFront(val.Scopes);
+                // ph.handlers.reverseToFront(val.Scopes);    // delete 01/11/2018
             }
             lt.view.setOff();
         });
@@ -524,8 +524,8 @@ temp.helpfunc = {
             Template: {
                 Pk: temp.elementLeftBar.Templaite.Pk, //temp.Data.leftTempList.datas.Pk
                 Name: temp.elementLeftBar.Templaite.Name, //temp.Data.leftTempList.datas.Name
-                Scopes: ph.handlers.reverseToServer(), // Scope Pages Settings all,first,last
-                RuleFormingTemplate: mp.data.RuleArr, // multi-page.js memory to set rule,
+                //  Scopes: ph.handlers.reverseToServer(), // Scope Pages Settings all,first,last        //TODo delete 01/11/2018
+               //  RuleFormingTemplate: mp.data.RuleArr, // multi-page.js memory to set rule,     // TODO delete 01/11/2018
                 ClassificationId: temp.ClassificationId,
                 Pages: function() {
                     var obj = temp.helpfunc.collectdata();
@@ -573,7 +573,6 @@ temp.helpfunc = {
 
     },
     initHeaders: function(obj) {
-
         var pageTable = obj.Template.Pages[0].TableDatas.filter(function(rect) {
             return rect.Data == '';
         });
@@ -1318,7 +1317,7 @@ temp.loadEvent = {
                     $that.parent().parent().addClass('selected');
                 }
             });
-            ph.handlers.reverseToFront(deployedTemplate.Scopes); // add Scopes in object pages all,first,last
+            // ph.handlers.reverseToFront(deployedTemplate.Scopes); // add Scopes in object pages all,first,last              delete 01/11/2018
             temp.elementLeftBar.Templaite.Name = deployedTemplate.Name;
             temp.elementLeftBar.Templaite.Pk = deployedTemplate.Pk;
             temp.elementLeftBar.Templaite.name = deployedTemplate.Name;

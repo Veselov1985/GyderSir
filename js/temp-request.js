@@ -91,7 +91,6 @@ tr.EventEmmiter = {
 
     },
     callbackHandlers: function(e) {
-        console.log(e);
         tr.chakeEvents.init(e.data);
     }
 };

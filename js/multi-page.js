@@ -173,6 +173,7 @@ mp.helpfuncs = {
 
 mp.handlers = {
     AddRule: function(from, pString) {
+        if(!mp.data.RuleArr){ mp.data.RuleArr =[]}
         mp.data.RuleArr.push({
             CopyFrom: from,
             Rule: pString
@@ -209,8 +210,8 @@ mp.actions = {
         return {
             Pk: TempFind.Pk, //temp.Data.leftTempList.datas.Pk
             Name: TempFind.Name, //temp.Data.leftTempList.datas.Name
-            Scopes: TempFind.Scopes, // Scope Pages Settings all,first,last   =>  NEED CHANGE PagesTemp.Scopes
-            RuleFormingTemplate: [],
+           // Scopes: TempFind.Scopes, // Scope Pages Settings all,first,last   =>  NEED CHANGE PagesTemp.Scopes   // TODO delete  02/11/2018
+          ///  RuleFormingTemplate: [],    // TODO delete  02/11/2018
             Pages: pages
         };
 

@@ -222,6 +222,7 @@
         table.dataTable tbody th,
         table.dataTable tbody td {
             padding: 3px 10px !important;
+            cursor: pointer !important;
         }
         
         .bg-white {
@@ -298,8 +299,12 @@
         }
         
         .nav-link {
-            padding: .4rem .2rem !important;
+            padding: -1.6rem .2rem !important;
             display: block !important;
+        }
+
+        .nav-bigger-padding {
+            padding: .5rem 1.4rem !important;
         }
         
         .btn-p-30 {

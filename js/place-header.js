@@ -6,15 +6,28 @@ ph.data = { //1-all,2-first,3-last
     object: {
         Vats: 1,
         Ibans: 1,
-        ExcludingTaxesAmounts: 3,
+        ExcludingTaxesAmounts: 1,
         InvoiceDates: 1,
         InvoiceNumbers: 1,
         ItemNumbers: 1,
         OrderNumbers: 1,
         Quantities: 1,
-        TotalBedrags: 3,
+        TotalBedrags: 1,
         UnitPrices: 1,
-        VatAmounts: 3,
+        VatAmounts: 1,
+
+        // TODO  this func will not deleted =>  now all datatypes show on all pages (02/11/2018)
+        // Vats: 1,
+        // Ibans: 1,
+        // ExcludingTaxesAmounts: 3,
+        // InvoiceDates: 1,
+        // InvoiceNumbers: 1,
+        // ItemNumbers: 1,
+        // OrderNumbers: 1,
+        // Quantities: 1,
+        // TotalBedrags: 3,
+        // UnitPrices: 1,
+        // VatAmounts: 3,
     },
     default: {
         Vats: 1,
@@ -25,9 +38,21 @@ ph.data = { //1-all,2-first,3-last
         ItemNumbers: 1,
         OrderNumbers: 1,
         Quantities: 1,
-        TotalBedrags: 3,
+        TotalBedrags: 1,
         UnitPrices: 1,
-        VatAmounts: 3,
+        VatAmounts: 1,
+        // TODO  this func will not deleted =>  now all datatypes show on all pages (02/11/2018)
+        // Vats: 1,
+        // Ibans: 1,
+        // ExcludingTaxesAmounts: 3,
+        // InvoiceDates: 1,
+        // InvoiceNumbers: 1,
+        // ItemNumbers: 1,
+        // OrderNumbers: 1,
+        // Quantities: 1,
+        // TotalBedrags: 3,
+        // UnitPrices: 1,
+        // VatAmounts: 3,
     },
 };
 
@@ -37,7 +62,7 @@ ph.helpfunc = {
             ph.elements.ph_container.attr('hidden', true);
         },
         show: function() {
-            ph.elements.ph_container.removeAttr('hidden');
+          //  ph.elements.ph_container.removeAttr('hidden');  <!--TODO   02/11/2018   now this block only hidden all func not deleted-->
         },
     },
     getSelectTD: function() {

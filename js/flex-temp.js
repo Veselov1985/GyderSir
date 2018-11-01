@@ -1,40 +1,40 @@
 var ft = {};
 ft.elements = {};
 
-ft.elInit = function() {
+ft.elInit = function () {
     ft.elements.ft_input = $('#ft_input');
     ft.elements.ft_select = $('#ft_select');
     ft.elements.ft_btn = $('#ft_btn');
 };
 
-ft.actionsInit = function() {
-    ft.elements.ft_btn.on('click', function() {
+ft.actionsInit = function () {
+    ft.elements.ft_btn.on('click', function () {
         ft.validate.init();
     });
 
-    ft.elements.ft_btn.on('mouseenter', function() {
-        Snackbar.show({ text: 'Rulle in Template: ' + ft.snackbar.viewRulle(), pos: 'top-right' });
+    ft.elements.ft_btn.on('mouseenter', function () {
+        Snackbar.show({text: 'Rulle in Template: ' + ft.snackbar.viewRulle(), pos: 'top-right'});
     });
-    ft.elements.ft_btn.on('mouseleave', function() {
+    ft.elements.ft_btn.on('mouseleave', function () {
         Snackbar.close();
     });
 
 };
 ft.snackbar = {
-    viewRulle: function() {
-        if (mp.data.RuleArr.length == 0) return 'Empty';
-        return mp.data.RuleArr.reduce(function(prew, next) {
+    viewRulle: function () {
+        if (mp.data.RuleArr == undefined || mp.data.RuleArr.length == 0) return 'Empty';
+        return mp.data.RuleArr.reduce(function (prew, next) {
             return prew + ' From: ' + next.CopyFrom + ',Rule: ' + next.Rule;
         }, '');
     }
 };
 
 ft.validate = {
-    init: function() {
+    init: function () {
         var UsePage = ft.helpfunc.input.getValue().trim().toLowerCase();
         ft.validate.shakeValidate(UsePage);
     },
-    shakeValidate: function(string) {
+    shakeValidate: function (string) {
         var p;
         var PageFrom = +ft.helpfunc.select.getOptionVal();
         if (ft.validate.digitTest(string)) {
@@ -56,16 +56,18 @@ ft.validate = {
             temp.helpfunc.modalInfo(['Field Copy To', 'Incorrect Enter']);
         }
     },
-    digitTest: function(str) {
+    digitTest: function (str) {
 
         var test = true;
-        var res = str.split(',').filter(function(val) { return val != ''; }); // remove empty enter => ,, or ,1,2,
-        res.forEach(function(val) {
+        var res = str.split(',').filter(function (val) {
+            return val != '';
+        }); // remove empty enter => ,, or ,1,2,
+        res.forEach(function (val) {
             if (!$.isNumeric(val) || +val <= 0) test = false; // all number
         });
         return test;
     },
-    nTest: function(string) {
+    nTest: function (string) {
         var res;
         var test = false;
         //  var pagesInDocument = temp.DataWorkspace.images.length;
@@ -78,7 +80,7 @@ ft.validate = {
         }
         return test;
     },
-    starTest: function(string) {
+    starTest: function (string) {
         var res, test;
         //  var pagesInDocument = temp.DataWorkspace.images.length;
         test = false;
@@ -106,16 +108,20 @@ ft.validate = {
 };
 
 ft.parsing = {
-    init: function() {
+    init: function () {
         var PageFrom = +ft.helpfunc.select.getOptionVal();
     },
-    digitPars: function(str, cf) { // cf => value selected option
+    digitPars: function (str, cf) { // cf => value selected option
         var p = str.split(',') // delete part now .filter(function(val) { return val != cf;  })
-            .filter(function(val) { return val != ''; }); // fix => ,3,4,
+            .filter(function (val) {
+                return val != '';
+            }); // fix => ,3,4,
         // need clear repeat in p  fix this => 4,4
-        return temp.helpfunc.deleteRepeatInArr(p).map(function($val) { return +$val; });
+        return temp.helpfunc.deleteRepeatInArr(p).map(function ($val) {
+            return +$val;
+        });
     },
-    nPars: function(str, cf) {
+    nPars: function (str, cf) {
         var p;
         var pagesInDocument = temp.DataWorkspace.images.length;
         var res = str.split("");
@@ -124,9 +130,11 @@ ft.parsing = {
         } else { // n-5
             p = [pagesInDocument - (+res[2])];
         }
-        return p.map(function($val) { return +$val; }); // delete part now .filter(function(val) { return val != cf;  })
+        return p.map(function ($val) {
+            return +$val;
+        }); // delete part now .filter(function(val) { return val != cf;  })
     },
-    starPars: function(str, cf) {
+    starPars: function (str, cf) {
         var p, res, len;
         p = [];
         var pagesInDocument = temp.DataWorkspace.images.length;
@@ -155,11 +163,13 @@ ft.parsing = {
                 p.push(i);
             }
         }
-        return p.map(function($val) { return +$val; }); // delete part now .filter(function(val) { return val != cf;  })
+        return p.map(function ($val) {
+            return +$val;
+        }); // delete part now .filter(function(val) { return val != cf;  })
     },
-    PagesVerification: function(pArr) {
+    PagesVerification: function (pArr) {
         var pages = temp.DataWorkspace.images.length;
-        return pArr.filter(function(val) {
+        return pArr.filter(function (val) {
             return val <= pages;
         });
     },
@@ -167,7 +177,7 @@ ft.parsing = {
 };
 
 ft.copy = {
-    init: function(from, to) {
+    init: function (from, to) {
         if (ft.copy.isEmptyPages(to)) return;
         var Templaite = temp.helpfunc.createresponsedata().Template;
         var DataFrom = ft.copy.getDataFrom(from, Templaite);
@@ -175,7 +185,7 @@ ft.copy = {
         var newTemplaite = ft.copy.initCopareFromtoToData(DataFrom, to, Templaite, MainHeaderFrom);
         ft.paint.init(newTemplaite);
     },
-    isEmptyPages: function(arr) {
+    isEmptyPages: function (arr) {
         if (arr.length == 0) {
             temp.helpfunc.modalInfo(['Field Copy To', 'Incorrect Enter(No pages found for stitching)']);
             return true;
@@ -183,10 +193,10 @@ ft.copy = {
             return false;
         }
     },
-    getDataFrom: function(numPage, Templaite) {
+    getDataFrom: function (numPage, Templaite) {
         return ft.copy.filterTableInServer(Templaite.Pages[numPage - 1]);
     },
-    getMainHeader: function(f, temps) {
+    getMainHeader: function (f, temps) {
         var Obj = temps.Pages[f - 1];
         if (Obj.MainHeader) {
             return Obj.MainHeader;
@@ -195,21 +205,23 @@ ft.copy = {
         }
     },
 
-    filterTableInServer: function(temp) { //return [] rect Data Table 
-        return temp.TableDatas.filter(function(rect) {
+    filterTableInServer: function (temp) { //return [] rect Data Table
+        return temp.TableDatas.filter(function (rect) {
             return rect.DataType.Name == "TableDatas";
         });
     },
-    initCopareFromtoToData: function(fromTableData, toPages, Templaite, mainHeader) {
+    initCopareFromtoToData: function (fromTableData, toPages, Templaite, mainHeader) {
         var tempTo = ft.copy.filterTableinTo(Templaite, toPages);
         var resTemp = ft.copy.mergerDataFromTo(fromTableData, tempTo, toPages, mainHeader);
         return resTemp;
     },
-    filterTableinTo: function(Templaite, pageArr) {
-        var pages = Templaite.Pages.map(function(page, i) {
+    filterTableinTo: function (Templaite, pageArr) {
+        var pages = Templaite.Pages.map(function (page, i) {
             if (ft.helpfunc.compareNumberInArr(i + 1, pageArr)) {
-                if (!page.TableDatas) { page.TableDatas = []; }
-                page.TableDatas = page.TableDatas.filter(function(rect) {
+                if (!page.TableDatas) {
+                    page.TableDatas = [];
+                }
+                page.TableDatas = page.TableDatas.filter(function (rect) {
                     return rect.DataType.Name != "TableDatas";
                 });
                 return page;
@@ -221,8 +233,8 @@ ft.copy = {
         return Templaite;
     },
 
-    mergerDataFromTo: function(f, t, pages, mainHeader) {
-        var page = t.Pages.map(function(p, i) {
+    mergerDataFromTo: function (f, t, pages, mainHeader) {
+        var page = t.Pages.map(function (p, i) {
             if (ft.helpfunc.compareNumberInArr(i + 1, pages)) {
                 if (p.TableDatas == undefined) p.TableDatas = [];
                 p.TableDatas = [].concat(f);
@@ -239,13 +251,13 @@ ft.copy = {
 };
 
 ft.paint = {
-    init: function(temps) {
+    init: function (temps) {
         ft.paint.clearPrevData(temps);
         paint.objects.datafromserver.arrdata = temps.Pages[temp.DataWorkspace.activpage];
         temp.DataWorkspace.initwindow();
     },
 
-    clearPrevData: function(temps) {
+    clearPrevData: function (temps) {
         temp.elementLeftBar.Templaite.Pk = temp.zeroGuid; //Pk empty row
         temp.elementLeftBar.Templaite.Name = '';
         temp.elementLeftBar.Templaite.name = '';
@@ -259,26 +271,28 @@ ft.paint = {
 };
 
 ft.helpfunc = {
-    compareNumberInArr: function(n, arr) {
-        return arr.filter(function(val) { return val == n; }).length > 0;
+    compareNumberInArr: function (n, arr) {
+        return arr.filter(function (val) {
+            return val == n;
+        }).length > 0;
     },
     input: {
-        getValue: function() {
+        getValue: function () {
             return ft.elements.ft_input.val();
         },
     },
     select: {
-        renderSelect: function(pages) {
+        renderSelect: function (pages) {
             ft.helpfunc.select.cleanSelect();
-            pages.forEach(function(element, i) {
+            pages.forEach(function (element, i) {
                 i += 1;
                 ft.elements.ft_select.append('<option value="' + i + '">' + i + '</option>');
             });
         },
-        cleanSelect: function() {
+        cleanSelect: function () {
             ft.elements.ft_select.empty();
         },
-        getOptionVal: function() {
+        getOptionVal: function () {
             return ft.elements.ft_select.find('option:selected').val();
         },
 
@@ -286,7 +300,7 @@ ft.helpfunc = {
 
 };
 
-ft.tooltipInit = function() {
+ft.tooltipInit = function () {
     var myTemplate = document.createElement('div');
     myTemplate.innerHTML = '<div style="width: 18rem;">' +
         '<div class="row">' +
@@ -317,7 +331,7 @@ ft.tooltipInit = function() {
     });
 };
 
-ft.init = function() {
+ft.init = function () {
     ft.elInit();
     ft.tooltipInit();
     ft.actionsInit();
