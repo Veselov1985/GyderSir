@@ -214,11 +214,17 @@
                  var page = i;
                  val.DataTypes.forEach(function(object) {
                      var DataTypeName = object.Name + 's';
-                     if (test.handlers.ruleScope(DataTypeName, arrScopes, page, lastPage)) { // checkRuleScope
-                         if (object.Data.trim() != '') {
-                             zaglyshka.data.header.push([object.Name, object.Data, object.Format]);
-                         }
-                     }
+
+                     // TODO  now rulle do not use  04/11/2018
+                     // if (test.handlers.ruleScope(DataTypeName, arrScopes, page, lastPage)) { // checkRuleScope
+                     //     if (object.Data.trim() != '') {
+                     //         zaglyshka.data.header.push([object.Name, object.Data, object.Format]);
+                     //     }
+                     // }
+                     //  TODO  now rulle do not use  04/11/2018
+
+                     zaglyshka.data.header.push([object.Name, object.Data, object.Format]);
+
                  });
              }
          });

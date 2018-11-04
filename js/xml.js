@@ -1,4 +1,4 @@
-var xml = {};
+  var xml = {};
 xml.data = {
     headerXML: '<?xml version="1.0" encoding="UTF-8"?>',
     $em: 0,
@@ -82,14 +82,26 @@ xml.handlers = {
         arrPage.forEach(function(pageI, i) {
             var page = i;
             pageI.DataTypes.forEach(function(val) {
-                if (test.handlers.ruleScope(val.Name, Scopes, page, lastPageI)) { // check rule from Header 1-all 2 First 3-Last page (only Datatype from DataBase)
-                    var HeaderTag = xml.handlers.deleteSpase(val.Name);
-                    var $text = xml.handlers.newLineText(val.Data); // // replace '↵' to => ';'
-                    HeaderTag = (HeaderTag == "") ? xml.handlers.emtyHeader() : HeaderTag;
-                    HeaderTag = xml.handlers.remomeXMLEror(HeaderTag);
-                    $text = xml.handlers.removeStringError($text);
+
+                // TODO now rulle do not use 04/11/2018
+                // if (test.handlers.ruleScope(val.Name, Scopes, page, lastPageI)) { // check rule from Header 1-all 2 First 3-Last page (only Datatype from DataBase)
+                //     var HeaderTag = xml.handlers.deleteSpase(val.Name);
+                //     var $text = xml.handlers.newLineText(val.Data); // // replace '↵' to => ';'
+                //     HeaderTag = (HeaderTag == "") ? xml.handlers.emtyHeader() : HeaderTag;
+                //     HeaderTag = xml.handlers.remomeXMLEror(HeaderTag);
+                //     $text = xml.handlers.removeStringError($text);
+                //     init += '<' + HeaderTag + '>' + $text + '</' + HeaderTag + '>';
+                // }
+
+                //  TODO now rulle do not use 04/11/2018
+
+                var HeaderTag = xml.handlers.deleteSpase(val.Name);
+                     var $text = xml.handlers.newLineText(val.Data); // // replace '↵' to => ';'
+                     HeaderTag = (HeaderTag == "") ? xml.handlers.emtyHeader() : HeaderTag;
+                     HeaderTag = xml.handlers.remomeXMLEror(HeaderTag);
+                     $text = xml.handlers.removeStringError($text);
                     init += '<' + HeaderTag + '>' + $text + '</' + HeaderTag + '>';
-                }
+
             });
         });
         xml.data.$em = 0;

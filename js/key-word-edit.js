@@ -106,7 +106,8 @@ kw.handlers = {
             kw.ajax.getKW({ Name: kw.handlers.delEndKW(KW), Data: '' });
         }
     },
-
+    deleteRepeatKw: function(arr){return arr.filter(function (val,i,arr) { return arr.indexOf(val) == i;  })
+    },
     changeTab: function(selected) {
         if (selected.length == 1 && !kw.state && kw.handlers.compareNeedKw(kw.handlers.findKeyWord(selected))) {
             var KW = selected.find('td').text().trim();
@@ -123,9 +124,9 @@ kw.handlers = {
         }
     },
     splitData: function(data) {
-        var arr = data.split(/\n|\;|\,/);
-        arr = arr.filter(function(val, i) {
-            return val != "";
+        var arr = data.split(/\n/);   // TODO  delete 04/11/2018  var arr = data.split(/\n|\;|\,/);
+        arr = arr.filter(function(val) {
+            return val.split() != "";
         });
         return arr;
     },
@@ -180,7 +181,7 @@ kw.ajax = {
             data: JSON.stringify(data),
             dataType: 'json',
             success: function(datas, textStatus, jqXHR) {
-                kw.ajax.editKWDone(datas);
+                kw.ajax.editKWDone(datas,data);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR);
@@ -195,8 +196,9 @@ kw.ajax = {
         kw.handlers.label.setText(data.Name + ':'); // label
         kw.handlers.textarea.setVal(kw.ajax.setNewLineTextArea(data.Data)); // value textarea
     },
-    editKWDone: function(data) {
+    editKWDone: function(data,datas) {
         if (data == true) {
+            kw.handlers.textarea.setVal(kw.ajax.setNewLineTextArea(datas.Data));
             kw.elements.applymodal_KW.object.modal('hide');
             temp.helpfunc.modalInfo(['Key word Edit', 'Ok']);
         } else {
@@ -204,11 +206,11 @@ kw.ajax = {
             temp.helpfunc.modalInfo(['Key word Info', 'Error Edit']);
         }
     },
-    setNewLineTextArea: function(text) {
+    setNewLineTextArea: function(text) {                 // TODO  split enter Data KEYWORD
         if (text == null) return '';
-        return text.split(',').map(function(val) {
-            return val.trim().replace(/\n/, '');
-        }).join(',\n');
+        return text.split(',').filter(function(inst) {return inst !='';}).map(function(val) {
+            return val.trim().replace(/\n/g, '');
+         }).join('\n');     // .join(',\n'); => delete <,> join
     }
 };
 
@@ -218,7 +220,9 @@ kw.initEv = function() {
     });
     kw.elements.apply_save_KW.object.on('click', function(e) {
         var labelKw = kw.handlers.delEndKW(kw.handlers.label.getLabel());
-        var data = kw.handlers.splitData(kw.handlers.textarea.getVal()).join(',');
+        var data = kw.handlers.splitData( kw.handlers.textarea.getVal());
+        // TODO delete repeat in data KW not use register 04/11/2018
+        data = kw.handlers.deleteRepeatKw(data).join(',');     // TODO if back change split  <,>  => !!!!!
         kw.ajax.editKW({ Name: labelKw, Data: data }); // edit KW
     });
     kw.elements.apply_no_KW.object.on('click', function(e) {
