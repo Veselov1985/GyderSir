@@ -208,7 +208,7 @@ kw.ajax = {
     },
     setNewLineTextArea: function(text) {                 // TODO  split enter Data KEYWORD
         if (text == null) return '';
-        return text.split(',').filter(function(inst) {return inst !='';}).map(function(val) {
+        return text.split('^').filter(function(inst) {return inst.trim() !='';}).map(function(val) {
             return val.trim().replace(/\n/g, '');
          }).join('\n');     // .join(',\n'); => delete <,> join
     }
@@ -222,7 +222,7 @@ kw.initEv = function() {
         var labelKw = kw.handlers.delEndKW(kw.handlers.label.getLabel());
         var data = kw.handlers.splitData( kw.handlers.textarea.getVal());
         // TODO delete repeat in data KW not use register 04/11/2018
-        data = kw.handlers.deleteRepeatKw(data).join(',');     // TODO if back change split  <,>  => !!!!!
+        data = kw.handlers.deleteRepeatKw(data).join('^');
         kw.ajax.editKW({ Name: labelKw, Data: data }); // edit KW
     });
     kw.elements.apply_no_KW.object.on('click', function(e) {
