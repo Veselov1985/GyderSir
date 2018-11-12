@@ -608,6 +608,8 @@ temp.helpfunc = {
                 if (!Array.isArray(row[i])) row.push([]);
                 var rectY0 = rect.Rect.X0.Y;
                 var rectY1 = rect.Rect.X1.Y;
+                if(!workArr[i]) {i=0;}
+                console.log(workArr[i].Rect);
                 var zeroNext = workArr[i].Rect.X0.Y + (workArr[i].Rect.X1.Y - workArr[i].Rect.X0.Y) / 2;
                 if (rectY0 < zeroNext && rectY1 > zeroNext) {
                     if (!Array.isArray(row[i])) row.push([]);
@@ -616,9 +618,10 @@ temp.helpfunc = {
                 } else {
                     return true;
                 }
+
             });
         }
-        var res = temp.helpfunc.IsMaxArr(row);
+        var res = [temp.helpfunc.IsMaxArr(row)];
         if (res.length == 1) {
             return res;
         } else {
