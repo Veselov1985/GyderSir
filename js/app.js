@@ -235,7 +235,7 @@ temp.elementLeftBar = {
                 }
                 temp.elementLeftBar.Templaite.name = newNametemp;
                 temp.elementLeftBar.Templaite.Name = newNametemp;
-                temp.elementLeftBar.Templaite.RuleArr = temp.elementLeftBar.Templaite.RuleArr.concat(mp.data.RuleArr);
+               // temp.elementLeftBar.Templaite.RuleArr = temp.elementLeftBar.Templaite.RuleArr.concat(mp.data.RuleArr);
 
                 temp.Data.leftTempList.list.forEach(function(val) {
                     if (val.Name == newNametemp) {
