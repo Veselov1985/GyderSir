@@ -609,7 +609,6 @@ temp.helpfunc = {
                 var rectY0 = rect.Rect.X0.Y;
                 var rectY1 = rect.Rect.X1.Y;
                 if(!workArr[i]) {i=0;}
-                console.log(workArr[i].Rect);
                 var zeroNext = workArr[i].Rect.X0.Y + (workArr[i].Rect.X1.Y - workArr[i].Rect.X0.Y) / 2;
                 if (rectY0 < zeroNext && rectY1 > zeroNext) {
                     if (!Array.isArray(row[i])) row.push([]);
@@ -621,14 +620,18 @@ temp.helpfunc = {
 
             });
         }
-        var res = [temp.helpfunc.IsMaxArr(row)];
+        var res = temp.helpfunc.IsMaxArr(row);
+        if(res.length == 0) return [];
         if (res.length == 1) {
             return res;
+        } else if (!Array.isArray(res[0])) {
+            return [res];
         } else {
-            return res[0];
+            return res[0]
         }
     },
     IsMaxArr: function(arr) {
+        if(arr.length == 0 ) return [];
         return arr.reduce(function(prew, next) {
             if (prew.length > next.length && !Array.isArray(prew[0])) {
                 return prew;
