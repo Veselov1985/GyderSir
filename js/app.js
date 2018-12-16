@@ -57,7 +57,7 @@ temp.img = {
 
 temp.zeroGuid = "00000000-0000-0000-0000-000000000000";
 temp.serverInfo = []; // forward server info ===> test
-temp.ClassificationId = '';
+temp.PropertyPdf = {};
 temp.serverTemplate = [];
 
 temp.elementLeftBar = {
@@ -235,7 +235,7 @@ temp.elementLeftBar = {
                 }
                 temp.elementLeftBar.Templaite.name = newNametemp;
                 temp.elementLeftBar.Templaite.Name = newNametemp;
-               // temp.elementLeftBar.Templaite.RuleArr = temp.elementLeftBar.Templaite.RuleArr.concat(mp.data.RuleArr);
+                // temp.elementLeftBar.Templaite.RuleArr = temp.elementLeftBar.Templaite.RuleArr.concat(mp.data.RuleArr);
 
                 temp.Data.leftTempList.list.forEach(function(val) {
                     if (val.Name == newNametemp) {
@@ -263,7 +263,7 @@ temp.elementLeftBar = {
                     temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
                     temp.helpfunc.searchPage(); // need search page
                     temp.elementLeftBar.dataTable.object.find('i').each(function() {
-                      var $that = $(this);
+                        var $that = $(this);
                         var parent$2 = $that.parent().parent();
                         if ($that.attr('class').trim() == temp.img.activ) {
                             parent$2.addClass('selected');
@@ -356,7 +356,7 @@ temp.helpfunc = {
         temp.elementLeftBar.Templaite.Pk = temp.elementLeftBar.Templaite.origin.Pk;
         temp.elementLeftBar.Templaite.Name = temp.elementLeftBar.Templaite.origin.Name;
         temp.elementLeftBar.Templaite.name = temp.elementLeftBar.Templaite.origin.Name;
-        (temp.elementLeftBar.Templaite.origin.ClassificationId == undefined) ? temp.ClassificationId = temp.elementLeftBar.Templaite.origin.ClassificationId: temp.ClassificationId = '';
+        (temp.elementLeftBar.Templaite.origin.PropertyPdf == undefined) ? temp.PropertyPdf = temp.elementLeftBar.Templaite.origin.PropertyPdf: temp.PropertyPdf = {};
         (temp.elementLeftBar.Templaite.origin.RuleFormingTemplate == undefined) ? mp.data.RuleArr = []: mp.data.RuleArr = temp.elementLeftBar.Templaite.origin.RuleFormingTemplate;
         temp.elementLeftBar.Templaite.RuleArr = mp.data.RuleArr;
         paint.handlers.clearsvgcontent();
@@ -416,7 +416,7 @@ temp.helpfunc = {
         temp.elementLeftBar.Templaite.Pk = temp.zeroGuid; //Pk empty row
         temp.elementLeftBar.Templaite.Name = '';
         temp.elementLeftBar.Templaite.RuleArr = [];
-        temp.ClassificationId = '';
+        temp.PropertyPdf = {};
         mp.data.RuleArr = [];
         ph.data.object = ph.data.default;
         var e = temp.elementLeftBar.Templaite.e;
@@ -429,7 +429,7 @@ temp.helpfunc = {
         temp.elementLeftBar.Templaite.Name = '';
         temp.elementLeftBar.Templaite.origin = {};
         temp.elementLeftBar.Templaite.RuleArr = [];
-        mp.ClassificationId = '';
+        mp.PropertyPdf = {};
         mp.data.RuleArr = [];
         temp.helpfunc.clearglobalstate(true);
         temp.Data.leftTempList.data.forEach(function(val, i) {
@@ -525,8 +525,8 @@ temp.helpfunc = {
                 Pk: temp.elementLeftBar.Templaite.Pk, //temp.Data.leftTempList.datas.Pk
                 Name: temp.elementLeftBar.Templaite.Name, //temp.Data.leftTempList.datas.Name
                 //  Scopes: ph.handlers.reverseToServer(), // Scope Pages Settings all,first,last        //TODo delete 01/11/2018
-               //  RuleFormingTemplate: mp.data.RuleArr, // multi-page.js memory to set rule,     // TODO delete 01/11/2018
-                ClassificationId: temp.ClassificationId,
+                //  RuleFormingTemplate: mp.data.RuleArr, // multi-page.js memory to set rule,     // TODO delete 01/11/2018
+                PropertyPdf: temp.PropertyPdf ? temp.PropertyPdf : {},
                 Pages: function() {
                     var obj = temp.helpfunc.collectdata();
                     var imgarr = [];
@@ -603,35 +603,47 @@ temp.helpfunc = {
     findBigRow: function(table) {
         var row = [];
         var workArr = [].concat(table);
-        for (var i = 0; workArr.length != 0; i++) {
-            workArr = workArr.filter(function(rect) {
-                if (!Array.isArray(row[i])) row.push([]);
-                var rectY0 = rect.Rect.X0.Y;
-                var rectY1 = rect.Rect.X1.Y;
-                if(!workArr[i]) {i=0;}
-                var zeroNext = workArr[i].Rect.X0.Y + (workArr[i].Rect.X1.Y - workArr[i].Rect.X0.Y) / 2;
-                if (rectY0 < zeroNext && rectY1 > zeroNext) {
-                    if (!Array.isArray(row[i])) row.push([]);
-                    row[i].push({ Rect: rect.Rect });
-                    return false;
+        workArr.forEach(function(val, i, arr) {
+            var zeroNext = val.Rect.X0.Y + (val.Rect.X1.Y - val.Rect.X0.Y) / 2;
+            if (row.length) {
+                var prewRowRect = row[row.length - 1][0];
+                var zeroPrew = prewRowRect.Rect.X0.Y + (prewRowRect.Rect.X1.Y - prewRowRect.Rect.X0.Y) / 2;
+                var rectY0 = val.Rect.X0.Y;
+                var rectY1 = val.Rect.X1.Y;
+                if (rectY0 < zeroPrew && rectY1 > zeroPrew) {
+                    // not add  row data
                 } else {
-                    return true;
+                    row[i] = [];
+                    arr.forEach(function(vals, j) {
+                        var rectY0 = vals.Rect.X0.Y;
+                        var rectY1 = vals.Rect.X1.Y;
+                        if (rectY0 < zeroNext && rectY1 > zeroNext) {
+                            row[i].push({ Rect: vals.Rect });
+                        }
+                    });
                 }
+            } else {
+                row[i] = [];
+                arr.forEach(function(vals, j) {
 
-            });
-        }
+                    var rectY0 = vals.Rect.X0.Y;
+                    var rectY1 = vals.Rect.X1.Y;
+                    if (rectY0 < zeroNext && rectY1 > zeroNext) {
+                        row[i].push({ Rect: vals.Rect });
+                    }
+                });
+            }
+        });
         var res = temp.helpfunc.IsMaxArr(row);
-        if(res.length == 0) return [];
-        if (res.length == 1) {
-            return res;
-        } else if (!Array.isArray(res[0])) {
-            return [res];
+        if (res.length == 0) return [];
+        if (Array.isArray(res[0])) {
+            return res[0];
         } else {
-            return res[0]
+            return res;
         }
     },
     IsMaxArr: function(arr) {
-        if(arr.length == 0 ) return [];
+        if (arr.length == 0) return [];
         return arr.reduce(function(prew, next) {
             if (prew.length > next.length && !Array.isArray(prew[0])) {
                 return prew;
@@ -1010,8 +1022,8 @@ temp.control = {
                 temp.serverInfo.push(val.OcrStrings);
             });
         },
-        saveClassId: function(data) {
-            temp.ClassificationId = data;
+        savePropertyPdf: function(data) {
+            temp.PropertyPdf = $.extend({}, data);
         },
         renderDataTemplaite: function(data) {
             var base64Title = 'data:image/jpeg;base64,';
@@ -1259,8 +1271,7 @@ temp.loadEvent = {
     success: function(data) {
         temp.serverTemplate = $.extend({}, data.Template);
         temp.control.templaite.saveServerInfo($.extend({}, data.Template).Pages);
-        temp.control.templaite.saveClassId(data.Template.ClassificationId);
-        filter.handlers.filterClear();
+        temp.control.templaite.savePropertyPdf(data.Template.PropertyPdf ? data.Template.PropertyPdf : {}); // PropertyPdf   
         ft.helpfunc.select.renderSelect(data.Template.Pages); // render option in select Copy from
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         // fix b. end

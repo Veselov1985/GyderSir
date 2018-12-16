@@ -173,7 +173,7 @@ mp.helpfuncs = {
 
 mp.handlers = {
     AddRule: function(from, pString) {
-        if(!mp.data.RuleArr){ mp.data.RuleArr =[]}
+        if (!mp.data.RuleArr) { mp.data.RuleArr = [] }
         mp.data.RuleArr.push({
             CopyFrom: from,
             Rule: pString
@@ -208,11 +208,13 @@ mp.actions = {
         mp.data.RuleArr = []; // state rulle in multi-page.js
 
         return {
+
             Pk: TempFind.Pk, //temp.Data.leftTempList.datas.Pk
             Name: TempFind.Name, //temp.Data.leftTempList.datas.Name
-           // Scopes: TempFind.Scopes, // Scope Pages Settings all,first,last   =>  NEED CHANGE PagesTemp.Scopes   // TODO delete  02/11/2018
-          ///  RuleFormingTemplate: [],    // TODO delete  02/11/2018
-            Pages: pages
+            // Scopes: TempFind.Scopes, // Scope Pages Settings all,first,last   =>  NEED CHANGE PagesTemp.Scopes   // TODO delete  02/11/2018
+            ///  RuleFormingTemplate: [],    // TODO delete  02/11/2018
+            Pages: pages,
+            PropertyPdf: TempFind.PropertyPdf ? tempFind.PropertyPdf : {}, // ADD PropertyPdf   NEW Template object 16/12/2018
         };
 
     },
@@ -222,9 +224,11 @@ mp.actions = {
         var newTemplaiteObj = {
             Pk: PagesTemp.Pk, //temp.Data.leftTempList.datas.Pk
             Name: PagesTemp.Name, //temp.Data.leftTempList.datas.Name
-            Scopes: PagesTemp.Scopes, // Scope Pages Settings all,first,last   =>  NEED CHANGE PagesTemp.Scopes
-            RuleFormingTemplate: PagesTemp.RuleFormingTemplate,
-            Pages: pages
+            // Scopes: PagesTemp.Scopes, // Scope Pages Settings all,first,last   =>  NEED CHANGE PagesTemp.Scopes
+            // RuleFormingTemplate: PagesTemp.RuleFormingTemplate,
+            Pages: pages,
+            PropertyPdf: PagesTemp.PropertyPdf ? PagesTemp.PropertyPdf : {}, // ADD PropertyPdf   NEW Template object 16/12/2018
+
         };
         return newTemplaiteObj;
     },
