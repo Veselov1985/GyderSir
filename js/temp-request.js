@@ -50,7 +50,7 @@ tr.chakeEvents = {
     init: function(data) {
         switch (data.event) {
             case 'DocumentProcessing':
-                tr.chakeEvents.pdfDocumentWorker(data.data);
+                tr.chakeEvents.pdfDocumentWorker(data);
                 break;
             case 'CloseChild':
                 tr.chakeEvents.CloseChild();
@@ -61,9 +61,14 @@ tr.chakeEvents = {
 
     },
     pdfDocumentWorker: function(data) {
+        window.focus();
+        console.log('Incoming DATA',data);
         // child window send pdf document
         // save id work pdf document
-        //  tr.data.id = data.id;
+         tr.data.id = data.id;
+        // TODO init data to d3.js and other  func work
+
+
     },
     CloseChild: function() {
         tr.data.windowChild.close();
