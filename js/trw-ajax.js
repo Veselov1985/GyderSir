@@ -37,7 +37,7 @@ ajax.ajax = {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*'
                 },
-                url: `${ajax.routes.template}/${id.id}`,
+                url: `${ajax.routes.template}/${id}`,
                 type: 'GET',
                 success: function (data, textStatus, jqXHR) {
                     resolve(data);

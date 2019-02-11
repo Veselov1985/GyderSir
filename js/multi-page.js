@@ -214,7 +214,7 @@ mp.actions = {
             // Scopes: TempFind.Scopes, // Scope Pages Settings all,first,last   =>  NEED CHANGE PagesTemp.Scopes   // TODO delete  02/11/2018
             ///  RuleFormingTemplate: [],    // TODO delete  02/11/2018
             Pages: pages,
-            PropertyPdf: TempFind.PropertyPdf ? tempFind.PropertyPdf : {}, // ADD PropertyPdf   NEW Template object 16/12/2018
+            PropertyPdf: TempFind.PropertyPdf ? TempFind.PropertyPdf : {}, // ADD PropertyPdf   NEW Template object 16/12/2018
         };
 
     },

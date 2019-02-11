@@ -3,10 +3,9 @@ window.webkitStorageInfo = navigator.webkitTemporaryStorage || navigator.webkitP
 document.origin = window.origin || self.origin;
 trw.elements = {};
 trw.data = {
-    id: '',
+    obj: {},
     zag: []
 };
-
 
 trw.init = function () {
     trw.elements.btn_send_req = $('#btn_send_req');
@@ -42,15 +41,16 @@ trw.dataTable = {
             "select": true,
             "responsive": true,
             "data": data,
-            "columnDefs": [{
-                'targets': 0,
-                'orderable': true,
-                'searchable': true,
-                'className': 'dt-body-center',
-                'render': function (data, type, full, meta) {
-                    return '<span data-id=' + full[3] + '>' + data + '</span>';
-                }
-            },
+            "columnDefs": [
+                {
+                    'targets': 0,
+                    'orderable': true,
+                    'searchable': true,
+                    'className': 'dt-body-center',
+                    'render': function (data, type, full, meta) {
+                        return '<span data-id=' + full + '>' + data + '</span>';
+                    }
+                },
                 {
                     'targets': 1,
                     'orderable': true,
@@ -68,27 +68,27 @@ trw.dataTable = {
                     'render': function (data, type, full, meta) {
                         return data;
                     },
+                },
+                {
+                    'targets': 3,
+                    'orderable': true,
+                    'searchable': true,
+                    'className': 'dt-body-center',
+                    'render': function (data, type, full, meta) {
+                        return data;
+                    },
                 }
             ],
             "columns": [
                 {title: "Template Name"},
-                {title: "Email"},
-                {title: "Time"}
+                {title: "fileId"},
+                {title: "id"},
+                {title: 'jobId'},
             ],
             "dom": "<'row'<'col-md-12'f>>t<'clear'><'row'<'col-md-12'p>>",
         });
-
-        // //handlers DATATable
-        // // Selected Document
-        // trw.dataTable.object.off('click').on('click', 'tr', function (e) {
-        //
-        // }
-
     },
-
-
 };
-
 
 trw.helpfunc = {
     clearMemoryDataTable: function () {
@@ -97,13 +97,10 @@ trw.helpfunc = {
     },
     initMemoryDataTable: function (data) {
         trw.helpfunc.clearMemoryDataTable();
-        trw.data.zag = [].concat(data.map((val) => {
-            let arr = [];
-            for (let key in val) {
-                arr.push(val[key])
-            }
-            return arr;
-        }));
+        trw.data.zag = data.map((val) => {
+            const res = [val.fileName, val.fileId, val.id, val.jobId];
+            return res;
+        });
     },
 };
 
@@ -121,16 +118,27 @@ trw.EventEmmiter = {
         }, false);
     },
     emit: function (data) {
-        // data => { token: 'aaa', secret: 'bbb' }
-
         self.opener.postMessage(data, '*');
-        // window.opener.postMessage(data, '*');
     },
     callbackHandlers: function (data) {
         console.log(data);
+        trw.callbackActions.factory(data);
     }
 };
 
+trw.callbackActions = {
+    factory: (data) => {
+        switch (data.event) {
+            case 'Save Template':
+                trw.handlers.saveTemplateParent(data);
+                break;
+            case '':
+                break;
+            default:
+                break;
+        }
+    }
+};
 
 trw.ACTIONSCREATER = {
     documentProcessing: function (obj) {
@@ -140,7 +148,6 @@ trw.ACTIONSCREATER = {
         return {event: 'CloseChild'};
     }
 };
-
 trw.chakeEvents = {
     init: function (message, data) {
         switch (message) {
@@ -153,47 +160,80 @@ trw.chakeEvents = {
                 break;
         }
     },
-    pdfNextStep: function (data) {
-        trw.handlers.filterProcessedDocumnet(data.id);
-        trw.Ajax.deleteTemplateDocument(data.id);
-        if (trw.dataTable.object.find('tr').length != 0) {
-            var next = trw.data.zag[0];
-            trw.Ajax.getTemplateDocument(next[3]);
+    pdfNextStep: function () {
+        if (trw.data.zag.length !== 0) {
+            const obj = trw.handlers.getNextStepIdObj();
+            trw.data.obj = $.extend({}, obj);
+            ajax.ajax.getId(trw.data.obj.id).then(data => {
+                //  trw.EventEmmiter.emit( {event: 'DocumentProcessing', obj: trw.data.obj, Template: data});
+                console.log('TEMPLATE from Api', data);
+                // TODO TEST BLOCK MOCA
+
+                moca.get.template().then(data => {
+                    console.log(data);
+                    trw.EventEmmiter.emit({event: 'DocumentProcessing', obj: trw.data.obj, Template: data});
+                }).catch(err => console.log(err));
+
+                // TODO TEST BLOCK MOCA END
+
+            }).catch(() => Snackbar.show({text: 'Error Server'})
+            )
         } else {
             // listen end doc => close window
-            trw.EventEmmiter.emit(trw.ACTIONSCREATER.CloseWindow()); // in future add sheck update list on the server
+            // check update list Request templates
+            ajax.ajax.getAll().then(data => {
+                if (data.length === 0) {
+                    trw.EventEmmiter.emit(trw.ACTIONSCREATER.CloseWindow());
+                } else {
+                    trw.handlers.getTemplatesSuccess(data);
+                }
+            }).catch(() => {
+                Snackbar.show({text: 'Error update'});
+            });
         }
-        // clear id prew pdf document
-        // @ send id to Api => delete in database
-        // send next filter: 
     },
 };
 
 
 trw.handlers = {
+    deletePrewJob: (id) => {
+        trw.data.zag = trw.data.zag.filter(val => val.id !== id);
+        trw.dataTable.init(trw.dataTable.object, trw.data.zag);
+    },
+
+    saveTemplateParent: (data) => {
+        ajax.ajax.getJob(data.obj.jobId);
+        ajax.ajax.getProcess(data.obj.id);
+        // need  remove id worker in the list
+        trw.handlers.deletePrewJob(data.obj.id);
+        trw.chakeEvents.pdfNextStep();
+    },
+
     getTemplatesSuccess: function (data) {
         trw.helpfunc.initMemoryDataTable(data);
         trw.dataTable.init(trw.dataTable.object, trw.data.zag);
+    },
+    getNextStepIdObj: () => {
+        const dataAttr = trw.data.zag[0];
+        return {
+            fileName: dataAttr[0],
+            fileId: +dataAttr[1],
+            id: +dataAttr[2],
+            jobId: +dataAttr[3],
+        }
     },
     getSelectedTr: function () {
         return trw.dataTable.object.find('.selected');
     },
     getIdSelectedTemplate: function (trw) {
-        return trw.find('span').data('id');
+        const dataAttr = trw.find('span').data('id').split(',');
+        return {
+            fileName: dataAttr[0],
+            fileId: +dataAttr[1],
+            id: +dataAttr[2],
+            jobId: +dataAttr[3],
+        }
     },
-
-    getDocumentsuccess: function (data) {
-        var obj = {id: data.id, file: data.file};
-        trw.EventEmmiter.emit(trw.ACTIONSCREATER.documentProcessing(obj));
-    },
-    filterProcessedDocumnet: function (id) {
-        trw.data.zag = trw.data.zag.filter(function (val) {
-            return val.id != id;
-        });
-    },
-    getTemplateIdSuccess: (data) => {
-        console.log('SWAGER DATA', data)
-    }
 };
 
 
@@ -205,20 +245,28 @@ trw.action = function () {
     trw.elements.temp_request_child_upload.on('click', function () {
         var trSelected = trw.handlers.getSelectedTr();
         if (trSelected.length > 0) {
-            var id = trw.handlers.getIdSelectedTemplate(trSelected);
-            trw.data.id = id;
+            var obj = trw.handlers.getIdSelectedTemplate(trSelected);
+            trw.data.obj = $.extend({}, obj);
             // TODO maybe need emit data???
-            ajax.ajax.getId(trw.data.id).then( data => {
-                trw.EventEmmiter.emit( {id: id ,Template:[]});
+            ajax.ajax.getId(trw.data.obj.id).then(data => {
+                //  trw.EventEmmiter.emit( {id: trw.data.obj.id ,Template:[]});
+                console.log('TEMPLATE from Api', data);
+
+                // TODO TEST BLOCK MOCA
+                moca.get.template().then(data => {
+                    console.log(data);
+                    trw.EventEmmiter.emit({event: 'DocumentProcessing', obj: trw.data.obj, Template: data});
+                }).catch(err => console.log(err));
+
+                // TODO TEST BLOCK MOCA END
             }).catch(error => {
                 console.log('Error Response server', error[1]);
                 Snackbar.show({text: 'Try Latter', pos: 'top-right'});
                 // TODO TEST BLOCK MOCA
-                moca.get.template().then( data => {
+                moca.get.template().then(data => {
                     console.log(data);
-                    trw.EventEmmiter.emit({event:'DocumentProcessing',  id: id, Template: data});
+                    trw.EventEmmiter.emit({event: 'DocumentProcessing', id: id, Template: data});
                 }).catch(err => console.log(err));
-
 
 
                 // TODO TEST BLOCK MOCA
@@ -232,7 +280,13 @@ trw.action = function () {
 
     // update child data
     trw.elements.temp_request_child_update.on('click', function () {
-        //  trw.Ajax.getTemplate();
+        ajax.ajax.getAll().then(data => {
+            trw.handlers.getTemplatesSuccess(data);
+            window.focus();
+            Snackbar.show({text: 'Data Update', pos: 'top-right'})
+        }).catch(err => {
+            Snackbar.show({text: `Server Error ${err[1]}`, pos: 'top-right'})
+        })
     });
 
     // close child window
@@ -245,12 +299,14 @@ trw.action = function () {
 $(document).ready(function () {
     trw.init();
     trw.action();
-
     // get document list data
     ajax.ajax.getAll()
         .then(data => {
-            trw.handlers.getTemplatesSuccess(data);
-            window.focus();
+            if(data.length !== 0 ) {
+                trw.handlers.getTemplatesSuccess(data);
+                window.focus();
+                trw.chakeEvents.pdfNextStep();
+            }
         })
         .catch(error => {
             Snackbar.show({text: `Server Error`, pos: 'top-right'});
@@ -264,6 +320,12 @@ $(document).ready(function () {
             })
             // TODO End  TEST Section
         });
+
+    $(window).on("beforeunload", function () {
+        console.log('emit prepend close')
+        trw.EventEmmiter.emit({event: 'CloseChild'});
+        return true;
+    })
 
 });
 

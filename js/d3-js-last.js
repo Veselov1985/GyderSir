@@ -767,6 +767,7 @@ paint.handlers = {
 
 
 paint.init = function() {
+    paint.handlers.clearsvgcontent();
     if (!paint.zoom.elements.olready) paint.zoom.init();
     paint.zoom.elements.btn_zoom_plus.on('click', paint.zoom.handlers.increasezoom);
     paint.zoom.elements.btn_zoom_minus.on('click', paint.zoom.handlers.backtopaint);

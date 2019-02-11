@@ -513,6 +513,7 @@ table.dataTable tbody td {
     display: flex;
     justify-content: flex-end;
     padding: 5vh 10% 0 10%;
+    margin-bottom: 2rem;
 }
 
 #temp_request_table_child_wrapper {

@@ -249,6 +249,9 @@ temp.elementLeftBar = {
                 }
 
                 var success = function (data) {
+                    // block Template Request
+                    // check if this request
+                    tr.handlers.checkIfRequest();
                     // add new create templaite in list
                     temp.Data.leftTempList.datas.Pk = data.Pk;
                     temp.Data.leftTempList.datas.Name = data.Name;
@@ -1282,7 +1285,9 @@ temp.init = {
             if (temp.Data.LoadPdfOpt.file_pdf.__proto__.constructor.name != "FormData") {
                 temp.helpfunc.modalInfo(['Info', 'Please download .pdf file']);
                 return;
-            } // if pdf file not load 
+            } // if pdf file not load
+            // empty Child  Request
+            tr.data.obj = {};
             led.action.ledOff(); // off led MainHeader
             lt.view.setOff(); // off layout
             // clear global state
@@ -1303,16 +1308,8 @@ temp.init = {
 };
 
 temp.loadEvent = {
-
     success: function (data) {
-        temp.serverTemplate = $.extend({}, data.Template);
-        temp.control.templaite.saveServerInfo($.extend({}, data.Template).Pages);
-        temp.control.templaite.savePropertyPdf(data.Template.PropertyPdf ? data.Template.PropertyPdf : {}); // PropertyPdf   
-        ft.helpfunc.select.renderSelect(data.Template.Pages); // render option in select Copy from
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // fix b. end
-        data.Pks = temp.helpfunc.deleteRepeatInArr(data.Pks);
-        ////////////////////////////////////////////////////////////////////////////
+       data =  temp.loadEvent.prependConvertData(data);
         if (data.Pks.length > 1) {
             ph.data.object = ph.data.default; // set default pages objects
             filter.handlers.toggleLight();
@@ -1349,9 +1346,7 @@ temp.loadEvent = {
 
             // TODO Server rendering pages
             var deployedTemplate = $.extend({}, data.Template);
-
-            gf.init(deployedTemplate); // fast request to the server => get response result 
-
+            gf.init(deployedTemplate); // fast request to the server => get response result
             filter.handlers.toggleLight(); // filter fix
             temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
             temp.Data.leftTempList.data = [
@@ -1382,25 +1377,39 @@ temp.loadEvent = {
             paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
             temp.DataWorkspace.initwindow();
         } else {
-            ph.data.object = ph.data.default; // default Scopes from object Page all,first,Last
-            temp.control.templaite.unselectDataTable();
-            temp.elementLeftBar.dataTable.clean();
-            temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-            temp.elementLeftBar.Templaite.Pk = data.Template.Pk;
-            temp.elementLeftBar.Templaite.name = data.Template.Name ? data.Template.Name : '';
-            temp.elementLeftBar.Templaite.RuleArr = data.Template.RuleFormingTemplate ? data.Template.RuleFormingTemplate : [];
-            mp.data.RuleArr = data.Template.RuleFormingTemplate ? data.Template.RuleFormingTemplate : [];
-            temp.control.templaite.renderDataTemplaite(data.Template.Pages);
-            temp.control.templaite.renderDataListPaint(data.Template.Pages);
-            paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
-            temp.DataWorkspace.initwindow();
+            // No template Found
+            temp.loadEvent.singleRender(data);
         }
     },
     error: function (error) {
         console.log(error);
     },
-
-
+    // no Template => Request data Render
+    singleRender: (data) => {
+        ph.data.object = ph.data.default; // default Scopes from object Page all,first,Last
+        temp.control.templaite.unselectDataTable();
+        temp.elementLeftBar.dataTable.clean();
+        temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
+        temp.elementLeftBar.Templaite.Pk = data.Template.Pk;
+        temp.elementLeftBar.Templaite.name = data.Template.Name ? data.Template.Name : '';
+        temp.elementLeftBar.Templaite.RuleArr = data.Template.RuleFormingTemplate ? data.Template.RuleFormingTemplate : [];
+        mp.data.RuleArr = data.Template.RuleFormingTemplate ? data.Template.RuleFormingTemplate : [];
+        temp.control.templaite.renderDataTemplaite(data.Template.Pages);
+        temp.control.templaite.renderDataListPaint(data.Template.Pages);
+        paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
+        temp.DataWorkspace.initwindow();
+    },
+    prependConvertData: (data) => {
+        temp.serverTemplate = $.extend({}, data.Template);
+        temp.control.templaite.saveServerInfo($.extend({}, data.Template).Pages);
+        temp.control.templaite.savePropertyPdf(data.Template.PropertyPdf ? data.Template.PropertyPdf : {}); // PropertyPdf
+        ft.helpfunc.select.renderSelect(data.Template.Pages); // render option in select Copy from
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // fix b. end
+        data.Pks = temp.helpfunc.deleteRepeatInArr(data.Pks);
+        ////////////////////////////////////////////////////////////////////////////
+        return data;
+    },
 };
 
 temp.render = {
