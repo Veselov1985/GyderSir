@@ -1426,7 +1426,7 @@ temp.render = {
             temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
         },
         error: function (data) {
-            alert(data);
+            Snackbar.show({text: 'Error Server'});
         },
     }
 };

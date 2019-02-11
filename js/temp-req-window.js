@@ -93,7 +93,7 @@ trw.dataTable = {
 trw.helpfunc = {
     clearMemoryDataTable: function () {
         trw.data.zag = [];
-        trw.data.id = '';
+        trw.data.obj = {};
     },
     initMemoryDataTable: function (data) {
         trw.helpfunc.clearMemoryDataTable();
@@ -132,7 +132,7 @@ trw.callbackActions = {
             case 'Save Template':
                 trw.handlers.saveTemplateParent(data);
                 break;
-            case '':
+                case '':
                 break;
             default:
                 break;

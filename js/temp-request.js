@@ -7,10 +7,12 @@ tr.data = {
     windowChild: '',
     obj: {},
 };
-tr.elements = {};
+tr.elements = {
+    btn_temp_request: {el:{},id:'btn_temp_request'}
+};
 
 tr.elements.init = function () {
-    tr.elements.btn_temp_request = $('#btn_temp_request');
+    tr.elements.btn_temp_request.el = $(`#${tr.elements.btn_temp_request.id}`);
 };
 
 tr.handlers = {
@@ -75,7 +77,6 @@ tr.EventEmmiter = {
     },
     emit: function (data) {
         tr.data.windowChild.postMessage(data, '*');
-
     },
     callbackHandlers: function (e) {
         tr.chakeEvents.init(e.data);
@@ -84,7 +85,7 @@ tr.EventEmmiter = {
 
 
 tr.action = function () {
-    tr.elements.btn_temp_request.on('click', function () {
+    tr.elements.btn_temp_request.el.on('click', function () {
         if (tr.data.windowChild.closed == true || typeof tr.data.windowChild == 'string') {
             tr.data.windowChild = '';
             tr.data.windowChild = window.open(tr.routes.openWindow, 'request', "width=600,height=400,left=20px,top=20px,menubar=yes,toolbar=yes,location=yes,resizable=yes,scrollbars=yes");
