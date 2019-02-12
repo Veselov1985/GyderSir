@@ -513,26 +513,29 @@
 
     hx.ajax = {
         getAllHeader: function(datas) {
-            $.ajax({
-                headers: {
-                    'accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                url: temp.routes.getallheaderdatatypesUrl,
-                type: "POST",
-                data: JSON.stringify(datas),
-                dataType: 'json',
-                success: function(data, textStatus, jqXHR) {
-                    hx.ajax.getAllHeaderSuccess(data);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    hx.ajax.getAllHeaderError(jqXHR);
-                },
-                beforeSend: function() {},
-                complete: function() {
-                    pm.handlers.check(); // preload--
-                }
-            });
+            return new Promise((resolve,reject)=> {
+                $.ajax({
+                    headers: {
+                        'accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    url: temp.routes.getallheaderdatatypesUrl,
+                    type: "POST",
+                    data: JSON.stringify(datas),
+                    dataType: 'json',
+                    success: function(data, textStatus, jqXHR) {
+                        hx.ajax.getAllHeaderSuccess(data);
+                        resolve(data);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        hx.ajax.getAllHeaderError(jqXHR);
+                        reject([jqXHR, textStatus, errorThrown])
+                    },
+                    beforeSend: function() {},
+                    complete: function() {
+                    }
+                });
+            })
         },
         deleteHeader: function(datas) {
             $.ajax({

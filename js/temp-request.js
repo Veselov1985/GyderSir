@@ -16,12 +16,12 @@ tr.elements.init = function () {
 };
 
 tr.handlers = {
-    checkIfRequest: () => {
+    checkIfRequest: (pks) => {
         if (!$.isEmptyObject(tr.data.obj)) {
             const id = tr.data.obj;
             tr.data.obj = {};
             // TODO send to child window
-            tr.EventEmmiter.emit({event: 'Save Template', obj: id})
+            tr.EventEmmiter.emit({event: 'Save Template',obj: id, templateId:pks})
         }
     },
 };
@@ -86,11 +86,11 @@ tr.EventEmmiter = {
 
 tr.action = function () {
     tr.elements.btn_temp_request.el.on('click', function () {
-        if (tr.data.windowChild.closed == true || typeof tr.data.windowChild == 'string') {
+        if (tr.data.windowChild.closed === true || typeof tr.data.windowChild === 'string') {
             tr.data.windowChild = '';
             tr.data.windowChild = window.open(tr.routes.openWindow, 'request', "width=600,height=400,left=20px,top=20px,menubar=yes,toolbar=yes,location=yes,resizable=yes,scrollbars=yes");
         } else {
-            temp.helpfunc.modalInfo(['Child Window', 'Already Open ']);
+            tr.data.windowChild.focus();
         }
     });
     // listener message child

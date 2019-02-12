@@ -1,4 +1,4 @@
-var trw = {};
+let trw = {};
 window.webkitStorageInfo = navigator.webkitTemporaryStorage || navigator.webkitPersistentStorage;
 document.origin = window.origin || self.origin;
 trw.elements = {};
@@ -106,9 +106,9 @@ trw.helpfunc = {
 
 trw.EventEmmiter = {
     listen: function (callback) {
-        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-        var eventer = window[eventMethod];
-        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+        let eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+        let eventer = window[eventMethod];
+        let messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
         // Listen to message from parent window
         eventer(messageEvent, function (e) {
             if (!trw.debug && e.origin != window.origin) return;
@@ -197,18 +197,23 @@ trw.chakeEvents = {
 
 trw.handlers = {
     deletePrewJob: (id) => {
-        trw.data.zag = trw.data.zag.filter(val => val.id !== id);
+        trw.data.zag = trw.data.zag.filter(val => +val[2]!== id);
         trw.dataTable.init(trw.dataTable.object, trw.data.zag);
     },
-
     saveTemplateParent: (data) => {
-        ajax.ajax.getJob(data.obj.jobId);
-        ajax.ajax.getProcess(data.obj.id);
-        // need  remove id worker in the list
-        trw.handlers.deletePrewJob(data.obj.id);
-        trw.chakeEvents.pdfNextStep();
+        ajax.ajax.getProcess(data.obj.id, data.templateId)   // send id Template and Pks create Template
+            .then((response) => {
+              if(response ) {
+                  // need  remove id worker in the list
+                  trw.handlers.deletePrewJob(response.id);
+                  trw.chakeEvents.pdfNextStep();
+              }
+            })
+            .catch( (err) => {
+                Snackbar.show({text: 'Server Error'});
+                console.log(err[1])
+            });
     },
-
     getTemplatesSuccess: function (data) {
         trw.helpfunc.initMemoryDataTable(data);
         trw.dataTable.init(trw.dataTable.object, trw.data.zag);
@@ -243,9 +248,9 @@ trw.action = function () {
 
     // Upload Events
     trw.elements.temp_request_child_upload.on('click', function () {
-        var trSelected = trw.handlers.getSelectedTr();
+        const trSelected = trw.handlers.getSelectedTr();
         if (trSelected.length > 0) {
-            var obj = trw.handlers.getIdSelectedTemplate(trSelected);
+            const obj = trw.handlers.getIdSelectedTemplate(trSelected);
             trw.data.obj = $.extend({}, obj);
             // TODO maybe need emit data???
             ajax.ajax.getId(trw.data.obj.id).then(data => {

@@ -48,27 +48,7 @@ ajax.ajax = {
             })
         });
     },
-    getJob: (jobId, data) => {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                url: `${ajax.routes.job}/${jobId}`,
-                type: "POST",
-                data: JSON.stringify(data),
-                dataType: 'json',
-                success: (data, textStatus, jqXHR) => {
-                    resolve(data);
-                },
-                error: (jqXHR, textStatus, errorThrown) => {
-                    reject([jqXHR, textStatus, errorThrown]);
-                },
-            });
-        })
-    },
-    getProcess: (id) => {
+    getProcess: (id,pks) => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 headers: {
@@ -77,7 +57,7 @@ ajax.ajax = {
                 },
                 url: `${ajax.routes.process}/${id}`,
                 type: "PUT",
-                data: JSON.stringify(id),
+                data: JSON.stringify({templateId: `${pks}`}),
                 dataType: 'json',
                 success: (data, textStatus, jqXHR) => {
                     resolve(data);

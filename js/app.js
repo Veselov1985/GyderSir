@@ -251,7 +251,7 @@ temp.elementLeftBar = {
                 var success = function (data) {
                     // block Template Request
                     // check if this request
-                    tr.handlers.checkIfRequest();
+                    tr.handlers.checkIfRequest(data.Pk);
                     // add new create templaite in list
                     temp.Data.leftTempList.datas.Pk = data.Pk;
                     temp.Data.leftTempList.datas.Name = data.Name;
@@ -280,7 +280,10 @@ temp.elementLeftBar = {
                 };
                 temp.Data.leftTempList.datas = temp.helpfunc.createresponsedata().Template;
                 temp.elementLeftBar.Templaite.name = '';
-                temp.Ajax.sendSaveTemplaiteProccess(test.fix.addVatsandIbans(temp.Data.leftTempList.datas), success, error);
+                temp_ajax.sendSaveTemplaiteProccess(test.fix.addVatsandIbans(temp.Data.leftTempList.datas))
+                    .then( data => {success(data)})
+                    .catch(err => {error(err)});
+              //  temp.Ajax.sendSaveTemplaiteProccess(test.fix.addVatsandIbans(temp.Data.leftTempList.datas), success, error);
                 applymodal_tempresult.handlers.close();
             });
 
@@ -328,7 +331,10 @@ temp.elementLeftBar = {
                     var error = function (data) {
                         console.log(data);
                     };
-                    temp.Ajax.sendDeleteTemplaiteProccess({"Pk": findPk()}, success, error);
+                    temp_ajax.sendDeleteTemplaiteProccess({"Pk": findPk()})
+                        .then(data => { success(data)})
+                        .catch( err => error(err));
+                    //temp.Ajax.sendDeleteTemplaiteProccess({"Pk": findPk()}, success, error);
                 }
             }
         },
@@ -1296,7 +1302,9 @@ temp.init = {
             temp.helpfunc.cookfilesend();
             temp.helpfunc.addadvancedoption();
             filter.handlers.enabled();
-            temp.Ajax.sendFileToProccess(null, temp.loadEvent.success, temp.loadEvent.error);
+            temp_ajax.sendFileToProccess()
+                .then(data=> {temp.loadEvent.success(data); })
+                .catch( err => {temp.loadEvent.error(err[1])});
         });
         temp.elementControl.object.btn_page_next.click(function () {
             temp.elementControl.nextPage();
@@ -1309,7 +1317,7 @@ temp.init = {
 
 temp.loadEvent = {
     success: function (data) {
-       data =  temp.loadEvent.prependConvertData(data);
+        data = temp.loadEvent.prependConvertData(data);
         if (data.Pks.length > 1) {
             ph.data.object = ph.data.default; // set default pages objects
             filter.handlers.toggleLight();
@@ -1412,142 +1420,25 @@ temp.loadEvent = {
     },
 };
 
-temp.render = {
-    templaite: {
-        success: function (data) {
-            var datas = [];
-            data.forEach(function (val, i) {
-                datas.push($.parseJSON(val));
-            });
-            datas.forEach(function (val, i) {
-                temp.Data.leftTempList.data.push([val.Name, temp.img.off]);
-                temp.Data.leftTempList.list.push(val);
-            });
-            temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-        },
-        error: function (data) {
-            Snackbar.show({text: 'Error Server'});
-        },
-    }
-};
-
-temp.Ajax = {
-    sendFileToProccess: function (url, success, error) {
-        $.ajax({
-            url: temp.routes.sendFileToProccessUrl,
-            data: temp.Data.LoadPdfOpt.file_pdf,
-            processData: false,
-            contentType: false,
-            type: 'POST',
-            success: function (data, textStatus, jqXHR) {
-                success(data);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                error(textStatus);
-            },
-            beforeSend: function () {
-                pm.handlers.showPreloader(); //
-                // load.handlers.togleLoader();
-                load.handlers.showLoader(load.elements.load_btn_load_temp, load.elements.boss_btn_load_temp);
-            },
-            complete: function () {
-                // load.handlers.togleLoader();
-                pm.handlers.hidePreloader();
-                load.handlers.hideLoader(load.elements.load_btn_load_temp, load.elements.boss_btn_load_temp);
-            }
-        });
-    },
-
-    sendSaveTemplaiteProccess: function (data, success, error) {
-        $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            url: temp.routes.sendSaveTempaiteProccess,
-            type: "POST",
-
-            data: JSON.stringify(data),
-            dataType: 'json',
-            success: function (data, textStatus, jqXHR) {
-                success(data);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                error(jqXHR);
-            },
-            beforeSend: function () {
-                load.handlers.togleLoader();
-                load.handlers.showLoader(load.elements.load_btn_save_temp, load.elements.boss_btn_save_temp);
-                pm.handlers.showPreloader(); // main preloader
-
-            },
-            complete: function () {
-                load.handlers.togleLoader();
-                load.handlers.hideLoader(load.elements.load_btn_save_temp, load.elements.boss_btn_save_temp);
-                pm.handlers.hidePreloader(); // main preloader
-            }
-        });
-    },
-    sendDeleteTemplaiteProccess: function (data, success, error) {
-        $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            url: temp.routes.sendDeleteTemplaiteProccess,
-            type: "POST",
-
-            data: JSON.stringify(data),
-            dataType: 'json',
-            success: function (data, textStatus, jqXHR) {
-                success(data);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                error(errorThrown);
-            },
-            beforeSend: function () {
-                load.handlers.togleLoader(); //-->
-                pm.handlers.showPreloader();
-                load.handlers.showLoader(load.elements.load_btn_del_temp, load.elements.boss_btn_del);
-            },
-
-            complete: function () {
-                pm.handlers.hidePreloader();
-                load.handlers.togleLoader(); // -->
-                load.handlers.hideLoader(load.elements.load_btn_del_temp, load.elements.boss_btn_del);
-            }
-        });
-    },
-    sendRenderProccessUrl: function (data, success, error) {
-        $.ajax({
-            data: data,
-            url: temp.routes.sendRenderProccessUrl,
-            type: "POST",
-            success: function (data, textStatus, jqXHR) {
-                success(data);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                error(errorThrown);
-            },
-            beforeSend: function () {
-            },
-            complete: function () {
-                pm.handlers.check(); // preload--
-            }
-        });
-    },
-};
 
 $(document).ready(function () {
     temp.init.element();
     temp.init.eventHandler();
-    temp.Ajax.sendRenderProccessUrl('', temp.render.templaite.success, temp.render.templaite.error);
-    rightpref.Ajax.sendRenderDataTypeProccess();
-    rightpref.Ajax.sendRenderAmountProccess();
-    rightpref.Ajax.sendRenderDataProccess();
-    rightpref.Ajax.sendRenderRegexProccess();
-    rightpref.Ajax.sendRenderAlternateProccess();
-    hx.ajax.getAllHeader(null);
+    const arrRequestToApi = [
+        temp_ajax.sendRenderProccessUrl(),
+        rightpref.Ajax.sendRenderDataTypeProccess(),
+        rightpref.Ajax.sendRenderAmountProccess(),
+        rightpref.Ajax.sendRenderDataProccess(),
+        rightpref.Ajax.sendRenderRegexProccess(),
+        rightpref.Ajax.sendRenderAlternateProccess(),
+        hx.ajax.getAllHeader(null)
+    ];
+    Promise.all(arrRequestToApi)
+        .then(() => {
+            // Hide global preloader
+            pm.handlers.hidePreloader();
+        })
+        .catch(err => console.log(err));
     au.elements.init();
     tr.init();
 });

@@ -6,121 +6,133 @@ rightpref.data = {
 
 rightpref.Ajax = {
     sendRenderDataTypeProccess: function(data) {
-        $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            url: temp.routes.sendRenderDataTypeProccessUrl,
-            type: "POST",
-
-            data: JSON.stringify(data),
-            dataType: 'json',
-            success: function(data, textStatus, jqXHR) {
-                rightpref.handlers.DataTypesuccess(data);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                rightpref.handlers.DataTypeerror(errorThrown);
-            },
-            beforeSend: function() {},
-            complete: function() {
-                pm.handlers.check(); //preload
-            }
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: temp.routes.sendRenderDataTypeProccessUrl,
+                type: "POST",
+                data: JSON.stringify(data),
+                dataType: 'json',
+                success: function(data, textStatus, jqXHR) {
+                    rightpref.handlers.DataTypesuccess(data);
+                    resolve(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    rightpref.handlers.DataTypeerror(errorThrown);
+                    reject([jqXHR, textStatus, errorThrown]);
+                },
+                beforeSend: function() {},
+                complete: function() {
+                }
+            });
         });
     },
     sendRenderAmountProccess: function() {
-        $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            url: temp.routes.sendRenderAmountProccessUrl,
-            type: "POST",
-            dataType: 'json',
-            success: function(data, textStatus, jqXHR) {
-                rightpref.handlers.Amountsuccess(data);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                rightpref.handlers.Amounterror(jqXHR);
-            },
-            beforeSend: function() {},
-            complete: function() {
-                pm.handlers.check(); // preload
-            }
+        return new Promise((resolve, reject)=> {
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: temp.routes.sendRenderAmountProccessUrl,
+                type: "POST",
+                dataType: 'json',
+                success: function(data, textStatus, jqXHR) {
+                    rightpref.handlers.Amountsuccess(data);
+                    resolve(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    rightpref.handlers.Amounterror(jqXHR);
+                    reject([jqXHR, textStatus, errorThrown]);
+                },
+                beforeSend: function() {},
+                complete: function() {
+                }
+            });
         });
-
     },
     sendRenderDataProccess: function() {
-        $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            url: temp.routes.sendRenderDataProccessUrl,
-            type: "POST",
-            dataType: 'json',
-            success: function(data, textStatus, jqXHR) {
-                rightpref.handlers.Datasuccess(data);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                rightpref.handlers.Dataerror(errorThrown);
-            },
-            beforeSend: function() {},
-            complete: function() {
-                pm.handlers.check();
-            }
-        });
+        return new Promise((resolve, reject) =>{
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: temp.routes.sendRenderDataProccessUrl,
+                type: "POST",
+                dataType: 'json',
+                success: function(data) {
+                    rightpref.handlers.Datasuccess(data);
+                    resolve(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    rightpref.handlers.Dataerror(errorThrown);
+                    reject([jqXHR, textStatus, errorThrown])
+                },
+                beforeSend: function() {},
+                complete: function() {}
+            });
+        })
+
 
     },
     sendRenderRegexProccess: function() {
-        $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            url: temp.routes.sendRenderRegexProccessUrl,
-            type: "POST",
-            dataType: 'json',
-            success: function(data, textStatus, jqXHR) {
-                rightpref.handlers.Regexsuccess(data);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                rightpref.handlers.Regexerror(errorThrown);
-            },
-            beforeSend: function() {},
-            complete: function() {
-                pm.handlers.check(); // preload--
-            }
+        return new Promise((resolve, reject) =>{
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: temp.routes.sendRenderRegexProccessUrl,
+                type: "POST",
+                dataType: 'json',
+                success: function(data) {
+                    rightpref.handlers.Regexsuccess(data);
+                    resolve(data)
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    rightpref.handlers.Regexerror(errorThrown);
+                    reject([jqXHR, textStatus, errorThrown]);
+                },
+                beforeSend: function() {},
+                complete: function() {
+                }
+            });
         });
 
     },
     sendRenderAlternateProccess: function() {
-        $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            url: temp.routes.sendRenderAlternateProccessUrl,
-            type: "POST",
+        return new Promise((resolve, reject)=>{
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: temp.routes.sendRenderAlternateProccessUrl,
+                type: "POST",
 
-            dataType: 'json',
-            success: function(data, textStatus, jqXHR) {
-                rightpref.handlers.Alternatesuccess(data);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                rightpref.handlers.Alternateerror(errorThrown);
-            },
-            beforeSend: function() {},
-            complete: function() {
-                pm.handlers.check(); // preload--
-            }
+                dataType: 'json',
+                success: function(data) {
+                    rightpref.handlers.Alternatesuccess(data);
+                    resolve(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    rightpref.handlers.Alternateerror(errorThrown);
+                    reject([jqXHR, textStatus, errorThrown]);
+                },
+                beforeSend: function() {},
+                complete: function() {}
+            });
         });
+
     },
 };
 
 rightpref.handlers = {
     DataTypesuccess: function(data) {
-
         data.Data.forEach(function(val) {
             var findfield, fieldPk, state;
             for (var key in val) {
