@@ -48,7 +48,7 @@ trw.dataTable = {
                     'searchable': true,
                     'className': 'dt-body-center',
                     'render': function (data, type, full, meta) {
-                        return '<span data-id=' + full + '>' + data + '</span>';
+                        return `<span data-id="${full.join(',')}">${data}</span>`;
                     }
                 },
                 {
@@ -102,6 +102,19 @@ trw.helpfunc = {
             return res;
         });
     },
+    isValidJSON: (str) => {
+        try {
+            const obj = JSON.parse(str);
+            if (obj !== undefined && obj !== null) {
+                return true;
+            } else {
+                return false
+            }
+        } catch {
+            return false;
+        }
+    },
+
 };
 
 trw.EventEmmiter = {
@@ -132,7 +145,7 @@ trw.callbackActions = {
             case 'Save Template':
                 trw.handlers.saveTemplateParent(data);
                 break;
-                case '':
+            case '':
                 break;
             default:
                 break;
@@ -197,19 +210,19 @@ trw.chakeEvents = {
 
 trw.handlers = {
     deletePrewJob: (id) => {
-        trw.data.zag = trw.data.zag.filter(val => +val[2]!== id);
+        trw.data.zag = trw.data.zag.filter(val => +val[2] !== id);
         trw.dataTable.init(trw.dataTable.object, trw.data.zag);
     },
     saveTemplateParent: (data) => {
         ajax.ajax.getProcess(data.obj.id, data.templateId)   // send id Template and Pks create Template
             .then((response) => {
-              if(response ) {
-                  // need  remove id worker in the list
-                  trw.handlers.deletePrewJob(response.id);
-                  trw.chakeEvents.pdfNextStep();
-              }
+                if (response) {
+                    // need  remove id worker in the list
+                    trw.handlers.deletePrewJob(response.id);
+                    trw.chakeEvents.pdfNextStep();
+                }
             })
-            .catch( (err) => {
+            .catch((err) => {
                 Snackbar.show({text: 'Server Error'});
                 console.log(err[1])
             });
@@ -253,31 +266,37 @@ trw.action = function () {
             const obj = trw.handlers.getIdSelectedTemplate(trSelected);
             trw.data.obj = $.extend({}, obj);
             // TODO maybe need emit data???
-            ajax.ajax.getId(trw.data.obj.id).then(data => {
-                //  trw.EventEmmiter.emit( {id: trw.data.obj.id ,Template:[]});
-                console.log('TEMPLATE from Api', data);
+            ajax.ajax.getId(trw.data.obj.id)
+                .then(data => {
+                    // validate JSON String
+                    if (trw.helpfunc.isValidJSON(data.data)) {
+                        console.log('TEMPLATE from Api', data);
+                        //  trw.EventEmmiter.emit( {id: trw.data.obj.id ,Template:[]});
+                    } else {
+                        // TODO TEST BLOCK MOCA
+                        moca.get.template()
+                            .then(data => {
+                                console.log(data);
+                                trw.EventEmmiter.emit({event: 'DocumentProcessing', obj: trw.data.obj, Template: data});
+                            })
+                            .catch(err => console.log(err));
+                    }
+                    // TODO TEST BLOCK MOCA END
+                })
+                .catch(error => {
+                    console.log('Error Response server', error[1]);
+                    Snackbar.show({text: 'Try Latter', pos: 'top-right'});
+                    // TODO TEST BLOCK MOCA
+                    moca.get.template()
+                        .then(data => {
+                            console.log(data);
+                            trw.EventEmmiter.emit({event: 'DocumentProcessing', id: id, Template: data});
+                        })
+                        .catch(err => console.log(err));
+                    // TODO TEST BLOCK MOCA
 
-                // TODO TEST BLOCK MOCA
-                moca.get.template().then(data => {
-                    console.log(data);
-                    trw.EventEmmiter.emit({event: 'DocumentProcessing', obj: trw.data.obj, Template: data});
-                }).catch(err => console.log(err));
 
-                // TODO TEST BLOCK MOCA END
-            }).catch(error => {
-                console.log('Error Response server', error[1]);
-                Snackbar.show({text: 'Try Latter', pos: 'top-right'});
-                // TODO TEST BLOCK MOCA
-                moca.get.template().then(data => {
-                    console.log(data);
-                    trw.EventEmmiter.emit({event: 'DocumentProcessing', id: id, Template: data});
-                }).catch(err => console.log(err));
-
-
-                // TODO TEST BLOCK MOCA
-
-
-            });
+                });
         } else {
             Snackbar.show({text: 'You must select at least one', pos: 'top-right'});
         }
@@ -307,7 +326,7 @@ $(document).ready(function () {
     // get document list data
     ajax.ajax.getAll()
         .then(data => {
-            if(data.length !== 0 ) {
+            if (data.length !== 0) {
                 trw.handlers.getTemplatesSuccess(data);
                 window.focus();
                 trw.chakeEvents.pdfNextStep();
