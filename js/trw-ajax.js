@@ -1,4 +1,4 @@
-var ajax = {};
+let ajax = {};
 ajax.production = false;
 ajax.devFlow = 'https://gip-api.demo-server.ml';
 ajax.prodFlow = '';
