@@ -1,6 +1,9 @@
 body {
     overflow-y: scroll;
 }
+#leftTempList_wrapper{
+    overflow:hidden;
+}
 #workSpase {
     /* border: 1px solid black; */
     background: url('../imgs/gifs/SIR_v2.jpg');
