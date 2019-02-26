@@ -224,7 +224,6 @@ temp.elementLeftBar = {
             });
 
             // template save
-
             applymodal_tempresult.elements.apply_tempresult_save_temp.on('click', function () {
                 var state = false;
                 var newNametemp = applymodal_tempresult.elements.applymodal_tempresult_input.val();
@@ -247,42 +246,11 @@ temp.elementLeftBar = {
                     temp.elementLeftBar.Templaite.Pk = ''; // if create new templaite and new Name need clean Templaite PK => create clone PK in new templaite
                     temp.Data.leftTempList.datas.Pk = '';
                 }
-
-                var success = function (data) {
-                    // block Template Request
-                    // check if this request
-                    tr.handlers.checkIfRequest(data.Pk);
-                    // add new create templaite in list
-                    temp.Data.leftTempList.datas.Pk = data.Pk;
-                    temp.Data.leftTempList.datas.Name = data.Name;
-                    temp.elementLeftBar.Templaite.name = data.Name;
-                    temp.elementLeftBar.Templaite.Name = data.Name;
-                    temp.elementLeftBar.Templaite.origin = temp.Data.leftTempList.datas;
-                    temp.helpfunc.addTemplaite();
-                    // filter.handlers.addTemplaite(); // in filter mode add in List after 
-                    temp.Data.leftTempList.datas = {};
-                    temp.elementLeftBar.dataTable.clean();
-                    temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-                    temp.helpfunc.searchPage(); // need search page
-                    temp.elementLeftBar.dataTable.object.find('i').each(function () {
-                        var $that = $(this);
-                        var parent$2 = $that.parent().parent();
-                        if ($that.attr('class').trim() == temp.img.activ) {
-                            parent$2.addClass('selected');
-                        } else {
-                            parent$2.removeClass('selected');
-                        }
-                    });
-                    lt.view.setOff();
-                };
-                var error = function (data) {
-                    console.log(data);
-                };
                 temp.Data.leftTempList.datas = temp.helpfunc.createresponsedata().Template;
                 temp.elementLeftBar.Templaite.name = '';
                 temp_ajax.sendSaveTemplaiteProccess(test.fix.addVatsandIbans(temp.Data.leftTempList.datas))
-                    .then( data => {success(data)})
-                    .catch(err => {error(err)});
+                    .then( data => {temp.elementLeftBar.action.templateSaveSuccess(data)})
+                    .catch(err => {temp.elementLeftBar.action.templateSaveError(err);});
               //  temp.Ajax.sendSaveTemplaiteProccess(test.fix.addVatsandIbans(temp.Data.leftTempList.datas), success, error);
                 applymodal_tempresult.handlers.close();
             });
@@ -308,38 +276,70 @@ temp.elementLeftBar = {
                         });
                         return Pk;
                     };
-
-                    var success = function (data) {
-                        if (data.IsSuccess == true) {
-                            ph.data.object = ph.data.default; // Scope Default if templaite delete
-                            $selected.addClass('deleteRow');
-                            temp.helpfunc.changeData(deleterow);
-                            temp.elementLeftBar.dataTable.clean();
-                            temp.elementLeftBar.dataTable.active = '';
-                            temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-                            filter.handlers.deletefilter(data); //filter delete fix
-                            temp.Data.leftTempList.list = temp.Data.leftTempList.list.filter(function (val) {
-                                return val.Pk != data.Pk;
-                            });
-                            temp.elementLeftBar.Templaite.origin = {};
-                            paint.handlers.clearsvgcontent();
-                            temp.helpfunc.clearglobalstate(true);
-                            temp.helpfunc.modalInfo(['Delete Templaite', deleterow]);
-                            paint.init();
-                        }
-                    };
-                    var error = function (data) {
-                        console.log(data);
-                    };
                     temp_ajax.sendDeleteTemplaiteProccess({"Pk": findPk()})
-                        .then(data => { success(data)})
-                        .catch( err => error(err));
+                        .then(data =>temp.elementLeftBar.action.deleteSuccess(data))
+                        .catch( err => temp.elementLeftBar.action.deleteError(err));
                     //temp.Ajax.sendDeleteTemplaiteProccess({"Pk": findPk()}, success, error);
                 }
             }
         },
     },
-    action: {}
+    action: {
+        deleteSuccess:(data) => {
+            if (data.IsSuccess == true) {
+                ph.data.object = ph.data.default; // Scope Default if templaite delete
+                $selected.addClass('deleteRow');
+                temp.helpfunc.changeData(deleterow);
+                temp.elementLeftBar.dataTable.clean();
+                temp.elementLeftBar.dataTable.active = '';
+                temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
+                filter.handlers.deletefilter(data); //filter delete fix
+                temp.Data.leftTempList.list = temp.Data.leftTempList.list.filter(function (val) {
+                    return val.Pk != data.Pk;
+                });
+                temp.elementLeftBar.Templaite.origin = {};
+                paint.handlers.clearsvgcontent();
+                temp.helpfunc.clearglobalstate(true);
+                Snackbar.show({text: `Delete Templaite,${deleterow}`,pos:'top-center'});
+               // temp.helpfunc.modalInfo(['Delete Templaite', deleterow]);
+                paint.init();
+            }
+        },
+        deleteError:(err) =>{
+            Snackbar.show({text: `${err[1]}`,pos:'top-center'});
+        },
+        templateSaveSuccess:(data) => {
+            // block Template Request
+            // check if this request
+            tr.handlers.checkIfRequest(data.Pk);
+            // add new create templaite in list
+            temp.Data.leftTempList.datas.Pk = data.Pk;
+            temp.Data.leftTempList.datas.Name = data.Name;
+            temp.elementLeftBar.Templaite.name = data.Name;
+            temp.elementLeftBar.Templaite.Name = data.Name;
+            temp.elementLeftBar.Templaite.origin = temp.Data.leftTempList.datas;
+            temp.helpfunc.addTemplaite();
+            // filter.handlers.addTemplaite(); // in filter mode add in List after
+            temp.Data.leftTempList.datas = {};
+            temp.elementLeftBar.dataTable.clean();
+            temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
+            temp.helpfunc.searchPage(); // need search page
+            temp.elementLeftBar.dataTable.object.find('i').each(function () {
+                var $that = $(this);
+                var parent$2 = $that.parent().parent();
+                if ($that.attr('class').trim() == temp.img.activ) {
+                    parent$2.addClass('selected');
+                } else {
+                    parent$2.removeClass('selected');
+                }
+            });
+            lt.view.setOff();
+        },
+        templateSaveError: (err) => {
+            Snackbar.show({text: `${err[1]}`, pos:'top-center'});
+        }
+
+    }
 };
 
 temp.helpfunc = {
@@ -1289,9 +1289,10 @@ temp.init = {
 
         temp.elementLeftBar.object.btn_save_search.click(function () {
             if (temp.Data.LoadPdfOpt.file_pdf.__proto__.constructor.name != "FormData") {
-                temp.helpfunc.modalInfo(['Info', 'Please download .pdf file']);
+                Snackbar.show({text: `Info: Please download .pdf file`, pos:'top-center'});
+              //  temp.helpfunc.modalInfo(['Info', 'Please download .pdf file']);
                 return;
-            } // if pdf file not load
+            }// if pdf file not load
             // empty Child  Request
             tr.data.obj = {};
             led.action.ledOff(); // off led MainHeader
