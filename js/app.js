@@ -4,8 +4,8 @@ temp.Owen = 'http://91.235.136.123:591/';
 temp.workRoot = 'http://85.214.225.230/';
 temp.root = temp.debug ? '' : temp.workRoot;
 temp.routes = {
-    sendRenderProccessUrl: temp.root + '/api/template/gettemplates',
-    sendRenderDataTypeProccessUrl: temp.root + '/api/datatypes/getdatatypes',
+    sendRenderProccessUrl: temp.root + 'api/template/gettemplates',
+    sendRenderDataTypeProccessUrl: temp.root + 'api/datatypes/getdatatypes',
     sendRenderAmountProccessUrl: temp.root + 'api/datatypes/getamountnotations',
     sendRenderDataProccessUrl: temp.root + 'api/datatypes/getdatanotations',
     sendRenderRegexProccessUrl: temp.root + 'api/datatypes/getregexs',
@@ -33,7 +33,6 @@ temp.routes = {
     //KW
     getKWProccessUrl: temp.root + 'api/datatypes/getautodatatypes',
     editKWProccessUrl: temp.root + 'api/datatypes/saveautodatatype',
-
     //Header XML 
     getallheaderdatatypesUrl: temp.root + 'api/datatypes/getallheaderdatatypes',
     createorupdateheaderdatatypeUrl: temp.root + 'api/datatypes/createorupdateheaderdatatype',
@@ -157,7 +156,6 @@ temp.elementLeftBar = {
                                     $that.parent().parent().addClass('selected');
                                 }
                             });
-
                             temp.elementLeftBar.Templaite.state = '';
                         } else {
                             temp.elementLeftBar.Templaite.state = '';
@@ -167,7 +165,6 @@ temp.elementLeftBar = {
                         // Create new template
 
                         temp.elementLeftBar.Templaite.state = 'newtemp';
-
                         if (temp.DataWorkspace.images.length > 0 && temp.elementLeftBar.Templaite.Pk == temp.zeroGuid) {
                             applymodal.handlers.show('Close Templaite without saving', 8);
                         } else if (temp.DataWorkspace.images.length > 0) {
@@ -277,7 +274,7 @@ temp.elementLeftBar = {
                         return Pk;
                     };
                     temp_ajax.sendDeleteTemplaiteProccess({"Pk": findPk()})
-                        .then(data =>temp.elementLeftBar.action.deleteSuccess(data))
+                        .then(data =>temp.elementLeftBar.action.deleteSuccess(data,$selected,deleterow))
                         .catch( err => temp.elementLeftBar.action.deleteError(err));
                     //temp.Ajax.sendDeleteTemplaiteProccess({"Pk": findPk()}, success, error);
                 }
@@ -285,8 +282,8 @@ temp.elementLeftBar = {
         },
     },
     action: {
-        deleteSuccess:(data) => {
-            if (data.IsSuccess == true) {
+        deleteSuccess:(data,$selected,deleterow) => {
+            if (data.IsSuccess === true) {
                 ph.data.object = ph.data.default; // Scope Default if templaite delete
                 $selected.addClass('deleteRow');
                 temp.helpfunc.changeData(deleterow);
@@ -300,7 +297,7 @@ temp.elementLeftBar = {
                 temp.elementLeftBar.Templaite.origin = {};
                 paint.handlers.clearsvgcontent();
                 temp.helpfunc.clearglobalstate(true);
-                Snackbar.show({text: `Delete Templaite,${deleterow}`,pos:'top-center'});
+                Snackbar.show({text: `Delete Templaite: ${deleterow}`,pos:'top-center'});
                // temp.helpfunc.modalInfo(['Delete Templaite', deleterow]);
                 paint.init();
             }

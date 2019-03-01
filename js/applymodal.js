@@ -81,3 +81,4 @@ applymodal.handlers = {
 };
 
 applymodal.init();
+

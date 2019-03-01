@@ -175,7 +175,7 @@
          test.handlers.creathtmlslider();
          test.elements.slidecont.responsiveSlides({
              auto: false,
-             speed: 1000,
+             speed: 500,
              timeout: 4000,
              pager: true,
              nav: false,

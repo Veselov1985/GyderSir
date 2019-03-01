@@ -6,6 +6,7 @@ trw.data = {
     obj: {},
     zag: []
 };
+trw.Snack = (text, pos='top-right') => {Snackbar.show({text, pos})};
 
 trw.init = function () {
     trw.elements.btn_send_req = $('#btn_send_req');
@@ -189,8 +190,7 @@ trw.chakeEvents = {
 
                 // TODO TEST BLOCK MOCA END
 
-            }).catch(() => Snackbar.show({text: 'Error Server'})
-            )
+            }).catch(() => trw.Snack('Error Server'))
         } else {
             // listen end doc => close window
             // check update list Request templates
@@ -201,7 +201,7 @@ trw.chakeEvents = {
                     trw.handlers.getTemplatesSuccess(data);
                 }
             }).catch(() => {
-                Snackbar.show({text: 'Error update'});
+               trw.Snack('Error update');
             });
         }
     },
@@ -223,7 +223,7 @@ trw.handlers = {
                 }
             })
             .catch((err) => {
-                Snackbar.show({text: 'Server Error'});
+               trw.Snack('Server Error');
                 console.log(err[1])
             });
     },
@@ -285,7 +285,7 @@ trw.action = function () {
                 })
                 .catch(error => {
                     console.log('Error Response server', error[1]);
-                    Snackbar.show({text: 'Try Latter', pos: 'top-right'});
+                    trw.Snack('Try Latter');
                     // TODO TEST BLOCK MOCA
                     moca.get.template()
                         .then(data => {
@@ -294,11 +294,9 @@ trw.action = function () {
                         })
                         .catch(err => console.log(err));
                     // TODO TEST BLOCK MOCA
-
-
                 });
         } else {
-            Snackbar.show({text: 'You must select at least one', pos: 'top-right'});
+            trw.Snack( 'You must select at least one');
         }
     });
 
@@ -307,9 +305,9 @@ trw.action = function () {
         ajax.ajax.getAll().then(data => {
             trw.handlers.getTemplatesSuccess(data);
             window.focus();
-            Snackbar.show({text: 'Data Update', pos: 'top-right'})
+            trw.Snack('Data Update');
         }).catch(err => {
-            Snackbar.show({text: `Server Error ${err[1]}`, pos: 'top-right'})
+            trw.Snack( `Server Error ${err[1]}`)
         })
     });
 
@@ -330,10 +328,12 @@ $(document).ready(function () {
                 trw.handlers.getTemplatesSuccess(data);
                 window.focus();
                 trw.chakeEvents.pdfNextStep();
+            } else {
+                trw.Snack('Not find any work')
             }
         })
         .catch(error => {
-            Snackbar.show({text: `Server Error`, pos: 'top-right'});
+            trw.Snack( `Server Error`);
             console.log(error[1]);
 
             // TODO TEST Section
@@ -346,10 +346,12 @@ $(document).ready(function () {
         });
 
     $(window).on("beforeunload", function () {
-        console.log('emit prepend close')
+        console.log('emit prepend close');
         trw.EventEmmiter.emit({event: 'CloseChild'});
         return true;
     })
+
+
 
 });
 

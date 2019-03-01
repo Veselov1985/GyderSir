@@ -1,0 +1,103 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto' ,'sans-serif';
+}
+
+.content-center {
+    display: flex;
+    justify-content: center;
+    padding: 0 10% 0 10%;
+}
+
+.content-right {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 5vh 10% 0 10%;
+    margin-bottom: 2rem;
+}
+
+#temp_request_table_child_wrapper {
+    width: 100%;
+    padding: 5vh 0 0 0;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    border: 1px solid #cccccc;
+}
+
+div.dataTables_wrapper div.dataTables_filter input:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 1px rgba(0, 123, 255, .25);
+}
+table.dataTable {
+    margin-top: 6px !important;
+    margin-bottom: 0 !important;
+    font-size:14px;
+    padding: 0px;
+}
+
+table.dataTable tbody th,
+table.dataTable tbody td {
+    padding: 3px 10px !important;
+    cursor: pointer !important;
+}
+
+table.dataTable tbody td:focus{
+    outline: none;
+}
+table.dataTable tbody  tr.selected:hover{
+    background-color: #0275d8 !important;
+    background: linear-gradient(to bottom, #0275d8 0%, #0275d8 100%);
+}
+
+table.dataTable tbody  tr:hover {
+    background: linear-gradient(to bottom, #86A1BF 0%, #dcdcdc 100%);
+}
+
+
+
+
+.dataTables_paginate {
+    display: flex;
+    float: none !important;
+    text-align: center !important;
+    justify-content: space-between;
+    padding: 0 !important;
+}
+
+.paging_simple_numbers {
+    margin-top: 15px !important;
+}
+
+.dataTables_paginate a {
+    font-size: .9rem;
+    padding: .1rem .1rem !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #86A1BF !important;
+    background: linear-gradient(to bottom, #86A1BF 0%, #dcdcdc 100%);
+    border: 1px solid #979797;
+}
+
+ .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #86A1BF !important;
+    background: linear-gradient(to bottom, #86A1BF 0%, #dcdcdc 100%);
+}
+
+.btn-secondary {
+    background-color: #86A1BF !important;
+}
+
+.btn-secondary:hover{
+    background: linear-gradient(to bottom, #86A1BF 0%, #dcdcdc 100%);
+}

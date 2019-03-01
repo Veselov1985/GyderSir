@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Glyder RDR V2018.08.10 23.36</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width" initial-scale="1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          type="text/css"/>
+    <link rel="stylesheet" href=" https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.3/css/select.bootstrap4.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.bootstrap4.min.css"/>
+    <link rel="stylesheet" href="css/responsiveslides.css"/>
+    <link rel="stylesheet" href="css/loader.css"/>
+    <link rel="stylesheet" href="css/led.css"/>
+    <!-- <link rel="styleSheet" href="css/tippy.css" /> -->
+    <link rel="styleSheet" href="css/snackbar.css" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="css/app.css" type="text/css"/>
+</head>
+<body>
+<div class="container-fluid bg-light h-100 min-h-100">
+    <div class="row h-100 min-h-100 customCss">
+        <div class="col-lg-2 d-flex flex-column justify-content-between min-h-100" id="leftBar">
+            <div class="sticky-top" id="leftTemp">
+                <div class="row mt-1">
+                    <div class="col-md-6">
+                        <h6 class="mt-1">TemplateList</h6>
+                    </div>
+                    <div class="col-md-6">
+                        <button id="btn_filter" class="btn btn-sm btn-secondary filterNotActive" style="float:right"><i
+                                class="fa fa-filter"></i></button>
+                    </div>
+                </div>
+                <table cellpadding="0" cellspacing="0" border="0" style="width:100%"
+                       class="dataTable table table-striped" id="leftTempList">
+                    <thead>
+                    <tr>
+                        <th>Template</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="sticky-bottom" id="Action">
+                <h6 class="">Actions</h6>
+                <a id="btn_temp_request"
+                   class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary mb-1 btnnotextcenter"
+                   href="#"><span class="prettyText">Template Request&nbsp;</span>
+                    <i class="fa fa-server fa-lg boss_btn_del floatImgandI" aria-hidden="true"></i>
+                </a>
+                <a id="btn_del_temp"
+                   class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary mb-1 btnnotextcenter"
+                   href="#"><span class="prettyText">Delete Template &nbsp;</span>
+                    <i class="fa fa-trash fa-lg boss_btn_del floatImgandI" aria-hidden="true"></i>
+                    <!-- <img class="load_btn_del_temp floatImgandI" src="imgs\gifs\emailloader3.gif" style="width:18px; margin-right:5px" hidden>  -->
+
+                    <i class="load_btn_del_temp floatImgandI fa fa-spinner fa-spin" hidden></i>
+                </a>
+                <a id="btn_load_temp"
+                   class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary mb-1 btnnotextcenter"
+                   href="#"><span class="prettyText">Load PDF &nbsp;</span>
+                    <i class="fa fa-file-pdf-o fa-lg boss_btn_load_temp floatImgandI" aria-hidden="true"></i>
+                    <!-- <img class="load_btn_load_temp floatImgandI" src="imgs\gifs\emailloader3.gif" style="width:18px; margin-right:5px" hidden> -->
+
+                    <i class="load_btn_load_temp floatImgandI fa fa-lg fa-spinner fa-spin" hidden></i>
+                </a>
+                <a id="btn_save_temp"
+                   class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary mb-1 btnnotextcenter"
+                   href="#"><span class="prettyText">Save Template &nbsp;</span>
+                    <i class="fa fa-list-alt fa-lg boss_btn_save_temp floatImgandI" aria-hidden="true"></i>
+                    <!--   <img class="load_btn_save_temp floatImgandI" src="imgs\gifs\emailloader3.gif" style="width:18px; margin-right:5px" hidden> -->
+                    <i class="load_btn_save_temp floatImgandI fa fa-lg fa-spinner fa-spin" hidden></i>
+                </a>
+                <a id="btn_save_result"
+                   class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary mb-1 btnnotextcenter"
+                   href="#"><span class="prettyText">Save result &nbsp;</span>
+                    <i class="fa fa-floppy-o fa-lg boss_btn_save_result floatImgandI" aria-hidden="true"></i>
+                    <!--   <img class="load_btn_save_result floatImgandI" src="imgs\gifs\emailloader3.gif" style="width:18px; margin-right:5px" hidden> -->
+                    <i class="load_btn_save_result floatImgandI fa fa-lg fa-spinner fa-spin" hidden></i>
+
+                </a>
+            </div>
+        </div>
+        <!-- leftBar -->
+
+        <div class="col-lg-8 bordered p-0 max-h-100" id="workSpase">
+            <!--   Loader work zone -->
+            <div class="loaderworkSpase" hidden>
+                <hr/>
+                <hr/>
+                <hr/>
+                <hr/>
+            </div>
+            <!--Loader work zone //sticky-top//-->
+            <div class="container-fluid px-lg-0 border-bottom sticky-top bg-white">
+                <div id="controls">
+                    <div class="controls">
+                        <div class="col-lg-3">
+                            <div class="form-inline">
+                                <div class="input-group input-group-sm mr-sm-2">
+                                        <span class="input-group-btn">
+                                            <button id="btn_page_prew" class="btn btn-secondary btn-block btn-sm"
+                                                    type="button"><i class="fa fa-minus"></i></button>
+                                        </span>
+                                    <input id="page_info_control" type="text"
+                                           class="form-control form-control-sm text-center" placeholder="0(0)" disabled>
+                                    <span class="input-group-btn">
+                                            <button id="btn_page_next" class="btn btn-secondary btn-block btn-sm"
+                                                    type="button"><i class="fa fa-plus"></i></button>
+                                        </span>
+                                </div>
+                                <select id="optionwiev" class="custom-select custom-select-sm w-30">
+                                    <option value="all" id="optionwiev_all" selected>Both</option>
+                                    <option value="text" id="optionwiev_text"> Text only</option>
+                                    <option value="img" id="optionwiev_img">Image only</option>
+                                </select>
+                                <!-- TODO  02/11/2018  this block only hidden  all func not deleted-->
+
+                                <div id="layout_content" class="btn-group btn-group-toggle  ml-2" hidden>
+                                    <label class="btn btn-secondary  btn-sm active focus">
+                                        <input id="btn_layout_off" type="radio" name="options" autocomplete="off"
+                                               checked> L Off
+                                    </label>
+                                    <label class="btn btn-secondary btn-sm">
+                                        <input id="btn_layout_on" type="radio" name="options" autocomplete="off"> L On
+                                    </label>
+                                </div>
+                                <!-- TODO -------------------------------------------------------------->
+                            </div>
+                        </div>
+                        <div class="col-lg-9 pl-lg-0">
+                            <div class="form-inline justify-content-lg-end">
+                                <div class="input-group input-group-sm mr-1">
+                                    <div class="input-group-prepend">
+                                        <span class="pr-1 pt-1" style="font-size:14px">Use Page:</span>
+                                    </div>
+
+                                    <input id="ft_input" type="text" class="form-control" style="width:5vw">
+
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="pr-1 pt-1" style="font-size:14px">Copy From:</span>
+                                    </div>
+                                    <select id="ft_select" class="custom-select custom-select-sm" style="width:3vw">
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                    <span class="input-group-btn">
+                                        <button id="ft_btn" class="btn btn-secondary btn-sm">Apply</button>
+                                    </span>
+                                </div>
+                                <div id="switch-table" data-toggle="hurkanSwitch">
+                                    <input type="checkbox" checked name="demo1" hidden>
+                                </div>
+                                <div></div>
+                                <!-- <a id="" class="btn btn-sm btn-secondary mb-1 btnnotextcenter" href="#"><span class="">MainHeader</span>
+                                    </a> -->
+                                <div class="input-group input-group-sm mr-2 ml-2">
+                                        <span class="input-group-btn">
+                                            <button id="btn_zoom_minus" class="btn btn-secondary btn-block btn-sm"
+                                                    type="button">
+                                                <i class="fa fa-pencil fa-lg"></i>
+                                            </button>
+                                        </span>
+                                    <input id="info_zoom" type="text" class="form-control form-control-sm text-center"
+                                           placeholder="100%" disabled>
+                                    <span class="input-group-btn">
+                                            <button id="btn_zoom_plus" class="btn btn-secondary btn-block btn-sm "
+                                                    type="button">
+                                                <i class="fa fa-search-plus fa-lg"></i>
+                                            </button>
+                                        </span>
+                                </div>
+                                <a id="test_btn" class="btn btn-sm btn-secondary  btnnotextcenter" href="#"><span
+                                        class="prettyText"> Test&nbsp;</span>
+                                    <i class="fa fa-check fa-lg boss_btn_test floatImgandI" aria-hidden="true"></i>
+                                    <!--     <img class="load_btn_test floatImgandI" src="imgs\gifs\emailloader3.gif" style="width:18px; margin-right:5px" hidden> -->
+                                    <i class="load_btn_test floatImgandI fa fa-lg fa-spinner fa-spin" hidden></i>
+                                </a>
+                                <a id="result_test_btn" class="btn btn-sm btn-secondary ml-2 btnnotextcenter"
+                                   href="#"><span class=""> Result&nbsp;</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12" id="pdfWindow">
+            </div>
+        </div>
+        <div class="col-lg-2" id="rightBar">
+            <div class="row pt-3 pt-md-1">
+                <div id="dataType" class="col-12">
+                    <!--Tabs Data Type -->
+                    <ul id="tabdata" class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#set" role="tab">Set</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#change" role="tab">Change</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#header_xml" role="tab">Header</a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+
+                        <!-- Tab SET -->
+                        <div class="tab-pane active" id="set" role="tabpanel">
+                            <div id="dataTypeList" class="">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%" item-height="auto"
+                                       class="display table table-bordered" id="rightBarData">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">Data Type</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="mt-2">
+                                <a href="javascript:void(0);" id="btn_apply_not"
+                                   class="btn btn-sm d-block d-sm-inline-block d-lg-block mb-1 btn-secondary ">Apply</a>
+                            </div>
+                        </div>
+                        <!--END Tab SET -->
+
+                        <!-- Tab CHANGE -->
+                        <div class="tab-pane" id="change" role="tabpanel">
+                            <div id="dataTypeList1" class="">
+
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%" item-height="auto"
+                                       class="display table table-bordered" id="rightBarData1">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">Data Type</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div id="savdelData" class="row mt-2">
+                                <div class="col pr-1">
+                                    <a id="btn_add_type"
+                                       class="btn btn-sm d-block d-sm-inline-block d-lg-block mb-1 btn-secondary "
+                                       href="#">Add new
+                                        <i class="boss_btn_add_datatype" aria-hidden="true"></i>
+                                        <!-- <img class="load_btn_add_datatype" src="imgs\gifs\emailloader3.gif" style="width:18px" hidden> -->
+                                        <i class="load_btn_add_datatype fa fa-lg fa-spinner fa-spin" hidden></i>
+                                    </a>
+                                </div>
+                                <div class="col pr-1">
+                                    <a id="btn_del_type"
+                                       class="btn btn-sm d-block d-sm-inline-block d-lg-block mb-1 btn-secondary "
+                                       href="#">Delete
+                                        <i class="boss_btn_del_datatype" aria-hidden="true"></i>
+                                        <!--  <img class="load_btn_del_datatype" src="imgs\gifs\emailloader3.gif" style="width:18px" hidden> -->
+                                        <i class="load_btn_del_datatype fa fa-lg fa-spinner fa-spin" hidden></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div id="ph_container" class="row mt-2" hidden>
+                                <!--TODO   02/11/2018   now this block only hidden all func not deleted-->
+                                <div class="col-sm-3">Pages:</div>
+                                <div class="col-sm-9">
+                                    <select class="custom-select custom-select-sm" name="place" id="ph_select">
+                                        <option value="1" selected>All</option>
+                                        <option value="2">First</option>
+                                        <option value="3">Last</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="tabSaveNameData" class="" hidden>
+                                <div class="form-group row">
+                                    <label class="col-12 col-form-label text-center">
+                                        <b>Add new type</b>
+                                    </label>
+                                    <div class="col-12">
+                                        <input mb-5 class="form-control form-control-sm" type="text"
+                                               id="input_new_typedata">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--END Tab CHANGE -->
+
+                        <!--Header XML-->
+                        <div class="tab-pane active" id="header_xml" role="tabpanel">
+                            <div id="HeaderSettings" class="mt-2">
+                                <form>
+                                    <div class="form-group row">
+                                        <small class="col-sm-6 pt-1">MainHeader:</small>
+                                        <div class="col-sm-6 input-group input-group-sm">
+                                            <div class="input-group input-group-sm">
+                                                <div id="led" class="led-off"></div>
+                                                <div class="input-group-append">
+                                                    <button id='main_btn' class="bnt btn-sm btn-secondary">Apply
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <small class="col-sm-4 pt-1">Position:</small>
+                                        <div class="col-sm-8 input-group input-group-sm">
+                                            <div class="input-group input-group-sm">
+                                                <input id="hp_input" type="text"
+                                                       class="text-center form-control form-control-sm">
+                                                <div class="input-group-append">
+                                                    <button id="hp_edit" class="btn btn-sm btn-secondary">
+                                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <button id="hp_delete" class="btn btn-sm btn-secondary">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <small class="col-sm-3 pt-1">Regex:</small>
+                                        <div class="col-sm-9 input-group input-group-sm">
+                                            <div class="input-group input-group-sm">
+                                                <input id="hr_input" type="text"
+                                                       class="text-center form-control form-control-sm">
+                                                <div class="input-group-append">
+                                                    <button id="hr_edit" class="btn btn-sm btn-secondary">
+                                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <button id="hr_delete" class="btn btn-sm btn-secondary">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!--  HeaderSettings -->
+
+                            <div id="HeaderXmlList">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%" item-height="auto"
+                                       class="display table table-bordered" id="table_xml">
+                                </table>
+                            </div>
+                            <div id="tabSaveNameXML" class="mt-5 mb-5" hidden>
+                                <div class="form-group row">
+                                    <label class="col-12 col-form-label text-center">
+                                        <b>Add new Header XML</b>
+                                    </label>
+                                    <div class="col-12">
+                                        <input mb-5 class="form-control form-control-sm" type="text"
+                                               id="input_new_HEaderXml">
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="savdelDHeaderXML" class="row mt-2" hidden='hidden'>
+                                <div class="col pr-1">
+                                    <a id="btn_apply_xml"
+                                       class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary " href="#">Apply
+                                        <!-- <i class="fa fa-check-circle fa-lg"></i>   -->
+                                    </a>
+                                </div>
+                                <div class="col pr-1">
+                                    <a id="btn_new_xml"
+                                       class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary " href="#">Add
+                                        new
+                                        <!-- <i class="fa fa-plus-square-o fa-lg"></i>   -->
+                                    </a>
+                                </div>
+                                <div class="col pr-1">
+                                    <a id="btn_del_xml"
+                                       class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary " href="#">Delete
+                                        <!-- <i class="fa fa-trash fa-lg"></i>   -->
+                                    </a>
+                                </div>
+                            </div>
+                            <div id="saveNewXml" class="row mt-2" hidden='hidden'>
+                                <div class="col pr-1">
+                                    <a id="btn_xml_ok"
+                                       class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary " href="#">Ok
+                                    </a>
+                                </div>
+                                <div class="col pr-1">
+                                    <a id="btn_new_xml_cancel"
+                                       class="btn btn-sm d-block d-sm-inline-block d-lg-block mb-1 btn-secondary "
+                                       href="#">Cancel
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div id='editXML' hidden="hidden">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="textarea_xml" id='textarea_label_xml'></label>
+                                        <textarea class="form-control" rows="5" id="textarea_xml"></textarea>
+                                    </div>
+                                </form>
+                                <div id="edit_XML_btn" class="row">
+                                    <div class="col pr-1">
+                                        <a id="btn_edit_xml"
+                                           class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary"
+                                           href="#">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--End Header XML-->
+                    </div>
+                    <!-- end Datatype Tabs -->
+                </div>
+                <div class="col-12 border-bottom my-2"></div>
+                <div id="fieldPref" class="col-12">
+                    <div id="wrapfieldContent">
+                        <h6 class="text-center">Field references</h6>
+
+                        <!--Amount -->
+                        <div class="mb-1">
+                            <label class="d-block small text-center mb-1">
+                                Amount notation
+                            </label>
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend mr-1">
+                                    <div class="input-group-text">
+                                        <input id="checkAmount" type="checkbox" class="">
+                                    </div>
+                                </div>
+                                <select data-sel="AmountNotation" class="form-control custom-select small"
+                                        id="selAmount" disabled></select>
+                                <div class="input-group-append ml-1">
+                                    <button id="changeAmount" class="btn btn-sm btn-secondary" hidden>
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="input-group-append ml-1">
+                                    <button id="deleteAmount" class="btn btn-sm btn-secondary" hidden>
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End Amount -->
+
+                        <!--Date Notation -->
+                        <div class="mb-1">
+                            <label class="d-block small text-center mb-1">
+                                Date Notation
+                            </label>
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend mr-1">
+                                    <div class="input-group-text">
+                                        <input id="checkDate" type="checkbox" class="">
+                                    </div>
+                                </div>
+                                <select data-sel="DataNotation" class="form-control custom-select small" id="selDate"
+                                        disabled></select>
+                                <div class="input-group-append ml-1">
+                                    <button id="changeDate" class="btn btn-sm btn-secondary" hidden>
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="input-group-append ml-1">
+                                    <button id="deleteDate" class="btn btn-sm btn-secondary" hidden>
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End Date Notation -->
+
+                        <!-- Regex -->
+                        <div class="mb-1">
+                            <label class="d-block small text-center mb-1">
+                                Regex
+                            </label>
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend mr-1">
+                                    <div class="input-group-text">
+                                        <input id="checkReg" type="checkbox" class="">
+                                    </div>
+                                </div>
+                                <select data-sel="Regex" class="form-control custom-select small" id="selReg"
+                                        disabled></select>
+                                <div class="input-group-append ml-1">
+                                    <button id="changeRegex" class="btn btn-sm btn-secondary" hidden>
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="input-group-append ml-1">
+                                    <button id="deleteRegex" class="btn btn-sm btn-secondary" hidden>
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--END Regex -->
+
+                        <!-- Alternate -->
+                        <div class="mb-1">
+                            <label class="d-block small text-center mb-1">
+                                alternate
+                            </label>
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend mr-1">
+                                    <div class="input-group-text">
+                                        <input id="checkalternate" type="checkbox" class="">
+                                    </div>
+                                </div>
+                                <select data-sel="Alternate" class="form-control custom-select small" id="selalternate"
+                                        disabled></select>
+                                <div class="input-group-append ml-1">
+                                    <button id="changeAlternate" class="btn btn-sm btn-secondary" hidden>
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="input-group-append ml-1">
+                                    <button id="deleteAlternate" class="btn btn-sm btn-secondary" hidden>
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input id="checkText" data-sel='IsText' type="checkbox" class="form-check-input">
+                                <label class="form-check-label" for="checkText">Text</label>
+                            </div>
+                        </div>
+                        <!--END Alternate -->
+                    </div>
+                    <!--KW -->
+                    <div id='kwContent' hidden>
+                        <form>
+                            <div class="form-group">
+                                <label for="textarea_kw" id='textarea_label'>Comment:</label>
+                                <textarea class="form-control" rows="10" id="textarea_kw"></textarea>
+                            </div>
+                        </form>
+                        <div id="savekw" class="row mt-1">
+                            <div class="col pr-1">
+                                <a id="btn_edit_kw"
+                                   class="btn btn-sm d-block d-sm-inline-block d-lg-block mb-1 btn-secondary mt-2"
+                                   href="#">Save</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--END KW -->
+                    <div class="row border-bottom my-2"></div>
+
+                    <!-- Absolute Position -->
+                    <div id="absolutePos" class="" hidden>
+                        <div class="form-group  mb-1">
+                            <div class="form-check">
+                                <input id="checkAbsolut" type="checkbox" class="form-check-input" disabled>
+                                <label class="form-check-label" for="checkAbsolut">Absolute position</label>
+                            </div>
+                        </div>
+                        <div id="wrapAbs" hidden>
+                            <div class="form-group  mb-1 row">
+                                <label class="col-sm-3 col-form-label col-form-label-sm">xpos:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control form-control-sm" id="xpos" disabled="">
+                                </div>
+                            </div>
+                            <div class="form-group  mb-1 row">
+                                <label class="col-sm-3 col-form-label col-form-label-sm">ypos:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control form-control-sm" id="ypos" disabled="">
+                                </div>
+                            </div>
+                            <div class="form-group  mb-1 row">
+                                <label class="col-sm-3 col-form-label col-form-label-sm">width: </label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control form-control-sm" id="widthpos" disabled="">
+                                </div>
+                            </div>
+                            <div class="form-group  mb-1 row">
+                                <label class="col-sm-3 col-form-label col-form-label-sm">height: </label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control form-control-sm" id="heightpos" disabled="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="saveDataType" class="row mt-1" hidden>
+                        <div class="col pr-1">
+                            <a id="btn_save_datatype"
+                               class="btn btn-sm d-block d-sm-inline-block d-lg-block mb-1 btn-secondary mt-2" href="#">Save
+                                <!--   <img class="load_btn_save_datatype ml-2" src="imgs\gifs\emailloader3.gif" style="width:18px" hidden> -->
+                                <i class="load_btn_save_datatype ml-2 floatImgandI fa fa-lg fa-spinner fa-spin"
+                                   hidden></i>
+                            </a>
+                        </div>
+                        <div class="col pr-1">
+                            <a id="btn_cancel_datatype"
+                               class="btn btn-sm d-block d-sm-inline-block d-lg-block mb-1 btn-secondary mt-2 "
+                               href="#">Cancel
+
+                            </a>
+                        </div>
+                    </div>
+                    <!--Absolute Position -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal loading PDF-->
+
+    <div class="modal" tabindex="-1" role="dialog" id="myModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#dataSearch"
+                               role="tab">Indentification</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#profile" role="tab">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#messages" role="tab">Messages</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Settings</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+
+                    <div class="tab-content w-100">
+                        <div class="tab-pane active" id="dataSearch" role="tabpanel">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-12 py-2 borderModal">
+                                        <button id="addIndent" type="button" class="btn btn-secondary rounded-circle"><i
+                                                class="fa fa-plus"></i></button>
+                                        <button id="deleteIndent" type="button"
+                                                class="btn btn-secondary  rounded-circle"><i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+
+                                    <div id="rowIndent" class="col-12 mt-2">
+                                        <form class="form-inline row mb-2">
+                                            <div class="mr-sm-2 col-3">
+                                                <select class="custom-select pb-1 mb-2 mr-sm-2 mb-sm-0 form-control-sm">
+                                                    <option value="String" selected>String</option>
+                                                    <option value="Numeric">Numeric</option>
+                                                    <option value="Field">Field</option>
+                                                    <option value="Checksum">Checksum</option>
+                                                </select>
+                                            </div>
+                                            <input type="text"
+                                                   class="form-control mb-2 mr-sm-2 mb-sm-0 form-control-sm col-7">
+                                        </form>
+                                    </div>
+                                    <div class="col-12 ">
+                                        <div class="form-group">
+                                            <form id="pdf">
+                                                <label for="file_pdf">PDF Load</label>
+                                                <input type="file" lang="en" class="form-control-file" id="file_pdf"
+                                                       accept="application/pdf" aria-describedby="fileHelp"/>
+                                                <small id="fileHelp" class="form-text text-muted">Load file.pdf</small>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="profile" role="tabpanel">...</div>
+                        <div class="tab-pane" id="messages" role="tabpanel">...</div>
+                        <div class="tab-pane" id="settings" role="tabpanel">...</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn_save_search" type="button" class="btn btn-secondary btn-p-30">Load</button>
+                    <button id="btn_save_close" type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END modal loading PDF-->
+
+    <!-- Info modal -->
+    <div id="info_modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true ">
+        <div class="modal-dialog modal-sm ">
+            <div class="modal-content ">
+                <div class="modal-header " style="display:initial ">
+                    <h5 class="modal-title text-center " id="info_content "></h5>
+                </div>
+                <div class="container-fluid border-0 ">
+                    <div class="row ">
+                        <div class="col-md-12 ">
+                            <p class="lead text-center "></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Info modal -->
+
+    <!--Test modal window-->
+    <div class="modal " tabindex="-1 " role="dialog " id="test_modal">
+        <div class="modal-dialog modal-lg testmodal" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Test</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#Header" role="tab">Header</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#Lines" role="tab">Lines</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#pdf_text" role="tab">PDF Text</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#XML" role="tab">XML</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content w-100 ">
+
+                        <!-- Header tab -->
+
+                        <div class="tab-pane active" id="Header" role="tabpanel">
+                            <div class="col-md-12">
+                                <div class="form-group row m-2">
+                                    <label class="col-3 col-form-label">Found Template</label>
+                                    <div class="col-9">
+                                        <input class="form-control" type="text" value="---" id="test_find_temp"
+                                               disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" id="header_dataTables_container">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%"
+                                       class="display table table-bordered" id="header_dataTables">
+                                    <thead>
+                                    <tr>
+                                        <th>Field</th>
+                                        <th>Value</th>
+                                        <th>Format</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                                <div class="row">
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-2" style="border: 1px solid black" id="info_server_header">
+                                <p class="lead">Info from server</p>
+                            </div>
+                        </div>
+
+                        <!--End  Header tab -->
+
+                        <!--Lines -->
+
+                        <div class="tab-pane" id="Lines" role="tabpanel">
+                            <br/>
+                            <div id="contLines" class="col-md-12">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%"
+                                       class="display table table-bordered" id="lines_dataTables">
+                                    <thead>
+                                    <tr>
+                                        <th>Field</th>
+                                        <th>Value</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                                <br>
+                                <div class="btn-group mt-3" class="float:right">
+                                        <span class="input-group-btn">
+                                        <button id="btn_test_prew" class="btn btn-secondary btn-block btn-sm"
+                                                type="button"><i class="fa fa-minus"></i></button>
+                                    </span>
+                                    <input id="btn_test_view" type="text"
+                                           class="form-control form-control-sm text-center" placeholder="0(0)" disabled>
+                                    <span class="input-group-btn">
+                                        <button id="btn_test_next" class="btn btn-secondary btn-block btn-sm"
+                                                type="button"><i class="fa fa-plus"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--End Lines -->
+
+                        <!-- XML-->
+
+                        <div class="tab-pane" id="pdf_text" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="rslides">
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End XML-->
+
+                        <!--XML -->
+                        <div class="tab-pane" id="XML" role="tabpanel">
+                            <div class="form-group">
+                                <textarea id="textarea" class="form-control custom-control mt-1 pl-5"
+                                          rows="20"></textarea>
+                            </div>
+                        </div>
+                        <!--END XML -->
+
+                    </div>
+                    <!--End Tab panes -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--End Test Modal-->
+
+    <!-- modal apply -->
+    <div class="modal fade" id="applymodal" tabindex="-1" role="dialog" aria-labelledby="applycontent"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="display:initial">
+                    <p class=" lead modal-title text-center" id="applycontent"></p>
+                </div>
+                <div class="modal-footer text-center" style="display:initial">
+                    <button type="button" id="apply_del_temp" class="btn btn-primary" hidden>YES</button>
+                    <button type="button" id="apply_save_temp" class="btn btn-primary" hidden>Save changes</button>
+                    <button type="button" id="apply_save_result" class="btn btn-primary" hidden>Save changes</button>
+                    <button type="button" id="apply_add_typedata" class="btn btn-primary" hidden>Save changes</button>
+                    <button type="button" id="apply_del_typedata" class="btn btn-primary" hidden>Save changes</button>
+                    <button type="button" id="apply_save_typedata" class="btn btn-primary" hidden>Save changes</button>
+                    <button type="button" id="apply_apply_typedata" class="btn btn-primary" hidden>Save changes</button>
+                    <button type="button" id="apply_togle_state" class="btn btn-primary" hidden>Yes</button>
+                    <button type="button" id="apply_close" class="btn btn-secondary" data-dismiss="modal" hidden>No
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--End modal apply_tempresult -->
+    <div id="preloader">
+        <i class="progress fa fa-5x fa-spinner fa-spin"></i>
+    </div>
+    <div id="preloader1" hidden>
+        <i class="progress fa fa-5x fa-spinner fa-spin"></i>
+    </div>
+
+    <!-- modal apply -->
+
+    <div class="modal fade show" id="applymodal_tempresult" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content p-3">
+                <div class="modal-header text-center" style="display:initial">
+                    <p class="lead modal-title " id="applymodal_tempresult_text"></p>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="applymodal_tempresult_input">
+                </div>
+                <div class="modal-footer text-center" style="display:initial">
+                    <button type="button" id="apply_tempresult_save_temp" class="btn btn-primary" hidden>Yes</button>
+                    <button type="button" id="apply_tempresult_save_result" class="btn btn-primary" hidden>Yes</button>
+                    <button type="button" id="apply_tempresult_close" class="btn btn-secondary" data-dismiss="modal">
+                        No
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End modal apply_tempresult-->
+
+    <!-- KW modal-->
+    <div class="modal fade show" id="applymodal_KW" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content p-3">
+                <div class="modal-header text-center" style="display:initial">
+                    <p class="lead modal-title">Save Key Words?</p>
+                </div>
+                <div class="modal-footer text-center" style="display:initial">
+                    <button type="button" id="apply_save_KW" class="btn btn-secondary">Save</button>
+                    <button type="button" id="apply_no_KW" class="btn btn-secondary">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END KW modal -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="js/tippy.js"></script>
+<script src="js/snackbar.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<!--  <script src="js/jquery.dataTables.min.js"></script> -->
+<script src="js/hurkanSwitch.js"></script>
+<script src=" https://cdn.datatables.net/responsive/2.2.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.0/js/responsive.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.2.3/js/dataTables.select.min.js"></script>
+<!-- <script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script> -->
+<script src="js/dataTables.buttons.min.js"></script>
+<script src=" https://cdn.datatables.net/buttons/1.4.2/js/buttons.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="js/applymodal.js"></script>
+<script src="js/applymodal-tempresult.js"></script>
+<script src="js/filter-fix.js"></script>
+<script src="js/bootstrap-fileselect.js"></script>
+<script src="js/responsiveslides.min.js"></script>
+<script src="js/loader.js"></script>
+<script src="js/xml.js"></script>
+<script src="js/test-btn.js"></script>
+<script src="js/rightbar-action.js"></script>
+<script src="js/rightbar.js"></script>
+<script src="js/db-click.js"></script>
+<script src="js/mullti-del.js"></script>
+<script src="js/d3-js-last.js"></script>
+<script src="js/veiw-img.js"></script>
+<script src="js/render-right-rpef.js"></script>
+<script src="js/resize.js"></script>
+<script src="js/key-word-edit.js"></script>
+<script src="js/header_xml.js"></script>
+<script src="js/preload_main.js"></script>
+<script src="js/coord-convert.js"></script>
+<script src="js/auto-update-table.js"></script>
+<script src="js/layout-template.js"></script>
+<script src="js/place-header.js"></script>
+<script src="js/led.js"></script>
+<script src="js/getFastResponse.js"></script>
+<script src="js/flex-temp.js"></script>
+<script src="js/temp-request.js"></script>
+<script src="js/multi-page.js"></script>
+<script src="js/temp-ajax.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
