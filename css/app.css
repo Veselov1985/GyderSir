@@ -320,6 +320,18 @@ table.dataTable tbody  tr:hover {
     margin-top: 5px;
 }
 
+@media (max-width: 1200px) {
+    .floatImgandI{
+        display: none;
+    }
+    #Action a span{
+        display: flex;
+        justify-content: center;
+        margin-left: 0px;
+    }
+
+}
+
 .prettyText {
     margin-left: 10px;
 }

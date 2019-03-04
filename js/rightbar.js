@@ -828,8 +828,8 @@
 
      // cancel btn 
 
-     rightbar.elements.btn_cancel_datatype.on('click', function() {
-
+     rightbar.elements.btn_cancel_datatype.on('click', function(e) {
+         e.preventDefault();
          rightbar.handlers.toggleinputfield();
      });
 

@@ -163,7 +163,6 @@ temp.elementLeftBar = {
 
                     } else {
                         // Create new template
-
                         temp.elementLeftBar.Templaite.state = 'newtemp';
                         if (temp.DataWorkspace.images.length > 0 && temp.elementLeftBar.Templaite.Pk == temp.zeroGuid) {
                             applymodal.handlers.show('Close Templaite without saving', 8);
@@ -246,9 +245,13 @@ temp.elementLeftBar = {
                 temp.Data.leftTempList.datas = temp.helpfunc.createresponsedata().Template;
                 temp.elementLeftBar.Templaite.name = '';
                 temp_ajax.sendSaveTemplaiteProccess(test.fix.addVatsandIbans(temp.Data.leftTempList.datas))
-                    .then( data => {temp.elementLeftBar.action.templateSaveSuccess(data)})
-                    .catch(err => {temp.elementLeftBar.action.templateSaveError(err);});
-              //  temp.Ajax.sendSaveTemplaiteProccess(test.fix.addVatsandIbans(temp.Data.leftTempList.datas), success, error);
+                    .then(data => {
+                        temp.elementLeftBar.action.templateSaveSuccess(data)
+                    })
+                    .catch(err => {
+                        temp.elementLeftBar.action.templateSaveError(err);
+                    });
+                //  temp.Ajax.sendSaveTemplaiteProccess(test.fix.addVatsandIbans(temp.Data.leftTempList.datas), success, error);
                 applymodal_tempresult.handlers.close();
             });
 
@@ -274,15 +277,15 @@ temp.elementLeftBar = {
                         return Pk;
                     };
                     temp_ajax.sendDeleteTemplaiteProccess({"Pk": findPk()})
-                        .then(data =>temp.elementLeftBar.action.deleteSuccess(data,$selected,deleterow))
-                        .catch( err => temp.elementLeftBar.action.deleteError(err));
+                        .then(data => temp.elementLeftBar.action.deleteSuccess(data, $selected, deleterow))
+                        .catch(err => temp.elementLeftBar.action.deleteError(err));
                     //temp.Ajax.sendDeleteTemplaiteProccess({"Pk": findPk()}, success, error);
                 }
             }
         },
     },
     action: {
-        deleteSuccess:(data,$selected,deleterow) => {
+        deleteSuccess: (data, $selected, deleterow) => {
             if (data.IsSuccess === true) {
                 ph.data.object = ph.data.default; // Scope Default if templaite delete
                 $selected.addClass('deleteRow');
@@ -297,15 +300,15 @@ temp.elementLeftBar = {
                 temp.elementLeftBar.Templaite.origin = {};
                 paint.handlers.clearsvgcontent();
                 temp.helpfunc.clearglobalstate(true);
-                Snackbar.show({text: `Delete Templaite: ${deleterow}`,pos:'top-center'});
-               // temp.helpfunc.modalInfo(['Delete Templaite', deleterow]);
+                Snackbar.show({text: `Delete Templaite: ${deleterow}`, pos: 'top-center'});
+                // temp.helpfunc.modalInfo(['Delete Templaite', deleterow]);
                 paint.init();
             }
         },
-        deleteError:(err) =>{
-            Snackbar.show({text: `${err[1]}`,pos:'top-center'});
+        deleteError: (err) => {
+            Snackbar.show({text: `${err[1]}`, pos: 'top-center'});
         },
-        templateSaveSuccess:(data) => {
+        templateSaveSuccess: (data) => {
             // block Template Request
             // check if this request
             tr.handlers.checkIfRequest(data.Pk);
@@ -333,7 +336,7 @@ temp.elementLeftBar = {
             lt.view.setOff();
         },
         templateSaveError: (err) => {
-            Snackbar.show({text: `${err[1]}`, pos:'top-center'});
+            Snackbar.show({text: `${err[1]}`, pos: 'top-center'});
         }
 
     }
@@ -1286,10 +1289,10 @@ temp.init = {
 
         temp.elementLeftBar.object.btn_save_search.click(function () {
             if (temp.Data.LoadPdfOpt.file_pdf.__proto__.constructor.name != "FormData") {
-                Snackbar.show({text: `Info: Please download .pdf file`, pos:'top-center'});
-              //  temp.helpfunc.modalInfo(['Info', 'Please download .pdf file']);
+                Snackbar.show({text: `Info: Please download .pdf file`, pos: 'top-center'});
+                //  temp.helpfunc.modalInfo(['Info', 'Please download .pdf file']);
                 return;
-            }// if pdf file not load
+            }
             // empty Child  Request
             tr.data.obj = {};
             led.action.ledOff(); // off led MainHeader
@@ -1301,8 +1304,12 @@ temp.init = {
             temp.helpfunc.addadvancedoption();
             filter.handlers.enabled();
             temp_ajax.sendFileToProccess()
-                .then(data=> {temp.loadEvent.success(data); })
-                .catch( err => {temp.loadEvent.error(err[1])});
+                .then(data => {
+                    temp.loadEvent.success(data);
+                })
+                .catch(err => {
+                    temp.loadEvent.error(err[1])
+                });
         });
         temp.elementControl.object.btn_page_next.click(function () {
             temp.elementControl.nextPage();
@@ -1419,7 +1426,28 @@ temp.loadEvent = {
 };
 
 
+temp.pass = {
+    init: () => {
+        try {
+            jQuery.event.special.touchstart =
+                {
+                    setup: function (_, ns, handle) {
+                        if (ns.includes("noPreventDefault")) {
+                            this.addEventListener("touchstart", handle, {passive: false});
+                        }
+                        else {
+                            this.addEventListener("touchstart", handle, {passive: true});
+                        }
+                    }
+                };
+        } catch (e) {
+            console.log('error fix touchstart event');
+        }
+    }
+};
+
 $(document).ready(function () {
+    temp.pass.init();
     temp.init.element();
     temp.init.eventHandler();
     const arrRequestToApi = [

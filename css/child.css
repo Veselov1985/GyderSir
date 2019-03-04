@@ -63,9 +63,6 @@ table.dataTable tbody  tr:hover {
     background: linear-gradient(to bottom, #86A1BF 0%, #dcdcdc 100%);
 }
 
-
-
-
 .dataTables_paginate {
     display: flex;
     float: none !important;
@@ -101,3 +98,28 @@ table.dataTable tbody  tr:hover {
 .btn-secondary:hover{
     background: linear-gradient(to bottom, #86A1BF 0%, #dcdcdc 100%);
 }
+
+/* preloader */
+
+.preloader {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10000;
+    outline: 0;
+    background-color: #bac1ca;
+    opacity: 0.5;
+}
+
+.preloader .progress {
+    position: absolute;
+    top:calc(50% - 32px);
+    left:calc(50% - 32px);;
+    z-index: 1060;
+    background-color: #bac1ca;
+    font-size: 5em;
+    height: auto;
+}
+

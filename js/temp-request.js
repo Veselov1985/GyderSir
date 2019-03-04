@@ -37,13 +37,17 @@ tr.chakeEvents = {
             case 'CloseChild':
                 tr.chakeEvents.CloseChild();
                 break;
-            default:
+            default: console.log('error in Events');
                 break;
         }
 
     },
     pdfDocumentWorker: function (data) {
         window.focus();
+        // if filter enable => reset filter
+        if(temp.Data.leftTempList.filter.length>0) {
+            temp.elementControl.object.btn_filter.click();
+        }
         tr.data.obj = data.obj;
         let $data = data.Template;
         $data = temp.loadEvent.prependConvertData($data);

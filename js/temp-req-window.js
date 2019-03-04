@@ -6,7 +6,9 @@ trw.data = {
     obj: {},
     zag: []
 };
-trw.Snack = (text, pos='top-right') => {Snackbar.show({text, pos})};
+trw.Snack = (text, pos = 'top-right') => {
+    Snackbar.show({text, pos})
+};
 
 trw.init = function () {
     trw.elements.btn_send_req = $('#btn_send_req');
@@ -17,6 +19,7 @@ trw.init = function () {
     trw.elements.temp_request_child_upload = $('#temp_request_child_upload');
     trw.elements.temp_request_child_update = $('#temp_request_child_update');
     trw.elements.temp_request_cancel = $('#temp_request_cancel');
+    ajax.loader.handler.init()
 };
 
 trw.dataTable = {
@@ -146,9 +149,7 @@ trw.callbackActions = {
             case 'Save Template':
                 trw.handlers.saveTemplateParent(data);
                 break;
-            case '':
-                break;
-            default:
+            default: console.log('error in callback');
                 break;
         }
     }
@@ -168,9 +169,8 @@ trw.chakeEvents = {
             case 'NextStep':
                 tr.chakeEvents.pdfNextStep(data);
                 break;
-            case 'value2':
-                break;
             default:
+                console.log('error in callback');
                 break;
         }
     },
@@ -201,7 +201,7 @@ trw.chakeEvents = {
                     trw.handlers.getTemplatesSuccess(data);
                 }
             }).catch(() => {
-               trw.Snack('Error update');
+                trw.Snack('Error update');
             });
         }
     },
@@ -223,7 +223,7 @@ trw.handlers = {
                 }
             })
             .catch((err) => {
-               trw.Snack('Server Error');
+                trw.Snack('Server Error');
                 console.log(err[1])
             });
     },
@@ -296,7 +296,7 @@ trw.action = function () {
                     // TODO TEST BLOCK MOCA
                 });
         } else {
-            trw.Snack( 'You must select at least one');
+            trw.Snack('You must select at least one');
         }
     });
 
@@ -307,7 +307,7 @@ trw.action = function () {
             window.focus();
             trw.Snack('Data Update');
         }).catch(err => {
-            trw.Snack( `Server Error ${err[1]}`)
+            trw.Snack(`Server Error ${err[1]}`)
         })
     });
 
@@ -333,7 +333,7 @@ $(document).ready(function () {
             }
         })
         .catch(error => {
-            trw.Snack( `Server Error`);
+            trw.Snack(`Server Error`);
             console.log(error[1]);
 
             // TODO TEST Section
@@ -350,8 +350,5 @@ $(document).ready(function () {
         trw.EventEmmiter.emit({event: 'CloseChild'});
         return true;
     })
-
-
-
 });
 

@@ -8,6 +8,15 @@ ajax.routes = {
     job: `${ajax.root}/api/Template/job`,
     process: `${ajax.root}/api/Template/process`,
 };
+ajax.loader = {};
+ajax.loader.element = {class:'preloader', object:{}};
+
+ajax.loader.handler={
+    init:()=> { ajax.loader.element.object = $(`.${ajax.loader.element.class}`)},
+    onLoad:() => {ajax.loader.element.object.css('display','block')},
+    offLoad:()=> {ajax.loader.element.object.css('display','none')},
+};
+
 ajax.ajax = {
     getAll: () => {
         return new Promise((resolve, reject) => {
@@ -26,6 +35,8 @@ ajax.ajax = {
                 error: (jqXHR, textStatus, errorThrown) => {
                     reject([jqXHR, textStatus, errorThrown]);
                 },
+                beforeSend:()=> {ajax.loader.handler.onLoad()},
+                complete:() => {ajax.loader.handler.offLoad()}
             });
         })
     },
@@ -45,6 +56,8 @@ ajax.ajax = {
                 error: function (jqXHR, textStatus, errorThrown) {
                     reject([jqXHR, textStatus, errorThrown]);
                 },
+                beforeSend:()=> {ajax.loader.handler.onLoad()},
+                complete:() => {ajax.loader.handler.offLoad()}
             })
         });
     },
@@ -65,6 +78,8 @@ ajax.ajax = {
                 error: (jqXHR, textStatus, errorThrown) => {
                     reject([jqXHR, textStatus, errorThrown])
                 },
+                beforeSend:()=> {ajax.loader.handler.onLoad()},
+                complete:() => {ajax.loader.handler.offLoad()}
             });
         })
     },
