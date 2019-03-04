@@ -149,7 +149,8 @@ trw.callbackActions = {
             case 'Save Template':
                 trw.handlers.saveTemplateParent(data);
                 break;
-            default: console.log('error in callback');
+            default:
+                console.log('error in callback');
                 break;
         }
     }
@@ -209,6 +210,15 @@ trw.chakeEvents = {
 
 
 trw.handlers = {
+    checkParent:()=>{
+        setInterval(trw.handlers.checkOpener,5000);
+    },
+    // Check parent window is exist
+    checkOpener: () => {
+        const child = (self || this || window);
+        const childOpener = child.opener;
+        childOpener ? console.log('child have Parent') : child.close();
+    },
     deletePrewJob: (id) => {
         trw.data.zag = trw.data.zag.filter(val => +val[2] !== id);
         trw.dataTable.init(trw.dataTable.object, trw.data.zag);
@@ -319,6 +329,7 @@ trw.action = function () {
 
 
 $(document).ready(function () {
+    trw.handlers.checkOpener();
     trw.init();
     trw.action();
     // get document list data
@@ -343,7 +354,9 @@ $(document).ready(function () {
                 window.focus();
             })
             // TODO End  TEST Section
-        });
+        }).finally(()=>{
+        trw.handlers.checkParent();
+    });
 
     $(window).on("beforeunload", function () {
         console.log('emit prepend close');
