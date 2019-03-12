@@ -1460,7 +1460,9 @@ $(document).ready(function () {
         hx.ajax.getAllHeader(null)
     ];
     Promise.all(arrRequestToApi)
-        .then(() => {
+        .then((data) => {
+         hx.regex.create.init(data[4].Data,data[6]);
+
             // Hide global preloader
             pm.handlers.hidePreloader();
         })

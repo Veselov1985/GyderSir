@@ -412,6 +412,63 @@ table.dataTable tbody  tr:hover {
     margin-bottom: 0 !important;
 }
 
+.regex_selection{
+    display: flex;
+    position: absolute;
+    left: 57%;
+    top: 22%;
+    cursor: pointer;
+    z-index: 1000;
+}
+#HeaderSettings .dropdown-menu{
+    width: inherit;
+    font-family: 'Roboto' , 'sans-serif';
+}
+
+#HeaderSettings .dropdown-menu button{
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+}
+
+#HeaderSettings .dropdown-item:hover{
+    background: linear-gradient(to bottom, #86A1BF 0%, #dcdcdc 100%);
+}
+
+.regex-selection--open{
+    background: url("../imgs/svg/sort-down.svg");
+    background-size: cover;
+    width: 18px;
+    height: 18px;
+
+}
+.regex-selection--close{
+    background: url("../imgs/svg/sort-up.svg");
+    display: none;
+    background-size: cover;
+    width: 18px;
+    height: 18px;
+}
+
+@media (max-width: 1500px ) {
+    .regex_selection{
+        left:42%;
+    }
+}
+
+@media (max-width: 1650px ) {
+    .regex_selection{
+        left:50%;
+    }
+}
+
+@media (max-width: 992px ) {
+    .regex_selection{
+        left:88%;
+    }
+}
+
+
 .hurkanSwitch > .hurkanSwitch-switch-box > .hurkanSwitch-switch-item.active.hurkanSwitch-switch-item-status-off {
     padding-right: 15px;
     padding-left: 32px;
