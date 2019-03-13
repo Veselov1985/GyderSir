@@ -3,38 +3,37 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-::-webkit-scrollbar-track
-{
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     background-color: #F5F5F5;
 }
 
-::-webkit-scrollbar
-{
+::-webkit-scrollbar {
     height: 4px;
     width: 5px;
     background-color: #F5F5F5;
 
 }
 
-::-webkit-scrollbar-thumb
-{
+::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
     background-color: #ced4da;
 }
-::-webkit-scrollbar-thumb:horizontal{
+
+::-webkit-scrollbar-thumb:horizontal {
     background: #ced4da;
     border-radius: 10px;
 }
+
 #tabdata {
     flex-wrap: nowrap;
 }
 
-#tabdata  li {
+#tabdata li {
     flex: 1;
-    text-align:center;
+    text-align: center;
 }
 
 @media (max-height: 750px) {
@@ -42,26 +41,30 @@ body {
         height: 487px;
         overflow-y: scroll;
     }
-    #Action{
+
+    #Action {
         position: relative;
     }
-    .sticky-top{
+
+    .sticky-top {
         position: relative !important;
         margin-bottom: 16px;
     }
-    .sticky-bottom{
+
+    .sticky-bottom {
         position: relative;
     }
 }
 
-#leftTempList_wrapper{
-    overflow:hidden;
+#leftTempList_wrapper {
+    overflow: hidden;
 }
+
 #workSpase {
     /* border: 1px solid black; */
     background: url('../imgs/gifs/SIR_v2.jpg') no-repeat;
     background-size: cover;
-    overflow-y: auto!important;
+    overflow-y: auto !important;
 }
 
 .disabledSet {
@@ -87,12 +90,13 @@ select {
     /* border: 1px solid black; */
     margin-top: 3px;
 }
-.controls{
+
+.controls {
     display: flex;
     padding: 4px 0;
 }
 
-#optionwiev{
+#optionwiev {
     width: auto;
 }
 
@@ -272,15 +276,16 @@ table.dataTable tbody td {
     cursor: pointer !important;
 }
 
-table.dataTable tbody td:focus{
+table.dataTable tbody td:focus {
     outline: none;
 }
-table.dataTable tbody  tr.selected:hover{
+
+table.dataTable tbody tr.selected:hover {
     background-color: #0275d8 !important;
     background: linear-gradient(to bottom, #0275d8 0%, #0275d8 100%);
 }
 
-table.dataTable tbody  tr:hover {
+table.dataTable tbody tr:hover {
     background: linear-gradient(to bottom, #86A1BF 0%, #dcdcdc 100%);
 }
 
@@ -303,7 +308,7 @@ table.dataTable tbody  tr:hover {
     background-color: #86A1BF !important;
 }
 
-.btn-secondary:hover{
+.btn-secondary:hover {
     background: linear-gradient(to bottom, #86A1BF 0%, #dcdcdc 100%);
 }
 
@@ -321,10 +326,11 @@ table.dataTable tbody  tr:hover {
 }
 
 @media (max-width: 1200px) {
-    .floatImgandI{
+    .floatImgandI {
         display: none;
     }
-    #Action a span{
+
+    #Action a span {
         display: flex;
         justify-content: center;
         margin-left: 0px;
@@ -349,7 +355,7 @@ table.dataTable tbody  tr:hover {
     z-index: 1050;
     outline: 0;
     background-color: #bac1ca;
-    opacity: 0.5;
+    opacity: .7;
 }
 
 #preloader1 {
@@ -361,7 +367,7 @@ table.dataTable tbody  tr:hover {
     z-index: 1050;
     outline: 0;
     background-color: #bac1ca;
-    opacity: 0.5;
+    opacity: .7;
 }
 
 .progress {
@@ -390,10 +396,9 @@ table.dataTable tbody  tr:hover {
     color: #495057;
 }
 
-.nav-link.active{
+.nav-link.active {
     color: #007bff !important;
 }
-
 
 .nav-bigger-padding {
     padding: .5rem 1.4rem !important;
@@ -408,11 +413,12 @@ table.dataTable tbody  tr:hover {
 #page_info_control {
     width: 4em;
 }
-.hurkanSwitch{
+
+.hurkanSwitch {
     margin-bottom: 0 !important;
 }
 
-.regex_selection{
+.regex_selection {
     display: flex;
     position: absolute;
     left: 57%;
@@ -420,29 +426,38 @@ table.dataTable tbody  tr:hover {
     cursor: pointer;
     z-index: 1000;
 }
-#HeaderSettings .dropdown-menu{
+
+#HeaderSettings .dropdown-menu {
     width: inherit;
-    font-family: 'Roboto' , 'sans-serif';
+    font-family: 'Roboto', 'sans-serif';
 }
 
-#HeaderSettings .dropdown-menu button{
-    font-size: 14px;
+#HeaderSettings .dropdown-menu button {
+    font-size: 12px;
     cursor: pointer;
     user-select: none;
+    word-break: break-all;
+    white-space: normal;
+
 }
 
-#HeaderSettings .dropdown-item:hover{
+#HeaderSettings .dropdown-item:hover {
     background: linear-gradient(to bottom, #86A1BF 0%, #dcdcdc 100%);
 }
 
-.regex-selection--open{
+#HeaderSettings .dropdown-item:focus {
+    outline: none;
+}
+
+.regex-selection--open {
     background: url("../imgs/svg/sort-down.svg");
     background-size: cover;
     width: 18px;
     height: 18px;
 
 }
-.regex-selection--close{
+
+.regex-selection--close {
     background: url("../imgs/svg/sort-up.svg");
     display: none;
     background-size: cover;
@@ -451,23 +466,22 @@ table.dataTable tbody  tr:hover {
 }
 
 @media (max-width: 1500px ) {
-    .regex_selection{
-        left:42%;
+    .regex_selection {
+        left: 42%;
     }
 }
 
 @media (max-width: 1650px ) {
-    .regex_selection{
-        left:50%;
+    .regex_selection {
+        left: 50%;
     }
 }
 
 @media (max-width: 992px ) {
-    .regex_selection{
-        left:88%;
+    .regex_selection {
+        left: 88%;
     }
 }
-
 
 .hurkanSwitch > .hurkanSwitch-switch-box > .hurkanSwitch-switch-item.active.hurkanSwitch-switch-item-status-off {
     padding-right: 15px;
@@ -662,5 +676,9 @@ div.dataTables_wrapper div.dataTables_filter input:focus {
     border-color: #80bdff;
     outline: 0;
     box-shadow: 0 0 0 1px rgba(0, 123, 255, .25);
+}
+
+#wrapfieldContent input[type=checkbox] {
+cursor: pointer;
 }
 

@@ -132,6 +132,13 @@ rightpref.Ajax = {
 };
 
 rightpref.handlers = {
+    getUnique: (arr, comp) => {
+        const unique = arr
+            .map(e => e[comp])
+            .map((e, i, final) => final.indexOf(e) === i && i)
+            .filter(e => arr[e]).map(e => arr[e]);
+        return unique;
+    },
     DataTypesuccess: function(data) {
         data.Data.forEach(function(val) {
             var findfield, fieldPk, state;
@@ -178,7 +185,8 @@ rightpref.handlers = {
         console.log(data);
     },
     Regexsuccess: function(data) {
-        data.Data.forEach(function(val) {
+       const list = rightpref.handlers.getUnique(data.Data,'Content');
+        list.forEach(function(val) {
             rightbar.data.global.regex.push(val);
         });
         rightpref.handlers.renderfieldoptions(rightbar.data.global.regex, rightbar.elements.selReg);
@@ -196,13 +204,15 @@ rightpref.handlers = {
         console.log(data);
     },
     renderfieldoptions: function(list, selectId) {
+        var html = '';
         list.forEach(function(val) {
-            rightpref.handlers.addoptioninselect(selectId, val);
+         html += rightpref.handlers.addoptioninselect(val);
         });
+        rightpref.handlers.append(selectId,html);
         selectId.find(':first-child').attr('selected', 'selected');
     },
-    addoptioninselect: function(select, option) {
-        var html = $('<option value="' + option.Pk + '">' + option.Content + '</option>');
-        select.append(html);
+    addoptioninselect: function( option) {
+        return '<option value="' + option.Pk + '">' + option.Content + '</option>';
     },
+    append:(select, html) => select.append(html),
 };

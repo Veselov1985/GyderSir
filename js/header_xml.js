@@ -53,11 +53,11 @@ hx.init = function () {
 hx.regex = {
     handlers: {
         deleteRepeat: arr => arr.filter((val, i, all) => all.indexOf(val) === i && val !== ''),
-        getDataAttr: (el) => $(el).data('data-item'),
+        getDataAttr: (el) => el.data('item'),
         getRegexAll: (reg, head) => {
             const getReg = reg.map(val => val.Content);
             const headerReg = head.map(val => val.Regex);
-            const concatArr =  [].concat(getReg).concat(headerReg);
+            const concatArr = [].concat(getReg).concat(headerReg);
             return hx.regex.handlers.deleteRepeat(concatArr);
         },
     },
@@ -72,16 +72,30 @@ hx.regex = {
             hx.elements.regexDropDownMenu.removeClass('show');
             hx.elements.regexSelectionOpen.css('display', 'block');
             hx.elements.regexSelectionClose.css('display', 'none');
+            hx.regex.view.toggleOptions(null, true);
         },
         toggleSelect: () => {
             hx.elements.regexDropDownMenu.hasClass('show') ? hx.regex.view.close() : hx.regex.view.show();
         },
+        activeOptions: (el) => el.addClass('active'),
+        disactivOptions: (el) => el.removeClass('active'),
+        toggleOptions: (el, all) => {
+            const allOptions = hx.elements.regexDropDownMenu.find('.dropdown-item');
+            $.each(allOptions, (i, inst) => {
+                const that = $(inst);
+                if (that && !all && that.text() == el.text()) {
+                    hx.regex.view.activeOptions(that)
+                } else {
+                    hx.regex.view.disactivOptions(that);
+                }
+            })
+        }
     },
     create: {
         html: (arr) => {
-          let  str ='';
-            arr.forEach( val => str += hx.regex.moca.htmlItem(val));
-         return str;
+            let str = '';
+            arr.forEach(val => str += hx.regex.moca.htmlItem(val));
+            return str;
         },
         append: (html) => {
             hx.elements.regexDropDownMenu.append(html);
@@ -94,29 +108,23 @@ hx.regex = {
     },
     moca: {
         htmlItem: (value) => {
-         return   '<button class="dropdown-item" data-item="'+value+'" type="button">'+value+'</button>'
+            return '<button class="dropdown-item" data-item="' + value + '" type="button">' + value + '</button>'
         }
-    },
-    actions: {
-        clickItem: () => {
-        },
-        clickSelect: () => {
-
-        }
-
     },
     init: () => {
         hx.elements.toggleSelecrRegex.on('click', () => {
             hx.regex.view.toggleSelect();
         });
-
         hx.elements.regexDropDownMenu.on('click', (e) => {
-            const instBut = e.target;
+            const instBut = $(e.target);
             const regex = hx.regex.handlers.getDataAttr(instBut);
-            console.log(regex);
+            hx.regex.view.toggleOptions(instBut);
+            hx.helpfunc.setRegex(hx.elements.hr_input, regex);
+        });
+        hx.elements.hr_input.on('input', () => {
+            hx.regex.view.toggleOptions(null, true);
         })
     }
-
 };
 
 
@@ -281,8 +289,8 @@ hx.handlears = {
     },
     createListData: function (arr) {
         if (arr.length > 0) {
-            hx.data.list = hx.data.list.concat(arr.map(function (val, i) {
-                val.Data = (val.Data.split().map(function (v, j) {
+            hx.data.list = hx.data.list.concat(arr.map(function (val) {
+                val.Data = (val.Data.split(',').map(function (v) {
                     return hx.helpfunc.low(v);
                 })).join(',');
                 val.Regex = val.Regex == null ? "" : val.Regex;
@@ -291,7 +299,7 @@ hx.handlears = {
         }
     },
     findDataHeader: function (text) {
-        return hx.data.list.filter(function (val, i) {
+        return hx.data.list.filter(function (val) {
             return val.Name == text;
         })[0];
     },
