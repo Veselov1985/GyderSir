@@ -384,6 +384,12 @@
                                     </a>
                                 </div>
                                 <div class="col pr-1">
+                                    <a id="btn_edit_regex"
+                                       class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary " href="#">Regex
+                                    </a>
+                                </div>
+
+                                <div class="col pr-1">
                                     <a id="btn_del_xml"
                                        class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary " href="#">Delete
                                         <!-- <i class="fa fa-trash fa-lg"></i>   -->
@@ -918,6 +924,31 @@
         </div>
     </div>
     <!--END KW modal -->
+    <!--Regex Window-->
+    <div class="redit-window minimize" hidden>
+        <div class="redit-options">
+            <div class="redit-options--resize thumb"></div>
+            <div class="redit-options--close thumb"></div>
+        </div>
+        <div class="row redit-content">
+            <div class="r_new"><button class="r_btn_new btn btn-secondary btn-sm">Add New</button></div>
+            <div class="col-md-12 content-center">
+            <table cellpadding="0" cellspacing="0" border="0" style="width:100%" class="dataTable table table-striped" id="redit_table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Regex</th>
+                    <th>Description</th>
+                    <th>Edit</th>
+                </tr>
+                </thead>
+            </table>
+            </div>
+        </div>
+    </div>
+    <!--End Regex window-->
+
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -967,6 +998,11 @@
 <script src="js/flex-temp.js"></script>
 <script src="js/temp-request.js"></script>
 <script src="js/multi-page.js"></script>
+<!-- TODO TEST-->
+<!--TODO in production DELETE MOCA and  change  handler in ajax response error-->
+<script src="moca/moca-regex.js"></script>
+<script src="js/regex-edit.js"></script>
+<!-- TODO TEST-->
 <script src="js/temp-ajax.js"></script>
 <script src="js/app.js"></script>
 </body>

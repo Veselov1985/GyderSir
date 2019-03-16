@@ -37,6 +37,10 @@ temp.routes = {
     getallheaderdatatypesUrl: temp.root + 'api/datatypes/getallheaderdatatypes',
     createorupdateheaderdatatypeUrl: temp.root + 'api/datatypes/createorupdateheaderdatatype',
     deleteheaderdatatypeUrl: temp.root + 'api/datatypes/deleteheaderdatatype',
+
+    // Regex block new API 16.03.2019
+    getRegex: temp.root + 'test',
+
 };
 
 temp.html = {
@@ -1457,14 +1461,17 @@ $(document).ready(function () {
         rightpref.Ajax.sendRenderDataProccess(),
         rightpref.Ajax.sendRenderRegexProccess(),
         rightpref.Ajax.sendRenderAlternateProccess(),
-        hx.ajax.getAllHeader(null)
+        hx.ajax.getAllHeader(null),
+        // TODO TEST REGEX
+        temp_ajax.sendRegexTableProccessUrl(),
+
     ];
     Promise.all(arrRequestToApi)
         .then((data) => {
          hx.regex.create.init(data[4].Data,data[6]);
-
             // Hide global preloader
             pm.handlers.hidePreloader();
+            redit.handlers.responseSuccess(data[7]);
         })
         .catch(err => console.log(err));
     au.elements.init();

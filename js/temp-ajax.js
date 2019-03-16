@@ -1,31 +1,31 @@
 let temp_ajax = {
     sendFileToProccess: () => {
-        return new Promise((resolve,reject) => {
+        return new Promise((resolve, reject) => {
             $.ajax({
                 url: temp.routes.sendFileToProccessUrl,
                 data: temp.Data.LoadPdfOpt.file_pdf,
                 processData: false,
                 contentType: false,
                 type: 'POST',
-                success:  (data) => {
+                success: (data) => {
                     resolve(data);
                 },
-                error:  (jqXHR, textStatus, errorThrown) => {
-                  reject([jqXHR, textStatus, errorThrown])
+                error: (jqXHR, textStatus, errorThrown) => {
+                    reject([jqXHR, textStatus, errorThrown])
                 },
-                beforeSend:() => {
+                beforeSend: () => {
                     pm.handlers.showPreloader();
                     load.handlers.showLoader(load.elements.load_btn_load_temp, load.elements.boss_btn_load_temp);
                 },
-                complete:() => {
+                complete: () => {
                     pm.handlers.hidePreloader();
                     load.handlers.hideLoader(load.elements.load_btn_load_temp, load.elements.boss_btn_load_temp);
                 }
             });
         })
     },
-    sendSaveTemplaiteProccess:  (data) => {
-        return new Promise((resolve,reject)=>{
+    sendSaveTemplaiteProccess: (data) => {
+        return new Promise((resolve, reject) => {
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
@@ -35,18 +35,18 @@ let temp_ajax = {
                 type: "POST",
                 data: JSON.stringify(data),
                 dataType: 'json',
-                success:  (data) => {
+                success: (data) => {
                     resolve(data);
                 },
-                error:(jqXHR, textStatus, errorThrown) => {
+                error: (jqXHR, textStatus, errorThrown) => {
                     reject([jqXHR, textStatus, errorThrown]);
                 },
-                beforeSend:() => {
+                beforeSend: () => {
                     load.handlers.togleLoader();
                     load.handlers.showLoader(load.elements.load_btn_save_temp, load.elements.boss_btn_save_temp);
                     pm.handlers.showPreloader();
                 },
-                complete:() => {
+                complete: () => {
                     load.handlers.togleLoader();
                     load.handlers.hideLoader(load.elements.load_btn_save_temp, load.elements.boss_btn_save_temp);
                     pm.handlers.hidePreloader();
@@ -55,7 +55,7 @@ let temp_ajax = {
         })
     },
     sendDeleteTemplaiteProccess: (data) => {
-        return new Promise((resolve,reject)=> {
+        return new Promise((resolve, reject) => {
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
@@ -65,18 +65,18 @@ let temp_ajax = {
                 type: "POST",
                 data: JSON.stringify(data),
                 dataType: 'json',
-                success:  (data) => {
+                success: (data) => {
                     resolve(data);
                 },
-                error:  (jqXHR, textStatus, errorThrown) => {
+                error: (jqXHR, textStatus, errorThrown) => {
                     reject([jqXHR, textStatus, errorThrown]);
                 },
-                beforeSend:  ()=> {
+                beforeSend: () => {
                     load.handlers.togleLoader();
                     pm.handlers.showPreloader();
                     load.handlers.showLoader(load.elements.load_btn_del_temp, load.elements.boss_btn_del);
                 },
-                complete:  () => {
+                complete: () => {
                     pm.handlers.hidePreloader();
                     load.handlers.togleLoader();
                     load.handlers.hideLoader(load.elements.load_btn_del_temp, load.elements.boss_btn_del);
@@ -84,8 +84,8 @@ let temp_ajax = {
             });
         })
     },
-    sendRenderProccessUrl:  () => {
-        return new Promise((resolve,reject) => {
+    sendRenderProccessUrl: () => {
+        return new Promise((resolve, reject) => {
             $.ajax({
                 data: '',
                 url: temp.routes.sendRenderProccessUrl,
@@ -98,11 +98,39 @@ let temp_ajax = {
                     temp_ajax.render.templaite.error(textStatus);
                     reject(errorThrown);
                 },
-                beforeSend: () => {},
-                complete: () => {}
+                beforeSend: () => {
+                },
+                complete: () => {
+                }
             });
         });
     },
+    sendRegexTableProccessUrl: () => {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                data: null,
+                url: temp.routes.getRegex,
+                type: "POST",
+                success: (data) => {
+                   // redit.handlers.responseSuccess(data);
+                    resolve(data);
+                },
+                error: (jqXHR, textStatus, errorThrown) => {
+                    redit.handlers.responseError(errorThrown);
+                    // TODO TEST
+                    resolve(mocaregex.getMoca());
+                   // reject(errorThrown);
+                },
+                beforeSend: () => {
+                },
+                complete: () => {
+                }
+            });
+        });
+
+
+    },
+
 };
 
 
