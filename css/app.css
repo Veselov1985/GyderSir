@@ -761,6 +761,13 @@ div.dataTables_wrapper div.dataTables_filter input:focus {
     text-align: center;
 }
 
+.redit-content table.dataTable tbody input{
+    font-size: 14px;
+    text-align:center;
+}
+.redit-content table.dataTable tbody input.r_input_description{
+    width: 100%;
+}
 
 .r_td_edit{
     display: flex;

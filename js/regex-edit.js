@@ -8,6 +8,7 @@ redit.elements = {
     btn_resize: {id: 'redit-options--resize', obj: {}},
     btn_close: {id: 'redit-options--close ', obj: {}},
     r_btn_new: {id: 'r_btn_new', obj: {}},
+    r_preloader:{id:'rg-preloader', obj:{}},
 
 };
 
@@ -16,7 +17,7 @@ redit.table = {
     dt: {},
     clean: () => {
         if (!$.isEmptyObject(redit.table.dt)) {
-            redit.table.dtt.destroy();
+            redit.table.dt.destroy();
             redit.table.object.find('tbody').remove();
             redit.table.dt = {};
         }
@@ -82,7 +83,6 @@ redit.table = {
             const data = redit.table.dt.row(tr).data();
             redit.factory.whatAction($that, tr, data);
         });
-
     }
 
 };
@@ -103,12 +103,83 @@ redit.factory = {
         if (el.hasClass('r_delete')) {
             redit.handlers.deleteRegex(el, tr, data[0]);
         }
+        if (el.hasClass('r_new_save')) {
+            redit.handlers.saveNewTrData(el, tr);
+        }
+        if (el.hasClass('r_new_cancel')) {
+            redit.handlers.cancelNewData(el, tr);
+        }
     }
+};
 
+redit.view = {
+    newTrHtml: () => {
+        return '<tr>' +
+            '<td class="dt-body-center">0</td>' +
+            '<td><input class="r_input_regex" type="text" class="form-control" placeholder="write Regex"></td>' +
+            '<td><input class="r_input_description" type="text" class="form-control" placeholder="write Description"></td>' +
+            '<td class="dt-body-center"><button class="r_new_save btn btn-sm btn-secondary">Save</button><button class="r_new_cancel btn btn-sm btn-danger">Cancel</button></td></tr>';
+    },
+    prependNewTr: () => {
+        redit.table.object.find('tbody').prepend(redit.view.newTrHtml())
+    },
+    togglePreloader:()=>{
+       if(redit.elements.r_preloader.obj.is(":hidden")){
+           redit.elements.r_preloader.obj.attr('hidden',false);
+       }else {
+           redit.elements.r_preloader.obj.attr('hidden',true);
+       }
+    },
+};
+
+redit.validate = {
+    isExistNewTr: () => {
+        if (redit.table.object.find('input').length > 0) {
+            Snackbar.show({text: 'End edit new field', pos: 'top-right'});
+            return true;
+        } else {
+            return false;
+        }
+    },
+    isSuccessInputs: (r, d) => {
+        return r.trim() != '' && d.trim() != '' && r.indexOf(' ') === -1;
+    }
 };
 
 
 redit.handlers = {
+    saveNewTrData: (el, tr) => {
+        const inputs = tr.find('input');
+        const regex = inputs.eq(0).val();
+        const description = inputs.eq(1).val();
+        // If Input fields empty strings or regex have spaces
+        if (!redit.validate.isSuccessInputs(regex, description)) {
+            Snackbar.show({text: `Fields must be filled out and contain valid regex`, pos: 'top-right'});
+            return;
+        }
+        // TODO Dev or Production
+        if (temp.debug) {
+            // Production
+            redit.ajax.post(`${temp.root}test`, {regex, description})
+                .then(response => redit.handlers.setDataTableAndBase(response, tr))
+                .catch(err => Snackbar.show({text: `Error: ${err}`, pos: 'top-right'}))
+
+        } else {
+            // dev
+            mocaregex.createNew()
+                .then(response => redit.handlers.setDataTableAndBase(response, tr))
+                .catch(err => Snackbar.show({text: `Error: ${err}`, pos: 'top-right'}))
+        }
+
+    },
+    setDataTableAndBase: (response, tr) => {
+        redit.table.dt.row(tr).remove();
+        redit.data = [response].concat(redit.data);
+     redit.table.init();
+    },
+    cancelNewData: (el, tr) => {
+        redit.table.dt.row(tr).remove().draw();
+    },
     openRegexWindow: (e) => {
         e.preventDefault();
         redit.handlers.open();
@@ -134,13 +205,9 @@ redit.handlers = {
     },
     // create new Regex
     createNew: () => {
-        redit.table.dt.row.add([
-           '0',
-            '<input type="text" class="form-control" placeholder="write Regex">',
-            '<input type="text" class="form-control" placeholder="write Description">',
-            '<div class="r_custom"><button class="btn btn-sm btn-secondary">Save</button><button class="btn btn-sm btn-danger">Cancel</button></div>',
-        ])
-            .draw(true);
+        if (!redit.validate.isExistNewTr()) {
+            redit.view.prependNewTr();
+        }
     },
     editRegex: (el) => {
     },
@@ -175,6 +242,7 @@ redit.init = {
         redit.elements.btn_close.obj = $('.' + redit.elements.btn_close.id);
         redit.elements.btn_resize.obj = $('.' + redit.elements.btn_resize.id);
         redit.elements.r_btn_new.obj = $('.' + redit.elements.r_btn_new.id);
+        redit.elements.r_preloader.obj = $('.' + redit.elements.r_preloader.id);
     },
     actions: () => {
         redit.elements.btn_edit_regex.obj.on('click', redit.handlers.openRegexWindow);
@@ -200,6 +268,12 @@ redit.ajax = {
                     // TODO TEST
                     resolve(true);
                 },
+                beforeSend:()=>{
+                  redit.view.togglePreloader();
+                },
+                complete:()=>{
+                    redit.view.togglePreloader();
+                }
             });
         });
     }
