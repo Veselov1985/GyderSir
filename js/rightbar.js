@@ -269,7 +269,7 @@
          });
 
      },
-     setchangeselectdatatype: function(table) {
+     setChangeSelectDataType: function(table) {
          var pages, pageStart;
          var state = false;
          pageStart = table.dt.page.info().page;
@@ -292,8 +292,8 @@
          }
      },
      setDataType: function() {
-         rightbar.handlers.setchangeselectdatatype(rightbar.dataTable.set);
-         rightbar.handlers.setchangeselectdatatype(rightbar.dataTable.change);
+         rightbar.handlers.setChangeSelectDataType(rightbar.dataTable.set);
+         rightbar.handlers.setChangeSelectDataType(rightbar.dataTable.change);
      },
 
      checktypeinactivrect: function() {

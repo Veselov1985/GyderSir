@@ -336,8 +336,7 @@ hx.handlears = {
         });
         if (!state) hx.data.tableList.push([name]);
     },
-    //////////////////////////////////////////////////////////////////
-    setchangeselectdatatype: function () { // need switch page
+    setChangeSelectDataType: function () { // need switch page
         if (!paint.objects.activrect.value) return; // clear in future  // issue trim()
         var pages, pageStart;
         var state = false;
@@ -403,7 +402,7 @@ hx.handlears = {
                 $tr.addClass('selected');
             }
         });
-        if (temp.DataWorkspace.images.length > 0) hx.handlears.setchangeselectdatatype();
+        if (temp.DataWorkspace.images.length > 0) hx.handlears.setChangeSelectDataType();
 
     },
 };
