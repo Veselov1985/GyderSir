@@ -8,7 +8,7 @@ redit.elements = {
     btn_resize: {id: 'redit-options--resize', obj: {}},
     btn_close: {id: 'redit-options--close ', obj: {}},
     r_btn_new: {id: 'r_btn_new', obj: {}},
-    r_preloader:{id:'rg-preloader', obj:{}},
+    r_preloader: {id: 'rg-preloader', obj: {}},
 
 };
 
@@ -25,13 +25,13 @@ redit.table = {
     init: () => {
         redit.table.clean();
         redit.table.dt = redit.table.object.DataTable({
+            "select": false,
             "pagingType": 'simple_numbers',
             "order": [],
             "lengthMenu": [
                 [15],
                 [15]
             ],
-            "select": true,
             "responsive": true,
             "data": redit.helpfunc.isTableData(redit.data),
             "columnDefs": [{
@@ -40,7 +40,7 @@ redit.table = {
                 'searchable': false,
                 'className': 'dt-body-center',
                 'render': function (data, type, full, meta) {
-                    return data;
+                    return '<div data-pk = "' + data + '">' + data.substring(0, 8) + '...</div>';
                 }
             },
                 {
@@ -88,7 +88,7 @@ redit.table = {
 };
 redit.html = {
     edit: () => {
-        return '<div class="r_td_edit"><button class="r_edit btn-sm btn btn-secondary">Edit</button><button class="r_save btn-sm btn btn-info">Save</button><button class="r_delete btn-sm btn btn-danger">Delete</button><div>';
+        return '<div class="r_td_edit"><button class="r_edit btn-sm btn btn-secondary">Edit</button><button class="r_delete btn-sm btn btn-danger">Delete</button><div>';
     },
 };
 
@@ -96,9 +96,6 @@ redit.factory = {
     whatAction: (el, tr, data) => {
         if (el.hasClass('r_edit')) {
             redit.handlers.editRegex(el, tr, data[0]);
-        }
-        if (el.hasClass('r_save')) {
-            redit.handlers.saveRegex(el, tr, data[0]);
         }
         if (el.hasClass('r_delete')) {
             redit.handlers.deleteRegex(el, tr, data[0]);
@@ -109,33 +106,44 @@ redit.factory = {
         if (el.hasClass('r_new_cancel')) {
             redit.handlers.cancelNewData(el, tr);
         }
+
+        if (el.hasClass('r_edit_save')) {
+            redit.handlers.saveEditField(el, tr)
+        }
+        if (el.hasClass('r_edit_cancel')) {
+            redit.table.init();
+        }
     }
 };
 
 redit.view = {
+    editHtml: {
+        getInputs: (data) => '<input type="text" class="form-control" data-prev="' + data + '" value="' + data + '"/>',
+        getButton: () => '<div class="r_td_edit"><button class="r_edit_save btn btn-sm btn-secondary">Save</button><button class="r_edit_cancel btn btn-sm btn-danger">Cancel</button></td></div>',
+    },
     newTrHtml: () => {
         return '<tr>' +
             '<td class="dt-body-center">0</td>' +
             '<td><input class="r_input_regex" type="text" class="form-control" placeholder="write Regex"></td>' +
             '<td><input class="r_input_description" type="text" class="form-control" placeholder="write Description"></td>' +
-            '<td class="dt-body-center"><button class="r_new_save btn btn-sm btn-secondary">Save</button><button class="r_new_cancel btn btn-sm btn-danger">Cancel</button></td></tr>';
+            '<div class="dt-body-center"><div class="r_td_edit"><button class="r_new_save btn btn-sm btn-secondary">Save</button><button class="r_new_cancel btn btn-sm btn-danger">Cancel</button></div></td></tr>';
     },
     prependNewTr: () => {
         redit.table.object.find('tbody').prepend(redit.view.newTrHtml())
     },
-    togglePreloader:()=>{
-       if(redit.elements.r_preloader.obj.is(":hidden")){
-           redit.elements.r_preloader.obj.attr('hidden',false);
-       }else {
-           redit.elements.r_preloader.obj.attr('hidden',true);
-       }
+    togglePreloader: () => {
+        if (redit.elements.r_preloader.obj.is(":hidden")) {
+            redit.elements.r_preloader.obj.attr('hidden', false);
+        } else {
+            redit.elements.r_preloader.obj.attr('hidden', true);
+        }
     },
 };
 
 redit.validate = {
     isExistNewTr: () => {
         if (redit.table.object.find('input').length > 0) {
-            Snackbar.show({text: 'End edit new field', pos: 'top-right'});
+            Snackbar.show({text: 'End edit field', pos: 'top-right'});
             return true;
         } else {
             return false;
@@ -157,25 +165,23 @@ redit.handlers = {
             Snackbar.show({text: `Fields must be filled out and contain valid regex`, pos: 'top-right'});
             return;
         }
-        // TODO Dev or Production
-        if (temp.debug) {
-            // Production
-            redit.ajax.post(`${temp.root}test`, {regex, description})
-                .then(response => redit.handlers.setDataTableAndBase(response, tr))
-                .catch(err => Snackbar.show({text: `Error: ${err}`, pos: 'top-right'}))
-
-        } else {
-            // dev
-            mocaregex.createNew()
-                .then(response => redit.handlers.setDataTableAndBase(response, tr))
-                .catch(err => Snackbar.show({text: `Error: ${err}`, pos: 'top-right'}))
-        }
+        ajax.post(temp.routes.sendAddRegexProccessUrl, {
+            Pk: null,
+            Name: description,
+            Content: regex
+        }, null, null, redit.view.togglePreloader, redit.view.togglePreloader)
+            .then(response => {
+                redit.handlers.setDataTableAndBase(response, tr)
+            })
+            .catch(err => Snackbar.show({text: `Error: ${err}`, pos: 'top-right'}));
 
     },
     setDataTableAndBase: (response, tr) => {
         redit.table.dt.row(tr).remove();
         redit.data = [response].concat(redit.data);
-     redit.table.init();
+        // update dropdown data in headers
+        hx.regex.create.init(redit.data, []);
+        redit.table.init();
     },
     cancelNewData: (el, tr) => {
         redit.table.dt.row(tr).remove().draw();
@@ -185,7 +191,7 @@ redit.handlers = {
         redit.handlers.open();
     },
     responseSuccess: (data) => {
-        redit.data = data.map((val) => $.extend({}, val));
+        redit.data = data.Data.map((val) => $.extend({}, val));
         redit.table.init();
     },
     responseError: (error) => {
@@ -209,16 +215,58 @@ redit.handlers = {
             redit.view.prependNewTr();
         }
     },
-    editRegex: (el) => {
+    editRegex: (el, tr) => {
+        // input fields is exist(need end edit prev regex)
+        if (redit.validate.isExistNewTr()) return;
+        const data = redit.table.dt.row(tr).data();
+        const td = tr.find('td');
+        $.each(td, (i, el) => {
+            if (i != 0 && i != td.length - 1) {
+                $(el).html(redit.view.editHtml.getInputs(data[i]))
+            } else if (i == td.length - 1) {
+                $(el).html(redit.view.editHtml.getButton())
+            }
+        })
     },
-    saveRegex: (el) => {
+    saveEditField: (el, tr) => {
+        const data = redit.table.dt.row(tr).data();
+        const input = tr.find('input');
+        const pk = data[0];
+        const content = $(input[0]).val();
+        const name = $(input[1]).val();
+        if (redit.validate.isSuccessInputs(content, name)) {
+            ajax.post(temp.routes.sendAddRegexProccessUrl, {
+                Pk: pk,
+                Content: content,
+                Name: name
+            }, null, null, redit.view.togglePreloader, redit.view.togglePreloader)
+                .then(response => {
+                    redit.data = redit.data.map((val) => {
+                        if (val.Pk == response.Pk) {
+                            return response
+                        } else {
+                            return val
+                        }
+                    });
+                    redit.table.init();
+                    hx.regex.create.init(redit.data, []);
+                })
+                .catch(err => Snackbar.show({text: 'Error response server: ' + err[1], pos: 'top-right'}))
+        } else {
+            Snackbar.show({text: 'Please enter valid data', pos: 'top-right'})
+        }
     },
     deleteRegex: (el, tr, pks) => {
-        redit.ajax.post('test', {Pks: pks})
-            .then((data) => {
-                if (data) {
-                    redit.data = redit.data.filter(val => val.Pks != pks);
+        ajax.post(temp.routes.sendDeleteRegexUrl, {Pk: pks}, null, null, redit.view.togglePreloader, redit.view.togglePreloader)
+            .then(data => {
+                if (data[0] == 'Ok') {
+                    redit.data = redit.data.filter(val => val.Pk != data[1]);
                     redit.table.dt.row(tr).remove().draw();
+                    // update dropdown data in headers
+                    hx.regex.create.init(redit.data, []);
+                } else {
+                    // regex exist in one Templaite i we not cun delete him
+                    Snackbar.show({text: `We use this regex in Template :${data[0]}`, pos: 'top-right'});
                 }
             })
             .catch((err) => Snackbar.show({text: `${err[1]}`, pos: 'top-right'}));
@@ -229,7 +277,7 @@ redit.handlers = {
 redit.helpfunc = {
     isTableData: () => {
         let table = [];
-        redit.data.forEach(val => table.push([val.Pks, val.Regex, val.description]));
+        redit.data.forEach(val => table.push([val.Pk, val.Content, val.Name]));  // Regex => Content // Name => discriptions
         return table;
     }
 };
@@ -268,10 +316,10 @@ redit.ajax = {
                     // TODO TEST
                     resolve(true);
                 },
-                beforeSend:()=>{
-                  redit.view.togglePreloader();
+                beforeSend: () => {
+                    redit.view.togglePreloader();
                 },
-                complete:()=>{
+                complete: () => {
                     redit.view.togglePreloader();
                 }
             });

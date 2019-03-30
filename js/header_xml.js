@@ -103,8 +103,12 @@ hx.regex = {
         init: (a, b) => {
             const data = hx.regex.handlers.getRegexAll(a, b);
             const createHTML = hx.regex.create.html(data);
+            hx.regex.create.remove();
             hx.regex.create.append(createHTML);
         },
+        remove:()=>{
+            hx.elements.regexDropDownMenu.empty();
+        }
     },
     moca: {
         htmlItem: (value) => {
