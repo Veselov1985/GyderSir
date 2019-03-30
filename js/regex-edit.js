@@ -57,7 +57,7 @@ redit.table = {
                 'orderable': false,
                 'searchable': false,
                 'className': 'dt-body-center',
-                'render': function (data, type, full, meta) {
+                'render': function (data) {
                     return '<div data-pk = "' + data + '">' + data.substring(0, 8) + '...</div>';
                 }
             },
@@ -66,7 +66,7 @@ redit.table = {
                     'orderable': false,
                     'searchable': false,
                     'className': 'dt-body-center',
-                    'render': function (data, type, full, meta) {
+                    'render': function (data) {
                         return data;
                     }
                 }, {
@@ -74,7 +74,7 @@ redit.table = {
                     'orderable': false,
                     'searchable': false,
                     'className': 'dt-body-center',
-                    'render': function (data, type, full, meta) {
+                    'render': function (data) {
                         return data;
                     }
                 }, {
@@ -92,7 +92,7 @@ redit.table = {
                 {title: 'Description'},
                 {title: 'Edit'}
             ],
-            "dom": /* "<'row'<'col-md-6'l><'col-md-6'>>*/ "t<'clear'><'row'<'col-md-12'p>>",
+            "dom":"t<'clear'><'row'<'col-md-12'p>>",
         });
 
         redit.table.object.find('tbody').on('click', 'button', function (e) {
@@ -197,6 +197,8 @@ redit.handlers = {
     setDataTableAndBase: (response, tr) => {
         redit.table.dt.row(tr).remove();
         redit.data = [response].concat(redit.data);
+        rightbar.data.global.regex = [].concat(redit.data);
+        rightpref.handlers.renderfieldoptions(rightbar.data.global.regex, rightbar.elements.selReg);
         // update dropdown data in headers
         hx.regex.create.init(redit.data, []);
         redit.table.init();
@@ -266,6 +268,8 @@ redit.handlers = {
                             return val
                         }
                     });
+                    rightbar.data.global.regex = [].concat(redit.data);
+                    rightpref.handlers.renderfieldoptions(rightbar.data.global.regex, rightbar.elements.selReg);
                     redit.table.init();
                     hx.regex.create.init(redit.data, []);
                 })
@@ -279,6 +283,8 @@ redit.handlers = {
             .then(data => {
                 if (data[0] == 'Ok') {
                     redit.data = redit.data.filter(val => val.Pk != data[1]);
+                    rightbar.data.global.regex = [].concat(redit.data);
+                    rightpref.handlers.renderfieldoptions(rightbar.data.global.regex, rightbar.elements.selReg);
                     redit.table.dt.row(tr).remove().draw();
                     // update dropdown data in headers
                     hx.regex.create.init(redit.data, []);

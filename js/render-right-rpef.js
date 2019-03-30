@@ -165,7 +165,7 @@ rightpref.handlers = {
         rightbar.dataTable.init(rightbar.dataTable.change, rightbar.zag.dataTable);
 
     },
-    DataTypeerror: function(data) {},
+    DataTypeerror: function(data) {console.log(data)},
     Amountsuccess: function(data) {
         data.Data.forEach(function(val) {
             rightbar.data.global.amount.push(val);
@@ -189,6 +189,7 @@ rightpref.handlers = {
         list.forEach(function(val) {
             rightbar.data.global.regex.push(val);
         });
+        redit.data = [].concat(rightbar.data.global.regex);
         rightpref.handlers.renderfieldoptions(rightbar.data.global.regex, rightbar.elements.selReg);
     },
     Regexerror: function(data) {
@@ -204,6 +205,7 @@ rightpref.handlers = {
         console.log(data);
     },
     renderfieldoptions: function(list, selectId) {
+        selectId.empty();
         var html = '';
         list.forEach(function(val) {
          html += rightpref.handlers.addoptioninselect(val);
