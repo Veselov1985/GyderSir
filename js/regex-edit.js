@@ -12,6 +12,24 @@ redit.elements = {
 
 };
 
+redit.init = {
+    elements: () => {
+        redit.elements.window.obj = $('.' + redit.elements.window.id);
+        redit.elements.btn_edit_regex.obj = $('#' + redit.elements.btn_edit_regex.id);
+        redit.table.object = $('#' + 'redit_table');
+        redit.elements.btn_close.obj = $('.' + redit.elements.btn_close.id);
+        redit.elements.btn_resize.obj = $('.' + redit.elements.btn_resize.id);
+        redit.elements.r_btn_new.obj = $('.' + redit.elements.r_btn_new.id);
+        redit.elements.r_preloader.obj = $('.' + redit.elements.r_preloader.id);
+    },
+    actions: () => {
+        redit.elements.btn_edit_regex.obj.on('click', redit.handlers.openRegexWindow);
+        redit.elements.btn_close.obj.on('click', redit.handlers.close);
+        redit.elements.btn_resize.obj.on('click', redit.handlers.resize);
+        redit.elements.r_btn_new.obj.on('click', redit.handlers.createNew);
+    },
+};
+
 redit.table = {
     object: {},
     dt: {},
@@ -282,52 +300,6 @@ redit.helpfunc = {
     }
 };
 
-redit.init = {
-    elements: () => {
-        redit.elements.window.obj = $('.' + redit.elements.window.id);
-        redit.elements.btn_edit_regex.obj = $('#' + redit.elements.btn_edit_regex.id);
-        redit.table.object = $('#' + 'redit_table');
-        redit.elements.btn_close.obj = $('.' + redit.elements.btn_close.id);
-        redit.elements.btn_resize.obj = $('.' + redit.elements.btn_resize.id);
-        redit.elements.r_btn_new.obj = $('.' + redit.elements.r_btn_new.id);
-        redit.elements.r_preloader.obj = $('.' + redit.elements.r_preloader.id);
-    },
-    actions: () => {
-        redit.elements.btn_edit_regex.obj.on('click', redit.handlers.openRegexWindow);
-        redit.elements.btn_close.obj.on('click', redit.handlers.close);
-        redit.elements.btn_resize.obj.on('click', redit.handlers.resize);
-        redit.elements.r_btn_new.obj.on('click', redit.handlers.createNew);
-    },
-};
-
-
-redit.ajax = {
-    post: (url, data) => {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                data: data,
-                url: `${temp.root}${url}`,
-                type: "POST",
-                success: (data) => {
-                    resolve(data);
-                },
-                error: (jqXHR, textStatus, errorThrown) => {
-                    //  reject(errorThrown);
-                    // TODO TEST
-                    resolve(true);
-                },
-                beforeSend: () => {
-                    redit.view.togglePreloader();
-                },
-                complete: () => {
-                    redit.view.togglePreloader();
-                }
-            });
-        });
-    }
-
-
-};
 
 redit.init.elements();
 redit.init.actions();
