@@ -144,7 +144,8 @@ redit.view = {
             '<td class="dt-body-center">0</td>' +
             '<td><input class="r_input_regex" type="text" class="form-control" placeholder="write Regex"></td>' +
             '<td><input class="r_input_description" type="text" class="form-control" placeholder="write Description"></td>' +
-            '<div class="dt-body-center"><div class="r_td_edit"><button class="r_new_save btn btn-sm btn-secondary">Save</button><button class="r_new_cancel btn btn-sm btn-danger">Cancel</button></div></td></tr>';
+            '<td><div class="dt-body-center"><div class="r_td_edit"><button class="r_new_save btn btn-sm btn-secondary">Save</button><button class="r_new_cancel btn btn-sm btn-danger">Cancel</button></div></td>' +
+            '</tr>';
     },
     prependNewTr: () => {
         redit.table.object.find('tbody').prepend(redit.view.newTrHtml())

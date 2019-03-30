@@ -702,7 +702,6 @@ div.dataTables_wrapper div.dataTables_filter input:focus {
     z-index: 8888;
     border: 1px solid #6A6D6C;
     box-sizing: border-box;
-    transition: height 1s ease-in;
 }
 
 .redit-options {

@@ -105,32 +105,6 @@ let temp_ajax = {
             });
         });
     },
-    sendRegexTableProccessUrl: () => {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                data: null,
-                url: temp.routes.getRegex,
-                type: "POST",
-                success: (data) => {
-                   // redit.handlers.responseSuccess(data);
-                    resolve(data);
-                },
-                error: (jqXHR, textStatus, errorThrown) => {
-                    redit.handlers.responseError(errorThrown);
-                    // TODO TEST
-                    resolve(mocaregex.getMoca());
-                   // reject(errorThrown);
-                },
-                beforeSend: () => {
-                },
-                complete: () => {
-                }
-            });
-        });
-
-
-    },
-
 };
 
 

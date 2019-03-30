@@ -44,7 +44,5 @@ mocaregex.createNew = () => {
     })
 };
 
-
 mocaregex.getMoca = () => mocaregex.data;
-
 
