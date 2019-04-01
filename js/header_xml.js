@@ -52,14 +52,13 @@ hx.init = function () {
 
 hx.regex = {
     handlers: {
-        deleteRepeat: arr => arr.filter((val, i, all) => all.indexOf(val) === i && val !== ''),
-        getDataAttr: (el) => el.data('item'),
-        getRegexAll: (reg, head) => {
-            const getReg = reg.map(val => val.Content);
-            const headerReg = head.map(val => val.Regex);
-            const concatArr = [].concat(getReg).concat(headerReg);
-            return hx.regex.handlers.deleteRepeat(concatArr);
-        },
+        getDataAttr: (el) => {
+            return {
+                pk: el.data('pk'),
+                name: el.data('name'),
+                content: el.data('content'),
+            }
+        }
     },
     view: {
         show: () => {
@@ -89,7 +88,31 @@ hx.regex = {
                     hx.regex.view.disactivOptions(that);
                 }
             })
+        },
+        initTooltip: (el) => {
+            const name = $(el).data('name');
+            let myTemplate = document.createElement('div');
+            myTemplate.innerHTML = '<div style="width: auto; min-width: 10rem">' +
+                '<div class="row">' +
+                ' <div class="col-sm-12 p-2"> ' +
+                '<p class="card-title">' + name + '</p>' +
+                '</div>' +
+                '</div>';
+            tippy(el, {
+                allowTitleHTML: true,
+                animateFill: true,
+                delay: 100,
+                arrow: true,
+                arrowType: 'round',
+                size: 'large',
+                duration: 500,
+                animation: 'shift-toward',
+                theme: 'honeybee',
+                placement: 'right',
+                html: myTemplate
+            });
         }
+
     },
     create: {
         html: (arr) => {
@@ -98,21 +121,31 @@ hx.regex = {
             return str;
         },
         append: (html) => {
-            hx.elements.regexDropDownMenu.append(html);
+            const h = $(html);
+            hx.elements.regexDropDownMenu.append(h);
+            const els = document.querySelectorAll('.dropdown-item');
+            $.each(els, (i, el$) => {
+                hx.regex.view.initTooltip(el$)
+            });
+
+
         },
         init: (a, b) => {
-            const data = hx.regex.handlers.getRegexAll(a, b);
-            const createHTML = hx.regex.create.html(data);
+            const createHTML = hx.regex.create.html(a);
             hx.regex.create.remove();
             hx.regex.create.append(createHTML);
         },
-        remove:()=>{
+        remove: () => {
             hx.elements.regexDropDownMenu.empty();
         }
     },
     moca: {
         htmlItem: (value) => {
-            return '<button class="dropdown-item" data-item="' + value + '" type="button">' + value + '</button>'
+            const name = (name) => {
+                if (name == "" || !name) return " ";
+                return name
+            };
+            return '<button class="dropdown-item" data-pk="' + value.Pk + '" data-name="' + name(value.Name) + '" data-content="' + value.Content + '" type="button">' + value.Content + '</button>'
         }
     },
     init: () => {
@@ -123,11 +156,15 @@ hx.regex = {
             const instBut = $(e.target);
             const regex = hx.regex.handlers.getDataAttr(instBut);
             hx.regex.view.toggleOptions(instBut);
-            hx.helpfunc.setRegex(hx.elements.hr_input, regex);
+            hx.helpfunc.setRegex(hx.elements.hr_input, regex.content);
+            hx.regex.view.close();
         });
         hx.elements.hr_input.on('input', () => {
             hx.regex.view.toggleOptions(null, true);
-        })
+        });
+        hx.elements.hr_input.dblclick(function () {
+            hx.regex.view.toggleSelect();
+        });
     }
 };
 
