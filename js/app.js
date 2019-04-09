@@ -135,7 +135,7 @@ temp.elementLeftBar = {
                     return false;
                 } else {
                     temp.elementLeftBar.dataTable.active = $that.find('td:first').text();
-                    if (temp.elementLeftBar.dataTable.active.toLowerCase().trim() != 'Create new Template'.toLowerCase() && temp.DataWorkspace.images.length > 0) {
+                    if (temp.elementLeftBar.dataTable.active.toLowerCase().trim() != 'Create new Configuration'.toLowerCase() && temp.DataWorkspace.images.length > 0) {
                         temp.elementLeftBar.Templaite.state = 'temp';
                         if (temp.DataWorkspace.images.length > 0 && temp.elementLeftBar.Templaite.Pk == temp.zeroGuid) {
                             applymodal.handlers.show('Close Templaite without saving', 8);
@@ -199,7 +199,7 @@ temp.elementLeftBar = {
             temp.elementLeftBar.object.btn_del_temp.click(function (e) {
                 e.preventDefault();
                 var selected$ = temp.elementLeftBar.dataTable.object.find('.selected');
-                if (selected$.length != 0 && selected$['0'].children[0].innerHTML != 'Create new Template') {
+                if (selected$.length != 0 && selected$['0'].children[0].innerHTML != 'Create new Configuration') {
                     var namedeleterow = selected$.find('td.sorting_1').text();
                     applymodal.handlers.show('Delete Templaite ' + namedeleterow, 1);
                 }
@@ -267,7 +267,7 @@ temp.elementLeftBar = {
             lt.view.setOff();
             var $selected = temp.elementLeftBar.dataTable.object.find('.selected');
             if ($selected.length != 0) {
-                if ($selected['0'].children[0].innerHTML != 'Create new Template') {
+                if ($selected['0'].children[0].innerHTML != 'Create new Configuration') {
                     var deleterow = $selected.find('td:first').text();
                     var findPk = function () {
                         var Pk;
@@ -1046,7 +1046,7 @@ temp.Data = {
         list: [],
         datas: {},
         data: [
-            ["Create new Template", "fa fa-plus-circle"]
+            ["Create new Configuration", "fa fa-plus-circle"]
         ]
     },
     rightTempList: {}
@@ -1329,7 +1329,7 @@ temp.loadEvent = {
             // check id pdf download and button not push
             temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
             temp.Data.leftTempList.data = [
-                ["Create new Template", "fa fa-plus-circle"]
+                ["Create new Configuration", "fa fa-plus-circle"]
             ];
             temp.elementLeftBar.dataTable.clean();
             data.Pks.forEach(function (val) {
@@ -1363,7 +1363,7 @@ temp.loadEvent = {
             filter.handlers.toggleLight(); // filter fix
             temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
             temp.Data.leftTempList.data = [
-                ["Create new Template", "fa fa-plus-circle"]
+                ["Create new Configuration", "fa fa-plus-circle"]
             ];
             temp.elementLeftBar.dataTable.clean();
             data.Pks.forEach(function (val) {

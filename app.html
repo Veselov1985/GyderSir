@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title> Glyder RDR V2018.08.10 23.36</title>
+    <title> Glyder RDR V2019.04.09 12.51</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width" initial-scale="1"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -27,7 +27,7 @@
             <div class="sticky-top" id="leftTemp">
                 <div class="row mt-1">
                     <div class="col-md-6">
-                        <h6 class="mt-1">TemplateList</h6>
+                        <h6 class="mt-1">ConfigurationList</h6>
                     </div>
                     <div class="col-md-6">
                         <button id="btn_filter" class="btn btn-sm btn-secondary filterNotActive" style="float:right"><i
@@ -38,7 +38,7 @@
                        class="dataTable table table-striped" id="leftTempList">
                     <thead>
                     <tr>
-                        <th>Template</th>
+                        <th>Configuration</th>
                         <th>Status</th>
                     </tr>
                     </thead>
@@ -48,12 +48,12 @@
                 <h6 class="">Actions</h6>
                 <a id="btn_temp_request"
                    class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary mb-1 btnnotextcenter"
-                   href="#"><span class="prettyText">Template Request&nbsp;</span>
+                   href="#"><span class="prettyText">Configuration Request&nbsp;</span>
                     <i class="fa fa-server fa-lg boss_btn_del floatImgandI" aria-hidden="true"></i>
                 </a>
                 <a id="btn_del_temp"
                    class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary mb-1 btnnotextcenter"
-                   href="#"><span class="prettyText">Delete Template &nbsp;</span>
+                   href="#"><span class="prettyText">Delete Configuration &nbsp;</span>
                     <i class="fa fa-trash fa-lg boss_btn_del floatImgandI" aria-hidden="true"></i>
                     <!-- <img class="load_btn_del_temp floatImgandI" src="imgs\gifs\emailloader3.gif" style="width:18px; margin-right:5px" hidden>  -->
 
@@ -69,7 +69,7 @@
                 </a>
                 <a id="btn_save_temp"
                    class="btn btn-sm d-block d-sm-inline-block d-lg-block btn-secondary mb-1 btnnotextcenter"
-                   href="#"><span class="prettyText">Save Template &nbsp;</span>
+                   href="#"><span class="prettyText">Save Configuration &nbsp;</span>
                     <i class="fa fa-list-alt fa-lg boss_btn_save_temp floatImgandI" aria-hidden="true"></i>
                     <!--   <img class="load_btn_save_temp floatImgandI" src="imgs\gifs\emailloader3.gif" style="width:18px; margin-right:5px" hidden> -->
                     <i class="load_btn_save_temp floatImgandI fa fa-lg fa-spinner fa-spin" hidden></i>
@@ -763,7 +763,7 @@
                         <div class="tab-pane active" id="Header" role="tabpanel">
                             <div class="col-md-12">
                                 <div class="form-group row m-2">
-                                    <label class="col-3 col-form-label">Found Template</label>
+                                    <label class="col-3 col-form-label">Found Configuration</label>
                                     <div class="col-9">
                                         <input class="form-control" type="text" value="---" id="test_find_temp"
                                                disabled>
