@@ -116,7 +116,7 @@ temp.elementLeftBar = {
                     }
                 ],
                 "columns": [
-                    {title: "Template"},
+                    {title: "Configuration"},
                     {title: "Status"}
                 ],
                 "dom": /* "<'row'<'col-md-6'l><'col-md-6'>>*/ "t<'clear'><'row'<'col-md-12'p>>",
