@@ -269,6 +269,16 @@
          });
 
      },
+     removeYellowRect:()=>{
+         paint.objects.disactiv.forEach(function(val, i) {
+             const elem$ = $(val.rectangleElement[0][0]);
+             if(elem$.hasClass('datacheck')) {
+                 elem$.removeClass('datacheck');
+                 elem$.addClass('rectdis');
+
+             }
+         });
+     },
      setChangeSelectDataType: function(table) {
          var pages, pageStart;
          var state = false;
@@ -649,6 +659,8 @@
              rightbar.handlers.clearstatePref();
              rightbar.handlers.cleanoptiondataType();
              rightbar.handlers.showoptiondataType(text$);
+             rightbar.handlers.removeYellowRect();
+
          }
          rightbar.handlers.emmitsetchangetab($that.find('td').text(), $that);
          ph.helpfunc.setSelectedChoiseFromClickTable($that);
@@ -683,6 +695,7 @@
              rightbar.handlers.clearstatePref();
              rightbar.handlers.cleanoptiondataType();
              rightbar.handlers.showoptiondataType(text$);
+             rightbar.handlers.removeYellowRect();
          }
 
          //KW block 
