@@ -812,3 +812,8 @@ div.dataTables_wrapper div.dataTables_filter input:focus {
 .r_td_edit .r_edit , .r_td_edit .r_edit_save , .r_td_edit .r_new_save{
     margin-right: 5px;
 }
+
+
+.modal .nav-tabs .nav-link {
+    cursor: pointer;
+}

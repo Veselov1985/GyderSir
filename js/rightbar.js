@@ -314,7 +314,9 @@
                  rightbar.data.global.dataType.forEach(function(val) {
                      if (val.DataType == $selected.text()) findPk = { Pk: val.Pk };
                  });
-                 rightbaraction.Ajax.sendDeleteDataTypeProccess(findPk);
+                 if(findPk){
+                     rightbaraction.Ajax.sendDeleteDataTypeProccess(findPk);
+                 }
              }
          }
      },
@@ -430,27 +432,24 @@
          });
      },
      findfieldelement: function(val) {
-         for (var key in val) {
-             if (key != 'DataType' && key != 'Pk') {
-                 switch (key) {
+         const type = Object.keys(val).find(i=> ['Pk','DataType'].indexOf(i) === -1);
+                 switch (type) {
                      case 'AmountNotation':
-                         return [rightbar.data.global.checkboxList[0], rightbar.elements.selAmount, rightbar.handlers.findtextoption(rightbar.data.global.amount, val[key])];
+                         return [rightbar.data.global.checkboxList[0], rightbar.elements.selAmount, rightbar.handlers.findtextoption(rightbar.data.global.amount, val[type])];
                          break;
                      case 'DataNotation':
-                         return [rightbar.data.global.checkboxList[1], rightbar.elements.selDate, rightbar.handlers.findtextoption(rightbar.data.global.date, val[key])];
+                         return [rightbar.data.global.checkboxList[1], rightbar.elements.selDate, rightbar.handlers.findtextoption(rightbar.data.global.date, val[type])];
                          break;
                      case 'Regex':
-                         return [rightbar.data.global.checkboxList[2], rightbar.elements.selReg, rightbar.handlers.findtextoption(rightbar.data.global.regex, val[key])];
+                         return [rightbar.data.global.checkboxList[2], rightbar.elements.selReg, rightbar.handlers.findtextoption(rightbar.data.global.regex, val[type])];
                          break;
                      case 'Alternate':
-                         return [rightbar.data.global.checkboxList[3], rightbar.elements.selalternate, rightbar.handlers.findtextoption(rightbar.data.global.alternate, val[key])];
+                         return [rightbar.data.global.checkboxList[3], rightbar.elements.selalternate, rightbar.handlers.findtextoption(rightbar.data.global.alternate, val[type])];
                          break;
                      case 'IsText':
                          return [rightbar.data.global.checkboxList[4], false];
                          break;
                  }
-             }
-         }
      },
 
      findtextoption: function(arr, Pk) {
@@ -466,7 +465,7 @@
      },
 
      findactivoption: function(elem, text) {
-         elem.find('option').each(function(val) {
+         elem.find('option').each(function() {
              var $that = $(this);
              $that.prop('selected', false);
              if ($that.text() == text) {
