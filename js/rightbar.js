@@ -296,15 +296,8 @@
          rightbar.handlers.setChangeSelectDataType(rightbar.dataTable.change);
      },
 
-     checktypeinactivrect: function() {
-         var state = false;
-         rightbar.dataTable.set.object.find('tr').each(function(i, val) {
-             var $that = $(this);
-             if ($that.find('td').text().trim().toLowerCase() == paint.objects.activrect.type.trim().toLowerCase()) {
-                 state = true;
-             }
-         });
-         return state;
+     checktypeinactivrect: function(choiseDataType) {
+         return choiseDataType.toLowerCase() == paint.objects.activrect.type.trim().toLowerCase()
      },
 
      finddeleterowDatatype: function() {
@@ -438,24 +431,24 @@
      },
      findfieldelement: function(val) {
          for (var key in val) {
-             if (key != 'DataType' && key != 'Pk')
-                 var find = key;
-             switch (find) {
-                 case 'AmountNotation':
-                     return [rightbar.data.global.checkboxList[0], rightbar.elements.selAmount, rightbar.handlers.findtextoption(rightbar.data.global.amount, val[key])];
-                     break;
-                 case 'DataNotation':
-                     return [rightbar.data.global.checkboxList[1], rightbar.elements.selDate, rightbar.handlers.findtextoption(rightbar.data.global.date, val[key])];
-                     break;
-                 case 'Regex':
-                     return [rightbar.data.global.checkboxList[2], rightbar.elements.selReg, rightbar.handlers.findtextoption(rightbar.data.global.regex, val[key])];
-                     break;
-                 case 'Alternate':
-                     return [rightbar.data.global.checkboxList[3], rightbar.elements.selalternate, rightbar.handlers.findtextoption(rightbar.data.global.alternate, val[key])];
-                     break;
-                 case 'IsText':
-                     return [rightbar.data.global.checkboxList[4], false];
-                     break;
+             if (key != 'DataType' && key != 'Pk') {
+                 switch (key) {
+                     case 'AmountNotation':
+                         return [rightbar.data.global.checkboxList[0], rightbar.elements.selAmount, rightbar.handlers.findtextoption(rightbar.data.global.amount, val[key])];
+                         break;
+                     case 'DataNotation':
+                         return [rightbar.data.global.checkboxList[1], rightbar.elements.selDate, rightbar.handlers.findtextoption(rightbar.data.global.date, val[key])];
+                         break;
+                     case 'Regex':
+                         return [rightbar.data.global.checkboxList[2], rightbar.elements.selReg, rightbar.handlers.findtextoption(rightbar.data.global.regex, val[key])];
+                         break;
+                     case 'Alternate':
+                         return [rightbar.data.global.checkboxList[3], rightbar.elements.selalternate, rightbar.handlers.findtextoption(rightbar.data.global.alternate, val[key])];
+                         break;
+                     case 'IsText':
+                         return [rightbar.data.global.checkboxList[4], false];
+                         break;
+                 }
              }
          }
      },
@@ -642,19 +635,18 @@
 
      rightbar.dataTable.set.object.on('click', 'tr', function(e) {
          var $that = $(this);
-         var text$ = $that.addClass('selected').find('td').text();
-
          if ($that.hasClass('selected')) {
              $that.removeClass('selected');
              rightbar.handlers.emmitsetchangetab($that.find('td').text(), $that);
              return;
          }
-         if (!rightbar.handlers.checktypeinactivrect()) {
+         var text$ = $that.addClass('selected').find('td').text();
+         if (!rightbar.handlers.checktypeinactivrect(text$)) {
+             rightbar.handlers.findrectofdatatype(text$);
              rightbar.handlers.clearstatePref();
              rightbar.handlers.cleanoptiondataType();
              rightbar.handlers.showoptiondataType(text$);
          } else {
-             rightbar.handlers.findrectofdatatype(text$);
              rightbar.handlers.clearstatePref();
              rightbar.handlers.cleanoptiondataType();
              rightbar.handlers.showoptiondataType(text$);
@@ -678,18 +670,17 @@
 
      rightbar.dataTable.change.object.on('click', 'tr', function(e) {
          var $that = $(this);
-         var text$ = $that.addClass('selected').find('td').text();
-
          if ($that.hasClass('selected')) {
              $that.removeClass('selected');
+             return;
          }
-
-         if (!rightbar.handlers.checktypeinactivrect()) {
+         var text$ = $that.addClass('selected').find('td').text();
+         if (!rightbar.handlers.checktypeinactivrect(text$)) {
              rightbar.handlers.clearstatePref();
              rightbar.handlers.cleanoptiondataType();
              rightbar.handlers.showoptiondataType(text$);
-         } else {
              rightbar.handlers.findrectofdatatype(text$);
+         } else {
              rightbar.handlers.clearstatePref();
              rightbar.handlers.cleanoptiondataType();
              rightbar.handlers.showoptiondataType(text$);

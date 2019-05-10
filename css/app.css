@@ -48,6 +48,8 @@ body {
 
     #Action {
         position: relative;
+        display: flex;
+        flex-direction: column;
     }
 
     .sticky-top {
@@ -58,6 +60,7 @@ body {
     .sticky-bottom {
         position: relative;
     }
+
 }
 
 #leftTempList_wrapper {
@@ -109,6 +112,7 @@ select {
     padding: 0px !important;
     border: 0px;
     margin: 0px !important;
+    min-height: 400px;
 }
 
 #dynamicImg {
@@ -347,6 +351,7 @@ table.dataTable tbody tr:hover {
     }
 
 }
+
 
 .prettyText {
     margin-left: 10px;
@@ -699,10 +704,27 @@ div.dataTables_wrapper div.dataTables_filter input:focus {
     width: 100%;
     height: 100%;
     background-color: white;
-    z-index: 8888;
+    z-index: 10000;
     border: 1px solid #6A6D6C;
     box-sizing: border-box;
+    transition: all 0.3s;
 }
+.blackShadow{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    outline: 0;
+    background-color: black;
+    opacity: 0.5;
+    z-index: 9999;
+    padding-right: 5px;
+    display: block;
+
+}
+
 
 .redit-options {
     width: 100%;
@@ -730,8 +752,17 @@ div.dataTables_wrapper div.dataTables_filter input:focus {
     width: 800px;
     height: auto;
     top: 5%;
-    left: calc(50% - 400px);
+    transform: translate(-50%);
+    left: 50%;
 }
+
+@media (max-width: 800px) {
+    .minimize {
+        width: 500px;
+
+    }
+}
+
 
 .thumb {
     display: flex;

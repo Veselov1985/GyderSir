@@ -488,7 +488,6 @@ hp.handlears = {
             temp.helpfunc.modalInfo(['XML Header', 'Need select at least one']);
         }
     },
-
 };
 
 hx.action = function () {
@@ -642,7 +641,7 @@ hx.action = function () {
         var data = hx.helpfunc.input.get(hx.elements.hr_input).trim();
         paint.objects.activrect.regex = (data.trim() == "") ? '^.*$?' : data;
         hp.handlears.cleanMemoryRegex(paint.objects.activrect, data);
-        temp.helpfunc.modalInfo(['Regex Header', 'Set']);
+        hp.handlears.editKeyWordForHeader();
 
     });
     hx.elements.hr_delete.on('click', function (e) {
@@ -650,7 +649,7 @@ hx.action = function () {
         hx.helpfunc.input.set(hx.elements.hr_input, '^.*$?');
         paint.objects.activrect.regex = '^.*$?';
         hp.handlears.cleanMemoryRegex(paint.objects.activrect, '^.*$?');
-        temp.helpfunc.modalInfo(['Regex Header', 'Clean']);
+        hp.handlears.editKeyWordForHeader();
     });
 };
 
@@ -774,7 +773,9 @@ hx.ajax = {
             hx.helpfunc.setLabel(datas.Name);
             hx.helpfunc.setTextArea(datas.Data);
             hx.helpfunc.setRegex(hx.elements.hr_input, datas.Regex);
-            if (temp.DataWorkspace.images.length > 0) hx.handlears.setchangeselectdatatype();
+            if (temp.DataWorkspace.images.length > 0) hx.handlears.setChangeSelectDataType();
+            temp.helpfunc.modalInfo(['Regex Header', 'Set']);
+
         } else {
             temp.helpfunc.modalInfo(['XML Header', 'Error,try latter']);
         }

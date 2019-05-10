@@ -9,6 +9,7 @@ redit.elements = {
     btn_close: {id: 'redit-options--close ', obj: {}},
     r_btn_new: {id: 'r_btn_new', obj: {}},
     r_preloader: {id: 'rg-preloader', obj: {}},
+    shadow:{id:'blackShadow',obj:{}}
 
 };
 
@@ -21,6 +22,7 @@ redit.init = {
         redit.elements.btn_resize.obj = $('.' + redit.elements.btn_resize.id);
         redit.elements.r_btn_new.obj = $('.' + redit.elements.r_btn_new.id);
         redit.elements.r_preloader.obj = $('.' + redit.elements.r_preloader.id);
+        redit.elements.shadow.obj = $('.' + redit.elements.shadow.id);
     },
     actions: () => {
         redit.elements.btn_edit_regex.obj.on('click', redit.handlers.openRegexWindow);
@@ -224,11 +226,14 @@ redit.handlers = {
         w.hasClass(cl) ? w.removeClass(cl) : w.addClass(cl)
     },
     close: () => {
+
         redit.elements.window.obj.attr('hidden', true);
+        redit.elements.shadow.obj.attr('hidden', true);
         redit.elements.window.obj.addClass('minimize');
     },
     open: () => {
         redit.elements.window.obj.attr('hidden', false);
+        redit.elements.shadow.obj.attr('hidden', false);
     },
     // create new Regex
     createNew: () => {
