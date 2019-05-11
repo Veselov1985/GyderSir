@@ -294,6 +294,10 @@ table.dataTable tbody td:focus {
     outline: none;
 }
 
+table.dataTable tbody tr.selected {
+    background-color: #0275d8 !important;
+}
+
 table.dataTable tbody tr.selected:hover {
     background-color: #0275d8 !important;
     background: linear-gradient(to bottom, #0275d8 0%, #0275d8 100%);
@@ -349,9 +353,7 @@ table.dataTable tbody tr:hover {
         justify-content: center;
         margin-left: 0px;
     }
-
 }
-
 
 .prettyText {
     margin-left: 10px;
@@ -709,7 +711,8 @@ div.dataTables_wrapper div.dataTables_filter input:focus {
     box-sizing: border-box;
     transition: all 0.3s;
 }
-.blackShadow{
+
+.blackShadow {
     position: fixed;
     top: 0;
     right: 0;
@@ -722,9 +725,7 @@ div.dataTables_wrapper div.dataTables_filter input:focus {
     z-index: 9999;
     padding-right: 5px;
     display: block;
-
 }
-
 
 .redit-options {
     width: 100%;
@@ -759,10 +760,12 @@ div.dataTables_wrapper div.dataTables_filter input:focus {
 @media (max-width: 800px) {
     .minimize {
         width: 500px;
+    }
 
+    .sticky-top {
+        position: relative;
     }
 }
-
 
 .thumb {
     display: flex;
@@ -779,40 +782,41 @@ div.dataTables_wrapper div.dataTables_filter input:focus {
 .redit-content {
     margin: 50px 5%;
 }
-.r_new{
-    width:100%;
+
+.r_new {
+    width: 100%;
     display: flex;
     justify-content: flex-end;
     padding-right: 4%;
     align-items: center;
 }
 
-.r_new button{
-
+.r_new button {
 }
 
 .redit-content table.dataTable thead th {
     text-align: center;
 }
 
-.redit-content table.dataTable tbody input{
+.redit-content table.dataTable tbody input {
     font-size: 14px;
-    text-align:center;
+    text-align: center;
 }
-.redit-content table.dataTable tbody input.r_input_description{
+
+.redit-content table.dataTable tbody input.r_input_description {
     width: 100%;
 }
 
-.r_td_edit{
+.r_td_edit {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
 }
-.r_td_edit .r_edit , .r_td_edit .r_edit_save , .r_td_edit .r_new_save{
+
+.r_td_edit .r_edit, .r_td_edit .r_edit_save, .r_td_edit .r_new_save {
     margin-right: 5px;
 }
-
 
 .modal .nav-tabs .nav-link {
     cursor: pointer;
