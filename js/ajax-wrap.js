@@ -1,16 +1,16 @@
 let ajax = {};
 
 ajax.options = {
-    headers:{
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
     }
 };
 
-ajax.post = (url,  data$, success, error, beforeLoad, afterLoad) => new Promise((resolve,reject)=>{
+ajax.post = (url, data$, success, error, beforeLoad, afterLoad) => new Promise((resolve, reject) => {
     $.ajax({
         headers: ajax.options.headers,
-        url:`${url}`,
+        url: `${url}`,
         type: "POST",
         data: data$ ? JSON.stringify(data$) : null,
         dataType: 'json',
@@ -30,3 +30,6 @@ ajax.post = (url,  data$, success, error, beforeLoad, afterLoad) => new Promise(
         }
     });
 });
+
+
+

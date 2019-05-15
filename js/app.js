@@ -1461,7 +1461,7 @@ $(document).ready(function () {
     ];
     Promise.all(arrRequestToApi)
         .then((data) => {
-         hx.regex.create.init(data[4].Data,[]); // reserve arguments
+            hx.regex.create.init(data[4].Data, []); // reserve arguments
             // Hide global preloader
             pm.handlers.hidePreloader();
             redit.handlers.responseSuccess(data[4]);
