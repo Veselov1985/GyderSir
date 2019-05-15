@@ -646,8 +646,10 @@ paint.handlers = {
                                 // paint.abs.handlers.showcoord(paint.objects.activrect.rectData); // abs show swith activ rect
                             }
                         });
+
                         paint.handlers.activRect();
                         led.action.ledRect(); // check led
+                        tab.handlers.findTabInDataType();
                         hx.handlears.setHeaderXmlSelected(); //  set Header Xml hx.js
                         paint.objects.activrect.isActive = true;
                         paint.objects.activrect.isDrag = true;
@@ -673,6 +675,7 @@ paint.handlers = {
                         paint.handlers.disactivRect();
                         paint.handlers.swithactivRect();
                         paint.handlers.activRect();
+                        tab.handlers.findTabInDataType();
                         led.action.ledRect(); // check led MainHeader
                         hx.handlears.setHeaderXmlSelected(); //  set Header Xml hx.js
                         paint.objects.activrect.isActive = true;
