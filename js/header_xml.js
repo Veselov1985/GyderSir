@@ -71,18 +71,18 @@ hx.regex = {
             hx.elements.regexDropDownMenu.removeClass('show');
             hx.elements.regexSelectionOpen.css('display', 'block');
             hx.elements.regexSelectionClose.css('display', 'none');
-            hx.regex.view.toggleOptions(null, true);
+           // hx.regex.view.toggleOptions(null, true);
         },
         toggleSelect: () => {
             hx.elements.regexDropDownMenu.hasClass('show') ? hx.regex.view.close() : hx.regex.view.show();
         },
-        activeOptions: (el) => el.addClass('active'),
+        activeOptions: (el) => $(el).addClass('active'),
         disactivOptions: (el) => el.removeClass('active'),
         toggleOptions: (el, all) => {
             const allOptions = hx.elements.regexDropDownMenu.find('.dropdown-item');
             $.each(allOptions, (i, inst) => {
                 const that = $(inst);
-                if (that && !all && that.text() == el.text()) {
+                if (that && !all && that.data('pk') == el.data('pk')) {
                     hx.regex.view.activeOptions(that)
                 } else {
                     hx.regex.view.disactivOptions(that);
@@ -90,7 +90,7 @@ hx.regex = {
             })
         },
         initTooltip: (el) => {
-            const name = $(el).data('name');
+            const name = $(el).data('content');
             let myTemplate = document.createElement('div');
             myTemplate.innerHTML = '<div style="width: auto; min-width: 10rem">' +
                 '<div class="row">' +
@@ -145,7 +145,11 @@ hx.regex = {
                 if (name == "" || !name) return " ";
                 return name
             };
-            return '<button class="dropdown-item" data-pk="' + value.Pk + '" data-name="' + name(value.Name) + '" data-content="' + value.Content + '" type="button">' + value.Content + '</button>'
+            const fixTextOptions = (n) => {
+                if ( !n ||  n.trim() === '' ) { return 'No Description';} else { return n};
+            };
+
+            return '<button class="dropdown-item" data-pk="' + value.Pk + '" data-name="' + name(value.Name) + '" data-content="' + value.Content + '" type="button">' + fixTextOptions(value.Name)  + '</button>'
         }
     },
     init: () => {

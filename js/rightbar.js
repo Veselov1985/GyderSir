@@ -933,9 +933,9 @@ tab.handlers = {
     findTabInDataType: () => {
         const currentTab = tab.handlers.getCurrenTab();
         const type = tab.handlers.getTypeInRect();
-       if( (type.type === 'TableDatas' || type.type ==='MainHeader') && type.value.trim() !== '' &&  currentTab !== 3) {
+       if( (type.type === 'TableDatas' || type.type ==='MainHeader') &&  currentTab !== 3) {
          tab.handlers.setTab(2)
-       } else if( type.type === 'TableDatas' && type.value.trim() === '' &&  currentTab !== 2 &&   currentTab !== 1 ) {
+       } else if( type.type !== 'TableDatas' && type.type !=='MainHeader'  &&  currentTab !== 2  &&   currentTab !== 1 ) {
            tab.handlers.setTab(0)
        }
     },
@@ -950,9 +950,7 @@ tab.handlers = {
     getCurrenTab: () => {
         return rightbar.data.global.currenttab;
     }
-
 };
-
 
 rightbar.init();
 rightbar.initdoo();
