@@ -48,7 +48,7 @@ tr.chakeEvents = {
         if(temp.Data.leftTempList.filter.length>0) {
             temp.elementControl.object.btn_filter.click();
         }
-        tr.data.obj = data.obj;
+        tr.data.obj = data.id;
         let $data = data.Template;
         $data = temp.loadEvent.prependConvertData($data);
         temp.loadEvent.singleRender($data);

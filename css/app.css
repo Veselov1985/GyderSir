@@ -825,3 +825,9 @@ div.dataTables_wrapper div.dataTables_filter input:focus {
 .dropdown-item.active {
     background-color: #0275d8 !important;
 }
+
+
+ #leftBar  .sticky-bottom {
+     display: flex;
+     flex-direction: column;
+ }

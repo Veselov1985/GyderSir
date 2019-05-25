@@ -109,7 +109,7 @@ trw.helpfunc = {
     isValidJSON: (str) => {
         try {
             const obj = JSON.parse(str);
-            if (obj !== undefined && obj !== null) {
+            if (obj !== undefined && obj !== null && typeof obj === 'object') {
                 return true;
             } else {
                 return false
@@ -179,19 +179,7 @@ trw.chakeEvents = {
         if (trw.data.zag.length !== 0) {
             const obj = trw.handlers.getNextStepIdObj();
             trw.data.obj = $.extend({}, obj);
-            ajax.ajax.getId(trw.data.obj.id).then(data => {
-                //  trw.EventEmmiter.emit( {event: 'DocumentProcessing', obj: trw.data.obj, Template: data});
-                console.log('TEMPLATE from Api', data);
-                // TODO TEST BLOCK MOCA
-
-                moca.get.template().then(data => {
-                    console.log(data);
-                    trw.EventEmmiter.emit({event: 'DocumentProcessing', obj: trw.data.obj, Template: data});
-                }).catch(err => console.log(err));
-
-                // TODO TEST BLOCK MOCA END
-
-            }).catch(() => trw.Snack('Error Server'))
+            trw.handlers.getTemplateAndSendParent(trw.data.obj.id);
         } else {
             // listen end doc => close window
             // check update list Request templates
@@ -210,8 +198,8 @@ trw.chakeEvents = {
 
 
 trw.handlers = {
-    checkParent:()=>{
-        setInterval(trw.handlers.checkOpener,5000);
+    checkParent: () => {
+        setInterval(trw.handlers.checkOpener, 5000);
     },
     // Check parent window is exist
     checkOpener: () => {
@@ -262,49 +250,37 @@ trw.handlers = {
             jobId: +dataAttr[3],
         }
     },
+    getTemplateAndSendParent: (id) => {
+        ajax.ajax.getId(id)
+            .then(data => {
+                // validate JSON String
+                if (trw.helpfunc.isValidJSON(data.data)) {
+                    console.log('TEMPLATE from Api', data);
+                    const Template = JSON.parse(data.data);
+                    trw.EventEmmiter.emit({event: 'DocumentProcessing', id: trw.data.obj, Template});
+                } else {
+                    trw.Snack('Bad Document');
+                    trw.handlers.deletePrewJob(trw.data.obj.id);
+                    trw.chakeEvents.pdfNextStep();
+                }
+            })
+            .catch(error => {
+                console.log('Error Response server', error[1]);
+                trw.Snack('Try Latter');
+            });
+    }
 };
-
 
 trw.action = function () {
     // listener parent window
     trw.EventEmmiter.listen(trw.EventEmmiter.callbackHandlers);
-
     // Upload Events
     trw.elements.temp_request_child_upload.on('click', function () {
         const trSelected = trw.handlers.getSelectedTr();
         if (trSelected.length > 0) {
             const obj = trw.handlers.getIdSelectedTemplate(trSelected);
             trw.data.obj = $.extend({}, obj);
-            // TODO maybe need emit data???
-            ajax.ajax.getId(trw.data.obj.id)
-                .then(data => {
-                    // validate JSON String
-                    if (trw.helpfunc.isValidJSON(data.data)) {
-                        console.log('TEMPLATE from Api', data);
-                        //  trw.EventEmmiter.emit( {id: trw.data.obj.id ,Template:[]});
-                    } else {
-                        // TODO TEST BLOCK MOCA
-                        moca.get.template()
-                            .then(data => {
-                                console.log(data);
-                                trw.EventEmmiter.emit({event: 'DocumentProcessing', obj: trw.data.obj, Template: data});
-                            })
-                            .catch(err => console.log(err));
-                    }
-                    // TODO TEST BLOCK MOCA END
-                })
-                .catch(error => {
-                    console.log('Error Response server', error[1]);
-                    trw.Snack('Try Latter');
-                    // TODO TEST BLOCK MOCA
-                    moca.get.template()
-                        .then(data => {
-                            console.log(data);
-                            trw.EventEmmiter.emit({event: 'DocumentProcessing', id: id, Template: data});
-                        })
-                        .catch(err => console.log(err));
-                    // TODO TEST BLOCK MOCA
-                });
+            trw.handlers.getTemplateAndSendParent(trw.data.obj.id);
         } else {
             trw.Snack('You must select at least one');
         }
@@ -354,7 +330,7 @@ $(document).ready(function () {
                 window.focus();
             })
             // TODO End  TEST Section
-        }).finally(()=>{
+        }).finally(() => {
         trw.handlers.checkParent();
     });
 

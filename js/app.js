@@ -1419,7 +1419,7 @@ temp.loadEvent = {
         ft.helpfunc.select.renderSelect(data.Template.Pages); // render option in select Copy from
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         // fix b. end
-        data.Pks = temp.helpfunc.deleteRepeatInArr(data.Pks);
+        data.Pks = temp.helpfunc.deleteRepeatInArr(data.Pks ? data.Pks : []);
         ////////////////////////////////////////////////////////////////////////////
         return data;
     },
