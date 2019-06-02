@@ -18,6 +18,10 @@ html, body {
     margin-bottom: 2rem;
 }
 
+.content-right button{
+    cursor: pointer;
+}
+
 #temp_request_table_child_wrapper {
     width: 100%;
     padding: 5vh 0 0 0;

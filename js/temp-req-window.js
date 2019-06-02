@@ -138,7 +138,6 @@ trw.EventEmmiter = {
         self.opener.postMessage(data, '*');
     },
     callbackHandlers: function (data) {
-        console.log(data);
         trw.callbackActions.factory(data);
     }
 };
@@ -188,6 +187,9 @@ trw.chakeEvents = {
                     trw.EventEmmiter.emit(trw.ACTIONSCREATER.CloseWindow());
                 } else {
                     trw.handlers.getTemplatesSuccess(data);
+                    const obj = trw.handlers.getNextStepIdObj();
+                    trw.data.obj = $.extend({}, obj);
+                    trw.handlers.getTemplateAndSendParent(trw.data.obj.id);
                 }
             }).catch(() => {
                 trw.Snack('Error update');
@@ -325,7 +327,6 @@ $(document).ready(function () {
 
             // TODO TEST Section
             moca.get.table().then(data => {
-                console.log(data);
                 trw.handlers.getTemplatesSuccess(data);
                 window.focus();
             })

@@ -56,12 +56,13 @@ tr.chakeEvents = {
     CloseChild: function () {
         try {
             tr.data.windowChild.close();
+            tr.data.windowChild = '';
+            tr.data.obj = {};
         }
         catch (e) {
-            console.log(e);
+            console.log(e,`Can't close child window`);
         }
-        tr.data.windowChild = '';
-        tr.data.obj = {};
+
     }
 
 };

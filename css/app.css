@@ -40,6 +40,10 @@ body {
     text-align: center;
 }
 
+#Action a{
+    cursor: pointer !important;
+}
+
 @media (max-height: 750px) {
     #leftBar {
         height: 487px;
@@ -351,7 +355,7 @@ table.dataTable tbody tr:hover {
     #Action a span {
         display: flex;
         justify-content: center;
-        margin-left: 0px;
+        margin-left: 0;
     }
 }
 
