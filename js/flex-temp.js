@@ -13,23 +13,20 @@ ft.actionsInit = function () {
     });
 
     ft.elements.ft_btn.on('mouseenter', function () {
-        Snackbar.show({text: 'Rulle in Template: ' + ft.snackbar.viewRulle(), pos: 'top-right'});
+        snack.info(`Rule in Template: ${ft.validate.viewRule()}`);
     });
     ft.elements.ft_btn.on('mouseleave', function () {
         Snackbar.close();
     });
-
-};
-ft.snackbar = {
-    viewRulle: function () {
-        if (mp.data.RuleArr == undefined || mp.data.RuleArr.length == 0) return 'Empty';
-        return mp.data.RuleArr.reduce(function (prew, next) {
-            return prew + ' From: ' + next.CopyFrom + ',Rule: ' + next.Rule;
-        }, '');
-    }
 };
 
 ft.validate = {
+    viewRule:()=>{
+        if (!mp.data.RuleArr|| !mp.data.RuleArr.length) return 'Empty';
+        return mp.data.RuleArr.reduce(function (prew, next) {
+            return prew + ' From: ' + next.CopyFrom + ',Rule: ' + next.Rule;
+        }, '');
+    },
     init: function () {
         var UsePage = ft.helpfunc.input.getValue().trim().toLowerCase();
         ft.validate.shakeValidate(UsePage);
@@ -53,7 +50,7 @@ ft.validate = {
             p = ft.parsing.PagesVerification(p); // get only existing pages
             ft.copy.init(PageFrom, p);
         } else {
-            temp.helpfunc.modalInfo(['Field Copy To', 'Incorrect Enter']);
+            snack.error('Field Copy To. Incorrect Enter');
         }
     },
     digitTest: function (str) {
@@ -187,7 +184,7 @@ ft.copy = {
     },
     isEmptyPages: function (arr) {
         if (arr.length == 0) {
-            temp.helpfunc.modalInfo(['Field Copy To', 'Incorrect Enter(No pages found for stitching)']);
+            snack.error('Field Copy To:  Incorrect Enter(No pages found for stitching)');
             return true;
         } else {
             return false;

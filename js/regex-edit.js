@@ -164,7 +164,7 @@ redit.view = {
 redit.validate = {
     isExistNewTr: () => {
         if (redit.table.object.find('input').length > 0) {
-            Snackbar.show({text: 'End edit field', pos: 'top-right'});
+            snack.info('End edit field');
             return true;
         } else {
             return false;
@@ -183,7 +183,7 @@ redit.handlers = {
         const description = inputs.eq(1).val();
         // If Input fields empty strings or regex have spaces
         if (!redit.validate.isSuccessInputs(regex, description)) {
-            Snackbar.show({text: `Fields must be filled out and contain valid regex`, pos: 'top-right'});
+            snack.info('Fields must be filled out and contain valid regex');
             return;
         }
         ajax.post(temp.routes.sendAddRegexProccessUrl, {
@@ -194,7 +194,7 @@ redit.handlers = {
             .then(response => {
                 redit.handlers.setDataTableAndBase(response, tr)
             })
-            .catch(err => Snackbar.show({text: `Error: ${err}`, pos: 'top-right'}));
+            .catch(err => snack.error( `Error: ${err}`));
 
     },
     setDataTableAndBase: (response, tr) => {
@@ -216,9 +216,6 @@ redit.handlers = {
     responseSuccess: (data) => {
         redit.data = data.Data.map((val) => $.extend({}, val));
         redit.table.init();
-    },
-    responseError: (error) => {
-        Snackbar.show({text: `Error: ${error}`, pos: 'top-center'});
     },
     resize: () => {
         const w = redit.elements.window.obj;
@@ -268,10 +265,10 @@ redit.handlers = {
             }, null, null, redit.view.togglePreloader, redit.view.togglePreloader)
                 .then(response => {
                     redit.data = redit.data.map((val) => {
-                        if (val.Pk == response.Pk) {
-                            return response
+                        if (val.Pk === response.Pk) {
+                            return response;
                         } else {
-                            return val
+                            return val;
                         }
                     });
                     rightbar.data.global.regex = [].concat(redit.data);
@@ -279,9 +276,9 @@ redit.handlers = {
                     redit.table.init();
                     hx.regex.create.init(redit.data, []);
                 })
-                .catch(err => Snackbar.show({text: 'Error response server: ' + err[1], pos: 'top-right'}))
+                .catch(err => snack.error(`Error response server:  ${err[1]}`))
         } else {
-            Snackbar.show({text: 'Please enter valid data', pos: 'top-right'})
+            snack.info('Please enter valid data');
         }
     },
     deleteRegex: (el, tr, pks) => {
@@ -296,12 +293,10 @@ redit.handlers = {
                     hx.regex.create.init(redit.data, []);
                 } else {
                     // regex exist in one Templaite i we not cun delete him
-                    Snackbar.show({text: `We use this regex in Template :${data[0]}`, pos: 'top-right'});
+                    snack.info(`We use this regex in Template: ${data[0]}`);
                 }
-            })
-            .catch((err) => Snackbar.show({text: `${err[1]}`, pos: 'top-right'}));
+            }).catch((err) => snack.error(`${err[1]}`));
     }
-
 };
 
 redit.helpfunc = {
@@ -311,7 +306,6 @@ redit.helpfunc = {
         return table;
     }
 };
-
 
 redit.init.elements();
 redit.init.actions();

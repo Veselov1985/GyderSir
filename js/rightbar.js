@@ -761,11 +761,11 @@ rightbar.initdoo = function () {
             selected == "VatAmounts" ||
             selected == 'InvoiceNumbers'
         ) {
-            temp.helpfunc.modalInfo(['Delete Datatype', 'These types can not be removed']);
+            snack.info('Delete DataType. These type can not be removed');
             return;
         }
         if (selected == '') { // no selected dataType in Datatable
-            temp.helpfunc.modalInfo(['Delete Datatype', 'No selection']);
+            snack.info('Delete DataType. No selection');
             return;
         } else {
             applymodal.handlers.show('Delete Type ' + rightbar.handlers.finddeleterowDatatype(), 5);
@@ -798,7 +798,7 @@ rightbar.initdoo = function () {
             selected == "InvoiceNumbers" ||
             selected == "VatAmounts"
         ) {
-            temp.helpfunc.modalInfo(['For create New DataType', 'Remove selection in Table']);
+            snack.info('For create New DataType remove selection in Table');
             return;
         }
         rightbar.elements.input_new_typedata.val(rightbar.handlers.findactivdatatype().change.Name);
@@ -885,7 +885,7 @@ rightbar.initdoo = function () {
             }
         });
         led.action.ledOn(); // led on if MainHeader add in Rectangle
-        temp.helpfunc.modalInfo(['MainHeader add in rectangle', '']);
+        snack.alert('MainHeader add in rectangle');
     });
 
     rightbar.elements.deleteAmount.on('click', function () {

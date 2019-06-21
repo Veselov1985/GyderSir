@@ -127,3 +127,46 @@ table.dataTable tbody  tr:hover {
     height: auto;
 }
 
+/*SnackBar Style*/
+.snackBar--message {
+    border-radius: 6px;
+}
+
+.snackBar--message .action {
+    outline: none;
+}
+
+.snackBar--message p {
+    padding-left: 20px !important;
+    font-family: 'Roboto', 'sans-serif';
+    font-size: 20px !important;
+    width: 90%;
+}
+
+.snack--info p::before{
+    content: url("../imgs/svg/info.svg");
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 10px;
+    top: calc(50%- 8px);
+}
+
+.snack--alert  p::before{
+    content: url("../imgs/svg/ok.svg");
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 10px;
+    top: calc(50%- 8px);
+}
+
+.snack--error  p::before{
+    content: url("../imgs/svg/error.svg");
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 10px;
+    top: calc(50%- 8px);
+}
+

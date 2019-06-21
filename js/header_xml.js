@@ -489,7 +489,7 @@ hp.handlears = {
             var $regex = hx.helpfunc.input.get(hx.elements.hr_input).trim();
             hx.ajax.editNewHeader({Name: $text, Data: $data, Regex: $regex});
         } else {
-            temp.helpfunc.modalInfo(['XML Header', 'Need select at least one']);
+            snack.info('XML Header. Need select at least one.');
         }
     },
 };
@@ -531,7 +531,7 @@ hx.action = function () {
         if ($input.trim() != '') {
             hx.ajax.editNewHeader({Name: $input, Data: $textarea, Regex: $regex});
         } else {
-            temp.helpfunc.modalInfo(['XML Header', 'Field must not be empty']);
+            snack.info('XML Header. Field must not be empty.');
         }
     });
 
@@ -541,7 +541,7 @@ hx.action = function () {
             var text = $selected.find('td').text().trim();
             hx.ajax.deleteHeader({Name: text, Data: null});
         } else {
-            temp.helpfunc.modalInfo(['XML Header', 'Need select at least one']);
+            snack.info('XML Header. Need select at least one.');
         }
     });
 
@@ -579,9 +579,9 @@ hx.action = function () {
                     return val;
                 }
             });
-            temp.helpfunc.modalInfo(['XML Header', 'XML Header add in rectangle']);
+            snack.alert('XML Header. XML Header add in rectangle.')
         } else {
-            temp.helpfunc.modalInfo(['XML Header', 'Need select at least one']); // option show modal Info
+            snack.info('XML Header. Need select at least one');
         }
     });
 
@@ -621,9 +621,9 @@ hx.action = function () {
         if (checkData != 'error' || checkData.length == 0) {
             paint.objects.activrect.position = (checkData == "*") ? [] : checkData; // set position [];
             hp.handlears.cleanMemoryPosition(paint.objects.activrect, checkData);
-            temp.helpfunc.modalInfo(['Position Header Edit', 'Set']);
+            snack.alert('Position Header Set');
         } else {
-            temp.helpfunc.modalInfo(['Position Header', 'Wrong Enter']); // if enter not number
+            snack.error('Positions Header: Wrong Enter');  // if enter not number
             window.setTimeout(function () {
                 hx.elements.hp_input.focus();
             }, 3500);
@@ -636,7 +636,7 @@ hx.action = function () {
         hx.helpfunc.input.set(hx.elements.hp_input, '0');
         paint.objects.activrect.position = [0];
         hp.handlears.cleanMemoryPosition(paint.objects.activrect, [0]);
-        temp.helpfunc.modalInfo(['Position Header', 'Clean']);
+        snack.info('Position Header: Clean');
     });
 
     // block regex
@@ -757,7 +757,7 @@ hx.ajax = {
             hx.handlears.filterDataTable(deleteName);
             hx.dataTable.init(hx.data.tableList);
         } else {
-            temp.helpfunc.modalInfo(['XML Header', 'Header XML Not Deleted']);
+            snack.error('Header XML Not Deleted');
         }
     },
     deleteHeaderError: function (data) {
@@ -778,10 +778,9 @@ hx.ajax = {
             hx.helpfunc.setTextArea(datas.Data);
             hx.helpfunc.setRegex(hx.elements.hr_input, datas.Regex);
             if (temp.DataWorkspace.images.length > 0) hx.handlears.setChangeSelectDataType();
-            temp.helpfunc.modalInfo(['Regex Header', 'Set']);
-
+            snack.alert('Regex Header Set');
         } else {
-            temp.helpfunc.modalInfo(['XML Header', 'Error,try latter']);
+            snack.error('XML Header Error. Try latter');
         }
         hx.helpfunc.clearInput();
         hx.helpfunc.showElem(hx.elements.HeaderXmlList);

@@ -6,9 +6,6 @@ trw.data = {
     obj: {},
     zag: []
 };
-trw.Snack = (text, pos = 'top-right') => {
-    Snackbar.show({text, pos})
-};
 
 trw.init = function () {
     trw.elements.btn_send_req = $('#btn_send_req');
@@ -192,7 +189,7 @@ trw.chakeEvents = {
                     trw.handlers.getTemplateAndSendParent(trw.data.obj.id);
                 }
             }).catch(() => {
-                trw.Snack('Error update');
+                snack.error('Error update');
             });
         }
     },
@@ -223,8 +220,7 @@ trw.handlers = {
                 }
             })
             .catch((err) => {
-                trw.Snack('Server Error');
-                console.log(err[1])
+                snack.error(`Server Error: ${err[1]}`);
             });
     },
     getTemplatesSuccess: function (data) {
@@ -261,14 +257,14 @@ trw.handlers = {
                     const Template = JSON.parse(data.data);
                     trw.EventEmmiter.emit({event: 'DocumentProcessing', id: trw.data.obj, Template});
                 } else {
-                    trw.Snack('Bad Document');
+                    snack.error('Bad Document');
                     trw.handlers.deletePrewJob(trw.data.obj.id);
                     trw.chakeEvents.pdfNextStep();
                 }
             })
             .catch(error => {
                 console.log('Error Response server', error[1]);
-                trw.Snack('Try Latter');
+               snack.error(`${error[1]}`)
             });
     }
 };
@@ -284,7 +280,7 @@ trw.action = function () {
             trw.data.obj = $.extend({}, obj);
             trw.handlers.getTemplateAndSendParent(trw.data.obj.id);
         } else {
-            trw.Snack('You must select at least one');
+            snack.info('You must select at least one');
         }
     });
 
@@ -293,9 +289,9 @@ trw.action = function () {
         ajax.ajax.getAll().then(data => {
             trw.handlers.getTemplatesSuccess(data);
             window.focus();
-            trw.Snack('Data Update');
+            snack.alert('Data Update');
         }).catch(err => {
-            trw.Snack(`Server Error ${err[1]}`)
+            snack.error(`Server Error ${err[1]}`)
         })
     });
 
@@ -318,12 +314,11 @@ $(document).ready(function () {
                 window.focus();
                 trw.chakeEvents.pdfNextStep();
             } else {
-                trw.Snack('Not find any work')
+                snack.info('Not find any work')
             }
         })
         .catch(error => {
-            trw.Snack(`Server Error`);
-            console.log(error[1]);
+            snack.error(`Server Error: ${error[1]}`);
 
             // TODO TEST Section
             moca.get.table().then(data => {

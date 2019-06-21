@@ -434,6 +434,6 @@
      if (zaglyshka.data.pages != 0) {
          test.elements.modalwindow.modal('show');
      } else {
-         temp.helpfunc.modalInfo(['No Data to Show', '']);
+         snack.info('No Data to Show')
      }
  });

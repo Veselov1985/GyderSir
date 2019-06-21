@@ -30,7 +30,7 @@ ajax.ajax = {
                 dataType: 'json',
                 success: (data, textStatus, jqXHR) => {
                     resolve(data);
-                    Snackbar.show({text: 'Data updated', pos: 'top-right'});
+                    snack.alert('Data updated');
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
                     reject([jqXHR, textStatus, errorThrown]);

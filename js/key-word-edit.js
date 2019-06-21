@@ -184,9 +184,8 @@ kw.ajax = {
                 kw.ajax.editKWDone(datas,data);
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR);
                 kw.elements.applymodal_KW.object.modal('hide');
-                temp.helpfunc.modalInfo(['Key word Info', 'error server']);
+                snack.error('Key word Info: Error server');
             },
             beforeSend: function() {},
             complete: function() {},
@@ -200,10 +199,10 @@ kw.ajax = {
         if (data == true) {
             kw.handlers.textarea.setVal(kw.ajax.setNewLineTextArea(datas.Data));
             kw.elements.applymodal_KW.object.modal('hide');
-            temp.helpfunc.modalInfo(['Key word Edit', 'Ok']);
+            snack.alert('Key Words Edited');
         } else {
             kw.elements.applymodal_KW.object.modal('hide');
-            temp.helpfunc.modalInfo(['Key word Info', 'Error Edit']);
+            snack.error('Key Words Edit Error');
         }
     },
     setNewLineTextArea: function(text) {                 // TODO  split enter Data KEYWORD

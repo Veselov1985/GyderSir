@@ -122,7 +122,7 @@ temp_ajax.render = {
             temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
         },
         error: function () {
-            Snackbar.show({text: 'Error Server'});
+            snack.error('Error Server');
         },
     }
 };

@@ -300,13 +300,12 @@ temp.elementLeftBar = {
                 temp.elementLeftBar.Templaite.origin = {};
                 paint.handlers.clearsvgcontent();
                 temp.helpfunc.clearglobalstate(true);
-                Snackbar.show({text: `Delete Templaite: ${deleterow}`, pos: 'top-center'});
-                // temp.helpfunc.modalInfo(['Delete Templaite', deleterow]);
+                snack.alert( `Delete Template: ${deleterow}`);
                 paint.init();
             }
         },
         deleteError: (err) => {
-            Snackbar.show({text: `${err[1]}`, pos: 'top-center'});
+            snack.error(`${err[1]}`);
         },
         templateSaveSuccess: (data) => {
             // block Template Request
@@ -336,7 +335,7 @@ temp.elementLeftBar = {
             lt.view.setOff();
         },
         templateSaveError: (err) => {
-            Snackbar.show({text: `${err[1]}`, pos: 'top-center'});
+            snack.error(`${err[1]}`);
         }
 
     }
@@ -845,16 +844,6 @@ temp.helpfunc = {
             }
         });
     },
-    modalInfo: function (text) {
-        var $modal = temp.elementLeftBar.object.infoModal;
-        $modal.find('h5').text(text[0]);
-        $modal.find('.lead').text(text[1]);
-        $modal.modal('show');
-        setTimeout(function () {
-            $modal.modal('hide');
-        }, 3000);
-    },
-
     modalLoad: function (e) {
         e.preventDefault();
         temp.elementLeftBar.object.modalWindow.modal();
@@ -887,14 +876,6 @@ temp.helpfunc = {
             //   temp.Data.LoadPdfOpt.file_pdf.append('advancedoption',temp.Data.LoadPdfOpt.advanc_settings_search);
         }
     },
-
-    errorfindTemplaite: function (jqXHR, textStatus, errorThrown) {
-        temp.helpfunc.modalInfo(['Eror server', '#404']);
-    },
-
-    successfindTemplaite: function (data, textStatus, jqXHR) {
-    },
-
     createpageList: function (arrimg) {
         if (!$('img').is('#dynamicImg')) {
             var $wind = temp.DataWorkspace.object.pdfWindow;
@@ -1289,8 +1270,7 @@ temp.init = {
 
         temp.elementLeftBar.object.btn_save_search.click(function () {
             if (temp.Data.LoadPdfOpt.file_pdf.__proto__.constructor.name != "FormData") {
-                Snackbar.show({text: `Info: Please download .pdf file`, pos: 'top-center'});
-                //  temp.helpfunc.modalInfo(['Info', 'Please download .pdf file']);
+                snack.info(`Info: Please download .pdf file`);
                 return;
             }
             // empty Child  Request
