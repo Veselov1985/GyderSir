@@ -311,7 +311,7 @@ au.handlers = {
     findHeader: function(e, w) { // e=event mouse ,  w - 'string' name function from file  d3-js-last.js
         var header, table;
         var zero = au.helpfunc.findLineArr(paint.objects.activrect.rectData[0].y, paint.objects.activrect.rectData[1].y);
-        if (zero.length <= 4) return; //=> table must have 4 collumns min  !Important
+        if (zero.length >= 3) return; //=> table must have 3 collumns min  !Important
         var UpDown = au.helpfunc.lookAroundZeroString(zero.length);
         if (UpDown == false) return;
         if (UpDown[0] == 'coll-table') { //Table collumns   // change table collum if Headerrectangle recognize

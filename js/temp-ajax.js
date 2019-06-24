@@ -112,10 +112,10 @@ temp_ajax.render = {
     templaite: {
         success: function (data) {
             var datas = [];
-            data.forEach(function (val, i) {
+            data.forEach(function (val) {
                 datas.push($.parseJSON(val));
             });
-            datas.forEach(function (val, i) {
+            datas.forEach(function (val) {
                 temp.Data.leftTempList.data.push([val.Name, temp.img.off]);
                 temp.Data.leftTempList.list.push(val);
             });
