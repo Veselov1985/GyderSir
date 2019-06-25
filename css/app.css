@@ -72,8 +72,7 @@ body {
 }
 
 #workSpase {
-    /* border: 1px solid black; */
-    background: url('../imgs/gifs/SIR_v2.jpg') no-repeat;
+    background: url('../imgs/gifs/glider.jpg') no-repeat;
     background-size: cover;
     overflow-y: auto !important;
 }
