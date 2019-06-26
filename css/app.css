@@ -104,6 +104,64 @@ select {
 .controls {
     display: flex;
     padding: 4px 0;
+    justify-content: space-around;
+    transition: all .5s;
+}
+
+@media (max-width: 1360px) {
+    .controls {
+        flex-direction: column;
+    }
+
+    .controls .form-inline {
+        flex-direction: column;
+        margin-bottom: 10px;
+        padding: 4px 10px;
+    }
+
+    .form-inline .input-group {
+        width: 100% !important;
+    }
+
+    .controls .form-inline .input-group {
+        margin-bottom: 5px;
+        margin-right: 0 !important;
+    }
+
+    .controls .form-inline .custom-select {
+        margin-bottom: 5px;
+        width: 100% !important;
+    }
+
+    .controls .form-inline .btn {
+        width: 100%;
+        margin-bottom: 5px;
+        margin-left: 0 !important;
+    }
+
+    .controls .form-inline button {
+        width: 100% !important;
+        margin-bottom: 0 !important;
+    }
+
+    #ft_input {
+        width: 100% !important;
+    }
+
+    .controls .ml-2, .controls .mx-2, .controls .mr-2 {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .hurkanSwitch.switch-responsive {
+        width: 100% !important;
+        margin-bottom: 5px !important;
+    }
+
+    .ft_btn_span {
+        width: 100%;
+    }
+
 }
 
 #optionwiev {
@@ -876,3 +934,31 @@ div.dataTables_wrapper div.dataTables_filter input:focus {
     left: 10px;
     top: calc(50% - 10px);
 }
+
+/*Menu options toggle block*/
+.menu--options{
+    visibility: hidden;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.menu--options img{
+    width: 20px;
+    height: 20px;
+}
+
+.menu--option__open {
+cursor: pointer;
+}
+.menu--option__close{
+    cursor: pointer;
+}
+
+@media (max-width: 1360px) {
+    .menu--options {
+        visibility: visible;
+    }
+}
+

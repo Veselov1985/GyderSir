@@ -96,100 +96,101 @@
             </div>
             <!--Loader work zone //sticky-top//-->
             <div class="container-fluid px-lg-0 border-bottom sticky-top bg-white">
-                <div id="controls">
                     <div class="controls">
-                        <div class="col-lg-3">
-                            <div class="form-inline">
-                                <div class="input-group input-group-sm mr-sm-2">
+                        <div class="form-inline">
+                            <div class="input-group input-group-sm mr-sm-2">
                                         <span class="input-group-btn">
                                             <button id="btn_page_prew" class="btn btn-secondary btn-block btn-sm"
                                                     type="button"><i class="fa fa-minus"></i></button>
                                         </span>
-                                    <input id="page_info_control" type="text"
-                                           class="form-control form-control-sm text-center" placeholder="0(0)" disabled>
-                                    <span class="input-group-btn">
+                                <input id="page_info_control" type="text"
+                                       class="form-control form-control-sm text-center" placeholder="0(0)" disabled>
+                                <span class="input-group-btn">
                                             <button id="btn_page_next" class="btn btn-secondary btn-block btn-sm"
                                                     type="button"><i class="fa fa-plus"></i></button>
                                         </span>
-                                </div>
-                                <select id="optionwiev" class="custom-select custom-select-sm w-30">
-                                    <option value="all" id="optionwiev_all" selected>Both</option>
-                                    <option value="text" id="optionwiev_text"> Text only</option>
-                                    <option value="img" id="optionwiev_img">Image only</option>
-                                </select>
-                                <!-- TODO  02/11/2018  this block only hidden  all func not deleted-->
-
-                                <div id="layout_content" class="btn-group btn-group-toggle  ml-2" hidden>
-                                    <label class="btn btn-secondary  btn-sm active focus">
-                                        <input id="btn_layout_off" type="radio" name="options" autocomplete="off"
-                                               checked> L Off
-                                    </label>
-                                    <label class="btn btn-secondary btn-sm">
-                                        <input id="btn_layout_on" type="radio" name="options" autocomplete="off"> L On
-                                    </label>
-                                </div>
-                                <!-- TODO -------------------------------------------------------------->
                             </div>
+                            <select id="optionwiev" class="custom-select custom-select-sm w-30">
+                                <option value="all" id="optionwiev_all" selected>Both</option>
+                                <option value="text" id="optionwiev_text"> Text only</option>
+                                <option value="img" id="optionwiev_img">Image only</option>
+                            </select>
+                            <!-- TODO  02/11/2018  this block only hidden  all func not deleted-->
+
+                            <div id="layout_content" class="btn-group btn-group-toggle  ml-2" hidden>
+                                <label class="btn btn-secondary  btn-sm active focus">
+                                    <input id="btn_layout_off" type="radio" name="options" autocomplete="off"
+                                           checked> L Off
+                                </label>
+                                <label class="btn btn-secondary btn-sm">
+                                    <input id="btn_layout_on" type="radio" name="options" autocomplete="off"> L On
+                                </label>
+                            </div>
+                            <!-- TODO -------------------------------------------------------------->
                         </div>
-                        <div class="col-lg-9 pl-lg-0">
-                            <div class="form-inline justify-content-lg-end">
-                                <div class="input-group input-group-sm mr-1">
-                                    <div class="input-group-prepend">
-                                        <span class="pr-1 pt-1" style="font-size:14px">Use Page:</span>
-                                    </div>
-
-                                    <input id="ft_input" type="text" class="form-control" style="width:5vw">
-
+                        <div class="form-inline justify-content-lg-end">
+                            <div class="input-group input-group-sm mr-1">
+                                <div class="input-group-prepend">
+                                    <span class="pr-1 pt-1" style="font-size:14px">Use Page:</span>
                                 </div>
-                                <div class="input-group input-group-sm">
-                                    <div class="input-group-prepend">
-                                        <span class="pr-1 pt-1" style="font-size:14px">Copy From:</span>
-                                    </div>
-                                    <select id="ft_select" class="custom-select custom-select-sm" style="width:3vw">
-                                        <option>1</option>
-                                        <option>2</option>
-                                    </select>
-                                    <span class="input-group-btn">
+
+                                <input id="ft_input" type="text" class="form-control" style="width:5vw">
+
+                            </div>
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="pr-1 pt-1" style="font-size:14px">Copy From:</span>
+                                </div>
+                                <select id="ft_select" class="custom-select custom-select-sm" style="width:3vw">
+                                    <option>1</option>
+                                    <option>2</option>
+                                </select>
+                                <span class="input-group-btn ft_btn_span">
                                         <button id="ft_btn" class="btn btn-secondary btn-sm">Apply</button>
                                     </span>
-                                </div>
-                                <div id="switch-table" data-toggle="hurkanSwitch">
-                                    <input type="checkbox" checked name="demo1" hidden>
-                                </div>
-                                <div></div>
-                                <!-- <a id="" class="btn btn-sm btn-secondary mb-1 btnnotextcenter" href="#"><span class="">MainHeader</span>
-                                    </a> -->
-                                <div class="input-group input-group-sm mr-2 ml-2">
+                            </div>
+                            <div id="switch-table" data-toggle="hurkanSwitch">
+                                <input type="checkbox" checked name="demo1" hidden>
+                            </div>
+                            <div></div>
+                            <!-- <a id="" class="btn btn-sm btn-secondary mb-1 btnnotextcenter" href="#"><span class="">MainHeader</span>
+                                </a> -->
+                            <div class="input-group input-group-sm mr-2 ml-2">
                                         <span class="input-group-btn">
                                             <button id="btn_zoom_minus" class="btn btn-secondary btn-block btn-sm"
                                                     type="button">
                                                 <i class="fa fa-pencil fa-lg"></i>
                                             </button>
                                         </span>
-                                    <input id="info_zoom" type="text" class="form-control form-control-sm text-center"
-                                           placeholder="100%" disabled>
-                                    <span class="input-group-btn">
+                                <input id="info_zoom" type="text" class="form-control form-control-sm text-center"
+                                       placeholder="100%" disabled>
+                                <span class="input-group-btn">
                                             <button id="btn_zoom_plus" class="btn btn-secondary btn-block btn-sm "
                                                     type="button">
                                                 <i class="fa fa-search-plus fa-lg"></i>
                                             </button>
                                         </span>
-                                </div>
-                                <a id="test_btn" class="btn btn-sm btn-secondary  btnnotextcenter" href="#"><span
-                                        class="prettyText"> Test&nbsp;</span>
-                                    <i class="fa fa-check fa-lg boss_btn_test floatImgandI" aria-hidden="true"></i>
-                                    <!--     <img class="load_btn_test floatImgandI" src="imgs\gifs\emailloader.gif" style="width:18px; margin-right:5px" hidden> -->
-                                    <i class="load_btn_test floatImgandI fa fa-lg fa-spinner fa-spin" hidden></i>
-                                </a>
-                                <a id="result_test_btn" class="btn btn-sm btn-secondary ml-2 btnnotextcenter"
-                                   href="#"><span class=""> Result&nbsp;</span>
-                                </a>
                             </div>
+                            <a id="test_btn" class="btn btn-sm btn-secondary  btnnotextcenter" href="#"><span
+                                    class="prettyText"> Test&nbsp;</span>
+                                <i class="fa fa-check fa-lg boss_btn_test floatImgandI" aria-hidden="true"></i>
+                                <!--     <img class="load_btn_test floatImgandI" src="imgs\gifs\emailloader.gif" style="width:18px; margin-right:5px" hidden> -->
+                                <i class="load_btn_test floatImgandI fa fa-lg fa-spinner fa-spin" hidden></i>
+                            </a>
+                            <a id="result_test_btn" class="btn btn-sm btn-secondary ml-2 btnnotextcenter"
+                               href="#"><span class=""> Result&nbsp;</span>
+                            </a>
                         </div>
                     </div>
+                <div class="menu--options" hidden>
+                    <div class="menu--option__open" hidden>
+                        <img src="imgs/svg/sort-down.svg">
+                    </div>
+                    <div class="menu--option__close">
+                        <img src="imgs/svg/sort-up.svg">
+                    </div>
                 </div>
-            </div>
-
+                </div>
             <div class="col-12" id="pdfWindow">
             </div>
         </div>
@@ -1018,6 +1019,7 @@
 <!-- TODO TEST-->
 <script src="js/temp-ajax.js"></script>
 <script src="js/snackBar-wrapper.js"></script>
+<script src="js/menu-control-toggle.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

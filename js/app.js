@@ -1430,6 +1430,7 @@ $(document).ready(function () {
     temp.pass.init();
     temp.init.element();
     temp.init.eventHandler();
+    mt.handlers.init();
     const arrRequestToApi = [
         temp_ajax.sendRenderProccessUrl(),
         rightpref.Ajax.sendRenderDataTypeProccess(),
