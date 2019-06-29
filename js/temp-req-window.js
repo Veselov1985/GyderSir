@@ -1,6 +1,8 @@
 let trw = {};
 window.webkitStorageInfo = navigator.webkitTemporaryStorage || navigator.webkitPersistentStorage;
 document.origin = window.origin || self.origin;
+trw.dev = true;
+trw.rootPathWorker = trw.dev ? '/js/worker.js':'/Scripts/worker.js';
 trw.elements = {};
 trw.data = {
     obj: {},
@@ -20,11 +22,12 @@ trw.init = function () {
 };
 
 trw.worker = {
+    fetchTemplate:[],
     worker: undefined,
     isEnabledWorker: () => typeof(Worker) !== "undefined",
     init: () => {
         if (trw.worker.isEnabledWorker()) {
-            trw.worker.worker = new Worker("/js/worker.js");
+            trw.worker.worker = new Worker(trw.rootPathWorker);
             trw.worker.listener();
             snack.info('Worker Enabled');
         } else {
@@ -35,7 +38,10 @@ trw.worker = {
         trw.worker.worker.postMessage({data});
     },
     listener: () => {
-        trw.worker.worker.onmessage = (event) => snack.info('Worker work');
+        trw.worker.worker.onmessage = (event) => {
+            trw.worker.fetchTemplate.push(event.data);
+            snack.info('Worker fetch Template');
+        }
     },
     terminate: () => {
         trw.worker.worker.terminate();
@@ -322,6 +328,7 @@ trw.action = function () {
 
     // close child window
     trw.elements.temp_request_cancel.on('click', function () {
+        trw.worker.terminate();
         window.close();
     });
 };
@@ -331,11 +338,9 @@ $(document).ready(function () {
     trw.handlers.checkOpener();
     trw.init();
     trw.action();
-
     // TODO feature WORKER
-   // trw.worker.init();
+    trw.worker.init();
     // End WORKER
-
     // get document list data
     ajax.ajax.getAll()
         .then(data => {
@@ -362,6 +367,7 @@ $(document).ready(function () {
 
     $(window).on("beforeunload", function () {
         console.log('emit prepend close');
+        trw.worker.terminate();
         trw.EventEmmiter.emit({event: 'CloseChild'});
         return true;
     })

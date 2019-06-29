@@ -25,6 +25,7 @@ ajax.loader.handler = {
 
 ajax.ajax = {
     getAll: () => {
+        trw.worker.fetchTemplate = [];
         return new Promise((resolve, reject) => {
             $.ajax({
                 headers: {
@@ -36,7 +37,7 @@ ajax.ajax = {
                 dataType: 'json',
                 success: (data, textStatus, jqXHR) => {
                     if (trw.worker.worker) {
-                        trw.worker.emit(data);
+                        trw.worker.emit({action: 'fetch', data});
                     }
                     snack.alert('Data updated');
                     resolve(data);
@@ -54,6 +55,8 @@ ajax.ajax = {
         })
     },
     getId: (id) => {
+        const find = trw.worker.fetchTemplate.find(t => t.id === id);
+        if (find) return new Promise(resolve => resolve(find));
         return new Promise((resolve, reject) => {
             $.ajax({
                 headers: {
