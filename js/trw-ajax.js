@@ -9,12 +9,18 @@ ajax.routes = {
     process: `${ajax.root}/api/Template/process`,
 };
 ajax.loader = {};
-ajax.loader.element = {class:'preloader', object:{}};
+ajax.loader.element = {class: 'preloader', object: {}};
 
-ajax.loader.handler={
-    init:()=> { ajax.loader.element.object = $(`.${ajax.loader.element.class}`)},
-    onLoad:() => {ajax.loader.element.object.css('display','block')},
-    offLoad:()=> {ajax.loader.element.object.css('display','none')},
+ajax.loader.handler = {
+    init: () => {
+        ajax.loader.element.object = $(`.${ajax.loader.element.class}`)
+    },
+    onLoad: () => {
+        ajax.loader.element.object.css('display', 'block')
+    },
+    offLoad: () => {
+        ajax.loader.element.object.css('display', 'none')
+    },
 };
 
 ajax.ajax = {
@@ -29,14 +35,21 @@ ajax.ajax = {
                 type: "GET",
                 dataType: 'json',
                 success: (data, textStatus, jqXHR) => {
-                    resolve(data);
+                    if (trw.worker.worker) {
+                        trw.worker.emit(data);
+                    }
                     snack.alert('Data updated');
+                    resolve(data);
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
                     reject([jqXHR, textStatus, errorThrown]);
                 },
-                beforeSend:()=> {ajax.loader.handler.onLoad()},
-                complete:() => {ajax.loader.handler.offLoad()}
+                beforeSend: () => {
+                    ajax.loader.handler.onLoad()
+                },
+                complete: () => {
+                    ajax.loader.handler.offLoad()
+                }
             });
         })
     },
@@ -56,12 +69,16 @@ ajax.ajax = {
                 error: function (jqXHR, textStatus, errorThrown) {
                     reject([jqXHR, textStatus, errorThrown]);
                 },
-                beforeSend:()=> {ajax.loader.handler.onLoad()},
-                complete:() => {ajax.loader.handler.offLoad()}
+                beforeSend: () => {
+                    ajax.loader.handler.onLoad()
+                },
+                complete: () => {
+                    ajax.loader.handler.offLoad()
+                }
             })
         });
     },
-    getProcess: (id,pks) => {
+    getProcess: (id, pks) => {
         return new Promise((resolve, reject) => {
             $.ajax({
                 headers: {
@@ -78,8 +95,12 @@ ajax.ajax = {
                 error: (jqXHR, textStatus, errorThrown) => {
                     reject([jqXHR, textStatus, errorThrown])
                 },
-                beforeSend:()=> {ajax.loader.handler.onLoad()},
-                complete:() => {ajax.loader.handler.offLoad()}
+                beforeSend: () => {
+                    ajax.loader.handler.onLoad()
+                },
+                complete: () => {
+                    ajax.loader.handler.offLoad()
+                }
             });
         })
     },

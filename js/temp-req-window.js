@@ -19,6 +19,31 @@ trw.init = function () {
     ajax.loader.handler.init()
 };
 
+trw.worker = {
+    worker: undefined,
+    isEnabledWorker: () => typeof(Worker) !== "undefined",
+    init: () => {
+        if (trw.worker.isEnabledWorker()) {
+            trw.worker.worker = new Worker("/js/worker.js");
+            trw.worker.listener();
+            snack.info('Worker Enabled');
+        } else {
+            snack.error('Worker Disabled');
+        }
+    },
+    emit: (data) => {
+        trw.worker.worker.postMessage({data});
+    },
+    listener: () => {
+        trw.worker.worker.onmessage = (event) => snack.info('Worker work');
+    },
+    terminate: () => {
+        trw.worker.worker.terminate();
+        trw.worker.worker = undefined;
+    },
+};
+
+
 trw.dataTable = {
     object: {},
     dt: {},
@@ -264,7 +289,7 @@ trw.handlers = {
             })
             .catch(error => {
                 console.log('Error Response server', error[1]);
-               snack.error(`${error[1]}`)
+                snack.error(`${error[1]}`)
             });
     }
 };
@@ -306,6 +331,11 @@ $(document).ready(function () {
     trw.handlers.checkOpener();
     trw.init();
     trw.action();
+
+    // TODO feature WORKER
+   // trw.worker.init();
+    // End WORKER
+
     // get document list data
     ajax.ajax.getAll()
         .then(data => {
