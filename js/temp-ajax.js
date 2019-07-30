@@ -105,19 +105,50 @@ let temp_ajax = {
             });
         });
     },
+    post: (url, data) => {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(data),
+                url: url,
+                type: "POST",
+                dataType: 'json',
+                success: (data) => {
+                    resolve(data);
+                },
+                error: (jqXHR, textStatus, errorThrown) => {
+                    reject(errorThrown);
+                },
+            });
+
+        });
+    },
+    getTemplateNameList: () => {
+        return temp_ajax.post(temp.routes.getTemplateListName, null);
+    },
+    getTemplateObject: (Pk) => {
+        pm.handlers.showPreloader();
+        return temp_ajax.post(temp.routes.getTemplateItemObject, {Pk: Pk})
+            .then(d => JSON.parse(d.Content) )
+            .catch(e => console.log(e))
+            .finally(() => pm.handlers.hidePreloader());
+    }
 };
 
 
 temp_ajax.render = {
     templaite: {
         success: function (data) {
-            var datas = [];
-            data.forEach(function (val) {
-                datas.push($.parseJSON(val));
-            });
-            datas.forEach(function (val) {
-                temp.Data.leftTempList.data.push([val.Name, temp.img.off]);
-                temp.Data.leftTempList.list.push(val);
+            data.forEach(item => {
+                const obj = {
+                    Name: item.Name,
+                    Pk: item.PublicKey,
+                };
+                temp.Data.leftTempList.data.push([obj.Name, temp.img.off]);
+                temp.Data.leftTempList.list.push(obj);
             });
             temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
         },

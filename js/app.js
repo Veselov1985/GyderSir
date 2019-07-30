@@ -4,6 +4,8 @@ temp.Owen = 'http://91.235.136.123:591/';
 temp.workRoot = 'http://85.214.225.230/';
 temp.root = temp.debug ? '' : temp.workRoot;
 temp.routes = {
+    getTemplateListName:  temp.root + 'api/template/getsimplytemplatelist',
+    getTemplateItemObject:  temp.root + 'api/template/gettemplate',
     sendRenderProccessUrl: temp.root + 'api/template/gettemplates',
     sendRenderDataTypeProccessUrl: temp.root + 'api/datatypes/getdatatypes',
     sendRenderAmountProccessUrl: temp.root + 'api/datatypes/getamountnotations',
@@ -229,7 +231,6 @@ temp.elementLeftBar = {
                 }
                 temp.elementLeftBar.Templaite.name = newNametemp;
                 temp.elementLeftBar.Templaite.Name = newNametemp;
-                // temp.elementLeftBar.Templaite.RuleArr = temp.elementLeftBar.Templaite.RuleArr.concat(mp.data.RuleArr);
 
                 temp.Data.leftTempList.list.forEach(function (val) {
                     if (val.Name == newNametemp) {
@@ -352,51 +353,56 @@ temp.helpfunc = {
     },
     changeTempNotSaving: function () {
         var $that = temp.elementLeftBar.Templaite.that;
-        temp.Data.leftTempList.list.forEach(function (val) {
-            if (val.Name == $that.find('td:first').text()) {
-                var deployedTemplate = mp.actions.createTemplate(val, temp.serverTemplate);
-                temp.elementLeftBar.Templaite.origin = deployedTemplate;
-                // ph.handlers.reverseToFront(val.Scopes);    // delete 01/11/2018
-            }
+        // temp.Data.leftTempList.list.forEach(function (val) {
+        //     if (val.Name == $that.find('td:first').text()) {
+        //         var deployedTemplate = mp.actions.createTemplate(val, temp.serverTemplate);
+        //         temp.elementLeftBar.Templaite.origin = deployedTemplate;
+        //     }
+        //     lt.view.setOff();
+        // });
+        const findTemplatePk = temp.Data.leftTempList.list.find( item => item.Name === $that.find('td:first').text());
+        temp_ajax.getTemplateObject(findTemplatePk.Pk).then( responseTemplate => {
             lt.view.setOff();
-        });
-        temp.elementLeftBar.Templaite.Pk = temp.elementLeftBar.Templaite.origin.Pk;
-        temp.elementLeftBar.Templaite.Name = temp.elementLeftBar.Templaite.origin.Name;
-        temp.elementLeftBar.Templaite.name = temp.elementLeftBar.Templaite.origin.Name;
-        (temp.elementLeftBar.Templaite.origin.PropertyPdf == undefined) ? temp.PropertyPdf = temp.elementLeftBar.Templaite.origin.PropertyPdf : temp.PropertyPdf = {};
-        (temp.elementLeftBar.Templaite.origin.RuleFormingTemplate == undefined) ? mp.data.RuleArr = [] : mp.data.RuleArr = temp.elementLeftBar.Templaite.origin.RuleFormingTemplate;
-        temp.elementLeftBar.Templaite.RuleArr = mp.data.RuleArr;
-        paint.handlers.clearsvgcontent();
-        temp.helpfunc.clearglobalstate(true);
+            temp.elementLeftBar.Templaite.origin = mp.actions.createTemplate(responseTemplate, temp.serverTemplate);
+            temp.elementLeftBar.Templaite.Pk = temp.elementLeftBar.Templaite.origin.Pk;
+            temp.elementLeftBar.Templaite.Name = temp.elementLeftBar.Templaite.origin.Name;
+            temp.elementLeftBar.Templaite.name = temp.elementLeftBar.Templaite.origin.Name;
+            (temp.elementLeftBar.Templaite.origin.PropertyPdf === undefined) ? temp.PropertyPdf = temp.elementLeftBar.Templaite.origin.PropertyPdf : temp.PropertyPdf = {};
+            (temp.elementLeftBar.Templaite.origin.RuleFormingTemplate === undefined) ? mp.data.RuleArr = [] : mp.data.RuleArr = temp.elementLeftBar.Templaite.origin.RuleFormingTemplate;
+            temp.elementLeftBar.Templaite.RuleArr = mp.data.RuleArr;
+            paint.handlers.clearsvgcontent();
+            temp.helpfunc.clearglobalstate(true);
 
-        //  temp.elementLeftBar.Templaite.origin
-        temp.elementLeftBar.Templaite.origin.Pages.forEach(function (val) {
-            paint.objects.datafromserver.datafromserverpage.push(val);
-        });
+            //  temp.elementLeftBar.Templaite.origin
+            temp.elementLeftBar.Templaite.origin.Pages.forEach(function (val) {
+                paint.objects.datafromserver.datafromserverpage.push(val);
+            });
 
-        temp.elementLeftBar.Templaite.origin.Pages.forEach(function (val) {
-            paint.objects.datafromserver.removelistpage.push(val);
-        });
+            temp.elementLeftBar.Templaite.origin.Pages.forEach(function (val) {
+                paint.objects.datafromserver.removelistpage.push(val);
+            });
 
-        paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
-        temp.Data.leftTempList.data.forEach(function (val, i) {
-            if (val[1] == temp.img.activ) val[1] = temp.img.off;
-            if (val[0] == temp.elementLeftBar.Templaite.origin.Name) val[1] = temp.img.activ;
-        });
+            paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
+            temp.Data.leftTempList.data.forEach(function (val, i) {
+                if (val[1] == temp.img.activ) val[1] = temp.img.off;
+                if (val[0] == temp.elementLeftBar.Templaite.origin.Name) val[1] = temp.img.activ;
+            });
 
-        temp.elementLeftBar.Templaite.that = '';
-        temp.elementLeftBar.dataTable.clean();
-        temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
+            temp.elementLeftBar.Templaite.that = '';
+            temp.elementLeftBar.dataTable.clean();
+            temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
 
-        temp.helpfunc.searchPage(); // need page search
+            temp.helpfunc.searchPage(); // need page search
 
-        temp.elementLeftBar.dataTable.object.find('i').each(function () {
-            $that = $(this);
-            if ($that.attr('class').trim() == temp.img.activ) {
-                $that.parent().parent().addClass('selected');
-            }
-        });
-        temp.DataWorkspace.initwindow();
+            temp.elementLeftBar.dataTable.object.find('i').each(function () {
+                $that = $(this);
+                if ($that.attr('class').trim() == temp.img.activ) {
+                    $that.parent().parent().addClass('selected');
+                }
+            });
+            temp.DataWorkspace.initwindow();
+        })
+
     },
 
     searchPage: function () {
@@ -531,8 +537,6 @@ temp.helpfunc = {
             Template: {
                 Pk: temp.elementLeftBar.Templaite.Pk, //temp.Data.leftTempList.datas.Pk
                 Name: temp.elementLeftBar.Templaite.Name, //temp.Data.leftTempList.datas.Name
-                //  Scopes: ph.handlers.reverseToServer(), // Scope Pages Settings all,first,last        //TODo delete 01/11/2018
-                //  RuleFormingTemplate: mp.data.RuleArr, // multi-page.js memory to set rule,     // TODO delete 01/11/2018
                 PropertyPdf: temp.PropertyPdf ? temp.PropertyPdf : {},
                 Pages: function () {
                     var obj = temp.helpfunc.collectdata();
@@ -554,13 +558,12 @@ temp.helpfunc = {
 
                     imgarr.forEach(function (val, i) {
                         obj.page[i].Base64Img = imgarr[i];
-                        //  obj.page[i].Base64Img = temp.serverTemplate.Pages[i].Base64Img;
                     });
 
                     // if put btn test fix
                     obj.page = obj.page.map(function (val) {
-                        val.OnlyImages = ''; //temp.elementLeftBar.Templaite.OnlyImages[i].substring('data:image/jpeg;base64,'.length);
-                        val.OnlyText = ''; //temp.elementLeftBar.Templaite.OnlyText[i].substring('data:image/jpeg;base64,'.length);
+                        val.OnlyImages = '';
+                        val.OnlyText = '';
                         return val;
                     });
 
@@ -1223,13 +1226,7 @@ temp.init = {
                 });
                 temp.elementLeftBar.dataTable.clean();
                 temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-                // fix datablesearch templaite selected
-                /* 
-                             if( temp.elementLeftBar.dataTable.dt.find('.'+ temp.img.activ).length==0){
-                                 temp.elementLeftBar.dataTable.dt.page('next').draw(false);
-                             }
 
-                */
                 var infopages = temp.elementLeftBar.dataTable.dt.page.info().pages;
                 var result = false;
                 for (var i = 0; i <= infopages - 1; i++) {
@@ -1249,17 +1246,7 @@ temp.init = {
                 }
             }
         });
-        // fix datable search templaite selected
-        /* 
-                temp.elementLeftBar.dataTable.dt.on( 'page.dt', function () {
-                    var info = table.page.info();
-                   if( temp.elementLeftBar.dataTable.dt.find('.'+ temp.img.activ).length!=0){
-                     temp.elementLeftBar.dataTable.dt.find('.'+ temp.img.activ).parent().parent().addClass('.selected');
-                   }else {
-                         temp.elementLeftBar.dataTable.dt.page('next').draw(false);
-                   }
-                } );
-        */
+
         temp.elementLeftBar.object.btn_addIndent.click(function () {
             temp.helpfunc.modal_btn_add();
         });
@@ -1432,7 +1419,8 @@ $(document).ready(function () {
     temp.init.eventHandler();
     mt.handlers.init();
     const arrRequestToApi = [
-        temp_ajax.sendRenderProccessUrl(),
+        temp_ajax.getTemplateNameList(),
+        // temp_ajax.sendRenderProccessUrl(),
         rightpref.Ajax.sendRenderDataTypeProccess(),
         rightpref.Ajax.sendRenderAmountProccess(),
         rightpref.Ajax.sendRenderDataProccess(),
@@ -1442,6 +1430,7 @@ $(document).ready(function () {
     ];
     Promise.all(arrRequestToApi)
         .then((data) => {
+            temp_ajax.render.templaite.success(data[0]); //  List name Template
             hx.regex.create.init(data[4].Data, []); // reserve arguments
             // Hide global preloader
             pm.handlers.hidePreloader();
