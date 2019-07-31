@@ -51,7 +51,7 @@ applymodal_tempresult.handlers = {
         if (mm < 10) mm = '0' + mm;
         var yy = date.getFullYear() % 100;
         if (yy < 10) yy = '0' + yy;
-        return 'new -' + dd + '/' + mm + '/' + yy;
+        return 'new - ' + dd + '/' + mm + '/' + yy;
     },
     cleartextinp: function() {
         applymodal_tempresult.elements.applymodal_tempresult_text.text('');
