@@ -4,12 +4,11 @@ rightbar.zag = {
         ["Vats"],
         ["Ibans"],
         ["KeyWord"],
-        //     ["MainHeader"],
-        ['Subtotal'],
+        ['Subtotals'],
         ['InvoiceDates'],
         ['InvoiceNumbers'],
         ['OrderNumbers'],
-        ['Total'],
+        ['Totals'],
         ['VatAmounts'],
     ],
 };
@@ -22,11 +21,11 @@ rightbar.data = {
             {DataType: 'Ibans', Pk: false},
             {DataType: 'KeyWord', Pk: false},
             {DataType: 'MainHeader', Pk: false},
-            {DataType: 'Subtotal', Pk: false},
+            {DataType: 'Subtotals', Pk: false},
             {DataType: 'InvoiceDates', Pk: false},
             {DataType: 'InvoiceNumbers', Pk: false},
             {DataType: 'OrderNumbers', Pk: false},
-            {DataType: 'Total', Pk: false},
+            {DataType: 'Totals', Pk: false},
             {DataType: 'VatAmounts', Pk: false},
         ],
         amount: [],
@@ -415,19 +414,19 @@ rightbar.handlers = {
         };
     },
     showoptiondataType: function (text) {
-        if (text == 'Ibans' ||
-            text == 'Vats' ||
-            text == 'KeyWord' ||
-            text == 'MainHeader' ||
-            text == 'Subtotal' ||
-            text == 'InvoiceDates' ||
-            text == 'OrderNumbers' ||
-            text == 'Total' ||
-            text == 'VatAmounts' ||
-            text == 'InvoiceNumbers'
+        if (text === 'Ibans' ||
+            text === 'Vats' ||
+            text === 'KeyWord' ||
+            text === 'MainHeader' ||
+            text === 'Subtotals' ||
+            text === 'InvoiceDates' ||
+            text === 'OrderNumbers' ||
+            text === 'Totals' ||
+            text === 'VatAmounts' ||
+            text === 'InvoiceNumbers'
         ) return;
         rightbar.data.global.dataType.forEach(function (val) {
-            if (val.DataType == text) {
+            if (val.DataType === text) {
                 rightbar.handlers.colorsetdataType(rightbar.handlers.findfieldelement(val));
             }
         });
@@ -738,26 +737,24 @@ rightbar.initdoo = function () {
         e.preventDefault();
         if (kw.state) return; //kw block
         if (
-            selected == "Vats" ||
-            selected == "Ibans" ||
-            selected == "KeyWord" ||
-            // selected == "MainHeader" ||
-            selected == "Subtotal" ||
-            selected == "InvoiceDates" ||
-            selected == "ItemNumbers" ||
-            selected == "OrderNumbers" ||
-            selected == "Quantities" ||
-            selected == "Total" ||
-            selected == "UnitPrices" ||
-            selected == "VatAmounts" ||
-            selected == 'InvoiceNumbers'
+            selected === "Vats" ||
+            selected === "Ibans" ||
+            selected === "KeyWord" ||
+            selected === "Subtotals" ||
+            selected === "InvoiceDates" ||
+            selected === "ItemNumbers" ||
+            selected === "OrderNumbers" ||
+            selected === "Quantities" ||
+            selected === "Totals" ||
+            selected === "UnitPrices" ||
+            selected === "VatAmounts" ||
+            selected === 'InvoiceNumbers'
         ) {
             snack.info('Delete DataType. These type can not be removed');
             return;
         }
-        if (selected == '') { // no selected dataType in Datatable
+        if (selected === '') { // no selected dataType in Datatable
             snack.info('Delete DataType. No selection');
-            return;
         } else {
             applymodal.handlers.show('Delete Type ' + rightbar.handlers.finddeleterowDatatype(), 5);
         }
@@ -779,10 +776,10 @@ rightbar.initdoo = function () {
             selected == "Ibans" ||
             selected == "KeyWord" ||
             // selected == "MainHeader" ||
-            selected == "Subtotal" ||
+            selected == "Subtotals" ||
             selected == "InvoiceDates" ||
             selected == "OrderNumbers" ||
-            selected == "Total" ||
+            selected == "Totals" ||
             selected == "InvoiceNumbers" ||
             selected == "VatAmounts"
         ) {

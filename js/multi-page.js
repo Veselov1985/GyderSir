@@ -15,7 +15,7 @@ mp.dataAction = {
 mp.empty = {
     page: {
         Base64Img: '',
-        Subtotal: [],
+        Subtotals: [],
         Ibans: [],
         InvoiceDates: [],
         InvoiceNumbers: [],
@@ -25,10 +25,8 @@ mp.empty = {
         OnlyImages: '',
         OnlyText: '',
         OrderNumbers: [],
-        Quantities: [],
         TableDatas: [],
-        TotalBedrags: [],
-        UnitPrices: [],
+        Totals: [],
         VatAmounts: [],
         Vats: [],
     },

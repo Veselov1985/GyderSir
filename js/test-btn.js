@@ -372,8 +372,8 @@
              if (!val.MainHeader) {
                  arrclone[i].MainHeader = { Rect: null };
              }
-             if (!val.Subtotal) {
-                 arrclone[i].Subtotal = [];
+             if (!val.Subtotals) {
+                 arrclone[i].Subtotals = [];
              }
              if (!val.InvoiceDates) {
                  arrclone[i].InvoiceDates = [];
@@ -384,8 +384,8 @@
              if (!val.OrderNumbers) {
                  arrclone[i].OrderNumbers = [];
              }
-             if (!val.Total) {
-                 arrclone[i].Total = [];
+             if (!val.Totals) {
+                 arrclone[i].Totals = [];
              }
              if (!val.VatAmounts) {
                  arrclone[i].VatAmounts = [];

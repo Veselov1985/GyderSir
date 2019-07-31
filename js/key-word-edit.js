@@ -1,10 +1,10 @@
 var kw = {};
 kw.data = [
-    'Subtotal',
+    'Subtotals',
     'InvoiceDates',
     'InvoiceNumbers',
     'OrderNumbers',
-    'Total',
+    'Totals',
     'VatAmounts'
 ];
 
