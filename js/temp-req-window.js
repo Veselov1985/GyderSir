@@ -294,7 +294,6 @@ trw.handlers = {
                 }
             })
             .catch(error => {
-                console.log('Error Response server', error[1]);
                 snack.error(`${error[1]}`)
             });
     }

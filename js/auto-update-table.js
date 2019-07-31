@@ -38,19 +38,16 @@ au.elements.init = function() {
     au.elements.switcher = $('#switch-table');
     au.elements.switcher.hurkanSwitch({
         // Callbacks
-        'on': function(r) { au.data.Of = false; },
-        'off': function(r) { au.data.Of = true; },
+        'on': function() { au.data.Of = false; },
+        'off': function() { au.data.Of = true; },
         // label text
         'onTitle': 'On',
         'offTitle': 'Of',
         'responsive': true,
         'animate': true,
-        // danger,success,info,primary,default,warning
         'offColor': '',
         'onColor': 'info',
-        // additional CSS class
         'className': 'mr-2 mb-1 ml-2',
-        // default width
         'width': 30
     });
     $('.hurkanSwitch .active').click();
@@ -67,7 +64,7 @@ au.d3 = {
             width: Math.abs(au.data.copyrect.rectData[1].x - au.data.copyrect.rectData[0].x),
             height: Math.abs(au.data.copyrect.rectData[1].y - au.data.copyrect.rectData[0].y)
         });
-        var radius = 4; // settings radius all point
+        var radius = 4;
         au.data.points.point1 = d3.select(au.data.copyrect.pointElement1[0][0]).data(au.data.copyrect.rectData);
         au.data.points.point1.attr('r', radius)
             .attr('cx', au.data.copyrect.rectData[0].x)
@@ -95,48 +92,48 @@ au.d3 = {
     },
     dragPoint1: function(e, pos) {
         var d4 = d3.select(au.data.copyrect.pointElement1[0][0]);
-        if (pos == 'all') {
+        if (pos === 'all') {
             d4.attr('cx', au.data.copyrect.rectData[0].x += e.dx)
                 .attr('cy', au.data.copyrect.rectData[0].y += e.dy);
-        } else if (pos == 'w') {
+        } else if (pos === 'w') {
             d4.attr('cx', au.data.copyrect.rectData[0].x += e.dx);
-        } else if (pos == 'h') {
+        } else if (pos === 'h') {
             d4.attr('cy', au.data.copyrect.rectData[0].y += e.dy);
         }
         au.d3.updateRect();
     },
     dragPoint2: function(e, pos) {
         var d4 = d3.select(au.data.copyrect.pointElement2[0][0]);
-        if (pos == 'all') {
+        if (pos === 'all') {
             d4.attr('cx', au.data.copyrect.rectData[1].x += e.dx)
                 .attr('cy', au.data.copyrect.rectData[1].y += e.dy);
-        } else if (pos == 'w') {
+        } else if (pos === 'w') {
             d4.attr('cx', au.data.copyrect.rectData[1].x += e.dx);
-        } else if (pos == 'h') {
+        } else if (pos === 'h') {
             d4.attr('cy', au.data.copyrect.rectData[1].y += e.dy);
         }
         au.d3.updateRect();
     },
     dragPoint3: function(e, pos) {
         var d4 = d3.select(au.data.copyrect.pointElement3[0][0]);
-        if (pos == 'all') {
+        if (pos === 'all') {
             d4.attr('cx', au.data.copyrect.rectData[1].x += e.dx)
                 .attr('cy', au.data.copyrect.rectData[0].y += e.dy);
-        } else if (pos == 'w') {
+        } else if (pos === 'w') {
             d4.attr('cx', au.data.copyrect.rectData[1].x += e.dx);
-        } else if (pos == 'h') {
+        } else if (pos === 'h') {
             d4.attr('cy', au.data.copyrect.rectData[0].y += e.dy);
         }
         au.d3.updateRect();
     },
     dragPoint4: function(e, pos) {
         var d4 = d3.select(au.data.copyrect.pointElement4[0][0]);
-        if (pos == 'all') {
+        if (pos === 'all') {
             d4.attr('cx', au.data.copyrect.rectData[0].x += e.dx)
                 .attr('cy', au.data.copyrect.rectData[1].y += e.dy);
-        } else if (pos == 'w') {
+        } else if (pos === 'w') {
             d4.attr('cx', au.data.copyrect.rectData[0].x += e.dx);
-        } else if (pos == 'h') {
+        } else if (pos === 'h') {
             d4.attr('cy', au.data.copyrect.rectData[1].y += e.dy);
         }
         au.d3.updateRect();
@@ -153,8 +150,7 @@ au.helpfunc = {
                 min = array[i].rectData[0].y;
             }
         }
-        if (res == false) return array[0];
-        return res;
+        return res ? res :  array[0];
     },
     getMaxinValue: function(array) {
         var res = false;
@@ -165,8 +161,7 @@ au.helpfunc = {
                 res = array[i];
             }
         }
-        if (res == false) return array[0];
-        return res;
+        return res ? res :  array[0];
     },
 
     findLineArr: function(y0, y1) {
@@ -174,8 +169,8 @@ au.helpfunc = {
         var Yg0 = y0;
         var Yg1 = y1;
         var zeroLine = Yg0 + ((Yg1 - Yg0) / 2);
-        paint.objects.disactiv.forEach(function(val, i) { // this header or colluns
-            if (val.rectData[0].y < zeroLine && val.rectData[1].y > zeroLine && (val.type == "TableDatas" || val.type == 'MainHeader')) {
+        paint.objects.disactiv.forEach(function(val) {
+            if (val.rectData[0].y < zeroLine && val.rectData[1].y > zeroLine && (val.type === "TableDatas" || val.type === 'MainHeader')) {
                 header.push(val);
             }
         });
@@ -187,7 +182,7 @@ au.helpfunc = {
         var Down = au.helpfunc.lookDown();
         if (Down[0]) {
             findLineArr = au.helpfunc.findLineArr(Down[1].rectData[0].y, Down[1].rectData[1].y);
-            if (lengZero == findLineArr.length) {
+            if (lengZero === findLineArr.length) {
                 return ['coll-table', Down[1], findLineArr];
             } else {
                 return false;
@@ -196,7 +191,7 @@ au.helpfunc = {
             var Up = au.helpfunc.lookUp();
             if (Up[0]) {
                 findLineArr = au.helpfunc.findLineArr(Up[1].rectData[0].y, Up[1].rectData[1].y);
-                if (lengZero == findLineArr.length) {
+                if (lengZero === findLineArr.length) {
                     return ['header', Up[1], findLineArr];
                 } else {
                     return false;
@@ -212,13 +207,13 @@ au.helpfunc = {
         var zeroX = x0 + ((x1 - x0) / 2);
         var zDoll = paint.objects.activrect.rectData[1].y;
         var res = paint.objects.disactiv.filter(function(val, i) {
-            if (val.rectData[0].x < zeroX && val.rectData[1].x > zeroX && val.type == "TableDatas" && zDoll < val.rectData[1].y) {
+            if (val.rectData[0].x < zeroX && val.rectData[1].x > zeroX && val.type === "TableDatas" && zDoll < val.rectData[1].y) {
                 return true;
             } else {
                 return false;
             }
         });
-        if (res.length != 0) {
+        if (!!res.length) {
             res = au.helpfunc.getMinValue(res);
         } else {
             return [false, null];
@@ -235,13 +230,13 @@ au.helpfunc = {
         var zeroX = x0 + ((x1 - x0) / 2);
         var zDoll = paint.objects.activrect.rectData[0].y;
         var res = paint.objects.disactiv.filter(function(val, i) {
-            if (val.rectData[0].x < zeroX && val.rectData[1].x > zeroX && (val.type == "TableDatas" || val.type == 'MainHeader') && zDoll > val.rectData[1].y) {
+            if (val.rectData[0].x < zeroX && val.rectData[1].x > zeroX && (val.type === "TableDatas" || val.type === 'MainHeader') && zDoll > val.rectData[1].y) {
                 return true;
             } else {
                 return false;
             }
         });
-        if (res.length != 0) {
+        if (!!res.length) {
             res = au.helpfunc.getMaxinValue(res);
             return [true, res];
         } else {
@@ -250,7 +245,7 @@ au.helpfunc = {
     },
     replaceCopyToDisactive: function(copy) {
         paint.objects.disactiv = paint.objects.disactiv.map(function(val) {
-            if (val.id == copy.id) {
+            if (val.id === copy.id) {
                 return copy;
             } else {
                 return val;
@@ -259,7 +254,7 @@ au.helpfunc = {
     },
     HeaderRooles: function(e, w, header, table) {
         var HeaderRect = header[0];
-        if (w == 'dragRect') {
+        if (w === 'dragRect') {
             au.data.copyrect = HeaderRect;
             au.d3[w](e);
             au.helpfunc.replaceCopyToDisactive(au.data.copyrect); // ned replace data in paint.objects.disactive
@@ -277,7 +272,7 @@ au.helpfunc = {
     },
     TableRooles: function(e, w, header, table) {
         au.data.copyrect = table[0];
-        if (w == 'dragRect') {
+        if (w === 'dragRect') {
             au.d3[w](e);
             au.helpfunc.replaceCopyToDisactive(au.data.copyrect); // ned replace data in paint.objects.disactive
         } else {
@@ -288,12 +283,12 @@ au.helpfunc = {
     },
     filterInTableActiveRect: function(table) {
         return table.filter(function(val) {
-            return val.id != paint.objects.activrect.id;
+            return val.id !== paint.objects.activrect.id;
         });
     },
     filterInmultiArr: function(del, arr) {
         return arr.filter(function(val) {
-            return val.id != del.id;
+            return val.id !== del.id;
         });
     },
     checkIntersectionRect: function(arrRectLine) {
@@ -313,8 +308,8 @@ au.handlers = {
         var zero = au.helpfunc.findLineArr(paint.objects.activrect.rectData[0].y, paint.objects.activrect.rectData[1].y);
         if (zero.length < 3) return; //=> table must have 3 collumns min  !Important
         var UpDown = au.helpfunc.lookAroundZeroString(zero.length);
-        if (UpDown == false) return;
-        if (UpDown[0] == 'coll-table') { //Table collumns   // change table collum if Headerrectangle recognize
+        if (!UpDown) return;
+        if (UpDown[0] === 'coll-table') { //Table collumns   // change table collum if Headerrectangle recognize
             //  var  UpDown => Table
             // var zero => Header
             header = zero; // [array header included active rectangle]
@@ -335,8 +330,7 @@ au.handlers = {
 
 au.init = {
     recognizeAuto: function(event, whatdo) {
-        if (au.data.Of) return; // toggle switcher state in view
-        //  if (!au.data.state) return; // not mousedown;
+        if (au.data.Of) return;
         au.handlers.findHeader(event, whatdo);
     }
 };
