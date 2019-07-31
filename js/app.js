@@ -353,15 +353,9 @@ temp.helpfunc = {
     },
     changeTempNotSaving: function () {
         var $that = temp.elementLeftBar.Templaite.that;
-        // temp.Data.leftTempList.list.forEach(function (val) {
-        //     if (val.Name == $that.find('td:first').text()) {
-        //         var deployedTemplate = mp.actions.createTemplate(val, temp.serverTemplate);
-        //         temp.elementLeftBar.Templaite.origin = deployedTemplate;
-        //     }
-        //     lt.view.setOff();
-        // });
         const findTemplatePk = temp.Data.leftTempList.list.find( item => item.Name === $that.find('td:first').text());
-        temp_ajax.getTemplateObject(findTemplatePk.Pk).then( responseTemplate => {
+        temp_ajax.getTemplateObject(findTemplatePk.Pk)
+            .then( responseTemplate => {
             lt.view.setOff();
             temp.elementLeftBar.Templaite.origin = mp.actions.createTemplate(responseTemplate, temp.serverTemplate);
             temp.elementLeftBar.Templaite.Pk = temp.elementLeftBar.Templaite.origin.Pk;
@@ -373,7 +367,6 @@ temp.helpfunc = {
             paint.handlers.clearsvgcontent();
             temp.helpfunc.clearglobalstate(true);
 
-            //  temp.elementLeftBar.Templaite.origin
             temp.elementLeftBar.Templaite.origin.Pages.forEach(function (val) {
                 paint.objects.datafromserver.datafromserverpage.push(val);
             });
@@ -445,7 +438,7 @@ temp.helpfunc = {
         mp.PropertyPdf = {};
         mp.data.RuleArr = [];
         temp.helpfunc.clearglobalstate(true);
-        temp.Data.leftTempList.data.forEach(function (val, i) {
+        temp.Data.leftTempList.data.forEach(function (val) {
             if (val[1] == temp.img.activ) val[1] = temp.img.off;
         });
         temp.elementLeftBar.dataTable.clean();
@@ -872,11 +865,10 @@ temp.helpfunc = {
     addadvancedoption: function () {
         if (temp.Data.LoadPdfOpt.advanc_settings_search.length > 0) {
             var arr = [];
-            temp.Data.LoadPdfOpt.advanc_settings_search.forEach(function (val, i) {
+            temp.Data.LoadPdfOpt.advanc_settings_search.forEach(function (val) {
                 arr.push({name: val[0], value: val[1]});
             });
             temp.Data.LoadPdfOpt.file_pdf.append(JSON.stringify(arr), '');
-            //   temp.Data.LoadPdfOpt.file_pdf.append('advancedoption',temp.Data.LoadPdfOpt.advanc_settings_search);
         }
     },
     createpageList: function (arrimg) {
@@ -1038,11 +1030,11 @@ temp.Data = {
 
 temp.control = {
     templaite: {
-        searchtemplaite: function (guid) {
-            return temp.Data.leftTempList.list.filter(function (val) {
-                return val.Pk == guid;
-            });
-        },
+        // searchtemplaite: function (guid) {
+        //     return temp.Data.leftTempList.list.filter(function (val) {
+        //         return val.Pk == guid;
+        //     });
+        // },
         saveServerInfo: function (arrData) {
             temp.serverInfo = [];
             arrData.forEach(function (val, i) {
@@ -1086,59 +1078,59 @@ temp.control = {
             temp.elementLeftBar.dataTable.object.find('selected').removeClass('selected');
         },
 
-        selectfindTemplaite: function (templaiteObj) {
-            //clear img.activ prev
-            temp.control.templaite.unselectDataTable();
-            temp.Data.leftTempList.data.forEach(function (val, i) {
-                if (val[0] == templaiteObj.Name) {
-                    temp.Data.leftTempList.data[i][1] = temp.img.activ;
-                }
-            });
-            temp.elementLeftBar.dataTable.clean();
-            temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-            (function () {
-                var pagelength = temp.elementLeftBar.dataTable.dt.page.info().pages;
-                for (var i = 0; i <= pagelength - 1; i++) {
-                    temp.elementLeftBar.dataTable.dt.page(i).draw(false);
-                    var findactivimg = temp.elementLeftBar.dataTable.object.find('' + temp.img.activ);
-                    if (findactivimg.length > 0) {
-                        findactivimg.parent().parent().parent().addClass('selected');
-                        break;
-                    }
-                }
-            })();
-            temp.elementLeftBar.dataTable.object.find('i').each(function () {
-                $that = $(this);
-                if ($that.attr('class').trim() == temp.img.activ) {
-                    $that.parent().parent().addClass('selected');
-                }
-            });
-        },
+        // selectfindTemplaite: function (templaiteObj) {
+        //     //clear img.activ prev
+        //     temp.control.templaite.unselectDataTable();
+        //     temp.Data.leftTempList.data.forEach(function (val, i) {
+        //         if (val[0] == templaiteObj.Name) {
+        //             temp.Data.leftTempList.data[i][1] = temp.img.activ;
+        //         }
+        //     });
+        //     temp.elementLeftBar.dataTable.clean();
+        //     temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
+        //     (function () {
+        //         var pagelength = temp.elementLeftBar.dataTable.dt.page.info().pages;
+        //         for (var i = 0; i <= pagelength - 1; i++) {
+        //             temp.elementLeftBar.dataTable.dt.page(i).draw(false);
+        //             var findactivimg = temp.elementLeftBar.dataTable.object.find('' + temp.img.activ);
+        //             if (findactivimg.length > 0) {
+        //                 findactivimg.parent().parent().parent().addClass('selected');
+        //                 break;
+        //             }
+        //         }
+        //     })();
+        //     temp.elementLeftBar.dataTable.object.find('i').each(function () {
+        //         $that = $(this);
+        //         if ($that.attr('class').trim() == temp.img.activ) {
+        //             $that.parent().parent().addClass('selected');
+        //         }
+        //     });
+        // },
     },
 
-    addemptyData: function (arr, n, pos) {
-        var base64Length = 'data:image/jpeg;base64,'.length;
-        var position = pos;
-        var clone = arr.slice(0);
-        var data = {
-            Base64Img: "",
-            TableDatas: [{
-                Data: null,
-                DataType: {Pk: "00000000-0000-0000-0000-000000000000", Name: "", IsText: false},
-                Rect: {X0: {X: 0, Y: 0}, X1: {X: 0, Y: 0}}
-            }],
-            OnlyImages: "",
-            OnlyText: "",
-        };
-        for (var i = 0; i < n; i++) {
-            data.Base64Img = temp.DataWorkspace.images[position + 1].substring(base64Length);
-            data.OnlyImages = temp.elementLeftBar.Templaite.OnlyImages[positions + 1].substring(base64Length);
-            data.OnlyText = temp.elementLeftBar.Templaite.OnlyText[position + 1].substring(base64Length);
-            clone.push(data);
-            position++;
-        }
-        return clone;
-    },
+    // addemptyData: function (arr, n, pos) {
+    //     var base64Length = 'data:image/jpeg;base64,'.length;
+    //     var position = pos;
+    //     var clone = arr.slice(0);
+    //     var data = {
+    //         Base64Img: "",
+    //         TableDatas: [{
+    //             Data: null,
+    //             DataType: {Pk: "00000000-0000-0000-0000-000000000000", Name: "", IsText: false},
+    //             Rect: {X0: {X: 0, Y: 0}, X1: {X: 0, Y: 0}}
+    //         }],
+    //         OnlyImages: "",
+    //         OnlyText: "",
+    //     };
+    //     for (var i = 0; i < n; i++) {
+    //         data.Base64Img = temp.DataWorkspace.images[position + 1].substring(base64Length);
+    //         data.OnlyImages = temp.elementLeftBar.Templaite.OnlyImages[positions + 1].substring(base64Length);
+    //         data.OnlyText = temp.elementLeftBar.Templaite.OnlyText[position + 1].substring(base64Length);
+    //         clone.push(data);
+    //         position++;
+    //     }
+    //     return clone;
+    // },
 };
 
 temp.init = {
@@ -1198,13 +1190,13 @@ temp.init = {
 
         // filter_btn
         temp.elementControl.object.btn_filter.on('click', function () {
-            if (temp.Data.leftTempList.filter.length == 0) return;
+            if (!temp.Data.leftTempList.filter.length) return;
             filter.handlers.toggleLight();
             var selectedName = function () {
                 var res = "";
                 temp.elementLeftBar.dataTable.object.find('i').each(function () {
                     $that = $(this);
-                    if ($that.attr('class').trim() == temp.img.activ) {
+                    if ($that.attr('class').trim() === temp.img.activ) {
                         res = $that.parent().prev().text();
                     }
                 });
@@ -1218,7 +1210,7 @@ temp.init = {
             temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
             if (selectedName != "") {
                 temp.Data.leftTempList.data = temp.Data.leftTempList.data.map(function (val) {
-                    if (val[0] == selectedName) {
+                    if (val[0] === selectedName) {
                         return [selectedName, temp.img.activ];
                     } else {
                         return val;
@@ -1233,7 +1225,7 @@ temp.init = {
                     var res = temp.elementLeftBar.dataTable.object.find('i');
                     res.each(function () {
                         $that = $(this);
-                        if ($that.attr('class').trim() == temp.img.activ) {
+                        if ($that.attr('class').trim() === temp.img.activ) {
                             $that.parent().parent().addClass('selected');
                             result = true;
                         }
@@ -1301,7 +1293,7 @@ temp.loadEvent = {
             temp.elementLeftBar.dataTable.clean();
             data.Pks.forEach(function (val) {
                 for (var i = 0; i < temp.Data.leftTempList.list.length; i++) {
-                    if (val == temp.Data.leftTempList.list[i].Pk) temp.Data.leftTempList.data.push([temp.Data.leftTempList.list[i].Name, temp.img.off]);
+                    if (val === temp.Data.leftTempList.list[i].Pk) temp.Data.leftTempList.data.push([temp.Data.leftTempList.list[i].Name, temp.img.off]);
                 }
             });
             temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
@@ -1313,18 +1305,7 @@ temp.loadEvent = {
             temp.control.templaite.renderDataListPaint(data.Template.Pages);
             paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
             temp.DataWorkspace.initwindow();
-        } else if (data.Pks.length == 1) {
-            /////////////////////////////////////////////////////////////////////
-            // var oneData = temp.Data.leftTempList.list.filter(function(val, i) {
-            //    return val.Pk == data.Pks[0];
-            // });
-            /////////////////////////////////////////////////////////////////////
-            // block multi-page render
-            // Now Front not render empty pages!!!!
-            //var deployedTemplate = mp.actions.createTemplate(oneData[0], $.extend({}, data.Template));
-            /////////////////////////////////////////////////////////////////////////////
-
-            // TODO Server rendering pages
+        } else if (data.Pks.length === 1) {
             var deployedTemplate = $.extend({}, data.Template);
             gf.init(deployedTemplate); // fast request to the server => get response result
             filter.handlers.toggleLight(); // filter fix
