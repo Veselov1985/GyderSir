@@ -5,14 +5,11 @@ rightbar.zag = {
         ["Ibans"],
         ["KeyWord"],
         //     ["MainHeader"],
-        ['ExcludingTaxesAmounts'],
+        ['Subtotal'],
         ['InvoiceDates'],
         ['InvoiceNumbers'],
-        ['ItemNumbers'],
         ['OrderNumbers'],
-        ['Quantities'],
-        ['TotalBedrags'],
-        ['UnitPrices'],
+        ['Total'],
         ['VatAmounts'],
     ],
 };
@@ -25,14 +22,11 @@ rightbar.data = {
             {DataType: 'Ibans', Pk: false},
             {DataType: 'KeyWord', Pk: false},
             {DataType: 'MainHeader', Pk: false},
-            {DataType: 'ExcludingTaxesAmounts', Pk: false},
+            {DataType: 'Subtotal', Pk: false},
             {DataType: 'InvoiceDates', Pk: false},
             {DataType: 'InvoiceNumbers', Pk: false},
-            {DataType: 'ItemNumbers', Pk: false},
             {DataType: 'OrderNumbers', Pk: false},
-            {DataType: 'Quantities', Pk: false},
-            {DataType: 'TotalBedrags', Pk: false},
-            {DataType: 'UnitPrices', Pk: false},
+            {DataType: 'Total', Pk: false},
             {DataType: 'VatAmounts', Pk: false},
         ],
         amount: [],
@@ -425,13 +419,10 @@ rightbar.handlers = {
             text == 'Vats' ||
             text == 'KeyWord' ||
             text == 'MainHeader' ||
-            text == 'ExcludingTaxesAmounts' ||
+            text == 'Subtotal' ||
             text == 'InvoiceDates' ||
-            text == 'ItemNumbers' ||
             text == 'OrderNumbers' ||
-            text == 'Quantities' ||
-            text == 'TotalBedrags' ||
-            text == 'UnitPrices' ||
+            text == 'Total' ||
             text == 'VatAmounts' ||
             text == 'InvoiceNumbers'
         ) return;
@@ -751,12 +742,12 @@ rightbar.initdoo = function () {
             selected == "Ibans" ||
             selected == "KeyWord" ||
             // selected == "MainHeader" ||
-            selected == "ExcludingTaxesAmounts" ||
+            selected == "Subtotal" ||
             selected == "InvoiceDates" ||
             selected == "ItemNumbers" ||
             selected == "OrderNumbers" ||
             selected == "Quantities" ||
-            selected == "TotalBedrags" ||
+            selected == "Total" ||
             selected == "UnitPrices" ||
             selected == "VatAmounts" ||
             selected == 'InvoiceNumbers'
@@ -788,13 +779,10 @@ rightbar.initdoo = function () {
             selected == "Ibans" ||
             selected == "KeyWord" ||
             // selected == "MainHeader" ||
-            selected == "ExcludingTaxesAmounts" ||
+            selected == "Subtotal" ||
             selected == "InvoiceDates" ||
-            selected == "ItemNumbers" ||
             selected == "OrderNumbers" ||
-            selected == "Quantities" ||
-            selected == "TotalBedrags" ||
-            selected == "UnitPrices" ||
+            selected == "Total" ||
             selected == "InvoiceNumbers" ||
             selected == "VatAmounts"
         ) {
