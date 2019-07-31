@@ -46,7 +46,7 @@ lt.handlers = {
                     keys.forEach(function(key) {
                         if (Array.isArray(obj[key])) {
                             obj.key = [].concat(obj[key]);
-                        } else if (typeof obj[key] == 'object') {
+                        } else if (typeof obj[key] === 'object') {
                             obj.key = $.extend({}, obj[key]);
                         }
                     });
@@ -90,7 +90,7 @@ lt.handlers = {
         temp.elementLeftBar.Templaite.origin = $.extend({}, lt.memory.DataPrew.origin);
     },
     setViewBack: function() {
-        if (paint.objects.datafromserver.removelistpage[temp.DataWorkspace.activpage] != false) {
+        if (paint.objects.datafromserver.removelistpage[temp.DataWorkspace.activpage] !== false) {
             paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
         } else {
             paint.objects.datafromserver.arrdata = paint.objects.global.disactivpage[temp.DataWorkspace.activpage];

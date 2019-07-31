@@ -439,14 +439,14 @@ temp.helpfunc = {
         mp.data.RuleArr = [];
         temp.helpfunc.clearglobalstate(true);
         temp.Data.leftTempList.data.forEach(function (val) {
-            if (val[1] == temp.img.activ) val[1] = temp.img.off;
+            if (val[1] === temp.img.activ) val[1] = temp.img.off;
         });
         temp.elementLeftBar.dataTable.clean();
         temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
         temp.elementLeftBar.dataTable.object.find('i').each(function () {
             var $that = $(this);
             var parent$2 = $that.parent().parent();
-            if ($that.attr('class').trim() == 'fa fa-plus-circle') {
+            if ($that.attr('class').trim() === 'fa fa-plus-circle') {
                 parent$2.addClass('selected');
             } else {
                 parent$2.removeClass('selected');
@@ -474,12 +474,12 @@ temp.helpfunc = {
         var circle = 'fa fa-plus-circle';
         var trash = 'fa fa-trash';
         temp.Data.leftTempList.list.forEach(function (val, i) {
-            if (val.Pk == temp.Data.leftTempList.datas.Pk) {
+            if (val.Pk === temp.Data.leftTempList.datas.Pk) {
                 add = false;
                 temp.Data.leftTempList.list[i] = temp.Data.leftTempList.datas;
                 temp.Data.leftTempList.data.forEach(function (val, i) {
-                    if (val[1] != circle && val[1] != trash) temp.Data.leftTempList.data[i][1] = temp.img.off;
-                    if (val[1] != circle && temp.Data.leftTempList.data[i][0] == temp.Data.leftTempList.datas.Name) {
+                    if (val[1] !== circle && val[1] !== trash) temp.Data.leftTempList.data[i][1] = temp.img.off;
+                    if (val[1] !== circle && temp.Data.leftTempList.data[i][0] === temp.Data.leftTempList.datas.Name) {
                         temp.Data.leftTempList.data[i][1] = temp.img.activ;
                     }
                 });
@@ -488,7 +488,7 @@ temp.helpfunc = {
         if (add) {
             temp.Data.leftTempList.list.push(temp.Data.leftTempList.datas);
             temp.Data.leftTempList.data.forEach(function (val, i) {
-                if (val[1] != circle && val[1] != trash) temp.Data.leftTempList.data[i][1] = temp.img.off;
+                if (val[1] !== circle && val[1] !== trash) temp.Data.leftTempList.data[i][1] = temp.img.off;
             });
             temp.Data.leftTempList.data.push([temp.elementLeftBar.Templaite.name, temp.img.activ]);
             filter.handlers.addData([temp.elementLeftBar.Templaite.name, temp.img.off]); // filter add data
@@ -528,8 +528,8 @@ temp.helpfunc = {
 
         return temp.helpfunc.initHeaders({
             Template: {
-                Pk: temp.elementLeftBar.Templaite.Pk, //temp.Data.leftTempList.datas.Pk
-                Name: temp.elementLeftBar.Templaite.Name, //temp.Data.leftTempList.datas.Name
+                Pk: temp.elementLeftBar.Templaite.Pk,
+                Name: temp.elementLeftBar.Templaite.Name,
                 PropertyPdf: temp.PropertyPdf ? temp.PropertyPdf : {},
                 Pages: function () {
                     var obj = temp.helpfunc.collectdata();
@@ -537,8 +537,6 @@ temp.helpfunc = {
                     obj.img.forEach(function (val) {
                         imgarr.push(val.substring('data:image/jpeg;base64,'.length));
                     });
-
-                    // fix length page 
                     var objlength = obj.page.length;
                     var imglength = imgarr.length;
                     if (imglength > objlength) {
@@ -552,7 +550,6 @@ temp.helpfunc = {
                     imgarr.forEach(function (val, i) {
                         obj.page[i].Base64Img = imgarr[i];
                     });
-
                     // if put btn test fix
                     obj.page = obj.page.map(function (val) {
                         val.OnlyImages = '';
@@ -573,7 +570,6 @@ temp.helpfunc = {
                 }(),
             }
         });
-
     },
     initHeaders: function (obj) {
         var pageTable = obj.Template.Pages[0].TableDatas.filter(function (rect) {
@@ -619,7 +615,7 @@ temp.helpfunc = {
                     // not add  row data
                 } else {
                     row[i] = [];
-                    arr.forEach(function (vals, j) {
+                    arr.forEach(function (vals) {
                         var rectY0 = vals.Rect.X0.Y;
                         var rectY1 = vals.Rect.X1.Y;
                         if (rectY0 < zeroNext && rectY1 > zeroNext) {
@@ -629,7 +625,7 @@ temp.helpfunc = {
                 }
             } else {
                 row[i] = [];
-                arr.forEach(function (vals, j) {
+                arr.forEach(function (vals) {
 
                     var rectY0 = vals.Rect.X0.Y;
                     var rectY1 = vals.Rect.X1.Y;
@@ -640,7 +636,7 @@ temp.helpfunc = {
             }
         });
         var res = temp.helpfunc.IsMaxArr(row);
-        if (res.length == 0) return [];
+        if (!res.length) return [];
         if (Array.isArray(res[0])) {
             return res[0];
         } else {
@@ -648,13 +644,13 @@ temp.helpfunc = {
         }
     },
     IsMaxArr: function (arr) {
-        if (arr.length == 0) return [];
+        if (!arr.length) return [];
         return arr.reduce(function (prew, next) {
             if (prew.length > next.length && !Array.isArray(prew[0])) {
                 return prew;
             } else if (next.length > prew.length && !Array.isArray(prew[0])) {
                 return next;
-            } else if (prew.length == next.length) {
+            } else if (prew.length === next.length) {
                 return [prew, next];
             } else if (Array.isArray(prew[0])) {
                 return prew[0].length > next.length ? prew : next;
@@ -681,15 +677,15 @@ temp.helpfunc = {
         }).slice());
 
         paint.objects.datafromserver.datafromserverpage.forEach(function (val, i) {
-            if (paint.objects.global.disactivpage[i] == undefined) {
+            if (paint.objects.global.disactivpage[i] === undefined) {
                 paint.objects.global.collect[i] = val;
             } else {
                 paint.objects.global.collect[i] = paint.objects.global.disactivpage[i]; // need fix zero coord
             }
         });
 
-        if (paint.objects.global.collect.length == 0) {
-            temp.DataWorkspace.images.forEach(function (val, i) {
+        if (!paint.objects.global.collect.length) {
+            temp.DataWorkspace.images.forEach(function () {
                 paint.objects.global.collect.push(undefined);
             });
             paint.objects.global.collect[temp.DataWorkspace.activpage] = paint.objects.global.disactivpage[temp.DataWorkspace.activpage];
@@ -699,8 +695,8 @@ temp.helpfunc = {
     grabpagedata: function () {
         var res = [];
         paint.objects.global.collect.forEach(function (val, i) {
-            if (val == undefined) val = [{}];
-            if ($.type(val) != 'array') {
+            if (!val) val = [{}];
+            if ($.type(val) !== 'array') {
                 res.push(val);
             } else {
                 res.push(temp.helpfunc.arrchangeobjdata(val));
@@ -710,7 +706,7 @@ temp.helpfunc = {
             if (page.TableDatas == null) {
                 page.TableDatas = [];
             }
-            if (page.TableDatas.length == 1 && page.TableDatas[0].Rect.X0.X == 0 && page.TableDatas[0].Rect.X0.Y == 0 && page.TableDatas[0].Rect.X1.Y == 0 && page.TableDatas[0].Rect.X1.X == 0) {
+            if (page.TableDatas.length === 1 && page.TableDatas[0].Rect.X0.X === 0 && page.TableDatas[0].Rect.X0.Y === 0 && page.TableDatas[0].Rect.X1.Y === 0 && page.TableDatas[0].Rect.X1.X === 0) {
                 page.TableDatas = [];
                 return page;
             } else {
@@ -724,7 +720,7 @@ temp.helpfunc = {
         var IsText;
         if (!pk) return false;
         rightbar.data.global.dataType.filter(function (val, i) {
-            if (val.Pk == pk) {
+            if (val.Pk === pk) {
                 if (rightbar.data.global.dataType[i].IsText) res = true;
             }
         });
@@ -734,7 +730,7 @@ temp.helpfunc = {
     arrchangeobjdata: function (arr) {
         var getCurentTypeRect = function (text) {
             return rightbar.data.global.dataType.filter(function (val) {
-                if (val.DataType.toLowerCase().trim() == text.toLowerCase().trim() && val.Pk == false) {
+                if (val.DataType.toLowerCase().trim() === text.toLowerCase().trim() && val.Pk === false) {
                     return true;
                 } else {
                     return false;
@@ -743,22 +739,22 @@ temp.helpfunc = {
         };
 
         var obj = {};
-        arr.forEach(function (val, i) {
+        arr.forEach(function (val) {
             var newDataType = false;
-            if (val.type == undefined) return;
+            if (!val.type) return;
             if (getCurentTypeRect(val.type)) {
-                if (val.type == 'MainHeader') {
-                    if (obj[val.type] == undefined) obj[val.type] = [];
+                if (val.type === 'MainHeader') {
+                    if (!obj[val.type]) obj[val.type] = [];
                     obj[val.type] = {Rect: temp.helpfunc.percentchangecord(val.rectData)};
-                    if (obj.TableDatas == undefined) {
+                    if (!obj.TableDatas) {
                         obj.TableDatas = [];
                     }
                     val.type = 'TableDatas';
                     newDataType = 'TableDatas';
-                    if (obj[val.type] == undefined) obj[val.type] = [];
+                    if (!obj[val.type]) obj[val.type] = [];
                     obj.TableDatas.push({
                         Rect: temp.helpfunc.percentchangecord(val.rectData),
-                        Position: (val.position.length == 0) ? [] : val.position,
+                        Position: (!val.position.length) ? [] : val.position,
                         Regex: val.regex,
                         Reserve: val.reserve,
                         Data: val.value,
@@ -769,16 +765,16 @@ temp.helpfunc = {
                         }
                     });
                 } else {
-                    if (obj[val.type] == undefined) obj[val.type] = [];
+                    if (!obj[val.type]) obj[val.type] = [];
                     obj[val.type].push({Rect: temp.helpfunc.percentchangecord(val.rectData), Data: val.value});
                 }
             } else {
                 newDataType = val.type;
                 val.type = 'TableDatas';
-                if (obj[val.type] == undefined) obj[val.type] = [];
+                if (!obj[val.type]) obj[val.type] = [];
                 obj[val.type].push({
                     Rect: temp.helpfunc.percentchangecord(val.rectData),
-                    Position: (val.position.length == 0) ? [] : val.position,
+                    Position: !val.position.length ? [] : val.position,
                     Regex: val.regex,
                     Reserve: val.reserve,
                     Data: val.value,
@@ -790,20 +786,20 @@ temp.helpfunc = {
                 });
             }
         });
-        if (obj.TableDatas == undefined) obj.TableDatas = [];
-        if (Object.keys(obj).length == 0) {
+        if (!obj.TableDatas) obj.TableDatas = [];
+        if (!Object.keys(obj).length) {
             obj.Vats = [];
             obj.TableDatas = [];
             obj.Iban = [];
         }
-        if (obj.TableDatas.length == 1 && obj.TableDatas[0].Rect.X0.X == 0 && obj.TableDatas[0].Rect.X0.Y == 0 && obj.TableDatas[0].Rect.X1.Y == 0 && obj.TableDatas[0].Rect.X1.X == 0) {
+        if (obj.TableDatas.length === 1 && obj.TableDatas[0].Rect.X0.X === 0 && obj.TableDatas[0].Rect.X0.Y === 0 && obj.TableDatas[0].Rect.X1.Y === 0 && obj.TableDatas[0].Rect.X1.X === 0) {
             obj.TableDatas = [];
         }
         return obj;
     },
     percentchangecord: function (arr) {
         var res = {};
-        if (arr == undefined) return {X0: {X: 0, Y0: 0}, X1: {X: 0, Y0: 0}};
+        if (!arr) return {X0: {X: 0, Y0: 0}, X1: {X: 0, Y0: 0}};
         arr.forEach(function (val, i) {
             res['X' + i] = {
                 X: temp.helpfunc.blockcalcpercent(val.x, paint.objects.global.wh[0]),
@@ -835,7 +831,7 @@ temp.helpfunc = {
     // change data after delete
     changeData: function (text) {
         $.each(temp.Data.leftTempList.data, function (i, val) {
-            if (val[0] == text) {
+            if (val[0] === text) {
                 temp.Data.leftTempList.data[i][1] = temp.img.delete;
             }
         });
@@ -852,9 +848,9 @@ temp.helpfunc = {
 
     cookfilesend: function () {
         var $arrOpt = temp.elementLeftBar.object.modalWindow.find('#rowIndent form');
-        $.each($arrOpt, function (i) {
+        $.each($arrOpt, function () {
             var $that = $(this);
-            if ($that.find('input').val() != '') {
+            if ($that.find('input').val() !== '') {
                 temp.Data.LoadPdfOpt.advanc_settings_search.push([($that.find('select option:selected').text()), $that.find('input').val()]);
                 temp.Data.LoadPdfOpt.nameTemplate = temp.elementLeftBar.dataTable.active;
             }
@@ -957,7 +953,7 @@ temp.elementControl = {
             paint.objects.global.disactivpage[temp.DataWorkspace.activpage] = paint.objects.disactiv.map(function (obj) {
                 return $.extend({}, obj);
             });
-            if (paint.objects.datafromserver.removelistpage[temp.DataWorkspace.activpage + 1] != false) {
+            if (paint.objects.datafromserver.removelistpage[temp.DataWorkspace.activpage + 1] !== false) {
                 paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage + 1];
                 paint.objects.datafromserver.removelistpage[temp.DataWorkspace.activpage] = false;
             }
@@ -971,12 +967,12 @@ temp.elementControl = {
         }
     },
     prewPage: function () {
-        if (temp.DataWorkspace.activpage != 0) {
+        if (temp.DataWorkspace.activpage !== 0) {
             paint.objects.global.disactivpage[temp.DataWorkspace.activpage] = paint.objects.disactiv.map(function (obj) {
                 return $.extend({}, obj);
             });
             temp.DataWorkspace.activpage -= 1;
-            if (paint.objects.datafromserver.removelistpage[temp.DataWorkspace.activpage] != false) {
+            if (paint.objects.datafromserver.removelistpage[temp.DataWorkspace.activpage] !== false) {
                 paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
             }
             paint.objects.datafromserver.removelistpage[temp.DataWorkspace.activpage + 1] = false;
@@ -1030,11 +1026,6 @@ temp.Data = {
 
 temp.control = {
     templaite: {
-        // searchtemplaite: function (guid) {
-        //     return temp.Data.leftTempList.list.filter(function (val) {
-        //         return val.Pk == guid;
-        //     });
-        // },
         saveServerInfo: function (arrData) {
             temp.serverInfo = [];
             arrData.forEach(function (val, i) {
@@ -1073,64 +1064,11 @@ temp.control = {
 
         unselectDataTable: function () {
             temp.Data.leftTempList.data.forEach(function (val, i) {
-                if (val[1] == temp.img.activ) temp.Data.leftTempList.data[i][1] = temp.img.off;
+                if (val[1] === temp.img.activ) temp.Data.leftTempList.data[i][1] = temp.img.off;
             });
             temp.elementLeftBar.dataTable.object.find('selected').removeClass('selected');
         },
-
-        // selectfindTemplaite: function (templaiteObj) {
-        //     //clear img.activ prev
-        //     temp.control.templaite.unselectDataTable();
-        //     temp.Data.leftTempList.data.forEach(function (val, i) {
-        //         if (val[0] == templaiteObj.Name) {
-        //             temp.Data.leftTempList.data[i][1] = temp.img.activ;
-        //         }
-        //     });
-        //     temp.elementLeftBar.dataTable.clean();
-        //     temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-        //     (function () {
-        //         var pagelength = temp.elementLeftBar.dataTable.dt.page.info().pages;
-        //         for (var i = 0; i <= pagelength - 1; i++) {
-        //             temp.elementLeftBar.dataTable.dt.page(i).draw(false);
-        //             var findactivimg = temp.elementLeftBar.dataTable.object.find('' + temp.img.activ);
-        //             if (findactivimg.length > 0) {
-        //                 findactivimg.parent().parent().parent().addClass('selected');
-        //                 break;
-        //             }
-        //         }
-        //     })();
-        //     temp.elementLeftBar.dataTable.object.find('i').each(function () {
-        //         $that = $(this);
-        //         if ($that.attr('class').trim() == temp.img.activ) {
-        //             $that.parent().parent().addClass('selected');
-        //         }
-        //     });
-        // },
     },
-
-    // addemptyData: function (arr, n, pos) {
-    //     var base64Length = 'data:image/jpeg;base64,'.length;
-    //     var position = pos;
-    //     var clone = arr.slice(0);
-    //     var data = {
-    //         Base64Img: "",
-    //         TableDatas: [{
-    //             Data: null,
-    //             DataType: {Pk: "00000000-0000-0000-0000-000000000000", Name: "", IsText: false},
-    //             Rect: {X0: {X: 0, Y: 0}, X1: {X: 0, Y: 0}}
-    //         }],
-    //         OnlyImages: "",
-    //         OnlyText: "",
-    //     };
-    //     for (var i = 0; i < n; i++) {
-    //         data.Base64Img = temp.DataWorkspace.images[position + 1].substring(base64Length);
-    //         data.OnlyImages = temp.elementLeftBar.Templaite.OnlyImages[positions + 1].substring(base64Length);
-    //         data.OnlyText = temp.elementLeftBar.Templaite.OnlyText[position + 1].substring(base64Length);
-    //         clone.push(data);
-    //         position++;
-    //     }
-    //     return clone;
-    // },
 };
 
 temp.init = {
@@ -1175,11 +1113,10 @@ temp.init = {
         }
 
         // load pdf to the server
-
         temp.elementLeftBar.object.btn_load_temp.click(function (e) {
             temp.elementLeftBar.Templaite.e = e;
             temp.elementLeftBar.Templaite.state = 'load';
-            if (temp.DataWorkspace.images.length > 0 && temp.elementLeftBar.Templaite.Pk == temp.zeroGuid) {
+            if (temp.DataWorkspace.images.length > 0 && temp.elementLeftBar.Templaite.Pk === temp.zeroGuid) {
                 applymodal.handlers.show('Close Templaite without saving', 8);
             } else {
                 temp.helpfunc.changeTempNotLoad();
@@ -1208,7 +1145,7 @@ temp.init = {
             filter.handlers.disabledFilter();
             temp.elementLeftBar.dataTable.clean();
             temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-            if (selectedName != "") {
+            if (selectedName !== "") {
                 temp.Data.leftTempList.data = temp.Data.leftTempList.data.map(function (val) {
                     if (val[0] === selectedName) {
                         return [selectedName, temp.img.activ];
@@ -1248,7 +1185,7 @@ temp.init = {
         });
 
         temp.elementLeftBar.object.btn_save_search.click(function () {
-            if (temp.Data.LoadPdfOpt.file_pdf.__proto__.constructor.name != "FormData") {
+            if (temp.Data.LoadPdfOpt.file_pdf.__proto__.constructor.name !== "FormData") {
                 snack.info(`Info: Please download .pdf file`);
                 return;
             }
@@ -1283,7 +1220,7 @@ temp.loadEvent = {
     success: function (data) {
         data = temp.loadEvent.prependConvertData(data);
         if (data.Pks.length > 1) {
-            ph.data.object = ph.data.default; // set default pages objects
+            ph.data.object = ph.data.default;
             filter.handlers.toggleLight();
             // check id pdf download and button not push
             temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
@@ -1316,13 +1253,13 @@ temp.loadEvent = {
             temp.elementLeftBar.dataTable.clean();
             data.Pks.forEach(function (val) {
                 for (var i = 0; i < temp.Data.leftTempList.list.length; i++) {
-                    if (val == temp.Data.leftTempList.list[i].Pk) temp.Data.leftTempList.data.push([temp.Data.leftTempList.list[i].Name, temp.img.activ]);
+                    if (val === temp.Data.leftTempList.list[i].Pk) temp.Data.leftTempList.data.push([temp.Data.leftTempList.list[i].Name, temp.img.activ]);
                 }
             });
             temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
             temp.elementLeftBar.dataTable.object.find('i').each(function () {
                 $that = $(this);
-                if ($that.attr('class').trim() == temp.img.activ) {
+                if ($that.attr('class').trim() === temp.img.activ) {
                     $that.parent().parent().addClass('selected');
                 }
             });
@@ -1373,7 +1310,6 @@ temp.loadEvent = {
     },
 };
 
-
 temp.pass = {
     init: () => {
         try {
@@ -1413,9 +1349,8 @@ $(document).ready(function () {
         .then((data) => {
             temp_ajax.render.templaite.success(data[0]); //  List name Template
             hx.regex.create.init(data[4].Data, []); // reserve arguments
-            // Hide global preloader
-            pm.handlers.hidePreloader();
             redit.handlers.responseSuccess(data[4]);
+            pm.handlers.hidePreloader();
         })
         .catch(err => console.log(err));
     au.elements.init();
