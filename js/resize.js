@@ -17,7 +17,7 @@ resize.handlers = {
     debounce: function(func, wait, immediate) {
         var timeout;
         return function() {
-            if (d3.select('rect').length == 0) return;
+            if (!d3.select('rect').length) return;
             var defs = d3.select("defs");
             var svg = d3.select('svg');
             if (svg[0][0] != null && defs[0][0] == null) {
@@ -43,11 +43,11 @@ resize.handlers = {
         };
     },
     colorSetAutoCreateCollum: function(arr) {
-        arr.forEach(function(elemOld, i) {
+        arr.forEach(function(elemOld) {
             var count = 0;
             var oldCoord = resize.handlers.parsedataservercord(elemOld); // need absolute coord
             paint.objects.disactiv.forEach(function(elemNew, j) {
-                if (count != 0) return;
+                if (count !== 0) return;
                 var newCoord = elemNew.rectData;
                 if (Math.abs(oldCoord[0].x - newCoord[0].x) < 1 &&
                     Math.abs(oldCoord[1].x - newCoord[1].x) < 1 &&
@@ -71,7 +71,7 @@ resize.handlers = {
     },
     grabCreateColorRect: function() {
         return resize.data.compareOldColorCreate.filter(function(el) {
-            return el.autoCreate == "rectauto";
+            return el.autoCreate === "rectauto";
         });
     },
     percentCoord: function(arr) {
@@ -88,10 +88,9 @@ resize.logic = {
 
 $(window).on("resize", resize.handlers.debounce(function() {
     if (paint.objects.global.wh.length < 1) return;
-    // if (paint.objects.disactiv.length == 0) return;
     if (d3.select('rect'))
         if (paint.zoom.global.state) return;
-    if (resize.data.compareOldColorCreate == "") resize.data.compareOldColorCreate = paint.objects.disactiv.map(function(obj) { return $.extend({}, obj); });
+    if (resize.data.compareOldColorCreate === "") resize.data.compareOldColorCreate = paint.objects.disactiv.map(function(obj) { return $.extend({}, obj); });
     resize.data.prew.widthimg = paint.objects.global.wh[0];
     resize.data.prew.height = paint.objects.global.wh[1];
     resize.data.next.widthimg = resize.logic.findWHImg($('#dynamicImg'))[0];

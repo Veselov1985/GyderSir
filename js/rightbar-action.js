@@ -10,10 +10,10 @@ rightbaraction.Ajax = {
             type: "POST",
             data: JSON.stringify(data),
             dataType: 'json',
-            success: function(data, textStatus, jqXHR) {
+            success: function(data) {
                 rightbaraction.handlers.DeleteDataTypesuccess(data);
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function(jqXHR) {
                 rightbaraction.handlers.DeleteDataTypeerror(jqXHR);
             },
             beforeSend: function() {
@@ -34,10 +34,10 @@ rightbaraction.Ajax = {
             type: "POST",
             data: JSON.stringify(data),
             dataType: 'json',
-            success: function(data, textStatus, jqXHR) {
+            success: function(data) {
                 rightbaraction.handlers.SaveDataTypesuccess(data);
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function(jqXHR) {
                 rightbaraction.handlers.SaveDataTypeerror(jqXHR);
             },
             beforeSend: function() {
@@ -60,10 +60,10 @@ rightbaraction.Ajax = {
             type: "POST",
             data: JSON.stringify(data),
             dataType: 'json',
-            success: function(data, textStatus, jqXHR) {
+            success: function(data) {
                 rightbaraction.handlers.sendAddAmountsuccess(data, e);
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function(jqXHR) {
                 rightbaraction.handlers.sendAddAmounterror(jqXHR);
             },
             beforeSend: function() {},
@@ -80,10 +80,10 @@ rightbaraction.Ajax = {
             type: "POST",
             data: JSON.stringify(data),
             dataType: 'json',
-            success: function(data, textStatus, jqXHR) {
+            success: function(data) {
                 rightbaraction.handlers.sendAddDatesuccess(data, e);
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function(jqXHR) {
                 rightbaraction.handlers.sendAddDateerror(jqXHR);
             },
             beforeSend: function() {},
@@ -100,10 +100,10 @@ rightbaraction.Ajax = {
             type: "POST",
             data: JSON.stringify(data),
             dataType: 'json',
-            success: function(data, textStatus, jqXHR) {
+            success: function(data) {
                 rightbaraction.handlers.sendAddRegexsuccess(data, e);
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function(jqXHR) {
                 rightbaraction.handlers.sendAddRegexerror(jqXHR);
             },
             beforeSend: function() {},
@@ -120,10 +120,10 @@ rightbaraction.Ajax = {
             type: "POST",
             data: JSON.stringify(data),
             dataType: 'json',
-            success: function(data, textStatus, jqXHR) {
+            success: function(data) {
                 rightbaraction.handlers.sendAddAlternatesuccess(data, e);
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function(jqXHR) {
                 rightbaraction.handlers.sendAddAlternateerror(jqXHR);
             },
             beforeSend: function() {},
@@ -142,10 +142,10 @@ rightbaraction.Ajax = {
             type: "POST",
             data: JSON.stringify(datas),
             dataType: 'json',
-            success: function(data, textStatus, jqXHR) {
+            success: function(data) {
                 done(data);
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function(jqXHRn) {
                 error(jqXHR);
             },
             beforeSend: function() {},
@@ -158,7 +158,7 @@ rightbaraction.handlers = {
     DeleteDataTypesuccess: function(data) {
         var name;
         rightbar.data.global.dataType = rightbar.data.global.dataType.filter(function(value, j) {
-            if (value.Pk == data.Pk) {
+            if (value.Pk === data.Pk) {
                 name = value.DataType;
                 return false;
             } else {
@@ -166,7 +166,7 @@ rightbaraction.handlers = {
             }
         });
         rightbar.zag.dataTable = rightbar.zag.dataTable.filter(function(val) {
-            return val[0] != name ? true : false;
+            return val[0] !== name ? true : false;
         });
         rightbar.dataTable.clean(rightbar.dataTable.set.object);
         rightbar.dataTable.clean(rightbar.dataTable.change.object);
@@ -179,14 +179,14 @@ rightbaraction.handlers = {
     SaveDataTypesuccess: function(data) {
         var state = false;
         rightbar.data.global.dataType.forEach(function(val, i) {
-            if (data.Pk == val.Pk) {
+            if (data.Pk === val.Pk) {
                 state = true;
                 rightbar.data.global.dataType[i] = { DataType: val.DataType, Pk: val.Pk };
                 for (var key in data) {
-                    if (key != 'Pk' && key != 'Name' && key != 'IsText') {
+                    if (key !== 'Pk' && key !== 'Name' && key !== 'IsText') {
                         if (data[key] != null) rightbar.data.global.dataType[i][key] = data[key];
 
-                    } else if (key == 'IsText' && data[key] == true) {
+                    } else if (key === 'IsText' && data[key] === true) {
                         rightbar.data.global.dataType[i][key] = true;
                     }
                 }
@@ -206,9 +206,9 @@ rightbaraction.handlers = {
         newobj.DataType = obj.Name;
         newobj.Pk = obj.Pk;
         for (var key in obj) {
-            if (obj[key] != null && key != 'Name' && key != 'Pk' && obj[key] != false) {
+            if (obj[key] !== null && key !== 'Name' && key !== 'Pk' && obj[key] !== false) {
                 newobj[key] = obj[key];
-            } else if (obj[key] != null && key != 'Name' && key != 'Pk' && obj[key] == true) {
+            } else if (obj[key] !== null && key !== 'Name' && key !== 'Pk' && obj[key] === true) {
                 newobj[key] = obj[key];
             }
         }
@@ -257,12 +257,12 @@ rightbaraction.handlers = {
     },
     DeleteOptionPref: function(selectEl, Pk) {
         selectEl.find('option').each(function(i, val) {
-            if (Pk == val.value) $(this).remove();
+            if (Pk === val.value) $(this).remove();
         })
     },
     clearListMemory: function(list, Pk) {
         list = list.filter(function(val) {
-            return val.Pk != Pk;
+            return val.Pk !== Pk;
         });
         return list;
     },
@@ -274,24 +274,24 @@ rightbaraction.handlers = {
         rightbar.data.global.amount = rightbaraction.handlers.clearListMemory(rightbar.data.global.amount, data);
         rightbaraction.handlers.initselectedFirst(rightbar.elements.selAmount);
     },
-    sendDeleteAmounterror: function(error) { console.log(error); },
+    sendDeleteAmounterror: function(error) { snack.error(error); },
     sendDeleteDatesuccess: function(data) {
         rightbaraction.handlers.DeleteOptionPref(rightbar.elements.selDate, data);
         rightbar.data.global.date = rightbaraction.handlers.clearListMemory(rightbar.data.global.date, data);
         rightbaraction.handlers.initselectedFirst(rightbar.elements.selDate);
     },
-    sendDeleteDateerror: function(error) { console.log(error); },
+    sendDeleteDateerror: function(error) { snack.error(error); },
     sendDeleteRegexsuccess: function(data) {
         rightbaraction.handlers.DeleteOptionPref(rightbar.elements.selReg, data);
         rightbar.data.global.regex = rightbaraction.handlers.clearListMemory(rightbar.data.global.regex, data);
         redit.data = [].concat(rightbar.data.global.regex);
         rightbaraction.handlers.initselectedFirst(rightbar.elements.selReg);
     },
-    sendDeleteRegexerror: function(error) { console.log(error); },
+    sendDeleteRegexerror: function(error) {snack.error(error); },
     sendDeleteAlternatesuccess: function(data) {
         rightbaraction.handlers.DeleteOptionPref(rightbar.elements.selalternate, data);
         rightbar.data.global.alternate = rightbaraction.handlers.clearListMemory(rightbar.data.global.alternate, data);
         rightbaraction.handlers.initselectedFirst(rightbar.elements.selalternate);
     },
-    sendDeleteAlternateerror: function(error) { console.log(error); },
+    sendDeleteAlternateerror: function(error) { snack.error(error); },
 };

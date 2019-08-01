@@ -79,7 +79,7 @@ trw.dataTable = {
                     'orderable': true,
                     'searchable': true,
                     'className': 'dt-body-center',
-                    'render': function (data, type, full, meta) {
+                    'render': function (data, type, full) {
                         return `<span data-id="${full.join(',')}">${data}</span>`;
                     }
                 },
@@ -88,7 +88,7 @@ trw.dataTable = {
                     'orderable': true,
                     'searchable': true,
                     'className': 'dt-body-center',
-                    'render': function (data, type, full, meta) {
+                    'render': function (data) {
                         return data;
                     },
                 },
@@ -97,7 +97,7 @@ trw.dataTable = {
                     'orderable': true,
                     'searchable': true,
                     'className': 'dt-body-center',
-                    'render': function (data, type, full, meta) {
+                    'render': function (data) {
                         return data;
                     },
                 },
@@ -106,7 +106,7 @@ trw.dataTable = {
                     'orderable': true,
                     'searchable': true,
                     'className': 'dt-body-center',
-                    'render': function (data, type, full, meta) {
+                    'render': function (data) {
                         return data;
                     },
                 }
@@ -153,10 +153,10 @@ trw.EventEmmiter = {
     listen: function (callback) {
         let eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
         let eventer = window[eventMethod];
-        let messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+        let messageEvent = eventMethod === "attachEvent" ? "onmessage" : "message";
         // Listen to message from parent window
         eventer(messageEvent, function (e) {
-            if (!trw.debug && e.origin != window.origin) return;
+            if (!trw.debug && e.origin !== window.origin) return;
             console.log('origin: ', e.origin);
             console.log('parent received message!: ', e.data);
             callback(e.data);
@@ -208,8 +208,6 @@ trw.chakeEvents = {
             trw.data.obj = $.extend({}, obj);
             trw.handlers.getTemplateAndSendParent(trw.data.obj.id);
         } else {
-            // listen end doc => close window
-            // check update list Request templates
             ajax.ajax.getAll().then(data => {
                 if (data.length === 0) {
                     trw.EventEmmiter.emit(trw.ACTIONSCREATER.CloseWindow());
@@ -231,7 +229,6 @@ trw.handlers = {
     checkParent: () => {
         setInterval(trw.handlers.checkOpener, 5000);
     },
-    // Check parent window is exist
     checkOpener: () => {
         const child = (self || this || window);
         const childOpener = child.opener;
@@ -242,10 +239,9 @@ trw.handlers = {
         trw.dataTable.init(trw.dataTable.object, trw.data.zag);
     },
     saveTemplateParent: (data) => {
-        ajax.ajax.getProcess(data.obj.id, data.templateId)   // send id Template and Pks create Template
+        ajax.ajax.getProcess(data.obj.id, data.templateId)
             .then((response) => {
                 if (response) {
-                    // need  remove id worker in the list
                     trw.handlers.deletePrewJob(response.id);
                     trw.chakeEvents.pdfNextStep();
                 }
@@ -282,9 +278,7 @@ trw.handlers = {
     getTemplateAndSendParent: (id) => {
         ajax.ajax.getId(id)
             .then(data => {
-                // validate JSON String
                 if (trw.helpfunc.isValidJSON(data.data)) {
-                    console.log('TEMPLATE from Api', data);
                     const Template = JSON.parse(data.data);
                     trw.EventEmmiter.emit({event: 'DocumentProcessing', id: trw.data.obj, Template});
                 } else {
@@ -300,9 +294,7 @@ trw.handlers = {
 };
 
 trw.action = function () {
-    // listener parent window
     trw.EventEmmiter.listen(trw.EventEmmiter.callbackHandlers);
-    // Upload Events
     trw.elements.temp_request_child_upload.on('click', function () {
         const trSelected = trw.handlers.getSelectedTr();
         if (trSelected.length > 0) {
@@ -324,7 +316,6 @@ trw.action = function () {
             snack.error(`Server Error ${err[1]}`)
         })
     });
-
     // close child window
     trw.elements.temp_request_cancel.on('click', function () {
         trw.worker.terminate();
@@ -332,15 +323,11 @@ trw.action = function () {
     });
 };
 
-
 $(document).ready(function () {
     trw.handlers.checkOpener();
     trw.init();
     trw.action();
-    // TODO feature WORKER
     trw.worker.init();
-    // End WORKER
-    // get document list data
     ajax.ajax.getAll()
         .then(data => {
             if (data.length !== 0) {
