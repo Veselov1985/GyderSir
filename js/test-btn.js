@@ -397,7 +397,7 @@
  };
 
  test.elements.test_btn.on('click', function() {
-     if (temp.DataWorkspace.images.length == 0 || temp.DataWorkspace.images.length == undefined) return;
+     if (!temp.DataWorkspace.images.length) return;
      test.handlers.clean(test.objects.dataTableHeader);
      test.handlers.clean(test.objects.dataTableLines);
      test.ajax.sendTestProccess(test.fix.addVatsandIbans(temp.helpfunc.createresponsedata().Template));

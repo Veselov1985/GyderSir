@@ -132,7 +132,12 @@ let temp_ajax = {
     getTemplateObject: (Pk) => {
         pm.handlers.showPreloader();
         return temp_ajax.post(temp.routes.getTemplateItemObject, {Pk: Pk})
-            .then(d => JSON.parse(d.Content) )
+            .then(d => {
+                const temp = JSON.parse(d.Content);
+                // TODO delete this
+                console.log(temp);
+                return temp;
+            })
             .catch(e => console.log(e))
             .finally(() => pm.handlers.hidePreloader());
     }

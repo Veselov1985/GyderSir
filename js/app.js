@@ -558,12 +558,11 @@ temp.helpfunc = {
     },
     initHeaders: function (obj) {
         var pageTable = obj.Template.Pages[0].TableDatas.filter(function (rect) {
-            return rect.Data == '';
+            return rect.Data == "";
         });
         var ismain = temp.helpfunc.isMainHeader(obj.Template.Pages[0].MainHeader);
         if (ismain) {
             var zeroLine = temp.helpfunc.zeroLine(ismain);
-
             obj.Template.Headers = [].concat(temp.helpfunc.findRectInHeadLine(zeroLine, pageTable));
         } else {
             obj.Template.Headers = temp.helpfunc.findBigRow(pageTable);
@@ -572,7 +571,6 @@ temp.helpfunc = {
     },
     isMainHeader: function (main) {
         return main ? main.Rect : false;
-
     },
     zeroLine: function (rect) {
         return rect.X0.Y < rect.X1.Y ? rect.X0.Y + (rect.X1.Y - rect.X0.Y) / 2 : rect.X1.Y + (rect.X0.Y - rect.X1.Y) / 2;
@@ -632,11 +630,10 @@ temp.helpfunc = {
                 return prew;
             } else if (next.length > prew.length && !Array.isArray(prew[0])) {
                 return next;
-            } else if (prew.length === next.length) {
+            } else if (prew.length == next.length) {
                 return [prew, next];
             } else if (Array.isArray(prew[0])) {
                 return prew[0].length > next.length ? prew : next;
-
             }
         });
     },
@@ -659,14 +656,14 @@ temp.helpfunc = {
         }).slice());
 
         paint.objects.datafromserver.datafromserverpage.forEach(function (val, i) {
-            if (paint.objects.global.disactivpage[i] === undefined) {
+            if (!paint.objects.global.disactivpage[i]) {
                 paint.objects.global.collect[i] = val;
             } else {
                 paint.objects.global.collect[i] = paint.objects.global.disactivpage[i]; // need fix zero coord
             }
         });
 
-        if (!paint.objects.global.collect.length) {
+        if (paint.objects.global.collect.length == 0) {
             temp.DataWorkspace.images.forEach(function () {
                 paint.objects.global.collect.push(undefined);
             });
@@ -677,8 +674,8 @@ temp.helpfunc = {
     grabpagedata: function () {
         var res = [];
         paint.objects.global.collect.forEach(function (val, i) {
-            if (!val) val = [{}];
-            if ($.type(val) !== 'array') {
+            if (val == undefined) val = [{}];
+            if ($.type(val) != 'array') {
                 res.push(val);
             } else {
                 res.push(temp.helpfunc.arrchangeobjdata(val));
@@ -688,7 +685,7 @@ temp.helpfunc = {
             if (page.TableDatas == null) {
                 page.TableDatas = [];
             }
-            if (page.TableDatas.length === 1 && page.TableDatas[0].Rect.X0.X === 0 && page.TableDatas[0].Rect.X0.Y === 0 && page.TableDatas[0].Rect.X1.Y === 0 && page.TableDatas[0].Rect.X1.X === 0) {
+            if (page.TableDatas.length == 1 && page.TableDatas[0].Rect.X0.X == 0 && page.TableDatas[0].Rect.X0.Y == 0 && page.TableDatas[0].Rect.X1.Y == 0 && page.TableDatas[0].Rect.X1.X == 0) {
                 page.TableDatas = [];
                 return page;
             } else {
@@ -702,7 +699,7 @@ temp.helpfunc = {
         var IsText;
         if (!pk) return false;
         rightbar.data.global.dataType.filter(function (val, i) {
-            if (val.Pk === pk) {
+            if (val.Pk == pk) {
                 if (rightbar.data.global.dataType[i].IsText) res = true;
             }
         });
@@ -712,7 +709,7 @@ temp.helpfunc = {
     arrchangeobjdata: function (arr) {
         var getCurentTypeRect = function (text) {
             return rightbar.data.global.dataType.filter(function (val) {
-                if (val.DataType.toLowerCase().trim() === text.toLowerCase().trim() && val.Pk === false) {
+                if (val.DataType.toLowerCase().trim() == text.toLowerCase().trim() && val.Pk == false) {
                     return true;
                 } else {
                     return false;
@@ -723,20 +720,20 @@ temp.helpfunc = {
         var obj = {};
         arr.forEach(function (val) {
             var newDataType = false;
-            if (!val.type) return;
+            if (val.type == undefined) return;
             if (getCurentTypeRect(val.type)) {
-                if (val.type === 'MainHeader') {
-                    if (!obj[val.type]) obj[val.type] = [];
+                if (val.type == 'MainHeader') {
+                    if (obj[val.type] == undefined) obj[val.type] = [];
                     obj[val.type] = {Rect: temp.helpfunc.percentchangecord(val.rectData)};
-                    if (!obj.TableDatas) {
+                    if (obj.TableDatas == undefined) {
                         obj.TableDatas = [];
                     }
                     val.type = 'TableDatas';
                     newDataType = 'TableDatas';
-                    if (!obj[val.type]) obj[val.type] = [];
+                    if (obj[val.type] == undefined) obj[val.type] = [];
                     obj.TableDatas.push({
                         Rect: temp.helpfunc.percentchangecord(val.rectData),
-                        Position: (!val.position.length) ? [] : val.position,
+                        Position: (val.position.length == 0) ? [] : val.position,
                         Regex: val.regex,
                         Reserve: val.reserve,
                         Data: val.value,
@@ -747,16 +744,16 @@ temp.helpfunc = {
                         }
                     });
                 } else {
-                    if (!obj[val.type]) obj[val.type] = [];
+                    if (obj[val.type] == undefined) obj[val.type] = [];
                     obj[val.type].push({Rect: temp.helpfunc.percentchangecord(val.rectData), Data: val.value});
                 }
             } else {
                 newDataType = val.type;
                 val.type = 'TableDatas';
-                if (!obj[val.type]) obj[val.type] = [];
+                if (obj[val.type] == undefined) obj[val.type] = [];
                 obj[val.type].push({
                     Rect: temp.helpfunc.percentchangecord(val.rectData),
-                    Position: !val.position.length ? [] : val.position,
+                    Position: val.position.length == 0 ? [] : val.position,
                     Regex: val.regex,
                     Reserve: val.reserve,
                     Data: val.value,
@@ -768,20 +765,20 @@ temp.helpfunc = {
                 });
             }
         });
-        if (!obj.TableDatas) obj.TableDatas = [];
-        if (!Object.keys(obj).length) {
+        if (obj.TableDatas == undefined) obj.TableDatas = [];
+        if (Object.keys(obj).length == 0) {
             obj.Vats = [];
             obj.TableDatas = [];
             obj.Iban = [];
         }
-        if (obj.TableDatas.length === 1 && obj.TableDatas[0].Rect.X0.X === 0 && obj.TableDatas[0].Rect.X0.Y === 0 && obj.TableDatas[0].Rect.X1.Y === 0 && obj.TableDatas[0].Rect.X1.X === 0) {
+        if (obj.TableDatas.length == 1 && obj.TableDatas[0].Rect.X0.X == 0 && obj.TableDatas[0].Rect.X0.Y == 0 && obj.TableDatas[0].Rect.X1.Y == 0 && obj.TableDatas[0].Rect.X1.X == 0) {
             obj.TableDatas = [];
         }
         return obj;
     },
     percentchangecord: function (arr) {
         var res = {};
-        if (!arr) return {X0: {X: 0, Y0: 0}, X1: {X: 0, Y0: 0}};
+        if (arr == undefined) return {X0: {X: 0, Y0: 0}, X1: {X: 0, Y0: 0}};
         arr.forEach(function (val, i) {
             res['X' + i] = {
                 X: temp.helpfunc.blockcalcpercent(val.x, paint.objects.global.wh[0]),
@@ -813,7 +810,7 @@ temp.helpfunc = {
     // change data after delete
     changeData: function (text) {
         $.each(temp.Data.leftTempList.data, function (i, val) {
-            if (val[0] === text) {
+            if (val[0] == text) {
                 temp.Data.leftTempList.data[i][1] = temp.img.delete;
             }
         });
@@ -832,7 +829,7 @@ temp.helpfunc = {
         var $arrOpt = temp.elementLeftBar.object.modalWindow.find('#rowIndent form');
         $.each($arrOpt, function () {
             var $that = $(this);
-            if ($that.find('input').val() !== '') {
+            if ($that.find('input').val() != '') {
                 temp.Data.LoadPdfOpt.advanc_settings_search.push([($that.find('select option:selected').text()), $that.find('input').val()]);
                 temp.Data.LoadPdfOpt.nameTemplate = temp.elementLeftBar.dataTable.active;
             }
