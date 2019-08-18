@@ -180,7 +180,6 @@ ft.position = {
         var headerRectCord = fromHeadersAndMainHeader[1] ? fromHeadersAndMainHeader[1] : fromHeadersAndMainHeader[0][0].Rect;
         var wordSearch = ft.position.findKW(headerRectCord, template.Pages[currentFrom]);
         var pages = [].concat(template.Pages);
-
         to.forEach((page, i) => {
             var pageIndex = page - 1;
             var pageData = template.Pages[pageIndex];
@@ -208,37 +207,6 @@ ft.position = {
                 pages[pageIndex] = pageData;
             }
         });
-
-
-        // var pages = template.Pages.map((itemPage, i) => {
-        //     var pageTO = to.find(p => {
-        //         var toPage = p - 1;
-        //         return i === toPage;
-        //     });
-        //     if (pageTO && wordSearch && currentFrom !== i) {
-        //         var OCRFrom = template.Pages[currentFrom].OcrStrings.filter(item => wordSearch.trim() == item.Sentence.trim())[0];
-        //         var OCRTo = template.Pages[pageTO - 1].OcrStrings.filter(item => wordSearch.trim() == item.Sentence.trim())[0];
-        //         if (OCRFrom && OCRTo) {
-        //             var cordFrom = cc.handlers.convertServerRect(OCRFrom);
-        //             var cordTo = cc.handlers.convertServerRect(OCRTo);
-        //             var Ycord = cordTo.X0.Y < cordFrom.X0.Y ? -(cordFrom.X0.Y - cordTo.X0.Y) : cordTo.X0.Y - cordFrom.X0.Y;
-        //             if (itemPage.MainHeader && itemPage.MainHeader.Rect) {
-        //                 itemPage.MainHeader.Rect.X0.Y = itemPage.MainHeader.Rect.X0.Y + Ycord;
-        //                 itemPage.MainHeader.Rect.X1.Y = itemPage.MainHeader.Rect.X1.Y + Ycord;
-        //             }
-        //             itemPage.TableDatas = [].concat(itemPage.TableDatas.map(item => {
-        //                 item.Rect.X0.Y = item.Rect.X0.Y + Ycord;
-        //                 item.Rect.X1.Y = item.Rect.X1.Y + Ycord;
-        //                 return item;
-        //             }));
-        //             return itemPage;
-        //         } else {
-        //             return itemPage;
-        //         }
-        //     } else {
-        //         return itemPage;
-        //     }
-        // });
         return pages;
     },
     findHeader: (template, from) => {
@@ -272,7 +240,7 @@ ft.copy = {
         var MainHeaderFrom = ft.copy.getMainHeader(from, Templaite);
         var newTemplaite = ft.copy.initCopareFromtoToData(DataFrom, to, Templaite, MainHeaderFrom);
         // this logic find header and set position in new copy page rule
-        var templatePos = ft.position.init(newTemplaite, from, to);
+        var templatePos = ft.position.init(JSON.parse(JSON.stringify(newTemplaite)), from, to);
         newTemplaite.Pages = [].concat(templatePos);
         ft.paint.init(newTemplaite);
     },
