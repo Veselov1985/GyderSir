@@ -827,7 +827,7 @@ paint.init = function() {
 
 document.addEventListener('keydown', function(event) {
     var key = event.key;
-    if (key === "Delete") {
+    if (key == "Delete") {
         temp.elementLeftBar.Templaite.Pk = temp.zeroGuid;
         temp.elementLeftBar.Templaite.Name = '';
         paint.objects.global.keyDelevent = true;
@@ -837,7 +837,7 @@ document.addEventListener('keydown', function(event) {
 
 document.addEventListener('keyup', function(event) {
     var key = event.key;
-    if (key === "Delete") {
+    if (key == "Delete") {
         paint.objects.global.keyDelevent = false;
     }
 });

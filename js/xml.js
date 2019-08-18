@@ -57,7 +57,7 @@ xml.handlers = {
         var headerArr = arr.filter(function(val, i) { return (typeof val.Header) == 'string'; });
         var dataArr = arr.filter(function(val, i) {
             if ((typeof val.Data) == 'string') {
-                if (val.Data.toLowerCase().trim() !== 'Exception whith Regex'.toLowerCase() && val.Data.trim() != '') {
+                if (val.Data.toLowerCase().trim() != 'Exception whith Regex'.toLowerCase() && val.Data.trim() != '') {
                     return true;
                 } else {
                     return false;

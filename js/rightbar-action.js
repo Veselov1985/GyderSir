@@ -166,7 +166,7 @@ rightbaraction.handlers = {
             }
         });
         rightbar.zag.dataTable = rightbar.zag.dataTable.filter(function(val) {
-            return val[0] !== name ? true : false;
+            return val[0] != name ? true : false;
         });
         rightbar.dataTable.clean(rightbar.dataTable.set.object);
         rightbar.dataTable.clean(rightbar.dataTable.change.object);
@@ -183,7 +183,7 @@ rightbaraction.handlers = {
                 state = true;
                 rightbar.data.global.dataType[i] = { DataType: val.DataType, Pk: val.Pk };
                 for (var key in data) {
-                    if (key !== 'Pk' && key !== 'Name' && key !== 'IsText') {
+                    if (key != 'Pk' && key != 'Name' && key != 'IsText') {
                         if (data[key] != null) rightbar.data.global.dataType[i][key] = data[key];
 
                     } else if (key === 'IsText' && data[key] === true) {
@@ -206,9 +206,9 @@ rightbaraction.handlers = {
         newobj.DataType = obj.Name;
         newobj.Pk = obj.Pk;
         for (var key in obj) {
-            if (obj[key] !== null && key !== 'Name' && key !== 'Pk' && obj[key] !== false) {
+            if (obj[key] != null && key != 'Name' && key != 'Pk' && obj[key] != false) {
                 newobj[key] = obj[key];
-            } else if (obj[key] !== null && key !== 'Name' && key !== 'Pk' && obj[key] === true) {
+            } else if (obj[key] != null && key != 'Name' && key != 'Pk' && obj[key] == true) {
                 newobj[key] = obj[key];
             }
         }
@@ -262,7 +262,7 @@ rightbaraction.handlers = {
     },
     clearListMemory: function(list, Pk) {
         list = list.filter(function(val) {
-            return val.Pk !== Pk;
+            return val.Pk != Pk;
         });
         return list;
     },

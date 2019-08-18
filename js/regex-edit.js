@@ -171,7 +171,7 @@ redit.validate = {
         }
     },
     isSuccessInputs: (r, d) => {
-        return r.trim() != '' && d.trim() != '' && r.indexOf(' ') === -1;
+        return r.trim() != '' && d.trim() != '' && r.indexOf(' ') == -1;
     }
 };
 

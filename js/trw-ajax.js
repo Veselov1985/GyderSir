@@ -55,7 +55,7 @@ ajax.ajax = {
         })
     },
     getId: (id) => {
-        const find = trw.worker.fetchTemplate.find(t => t.id === id);
+        const find = trw.worker.fetchTemplate.find(t => t.id == id);
         if (find) return new Promise(resolve => resolve(find));
         return new Promise((resolve, reject) => {
             $.ajax({

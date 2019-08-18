@@ -145,9 +145,9 @@ rightbar.handlers = {
     },
     currenttabchange: function (e) {
         var $href = $(e.target).attr('href');
-        if ($href === '#set') return 1;
-        if ($href === '#change') return 2;
-        if ($href === '#header_xml') return 3;
+        if ($href == '#set') return 1;
+        if ($href == '#change') return 2;
+        if ($href == '#header_xml') return 3;
     },
     togleshowelem: function (elem) {
         elem.is(":hidden") ? elem.attr("hidden", false) : elem.attr('hidden', true);
@@ -209,7 +209,7 @@ rightbar.handlers = {
             var selectfield = parent$2.find('select');
             var inputfield = parent$2.find('input:not([type="checkbox"])');
             var addselectcont = inputfield.val(); // input field
-            if (addselectcont === '') {
+            if (addselectcont == '') {
                 inputfield.focus();
                 return;
             }
@@ -220,10 +220,10 @@ rightbar.handlers = {
 
     setneedAjax: function (select, e, data) {
         var res = select.attr('data-sel');
-        if (res === 'AmountNotation') rightbaraction.Ajax.sendAddAmountProccess(data, e);
-        if (res === 'DataNotation') rightbaraction.Ajax.sendAddDateProccess(data, e);
-        if (res === 'Regex') rightbaraction.Ajax.sendAddRegexProccess(data, e);
-        if (res === 'Alternate') rightbaraction.Ajax.sendAddAlternateProccess(data, e);
+        if (res == 'AmountNotation') rightbaraction.Ajax.sendAddAmountProccess(data, e);
+        if (res == 'DataNotation') rightbaraction.Ajax.sendAddDateProccess(data, e);
+        if (res == 'Regex') rightbaraction.Ajax.sendAddRegexProccess(data, e);
+        if (res == 'Alternate') rightbaraction.Ajax.sendAddAlternateProccess(data, e);
     },
 
     formdataoption: function (name, cont) {
@@ -232,7 +232,7 @@ rightbar.handlers = {
             Name: '',
             Pk: ''
         };
-        if (name === 'AmountNotation') {
+        if (name == 'AmountNotation') {
             //   rightbar.data.global.amount
         }
         if (name == 'DataNotation') {
@@ -249,7 +249,7 @@ rightbar.handlers = {
     findrectofdatatype: function (nameDataType) {
         paint.objects.disactiv.forEach(function (val, i) {
             var elem$ = $(val.rectangleElement[0][0]);
-            if (val.type.toLowerCase().trim() === nameDataType.toLowerCase().trim()) {
+            if (val.type.toLowerCase().trim() == nameDataType.toLowerCase().trim()) {
                 elem$.attr('class', 'datacheck');
             } else {
                 elem$.attr('class', 'rectdis');
@@ -279,7 +279,7 @@ rightbar.handlers = {
             val.each(function (i, value) {
                 var $that = $(this);
                 $that.removeClass('selected');
-                if ($that.find('td').text().trim().toLowerCase() === paint.objects.activrect.type.trim().toLowerCase()) {
+                if ($that.find('td').text().trim().toLowerCase() == paint.objects.activrect.type.trim().toLowerCase()) {
                     $(value).addClass('selected');
                     state = true;
                 }
@@ -296,7 +296,7 @@ rightbar.handlers = {
     },
 
     checktypeinactivrect: function (choiseDataType) {
-        return choiseDataType.toLowerCase() === paint.objects.activrect.type.trim().toLowerCase()
+        return choiseDataType.toLowerCase() == paint.objects.activrect.type.trim().toLowerCase()
     },
 
     finddeleterowDatatype: function () {
@@ -310,7 +310,7 @@ rightbar.handlers = {
             if (rightbar.data.global.dataType.length > 0) {
                 var findPk;
                 rightbar.data.global.dataType.forEach(function (val) {
-                    if (val.DataType === $selected.text()) findPk = {Pk: val.Pk};
+                    if (val.DataType == $selected.text()) findPk = {Pk: val.Pk};
                 });
                 if (findPk) {
                     rightbaraction.Ajax.sendDeleteDataTypeProccess(findPk);
@@ -336,7 +336,7 @@ rightbar.handlers = {
         var res = [false];
         rightbar.data.global.checkboxList.forEach(function (val) {
             if (val.prop('checked') == true) {
-                if (val.attr('id') === 'checkText') {
+                if (val.attr('id') == 'checkText') {
                     res[0] = true;
                     res.push(rightbar.elements.input_new_typedata.val()); //name datatype
                     res.push('Text');
@@ -365,7 +365,7 @@ rightbar.handlers = {
         };
         var arr = rightbar.handlers.findactivcheckbox();
         var result = rightbar.data.global.dataType.filter(function (val) {
-            if (val.DataType === arr[1]) return true;
+            if (val.DataType == arr[1]) return true;
         });
 
         if (result.length > 0) {
@@ -375,51 +375,51 @@ rightbar.handlers = {
             obj.Pk = '';
             obj.Name = arr[1];
         }
-        if (arr[2] === 'Amount notation') {
+        if (arr[2] == 'Amount notation') {
             rightbar.data.global.amount.forEach(function (val) {
-                if (val.Content === arr[3]) obj.AmountNotation = val.Pk;
+                if (val.Content == arr[3]) obj.AmountNotation = val.Pk;
             });
         }
-        if (arr[2] === 'Date Notation') {
+        if (arr[2] == 'Date Notation') {
             rightbar.data.global.date.forEach(function (val) {
-                if (val.Content === arr[3]) obj.DataNotation = val.Pk;
+                if (val.Content == arr[3]) obj.DataNotation = val.Pk;
             });
         }
-        if (arr[2] === 'Regex') {
+        if (arr[2] == 'Regex') {
             rightbar.data.global.regex.forEach(function (val) {
-                if (val.Content === arr[3]) obj.Regex = val.Pk;
+                if (val.Content == arr[3]) obj.Regex = val.Pk;
             });
         }
-        if (arr[2] === 'alternate') {
+        if (arr[2] == 'alternate') {
             rightbar.data.global.alternate.forEach(function (val) {
-                if (val.Content === arr[3]) obj.Alternate = val.Pk;
+                if (val.Content == arr[3]) obj.Alternate = val.Pk;
             });
         }
-        if (arr[2] === 'Text') {
+        if (arr[2] == 'Text') {
             obj.IsText = true;
         }
         rightbaraction.Ajax.sendSaveDataTypeProccess(obj);
     },
     showoptiondataType: function (text) {
-        if (text === 'Ibans' ||
-            text === 'Vats' ||
-            text === 'KeyWord' ||
-            text === 'MainHeader' ||
-            text === 'Subtotals' ||
-            text === 'InvoiceDates' ||
-            text === 'OrderNumbers' ||
-            text === 'Totals' ||
-            text === 'VatAmounts' ||
-            text === 'InvoiceNumbers'
+        if (text == 'Ibans' ||
+            text == 'Vats' ||
+            text == 'KeyWord' ||
+            text == 'MainHeader' ||
+            text == 'Subtotals' ||
+            text == 'InvoiceDates' ||
+            text == 'OrderNumbers' ||
+            text == 'Totals' ||
+            text == 'VatAmounts' ||
+            text == 'InvoiceNumbers'
         ) return;
         rightbar.data.global.dataType.forEach(function (val) {
-            if (val.DataType === text) {
+            if (val.DataType == text) {
                 rightbar.handlers.colorsetdataType(rightbar.handlers.findfieldelement(val));
             }
         });
     },
     findfieldelement: function (val) {
-        const type = Object.keys(val).find(i => ['Pk', 'DataType'].indexOf(i) === -1);
+        const type = Object.keys(val).find(i => ['Pk', 'DataType'].indexOf(i) == -1);
         switch (type) {
             case 'AmountNotation':
                 return [rightbar.data.global.checkboxList[0], rightbar.elements.selAmount, rightbar.handlers.findtextoption(rightbar.data.global.amount, val[type])];
@@ -441,21 +441,21 @@ rightbar.handlers = {
 
     findtextoption: function (arr, Pk) {
         var res = arr.filter(function (val) {
-            return Pk === val.Pk;
+            return Pk == val.Pk;
         });
         return res[0].Content;
     },
 
     colorsetdataType: function (arr) {
         arr[0].prop('checked', true).addClass('checkdat');
-        if (arr[1] !== false) rightbar.handlers.findactivoption(arr[1], arr[2]);
+        if (arr[1] != false) rightbar.handlers.findactivoption(arr[1], arr[2]);
     },
 
     findactivoption: function (elem, text) {
         elem.find('option').each(function () {
             var $that = $(this);
             $that.prop('selected', false);
-            if ($that.text() === text) {
+            if ($that.text() == text) {
                 $that.prop('selected', true);
                 $that.addClass('checkdat');
             }
@@ -514,7 +514,7 @@ rightbar.handlers = {
 
     addselected: function (object, text) {
         object.find('td').each(function () {
-            if ($(this).text() === text) $(this).parent().addClass('selected');
+            if ($(this).text() == text) $(this).parent().addClass('selected');
         });
     },
 
@@ -566,11 +566,11 @@ rightbar.initdoo = function () {
 
     //change tab show
     $('#dataType a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        if (rightbar.handlers.currenttabchange(e) === 2) {
+        if (rightbar.handlers.currenttabchange(e) == 2) {
             var absReserve = $('#absolutePos');
             hx.helpfunc.hideElem(absReserve);
             rightbar.handlers.inittoggle();
-            if (rightbar.elements.input_new_typedata.is(":visible") === true) {
+            if (rightbar.elements.input_new_typedata.is(":visible") == true) {
                 rightbar.elements.saveDataType.attr('hidden', false);
             }
             rightbar.data.global.currenttab = 1; // Change
@@ -581,7 +581,7 @@ rightbar.initdoo = function () {
             hx.helpfunc.hideElem(absReserve);
 
             hx.helpfunc.hideElem(hx.elements.editXML);
-        } else if (rightbar.handlers.currenttabchange(e) === 1) {
+        } else if (rightbar.handlers.currenttabchange(e) == 1) {
             rightbar.handlers.inittoggle();
             rightbar.handlers.initsettabstate();
             rightbar.data.global.currenttab = 0; //Set
@@ -683,18 +683,18 @@ rightbar.initdoo = function () {
     rightbar.elements.btn_apply_not.on('click', function (e) {
         e.preventDefault();
         var selected = rightbar.dataTable.set.dt.$('tr.selected');
-        if (selected.length === 0) return;
+        if (selected.length == 0) return;
         applymodal.handlers.show('Add type "' + selected.find('td').text() + '" in field ', 7);
     });
 
     // add type in rect
     applymodal.elements.apply_apply_typedata.on('click', function () {
         var selected = rightbar.dataTable.set.dt.$('tr.selected');
-        if (selected.length === 0) return;
+        if (selected.length == 0) return;
         var DataTypeName = selected.find('td').text();
         paint.objects.activrect.type = DataTypeName;
         rightbar.data.global.dataType.forEach(function (val) {
-            if (val.DataType === paint.objects.activrect.type) {
+            if (val.DataType == paint.objects.activrect.type) {
                 paint.objects.activrect.Pk = val.Pk;
             }
         });
@@ -713,23 +713,23 @@ rightbar.initdoo = function () {
         e.preventDefault();
         if (kw.state) return; //kw block
         if (
-            selected === "Vats" ||
-            selected === "Ibans" ||
-            selected === "KeyWord" ||
-            selected === "Subtotals" ||
-            selected === "InvoiceDates" ||
-            selected === "ItemNumbers" ||
-            selected === "OrderNumbers" ||
-            selected === "Quantities" ||
-            selected === "Totals" ||
-            selected === "UnitPrices" ||
-            selected === "VatAmounts" ||
-            selected === 'InvoiceNumbers'
+            selected == "Vats" ||
+            selected == "Ibans" ||
+            selected == "KeyWord" ||
+            selected == "Subtotals" ||
+            selected == "InvoiceDates" ||
+            selected == "ItemNumbers" ||
+            selected == "OrderNumbers" ||
+            selected == "Quantities" ||
+            selected == "Totals" ||
+            selected == "UnitPrices" ||
+            selected == "VatAmounts" ||
+            selected == 'InvoiceNumbers'
         ) {
             snack.info('Delete DataType. These type can not be removed');
             return;
         }
-        if (selected === '') { // no selected dataType in Datatable
+        if (selected == '') { // no selected dataType in Datatable
             snack.info('Delete DataType. No selection');
         } else {
             applymodal.handlers.show('Delete Type ' + rightbar.handlers.finddeleterowDatatype(), 5);
@@ -747,15 +747,15 @@ rightbar.initdoo = function () {
         var selected = rightbar.dataTable.change.dt.$('tr.selected').find('td').text();
         e.preventDefault();
         if (kw.state) return; //kw block
-        if (selected === "Vats" ||
-            selected === "Ibans" ||
-            selected === "KeyWord" ||
-            selected === "Subtotals" ||
-            selected === "InvoiceDates" ||
-            selected === "OrderNumbers" ||
-            selected === "Totals" ||
-            selected === "InvoiceNumbers" ||
-            selected === "VatAmounts"
+        if (selected == "Vats" ||
+            selected == "Ibans" ||
+            selected == "KeyWord" ||
+            selected == "Subtotals" ||
+            selected == "InvoiceDates" ||
+            selected == "OrderNumbers" ||
+            selected == "Totals" ||
+            selected == "InvoiceNumbers" ||
+            selected == "VatAmounts"
         ) {
             snack.info('For create New DataType remove selection in Table');
             return;
@@ -769,7 +769,7 @@ rightbar.initdoo = function () {
 
     rightbar.elements.btn_save_datatype.on('click', function (e) {
         e.preventDefault();
-        if (rightbar.elements.input_new_typedata.val() !== '' && rightbar.handlers.findactivcheckbox()[0]) {
+        if (rightbar.elements.input_new_typedata.val() != '' && rightbar.handlers.findactivcheckbox()[0]) {
             e.preventDefault();
             applymodal.handlers.show('Save type ' + rightbar.elements.input_new_typedata.val(), 6);
         }
@@ -791,7 +791,7 @@ rightbar.initdoo = function () {
     // block control checkbox
     rightbar.data.global.checkboxList.forEach(function (val) {
         val.on('click', function () {
-            if (rightbar.data.global.currenttab === 0) {
+            if (rightbar.data.global.currenttab == 0) {
                 val.prop('checked', false);
                 return;
             }
@@ -800,11 +800,11 @@ rightbar.initdoo = function () {
             rightbar.elements.fieldPref.find('.checkdat').removeClass('checkdat');
             rightbar.data.global.checkboxList.forEach(function (val, i) {
                 var select$ = val.parent().parent().parent().find('select');
-                if (val.attr('id') !== $that.attr('id')) {
+                if (val.attr('id') != $that.attr('id')) {
                     val.prop('checked', false);
-                    if (val.attr('id') !== 'checkText') select$.attr('disabled', true);
+                    if (val.attr('id') != 'checkText') select$.attr('disabled', true);
                 } else {
-                    if (val.attr('id') !== 'checkText') select$.attr('disabled', false);
+                    if (val.attr('id') != 'checkText') select$.attr('disabled', false);
                     val.prop('checked', true);
                 }
             });
@@ -814,21 +814,21 @@ rightbar.initdoo = function () {
     // MainHeader Add in rectangle
     rightbar.elements.main_btn.on('click', function (e) {
         e.preventDefault();
-        if (temp.DataWorkspace.images.length === 0) return;
+        if (temp.DataWorkspace.images.length == 0) return;
         var DataTypeName = 'MainHeader';
         paint.objects.disactiv.forEach(function (val, i) {
-            if (val.type === 'MainHeader') {
+            if (val.type == 'MainHeader') {
                 paint.objects.disactiv[i].type = 'TableDatas';
             }
         });
         paint.objects.activrect.type = DataTypeName;
         rightbar.data.global.dataType.forEach(function (val) {
-            if (val.DataType === paint.objects.activrect.type) {
+            if (val.DataType == paint.objects.activrect.type) {
                 paint.objects.activrect.Pk = val.Pk;
             }
         });
         paint.objects.disactiv.forEach(function (val, i) {
-            if (val.id === paint.objects.activrect.id) {
+            if (val.id == paint.objects.activrect.id) {
                 val.type = paint.objects.activrect.type;
                 val.Pk = paint.objects.activrect.Pk;
             }
@@ -838,26 +838,26 @@ rightbar.initdoo = function () {
     });
 
     rightbar.elements.deleteAmount.on('click', function () {
-        if (rightbar.elements.selAmount.attr('hidden') !== 'hidden' && rightbar.elements.selAmount.attr('disabled') !== 'disabled') {
+        if (rightbar.elements.selAmount.attr('hidden') != 'hidden' && rightbar.elements.selAmount.attr('disabled') != 'disabled') {
             var Pkdelete = rightbar.elements.selAmount.find('option:selected').val();
             rightbaraction.Ajax.sendDeletePref(temp.routes.sendDeleteAmountUrl, {Pk: Pkdelete}, rightbaraction.handlers.sendDeleteAmountsuccess, rightbaraction.handlers.sendDeleteAmounterror);
         }
     });
 
     rightbar.elements.deleteDate.on('click', function () {
-        if (rightbar.elements.selDate.attr('hidden') !== 'hidden' && rightbar.elements.selDate.attr('disabled') !== 'disabled') {
+        if (rightbar.elements.selDate.attr('hidden') != 'hidden' && rightbar.elements.selDate.attr('disabled') != 'disabled') {
             var Pkdelete = rightbar.elements.selDate.find('option:selected').val();
             rightbaraction.Ajax.sendDeletePref(temp.routes.sendDeleteDateUrl, {Pk: Pkdelete}, rightbaraction.handlers.sendDeleteDatesuccess, rightbaraction.handlers.sendDeleteDateerror);
         }
     });
     rightbar.elements.deleteRegex.on('click', function () {
-        if (rightbar.elements.selReg.attr('hidden') !== 'hidden' && rightbar.elements.selReg.attr('disabled') !== 'disabled') {
+        if (rightbar.elements.selReg.attr('hidden') != 'hidden' && rightbar.elements.selReg.attr('disabled') != 'disabled') {
             var Pkdelete = rightbar.elements.selReg.find('option:selected').val();
             rightbaraction.Ajax.sendDeletePref(temp.routes.sendDeleteRegexUrl, {Pk: Pkdelete}, rightbaraction.handlers.sendDeleteRegexsuccess, rightbaraction.handlers.sendDeleteRegexerror);
         }
     });
     rightbar.elements.deleteAlternate.on('click', function () {
-        if (rightbar.elements.selalternate.attr('hidden') !== 'hidden' && rightbar.elements.selalternate.attr('disabled') !== 'disabled') {
+        if (rightbar.elements.selalternate.attr('hidden') != 'hidden' && rightbar.elements.selalternate.attr('disabled') != 'disabled') {
             var Pkdelete = rightbar.elements.selalternate.find('option:selected').val();
             rightbaraction.Ajax.sendDeletePref(temp.routes.sendDeleteAlternateUrl, {Pk: Pkdelete}, rightbaraction.handlers.sendDeleteAlternatesuccess, rightbaraction.handlers.sendDeleteAlternateerror);
         }
@@ -882,9 +882,9 @@ tab.handlers = {
     findTabInDataType: () => {
         const currentTab = tab.handlers.getCurrenTab();
         const type = tab.handlers.getTypeInRect();
-       if( (type.type === 'TableDatas' || type.type ==='MainHeader') &&  currentTab !== 3) {
+       if( (type.type == 'TableDatas' || type.type =='MainHeader') &&  currentTab != 3) {
          tab.handlers.setTab(2)
-       } else if( type.type !== 'TableDatas' && type.type !=='MainHeader'  &&  currentTab !== 2  &&   currentTab !== 1 ) {
+       } else if( type.type != 'TableDatas' && type.type !='MainHeader'  &&  currentTab != 2  &&   currentTab != 1 ) {
            tab.handlers.setTab(0)
        }
     },

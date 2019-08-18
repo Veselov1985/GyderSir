@@ -146,7 +146,7 @@ hx.regex = {
                 return name
             };
             const fixTextOptions = (n) => {
-                if ( !n ||  n.trim() === '' ) { return 'No Description';} else { return n};
+                if ( !n ||  n.trim() == '' ) { return 'No Description';} else { return n};
             };
 
             return '<button class="dropdown-item" data-pk="' + value.Pk + '" data-name="' + name(value.Name) + '" data-content="' + value.Content + '" type="button">' + fixTextOptions(value.Name)  + '</button>'

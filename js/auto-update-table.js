@@ -283,12 +283,12 @@ au.helpfunc = {
     },
     filterInTableActiveRect: function(table) {
         return table.filter(function(val) {
-            return val.id !== paint.objects.activrect.id;
+            return val.id != paint.objects.activrect.id;
         });
     },
     filterInmultiArr: function(del, arr) {
         return arr.filter(function(val) {
-            return val.id !== del.id;
+            return val.id != del.id;
         });
     },
     checkIntersectionRect: function(arrRectLine) {
