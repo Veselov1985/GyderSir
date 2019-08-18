@@ -69,7 +69,7 @@ rightpref.Ajax = {
                     resolve(data);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    rightpref.handlers.Dataerror(errorThrown);
+                  snack.error(`Server ${jqXHR.statusText}`);
                     reject([jqXHR, textStatus, errorThrown])
                 },
                 beforeSend: function() {},

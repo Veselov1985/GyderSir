@@ -21,8 +21,8 @@ ft.actionsInit = function () {
 };
 
 ft.validate = {
-    viewRule:()=>{
-        if (!mp.data.RuleArr|| !mp.data.RuleArr.length) return 'Empty';
+    viewRule: () => {
+        if (!mp.data.RuleArr || !mp.data.RuleArr.length) return 'Empty';
         return mp.data.RuleArr.reduce(function (prew, next) {
             return prew + ' From: ' + next.CopyFrom + ',Rule: ' + next.Rule;
         }, '');
@@ -173,6 +173,97 @@ ft.parsing = {
 
 };
 
+ft.position = {
+    init: (template, from, to) => {
+        var currentFrom = from - 1;
+        var fromHeadersAndMainHeader = ft.position.findHeader(template, from); // [ headers, ismain];
+        var headerRectCord = fromHeadersAndMainHeader[1] ? fromHeadersAndMainHeader[1] : fromHeadersAndMainHeader[0][0].Rect;
+        var wordSearch = ft.position.findKW(headerRectCord, template.Pages[currentFrom]);
+        var pages = [].concat(template.Pages);
+
+        to.forEach((page, i) => {
+            var pageIndex = page - 1;
+            var pageData = template.Pages[pageIndex];
+            if (wordSearch) {
+                var OCRFrom = template.Pages[currentFrom].OcrStrings.filter(item => wordSearch.trim() == item.Sentence.trim())[0];
+                var OCRTo = pageData.OcrStrings.filter(item => wordSearch.trim() == item.Sentence.trim())[0];
+                if (OCRFrom && OCRTo) {
+                    var cordFrom = cc.handlers.convertServerRect(OCRFrom);
+                    var cordTo = cc.handlers.convertServerRect(OCRTo);
+                    var Ycord = cordTo.X0.Y < cordFrom.X0.Y ? -(cordFrom.X0.Y - cordTo.X0.Y) : cordTo.X0.Y - cordFrom.X0.Y;
+                    if (pageData.MainHeader && pageData.MainHeader.Rect) {
+                        pageData.MainHeader.Rect.X0.Y = pageData.MainHeader.Rect.X0.Y + Ycord;
+                        pageData.MainHeader.Rect.X1.Y = pageData.MainHeader.Rect.X1.Y + Ycord;
+                    }
+                    pageData.TableDatas = [].concat(pageData.TableDatas.map(item => {
+                        item.Rect.X0.Y = item.Rect.X0.Y + Ycord;
+                        item.Rect.X1.Y = item.Rect.X1.Y + Ycord;
+                        return item;
+                    }));
+                    pages[pageIndex] = pageData;
+                } else {
+                    pages[pageIndex] = pageData;
+                }
+            } else {
+                pages[pageIndex] = pageData;
+            }
+        });
+
+
+        // var pages = template.Pages.map((itemPage, i) => {
+        //     var pageTO = to.find(p => {
+        //         var toPage = p - 1;
+        //         return i === toPage;
+        //     });
+        //     if (pageTO && wordSearch && currentFrom !== i) {
+        //         var OCRFrom = template.Pages[currentFrom].OcrStrings.filter(item => wordSearch.trim() == item.Sentence.trim())[0];
+        //         var OCRTo = template.Pages[pageTO - 1].OcrStrings.filter(item => wordSearch.trim() == item.Sentence.trim())[0];
+        //         if (OCRFrom && OCRTo) {
+        //             var cordFrom = cc.handlers.convertServerRect(OCRFrom);
+        //             var cordTo = cc.handlers.convertServerRect(OCRTo);
+        //             var Ycord = cordTo.X0.Y < cordFrom.X0.Y ? -(cordFrom.X0.Y - cordTo.X0.Y) : cordTo.X0.Y - cordFrom.X0.Y;
+        //             if (itemPage.MainHeader && itemPage.MainHeader.Rect) {
+        //                 itemPage.MainHeader.Rect.X0.Y = itemPage.MainHeader.Rect.X0.Y + Ycord;
+        //                 itemPage.MainHeader.Rect.X1.Y = itemPage.MainHeader.Rect.X1.Y + Ycord;
+        //             }
+        //             itemPage.TableDatas = [].concat(itemPage.TableDatas.map(item => {
+        //                 item.Rect.X0.Y = item.Rect.X0.Y + Ycord;
+        //                 item.Rect.X1.Y = item.Rect.X1.Y + Ycord;
+        //                 return item;
+        //             }));
+        //             return itemPage;
+        //         } else {
+        //             return itemPage;
+        //         }
+        //     } else {
+        //         return itemPage;
+        //     }
+        // });
+        return pages;
+    },
+    findHeader: (template, from) => {
+        const pageData = template.Pages[from - 1];
+        var pageTable = pageData.TableDatas.filter(function (rect) {
+            return rect.Data.trim() == "";
+        });
+        var ismain = temp.helpfunc.isMainHeader(pageData.MainHeader);
+        var headers;
+        if (ismain) {
+            var zeroLine = temp.helpfunc.zeroLine(ismain);
+            headers = [].concat(temp.helpfunc.findRectInHeadLine(zeroLine, pageTable));
+        } else {
+            headers = temp.helpfunc.findBigRow(pageTable);
+        }
+        return [headers, ismain];
+    },
+    findKW: (cordHeader, template) => {
+        var ocrData = template.OcrStrings;
+        cc.handlers.getInitWHServer();
+        return cc.handlers.findActiveCoordInServer(cordHeader, ocrData);  //front, serverList
+    },
+};
+
+
 ft.copy = {
     init: function (from, to) {
         if (ft.copy.isEmptyPages(to)) return;
@@ -180,6 +271,9 @@ ft.copy = {
         var DataFrom = ft.copy.getDataFrom(from, Templaite);
         var MainHeaderFrom = ft.copy.getMainHeader(from, Templaite);
         var newTemplaite = ft.copy.initCopareFromtoToData(DataFrom, to, Templaite, MainHeaderFrom);
+        // this logic find header and set position in new copy page rule
+        var templatePos = ft.position.init(newTemplaite, from, to);
+        newTemplaite.Pages = [].concat(templatePos);
         ft.paint.init(newTemplaite);
     },
     isEmptyPages: function (arr) {

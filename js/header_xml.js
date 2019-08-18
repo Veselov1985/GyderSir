@@ -674,7 +674,7 @@ hx.ajax = {
                     resolve(data);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    hx.ajax.getAllHeaderError(jqXHR);
+                    hx.ajax.getAllHeaderError(textStatus);
                     reject([jqXHR, textStatus, errorThrown])
                 },
                 beforeSend: function () {
@@ -747,7 +747,7 @@ hx.ajax = {
         }
     },
     getAllHeaderError: function (data) {
-        console.log(data);
+        snack.error(data);
     },
     deleteHeaderSuccess: function (data, deleteName) {
         if (data) {

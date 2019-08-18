@@ -134,11 +134,11 @@ kw.handlers = {
         return  str.split('').splice(0, str.length - 1).join('');
     },
     kwfixD3JS: function (type) {
-        if (!kw.handlers.compareNeedKw(type) && kw.state && rightbar.data.global.currenttab === 1) {
+        if (!kw.handlers.compareNeedKw(type) && kw.state && rightbar.data.global.currenttab == 1) {
             kw.handlers.KwClear();
             kw.handlers.KwToggle();
             kw.state = !kw.state;
-        } else if (kw.handlers.compareNeedKw(type) && !kw.state && rightbar.data.global.currenttab === 1) {
+        } else if (kw.handlers.compareNeedKw(type) && !kw.state && rightbar.data.global.currenttab == 1) {
             kw.handlers.KwClear();
             kw.handlers.KwToggle();
             kw.state = !kw.state;
