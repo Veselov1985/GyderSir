@@ -2,7 +2,7 @@ let trw = {};
 window.webkitStorageInfo = navigator.webkitTemporaryStorage || navigator.webkitPersistentStorage;
 document.origin = window.origin || self.origin;
 trw.dev = true;
-trw.rootPathWorker = trw.dev ? '/js/worker.js':'/Scripts/worker.js';
+trw.rootPathWorker = trw.dev ? '/js/worker.js' : '/Scripts/worker.js';
 trw.elements = {};
 trw.data = {
     obj: {},
@@ -22,7 +22,7 @@ trw.init = function () {
 };
 
 trw.worker = {
-    fetchTemplate:[],
+    fetchTemplate: [],
     worker: undefined,
     isEnabledWorker: () => typeof(Worker) !== "undefined",
     init: () => {
@@ -100,19 +100,9 @@ trw.dataTable = {
                     'render': function (data) {
                         return data;
                     },
-                },
-                {
-                    'targets': 3,
-                    'orderable': true,
-                    'searchable': true,
-                    'className': 'dt-body-center',
-                    'render': function (data) {
-                        return data;
-                    },
                 }
             ],
             "columns": [
-                {title: "Template Name"},
                 {title: "fileId"},
                 {title: "id"},
                 {title: 'jobId'},
@@ -130,7 +120,7 @@ trw.helpfunc = {
     initMemoryDataTable: function (data) {
         trw.helpfunc.clearMemoryDataTable();
         trw.data.zag = data.map((val) => {
-            const res = [val.fileName, val.fileId, val.id, val.jobId];
+            const res = [val.fileId, val.id, val.jobId];
             return res;
         });
     },
@@ -157,8 +147,6 @@ trw.EventEmmiter = {
         // Listen to message from parent window
         eventer(messageEvent, function (e) {
             if (!trw.debug && e.origin !== window.origin) return;
-            console.log('origin: ', e.origin);
-            console.log('parent received message!: ', e.data);
             callback(e.data);
         }, false);
     },
@@ -184,9 +172,6 @@ trw.callbackActions = {
 };
 
 trw.ACTIONSCREATER = {
-    documentProcessing: function (obj) {
-        return {event: 'DocumentProcessing', data: obj};
-    },
     CloseWindow: function () {
         return {event: 'CloseChild'};
     }
@@ -232,7 +217,7 @@ trw.handlers = {
     checkOpener: () => {
         const child = (self || this || window);
         const childOpener = child.opener;
-        childOpener ? console.log('child have Parent') : child.close();
+        if (!childOpener) child.close();
     },
     deletePrewJob: (id) => {
         trw.data.zag = trw.data.zag.filter(val => +val[2] !== id);
@@ -257,10 +242,9 @@ trw.handlers = {
     getNextStepIdObj: () => {
         const dataAttr = trw.data.zag[0];
         return {
-            fileName: dataAttr[0],
-            fileId: +dataAttr[1],
-            id: +dataAttr[2],
-            jobId: +dataAttr[3],
+            fileId: +dataAttr[0],
+            id: +dataAttr[1],
+            jobId: +dataAttr[2],
         }
     },
     getSelectedTr: function () {
@@ -269,10 +253,9 @@ trw.handlers = {
     getIdSelectedTemplate: function (trw) {
         const dataAttr = trw.find('span').data('id').split(',');
         return {
-            fileName: dataAttr[0],
-            fileId: +dataAttr[1],
-            id: +dataAttr[2],
-            jobId: +dataAttr[3],
+            fileId: +dataAttr[0],
+            id: +dataAttr[1],
+            jobId: +dataAttr[2],
         }
     },
     getTemplateAndSendParent: (id) => {
@@ -288,7 +271,7 @@ trw.handlers = {
                 }
             })
             .catch(error => {
-                snack.error(`${error[1]}`)
+                snack.error(`${error}`)
             });
     }
 };
@@ -340,19 +323,11 @@ $(document).ready(function () {
         })
         .catch(error => {
             snack.error(`Server Error: ${error[1]}`);
-
-            // TODO TEST Section
-            moca.get.table().then(data => {
-                trw.handlers.getTemplatesSuccess(data);
-                window.focus();
-            })
-            // TODO End  TEST Section
         }).finally(() => {
         trw.handlers.checkParent();
     });
 
     $(window).on("beforeunload", function () {
-        console.log('emit prepend close');
         trw.worker.terminate();
         trw.EventEmmiter.emit({event: 'CloseChild'});
         return true;
