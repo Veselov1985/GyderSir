@@ -65,7 +65,7 @@ ajax.ajax = {
                 if(code === 200) {
                     resolve(JSON.parse(responseText))
                 }else{
-                    reject(null);
+                    reject(responseText);
                 }
                 ajax.loader.handler.offLoad()
             })
