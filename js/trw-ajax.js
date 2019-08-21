@@ -61,7 +61,7 @@ ajax.ajax = {
         const find = trw.worker.fetchTemplate.find(t => t.id == id);
         if (find) return new Promise(resolve => {  ajax.loader.handler.offLoad(); return resolve(find)});
         return new Promise((resolve,reject) => {
-            nanoajax.ajax({ url: `${ajax.routes.template}/` + id, method: 'GET'}, function (code, responseText, request) {
+            nanoajax.ajax({ url: `${ajax.routes.template}/${id}`, method: 'GET'}, function (code, responseText, request) {
                 if(code === 200) {
                     resolve(JSON.parse(responseText))
                 }else{

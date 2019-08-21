@@ -27,9 +27,14 @@ trw.worker = {
     isEnabledWorker: () => typeof(Worker) !== "undefined",
     init: () => {
         if (trw.worker.isEnabledWorker()) {
-            trw.worker.worker = new Worker(trw.rootPathWorker);
-            trw.worker.listener();
-            snack.info('Worker Enabled');
+            try {
+                trw.worker.worker = new Worker(trw.rootPathWorker);
+                trw.worker.listener();
+                snack.info('Worker Enabled');
+            }catch (e) {
+                console.log(e)
+            }
+
         } else {
             snack.error('Worker Disabled');
         }
