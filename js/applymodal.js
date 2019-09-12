@@ -33,7 +33,7 @@ applymodal.handlers = {
             i.each(function() {
                 var $that = $(this);
                 var parent$2 = $that.parent().parent();
-                if ($that.attr('class').trim() == temp.img.activ) {
+                if ($that.attr('class').trim() === temp.img.activ) {
                     parent$2.addClass('selected');
                 } else {
                     parent$2.removeClass('selected');
@@ -46,10 +46,6 @@ applymodal.handlers = {
         applymodal.elements.applycontent.text('');
         applymodal.elements.window.modal('hide');
     },
-    addtextmodal: function(text) {
-        applymodal.elements.applycontent.text(text);
-    },
-
     findbtn: function(number) {
         switch (number) {
             case 1:

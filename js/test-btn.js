@@ -372,8 +372,8 @@
              if (!val.MainHeader) {
                  arrclone[i].MainHeader = { Rect: null };
              }
-             if (!val.ExcludingTaxesAmounts) {
-                 arrclone[i].ExcludingTaxesAmounts = [];
+             if (!val.Subtotals) {
+                 arrclone[i].Subtotals = [];
              }
              if (!val.InvoiceDates) {
                  arrclone[i].InvoiceDates = [];
@@ -381,20 +381,11 @@
              if (!val.InvoiceNumbers) {
                  arrclone[i].InvoiceNumbers = [];
              }
-             if (!val.ItemNumbers) {
-                 arrclone[i].ItemNumbers = [];
-             }
              if (!val.OrderNumbers) {
                  arrclone[i].OrderNumbers = [];
              }
-             if (!val.Quantities) {
-                 arrclone[i].Quantities = [];
-             }
-             if (!val.TotalBedrags) {
-                 arrclone[i].TotalBedrags = [];
-             }
-             if (!val.UnitPrices) {
-                 arrclone[i].UnitPrices = [];
+             if (!val.Totals) {
+                 arrclone[i].Totals = [];
              }
              if (!val.VatAmounts) {
                  arrclone[i].VatAmounts = [];

@@ -162,12 +162,9 @@ db.logic = {
             db.handler.paintNew(data);
             paint.objects.global.mousedown = false;
             paint.objects.global.nopush = true;
-
             db.handler.setColorAutoCreate();
-
         } else {
             paint.objects.global.mousedown = false;
-            return;
         }
     }
 };

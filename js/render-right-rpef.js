@@ -165,15 +165,17 @@ rightpref.handlers = {
         rightbar.dataTable.init(rightbar.dataTable.change, rightbar.zag.dataTable);
 
     },
-    DataTypeerror: function(data) {console.log(data)},
+    DataTypeerror: function(err) {
+        snack.error(err)
+    },
     Amountsuccess: function(data) {
         data.Data.forEach(function(val) {
             rightbar.data.global.amount.push(val);
         });
         rightpref.handlers.renderfieldoptions(rightbar.data.global.amount, rightbar.elements.selAmount);
     },
-    Amounterror: function(data) {
-        console.log('hi' + data);
+    Amounterror: function(err) {
+        snack.error(err);
     },
     Datasuccess: function(data) {
         data.Data.forEach(function(val) {
@@ -181,8 +183,8 @@ rightpref.handlers = {
         });
         rightpref.handlers.renderfieldoptions(rightbar.data.global.date, rightbar.elements.selDate);
     },
-    Dataerror: function(data) {
-        console.log(data);
+    Dataerror: function(err) {
+        console.log(err);
     },
     Regexsuccess: function(data) {
        const list = rightpref.handlers.getUnique(data.Data,'Content');
@@ -192,8 +194,8 @@ rightpref.handlers = {
         redit.data = [].concat(rightbar.data.global.regex);
         rightpref.handlers.renderfieldoptions(rightbar.data.global.regex, rightbar.elements.selReg);
     },
-    Regexerror: function(data) {
-        console.log(data);
+    Regexerror: function(err) {
+        snack.error(err);
     },
     Alternatesuccess: function(data) {
         data.Data.forEach(function(val) {
@@ -202,7 +204,7 @@ rightpref.handlers = {
         rightpref.handlers.renderfieldoptions(rightbar.data.global.alternate, rightbar.elements.selalternate);
     },
     Alternateerror: function(data) {
-        console.log(data);
+        snack.error(data);
     },
     renderfieldoptions: function(list, selectId) {
         selectId.empty();

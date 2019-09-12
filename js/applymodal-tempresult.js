@@ -17,7 +17,6 @@ applymodal_tempresult.init = function() {
         applymodal_tempresult.elements.applymodal_tempresult_input[0].selectionEnd = 0;
 
     });
-    // esc fix
     applymodal_tempresult.elements.applymodal_tempresult.on('hidden.bs.modal', function() {
         applymodal_tempresult.handlers.close();
     });
@@ -52,7 +51,7 @@ applymodal_tempresult.handlers = {
         if (mm < 10) mm = '0' + mm;
         var yy = date.getFullYear() % 100;
         if (yy < 10) yy = '0' + yy;
-        return 'new -' + dd + '/' + mm + '/' + yy;
+        return 'new - ' + dd + '/' + mm + '/' + yy;
     },
     cleartextinp: function() {
         applymodal_tempresult.elements.applymodal_tempresult_text.text('');
@@ -63,7 +62,7 @@ applymodal_tempresult.handlers = {
 applymodal_tempresult.init();
 applymodal_tempresult.elements.apply_tempresult_save_result.on('click', function() {
     var FileName = applymodal_tempresult.elements.applymodal_tempresult_input.val() + '.xml';
-    var filecontent = zaglyshka.data.xmlOutput; // test.elements.textarea.text().replace(/\r|\n+/g, ''); //  xml = xml.replace(/\r|\n/g, ''); 
+    var filecontent = zaglyshka.data.xmlOutput;
     var saveData = (function() {
         window.URL = window.URL || window.webkitURL;
         var a = document.createElement("a");

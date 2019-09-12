@@ -103,7 +103,7 @@ temp.elementLeftBar = {
                     'orderable': false,
                     'searchable': false,
                     'className': '',
-                    'render': function (data, type, full, meta) {
+                    'render': function (data) {
                         return data;
                     }
                 },
@@ -112,7 +112,7 @@ temp.elementLeftBar = {
                         'orderable': false,
                         'searchable': false,
                         'className': 'dt-body-center',
-                        'render': function (data, type, full, meta) {
+                        'render': function (data) {
                             return '<i  class=" ' + data + ' "  aria-hidden="true"></i>';
                         }
                     }
@@ -121,7 +121,7 @@ temp.elementLeftBar = {
                     {title: "Configuration"},
                     {title: "Status"}
                 ],
-                "dom": /* "<'row'<'col-md-6'l><'col-md-6'>>*/ "t<'clear'><'row'<'col-md-12'p>>",
+                "dom":"t<'clear'><'row'<'col-md-12'p>>",
             });
 
             // select fix
@@ -208,10 +208,8 @@ temp.elementLeftBar = {
             });
 
             // delete templaite
-
             applymodal.elements.apply_del_temp.off('click').on('click', function () {
                 applymodal.handlers.close();
-                //temp.Ajax.sendDeleteTemplaiteProccess();
                 temp.elementLeftBar.dataTable.deleteTemp();
             });
 
@@ -280,7 +278,6 @@ temp.elementLeftBar = {
                     temp_ajax.sendDeleteTemplaiteProccess({"Pk": findPk()})
                         .then(data => temp.elementLeftBar.action.deleteSuccess(data, $selected, deleterow))
                         .catch(err => temp.elementLeftBar.action.deleteError(err));
-                    //temp.Ajax.sendDeleteTemplaiteProccess({"Pk": findPk()}, success, error);
                 }
             }
         },
@@ -301,7 +298,7 @@ temp.elementLeftBar = {
                 temp.elementLeftBar.Templaite.origin = {};
                 paint.handlers.clearsvgcontent();
                 temp.helpfunc.clearglobalstate(true);
-                snack.alert(`Delete Template: ${deleterow}`);
+                snack.alert( `Delete Template: ${deleterow}`);
                 paint.init();
             }
         },
@@ -353,39 +350,39 @@ temp.helpfunc = {
     },
     changeTempNotSaving: function () {
         var $that = temp.elementLeftBar.Templaite.that;
-        const findTemplatePk = temp.Data.leftTempList.list.find(item => item.Name === $that.find('td:first').text());
+        const findTemplatePk = temp.Data.leftTempList.list.find( item => item.Name === $that.find('td:first').text());
         temp_ajax.getTemplateObject(findTemplatePk.Pk)
-            .then(responseTemplate => {
-                lt.view.setOff();
-                temp.elementLeftBar.Templaite.origin = mp.actions.createTemplate(responseTemplate, temp.serverTemplate);
-                temp.elementLeftBar.Templaite.Pk = temp.elementLeftBar.Templaite.origin.Pk;
-                temp.elementLeftBar.Templaite.Name = temp.elementLeftBar.Templaite.origin.Name;
-                temp.elementLeftBar.Templaite.name = temp.elementLeftBar.Templaite.origin.Name;
-                (temp.elementLeftBar.Templaite.origin.PropertyPdf === undefined) ? temp.PropertyPdf = temp.elementLeftBar.Templaite.origin.PropertyPdf : temp.PropertyPdf = {};
-                (temp.elementLeftBar.Templaite.origin.RuleFormingTemplate === undefined) ? mp.data.RuleArr = [] : mp.data.RuleArr = temp.elementLeftBar.Templaite.origin.RuleFormingTemplate;
-                temp.elementLeftBar.Templaite.RuleArr = mp.data.RuleArr;
-                paint.handlers.clearsvgcontent();
-                temp.helpfunc.clearglobalstate(true);
+            .then( responseTemplate => {
+            lt.view.setOff();
+            temp.elementLeftBar.Templaite.origin = mp.actions.createTemplate(responseTemplate, temp.serverTemplate);
+            temp.elementLeftBar.Templaite.Pk = temp.elementLeftBar.Templaite.origin.Pk;
+            temp.elementLeftBar.Templaite.Name = temp.elementLeftBar.Templaite.origin.Name;
+            temp.elementLeftBar.Templaite.name = temp.elementLeftBar.Templaite.origin.Name;
+            (temp.elementLeftBar.Templaite.origin.PropertyPdf === undefined) ? temp.PropertyPdf = temp.elementLeftBar.Templaite.origin.PropertyPdf : temp.PropertyPdf = {};
+            (temp.elementLeftBar.Templaite.origin.RuleFormingTemplate === undefined) ? mp.data.RuleArr = [] : mp.data.RuleArr = temp.elementLeftBar.Templaite.origin.RuleFormingTemplate;
+            temp.elementLeftBar.Templaite.RuleArr = mp.data.RuleArr;
+            paint.handlers.clearsvgcontent();
+            temp.helpfunc.clearglobalstate(true);
 
-                temp.elementLeftBar.Templaite.origin.Pages.forEach(function (val) {
-                    paint.objects.datafromserver.datafromserverpage.push(val);
-                });
+            temp.elementLeftBar.Templaite.origin.Pages.forEach(function (val) {
+                paint.objects.datafromserver.datafromserverpage.push(val);
+            });
 
-                temp.elementLeftBar.Templaite.origin.Pages.forEach(function (val) {
-                    paint.objects.datafromserver.removelistpage.push(val);
-                });
+            temp.elementLeftBar.Templaite.origin.Pages.forEach(function (val) {
+                paint.objects.datafromserver.removelistpage.push(val);
+            });
 
-                paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
-                temp.Data.leftTempList.data.forEach(function (val, i) {
-                    if (val[1] == temp.img.activ) val[1] = temp.img.off;
-                    if (val[0] == temp.elementLeftBar.Templaite.origin.Name) val[1] = temp.img.activ;
-                });
+            paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
+            temp.Data.leftTempList.data.forEach(function (val, i) {
+                if (val[1] == temp.img.activ) val[1] = temp.img.off;
+                if (val[0] == temp.elementLeftBar.Templaite.origin.Name) val[1] = temp.img.activ;
+            });
 
-                temp.elementLeftBar.Templaite.that = '';
-                temp.elementLeftBar.dataTable.clean();
-                temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
+            temp.elementLeftBar.Templaite.that = '';
+            temp.elementLeftBar.dataTable.clean();
+            temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
 
-                temp.helpfunc.searchPage(); // need page search
+            temp.helpfunc.searchPage(); // need page search
 
                 temp.elementLeftBar.dataTable.object.find('i').each(function () {
                     $that = $(this);
@@ -528,8 +525,8 @@ temp.helpfunc = {
 
         return temp.helpfunc.initHeaders({
             Template: {
-                Pk: temp.elementLeftBar.Templaite.Pk, //temp.Data.leftTempList.datas.Pk
-                Name: temp.elementLeftBar.Templaite.Name, //temp.Data.leftTempList.datas.Name
+                Pk: temp.elementLeftBar.Templaite.Pk,
+                Name: temp.elementLeftBar.Templaite.Name,
                 PropertyPdf: temp.PropertyPdf ? temp.PropertyPdf : {},
                 Pages: function () {
                     var obj = temp.helpfunc.collectdata();
@@ -537,8 +534,6 @@ temp.helpfunc = {
                     obj.img.forEach(function (val) {
                         imgarr.push(val.substring('data:image/jpeg;base64,'.length));
                     });
-
-                    // fix length page 
                     var objlength = obj.page.length;
                     var imglength = imgarr.length;
                     if (imglength > objlength) {
@@ -548,19 +543,14 @@ temp.helpfunc = {
                             n--;
                         }
                     }
-
                     imgarr.forEach(function (val, i) {
                         obj.page[i].Base64Img = imgarr[i];
                     });
-
-                    // if put btn test fix
                     obj.page = obj.page.map(function (val) {
                         val.OnlyImages = '';
                         val.OnlyText = '';
                         return val;
                     });
-
-                    // add OcrStrings ==> send OCR DATA from server
                     obj.page = obj.page.map(function (val, i) {
                         if (temp.serverInfo[i]) {
                             val.OcrStrings = temp.serverInfo[i];
@@ -573,7 +563,6 @@ temp.helpfunc = {
                 }(),
             }
         });
-
     },
     initHeaders: function (obj) {
         var pageTable = obj.Template.Pages[0].TableDatas.filter(function (rect) {
@@ -585,8 +574,6 @@ temp.helpfunc = {
 
             obj.Template.Headers = [].concat(temp.helpfunc.findRectInHeadLine(zeroLine, pageTable));
         } else {
-            // not found MainHeader in Templaite
-            // we must find  the big rect row
             obj.Template.Headers = temp.helpfunc.findBigRow(pageTable);
         }
         return obj;
@@ -1030,11 +1017,6 @@ temp.Data = {
 
 temp.control = {
     templaite: {
-        // searchtemplaite: function (guid) {
-        //     return temp.Data.leftTempList.list.filter(function (val) {
-        //         return val.Pk == guid;
-        //     });
-        // },
         saveServerInfo: function (arrData) {
             temp.serverInfo = [];
             arrData.forEach(function (val, i) {
@@ -1077,60 +1059,7 @@ temp.control = {
             });
             temp.elementLeftBar.dataTable.object.find('selected').removeClass('selected');
         },
-
-        // selectfindTemplaite: function (templaiteObj) {
-        //     //clear img.activ prev
-        //     temp.control.templaite.unselectDataTable();
-        //     temp.Data.leftTempList.data.forEach(function (val, i) {
-        //         if (val[0] == templaiteObj.Name) {
-        //             temp.Data.leftTempList.data[i][1] = temp.img.activ;
-        //         }
-        //     });
-        //     temp.elementLeftBar.dataTable.clean();
-        //     temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
-        //     (function () {
-        //         var pagelength = temp.elementLeftBar.dataTable.dt.page.info().pages;
-        //         for (var i = 0; i <= pagelength - 1; i++) {
-        //             temp.elementLeftBar.dataTable.dt.page(i).draw(false);
-        //             var findactivimg = temp.elementLeftBar.dataTable.object.find('' + temp.img.activ);
-        //             if (findactivimg.length > 0) {
-        //                 findactivimg.parent().parent().parent().addClass('selected');
-        //                 break;
-        //             }
-        //         }
-        //     })();
-        //     temp.elementLeftBar.dataTable.object.find('i').each(function () {
-        //         $that = $(this);
-        //         if ($that.attr('class').trim() == temp.img.activ) {
-        //             $that.parent().parent().addClass('selected');
-        //         }
-        //     });
-        // },
     },
-
-    // addemptyData: function (arr, n, pos) {
-    //     var base64Length = 'data:image/jpeg;base64,'.length;
-    //     var position = pos;
-    //     var clone = arr.slice(0);
-    //     var data = {
-    //         Base64Img: "",
-    //         TableDatas: [{
-    //             Data: null,
-    //             DataType: {Pk: "00000000-0000-0000-0000-000000000000", Name: "", IsText: false},
-    //             Rect: {X0: {X: 0, Y: 0}, X1: {X: 0, Y: 0}}
-    //         }],
-    //         OnlyImages: "",
-    //         OnlyText: "",
-    //     };
-    //     for (var i = 0; i < n; i++) {
-    //         data.Base64Img = temp.DataWorkspace.images[position + 1].substring(base64Length);
-    //         data.OnlyImages = temp.elementLeftBar.Templaite.OnlyImages[positions + 1].substring(base64Length);
-    //         data.OnlyText = temp.elementLeftBar.Templaite.OnlyText[position + 1].substring(base64Length);
-    //         clone.push(data);
-    //         position++;
-    //     }
-    //     return clone;
-    // },
 };
 
 temp.init = {
@@ -1216,7 +1145,6 @@ temp.init = {
         }
 
         // load pdf to the server
-
         temp.elementLeftBar.object.btn_load_temp.click(function (e) {
             temp.elementLeftBar.Templaite.e = e;
             temp.elementLeftBar.Templaite.state = 'load';
@@ -1293,10 +1221,9 @@ temp.init = {
                 snack.info(`Info: Please download .pdf file`);
                 return;
             }
-            // empty Child  Request
             tr.data.obj = {};
-            led.action.ledOff(); // off led MainHeader
-            lt.view.setOff(); // off layout
+            led.action.ledOff();
+            lt.view.setOff();
             // clear global state
             temp.helpfunc.cleanImg();
             temp.helpfunc.clearglobalstate();
@@ -1324,7 +1251,7 @@ temp.loadEvent = {
     success: function (data) {
         data = temp.loadEvent.prependConvertData(data);
         if (data.Pks.length > 1) {
-            ph.data.object = ph.data.default; // set default pages objects
+            ph.data.object = ph.data.default;
             filter.handlers.toggleLight();
             // check id pdf download and button not push
             temp.Data.leftTempList.filter = temp.helpfunc.arrayClone(temp.Data.leftTempList.data);
@@ -1367,7 +1294,6 @@ temp.loadEvent = {
                     $that.parent().parent().addClass('selected');
                 }
             });
-            // ph.handlers.reverseToFront(deployedTemplate.Scopes); // add Scopes in object pages all,first,last              delete 01/11/2018
             temp.elementLeftBar.Templaite.Name = deployedTemplate.Name;
             temp.elementLeftBar.Templaite.Pk = deployedTemplate.Pk;
             temp.elementLeftBar.Templaite.name = deployedTemplate.Name;
@@ -1406,14 +1332,10 @@ temp.loadEvent = {
         temp.control.templaite.saveServerInfo($.extend({}, data.Template).Pages);
         temp.control.templaite.savePropertyPdf(data.Template.PropertyPdf ? data.Template.PropertyPdf : {}); // PropertyPdf
         ft.helpfunc.select.renderSelect(data.Template.Pages); // render option in select Copy from
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // fix b. end
         data.Pks = temp.helpfunc.deleteRepeatInArr(data.Pks ? data.Pks : []);
-        ////////////////////////////////////////////////////////////////////////////
         return data;
     },
 };
-
 
 temp.pass = {
     init: () => {
@@ -1442,7 +1364,7 @@ $(document).ready(function () {
     mt.handlers.init();
     const arrRequestToApi = [
         temp_ajax.getTemplateNameList(),
-        // temp_ajax.sendRenderProccessUrl(),
+        // temp_ajax.sendRenderProccessUrl(), // get all Templates Objects
         rightpref.Ajax.sendRenderDataTypeProccess(),
         rightpref.Ajax.sendRenderAmountProccess(),
         rightpref.Ajax.sendRenderDataProccess(),
@@ -1452,13 +1374,12 @@ $(document).ready(function () {
     ];
     Promise.all(arrRequestToApi)
         .then((data) => {
-            temp_ajax.render.templaite.success(data[0]); //  List name Template
-            hx.regex.create.init(data[4].Data, []); // reserve arguments
-            // Hide global preloader
-            pm.handlers.hidePreloader();
+            temp_ajax.render.templaite.success(data[0]);
+            hx.regex.create.init(data[4].Data, []);
             redit.handlers.responseSuccess(data[4]);
+            pm.handlers.hidePreloader();
         })
-        .catch(err => console.log(err));
+        .catch( err => snack.error(`Server error: ${err}`));
     au.elements.init();
     tr.init();
 });
