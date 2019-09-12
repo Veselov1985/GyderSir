@@ -4,8 +4,8 @@ temp.Owen = 'http://91.235.136.123:591/';
 temp.workRoot = 'http://85.214.225.230/';
 temp.root = temp.debug ? '' : temp.workRoot;
 temp.routes = {
-    getTemplateListName:  temp.root + 'api/template/getsimplytemplatelist',
-    getTemplateItemObject:  temp.root + 'api/template/gettemplate',
+    getTemplateListName: temp.root + 'api/template/getsimplytemplatelist',
+    getTemplateItemObject: temp.root + 'api/template/gettemplate',
     sendRenderProccessUrl: temp.root + 'api/template/gettemplates',
     sendRenderDataTypeProccessUrl: temp.root + 'api/datatypes/getdatatypes',
     sendRenderAmountProccessUrl: temp.root + 'api/datatypes/getamountnotations',
@@ -301,7 +301,7 @@ temp.elementLeftBar = {
                 temp.elementLeftBar.Templaite.origin = {};
                 paint.handlers.clearsvgcontent();
                 temp.helpfunc.clearglobalstate(true);
-                snack.alert( `Delete Template: ${deleterow}`);
+                snack.alert(`Delete Template: ${deleterow}`);
                 paint.init();
             }
         },
@@ -353,48 +353,48 @@ temp.helpfunc = {
     },
     changeTempNotSaving: function () {
         var $that = temp.elementLeftBar.Templaite.that;
-        const findTemplatePk = temp.Data.leftTempList.list.find( item => item.Name === $that.find('td:first').text());
+        const findTemplatePk = temp.Data.leftTempList.list.find(item => item.Name === $that.find('td:first').text());
         temp_ajax.getTemplateObject(findTemplatePk.Pk)
-            .then( responseTemplate => {
-            lt.view.setOff();
-            temp.elementLeftBar.Templaite.origin = mp.actions.createTemplate(responseTemplate, temp.serverTemplate);
-            temp.elementLeftBar.Templaite.Pk = temp.elementLeftBar.Templaite.origin.Pk;
-            temp.elementLeftBar.Templaite.Name = temp.elementLeftBar.Templaite.origin.Name;
-            temp.elementLeftBar.Templaite.name = temp.elementLeftBar.Templaite.origin.Name;
-            (temp.elementLeftBar.Templaite.origin.PropertyPdf === undefined) ? temp.PropertyPdf = temp.elementLeftBar.Templaite.origin.PropertyPdf : temp.PropertyPdf = {};
-            (temp.elementLeftBar.Templaite.origin.RuleFormingTemplate === undefined) ? mp.data.RuleArr = [] : mp.data.RuleArr = temp.elementLeftBar.Templaite.origin.RuleFormingTemplate;
-            temp.elementLeftBar.Templaite.RuleArr = mp.data.RuleArr;
-            paint.handlers.clearsvgcontent();
-            temp.helpfunc.clearglobalstate(true);
+            .then(responseTemplate => {
+                lt.view.setOff();
+                temp.elementLeftBar.Templaite.origin = mp.actions.createTemplate(responseTemplate, temp.serverTemplate);
+                temp.elementLeftBar.Templaite.Pk = temp.elementLeftBar.Templaite.origin.Pk;
+                temp.elementLeftBar.Templaite.Name = temp.elementLeftBar.Templaite.origin.Name;
+                temp.elementLeftBar.Templaite.name = temp.elementLeftBar.Templaite.origin.Name;
+                (temp.elementLeftBar.Templaite.origin.PropertyPdf === undefined) ? temp.PropertyPdf = temp.elementLeftBar.Templaite.origin.PropertyPdf : temp.PropertyPdf = {};
+                (temp.elementLeftBar.Templaite.origin.RuleFormingTemplate === undefined) ? mp.data.RuleArr = [] : mp.data.RuleArr = temp.elementLeftBar.Templaite.origin.RuleFormingTemplate;
+                temp.elementLeftBar.Templaite.RuleArr = mp.data.RuleArr;
+                paint.handlers.clearsvgcontent();
+                temp.helpfunc.clearglobalstate(true);
 
-            temp.elementLeftBar.Templaite.origin.Pages.forEach(function (val) {
-                paint.objects.datafromserver.datafromserverpage.push(val);
-            });
+                temp.elementLeftBar.Templaite.origin.Pages.forEach(function (val) {
+                    paint.objects.datafromserver.datafromserverpage.push(val);
+                });
 
-            temp.elementLeftBar.Templaite.origin.Pages.forEach(function (val) {
-                paint.objects.datafromserver.removelistpage.push(val);
-            });
+                temp.elementLeftBar.Templaite.origin.Pages.forEach(function (val) {
+                    paint.objects.datafromserver.removelistpage.push(val);
+                });
 
-            paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
-            temp.Data.leftTempList.data.forEach(function (val, i) {
-                if (val[1] == temp.img.activ) val[1] = temp.img.off;
-                if (val[0] == temp.elementLeftBar.Templaite.origin.Name) val[1] = temp.img.activ;
-            });
+                paint.objects.datafromserver.arrdata = paint.objects.datafromserver.datafromserverpage[temp.DataWorkspace.activpage];
+                temp.Data.leftTempList.data.forEach(function (val, i) {
+                    if (val[1] == temp.img.activ) val[1] = temp.img.off;
+                    if (val[0] == temp.elementLeftBar.Templaite.origin.Name) val[1] = temp.img.activ;
+                });
 
-            temp.elementLeftBar.Templaite.that = '';
-            temp.elementLeftBar.dataTable.clean();
-            temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
+                temp.elementLeftBar.Templaite.that = '';
+                temp.elementLeftBar.dataTable.clean();
+                temp.elementLeftBar.dataTable.init(temp.Data.leftTempList.data);
 
-            temp.helpfunc.searchPage(); // need page search
+                temp.helpfunc.searchPage(); // need page search
 
-            temp.elementLeftBar.dataTable.object.find('i').each(function () {
-                $that = $(this);
-                if ($that.attr('class').trim() == temp.img.activ) {
-                    $that.parent().parent().addClass('selected');
-                }
-            });
-            temp.DataWorkspace.initwindow();
-        })
+                temp.elementLeftBar.dataTable.object.find('i').each(function () {
+                    $that = $(this);
+                    if ($that.attr('class').trim() == temp.img.activ) {
+                        $that.parent().parent().addClass('selected');
+                    }
+                });
+                temp.DataWorkspace.initwindow();
+            })
 
     },
 
@@ -1156,6 +1156,34 @@ temp.init = {
         temp.elementControl.object.btn_filter = $('#btn_filter');
     },
 
+    readerPDF: async (pdf) =>{
+        let data = [];
+        const total = pdf.numPages;
+        for (i = 1; i <= total; i++) {
+            const page = await pdf.getPage(i);
+            const text = await page.getTextContent();
+            data.push(text)
+        }
+        return data;
+    },
+
+    convertDataPdfReader: (pagesData) => {
+       return pagesData.reduce((acc, page) => {
+            const items =  page.items.reduce((ac, item) => {
+                const obj = {
+                    data: item.str,
+                    height: item.height,
+                    width: item.width,
+                    x: item.transform[5],
+                    y: item.transform[4],
+                    stock: [item.transform[0], item.transform[3]],
+                };
+                return ac.concat(obj);
+            }, []);
+            return acc.concat([items])
+        }, []);
+    },
+
     eventHandler: function () {
 
         $('input[type=file]').fileselect({
@@ -1167,7 +1195,20 @@ temp.init = {
 
         // Grab the files and set them to our variable
         function prepareUpload(event) {
+            const file = event.target.files[0];
+            let reader = new FileReader();
+            reader.onload = function () {
+                const arrayBuffer = reader.result;
+                pdfjsLib.getDocument(arrayBuffer)
+                    .then(pdf =>temp.init.readerPDF(pdf))
+                    .then(pagesData => temp.init.convertDataPdfReader(pagesData))
+                    .then(data => console.log(data))
+            };
 
+            reader.onerror = function(){
+                snack.error('Reader Error')
+            };
+            reader.readAsArrayBuffer(file);
             temp.Data.LoadPdfOpt.file_pdf = new FormData();
             $.each(event.target.files, function (key, value) {
                 temp.Data.LoadPdfOpt.file_pdf.append(key, value);
