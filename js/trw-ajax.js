@@ -6,7 +6,7 @@ ajax.devFlow = 'https://gip-api.demo-server.ml';
 ajax.prodFlow = '';
 ajax.root = ajax.production ? ajax.prodFlow : ajax.devFlow;
 ajax.routes = {
-    template: `${ajax.root}/api/Template`,
+    template: `${ajax.root}/api/TemplateRequest`,
     job: `${ajax.root}/api/Template/job`,
     process: `${ajax.root}/api/Template/process`,
 };
@@ -32,7 +32,8 @@ ajax.ajax = {
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                     'Authorization': `Bearer ${sign.data.token}`,
                 },
                 url: ajax.routes.template,
                 type: "GET",
@@ -45,6 +46,11 @@ ajax.ajax = {
                     resolve(data);
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
+                    if(errorThrown === 'Unauthorized' ) {
+                        sign.local.deleteLocal('token');
+                        sign.data.token = false;
+                        sign.view.main.showSignIn();
+                    }
                     reject([jqXHR, textStatus, errorThrown]);
                 },
                 beforeSend: () => {
@@ -122,3 +128,5 @@ ajax.ajax = {
         })
     },
 };
+
+ajax.loader.handler.init();

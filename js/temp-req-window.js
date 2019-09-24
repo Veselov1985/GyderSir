@@ -18,7 +18,6 @@ trw.init = function () {
     trw.elements.temp_request_child_upload = $('#temp_request_child_upload');
     trw.elements.temp_request_child_update = $('#temp_request_child_update');
     trw.elements.temp_request_cancel = $('#temp_request_cancel');
-    ajax.loader.handler.init()
 };
 
 trw.worker = {
@@ -301,7 +300,7 @@ trw.action = function () {
             window.focus();
             snack.alert('Data Update');
         }).catch(err => {
-            snack.error(`Server Error ${err[1]}`)
+            snack.error(`${err[2]}`)
         })
     });
     // close child window
@@ -311,27 +310,32 @@ trw.action = function () {
     });
 };
 
-$(document).ready(function () {
-    trw.handlers.checkOpener();
-    trw.init();
-    trw.action();
-    trw.worker.init();
-    ajax.ajax.getAll()
-        .then(data => {
-            if (data.length !== 0) {
-                trw.handlers.getTemplatesSuccess(data);
-                window.focus();
-                trw.chakeEvents.pdfNextStep();
-            } else {
-                snack.info('Not find any work')
-            }
-        })
-        .catch(error => {
-            snack.error(`Server Error: ${error[1]}`);
-        }).finally(() => {
-        trw.handlers.checkParent();
-    });
+trw.auth = {
+    init: ()=>{
+        trw.handlers.checkOpener();
+        trw.init();
+        trw.action();
+        trw.worker.init();
+        ajax.ajax.getAll()
+            .then(data => {
+                if (data.length !== 0) {
+                    trw.handlers.getTemplatesSuccess(data);
+                    window.focus();
+                    trw.chakeEvents.pdfNextStep();
+                } else {
+                    trw.handlers.getTemplatesSuccess(data);
+                    snack.info('Not find any work')
+                }
+            })
+            .catch(error => {
+                snack.error(`${error[2]}`);
+            }).finally(() => {
+            trw.handlers.checkParent();
+        });
+    }
+};
 
+$(document).ready(function () {
     $(window).on("beforeunload", function () {
         trw.worker.terminate();
         trw.EventEmmiter.emit({event: 'CloseChild'});
