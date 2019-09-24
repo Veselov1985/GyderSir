@@ -26,6 +26,13 @@ ajax.loader.handler = {
 };
 
 ajax.ajax = {
+    errorAuth:(errorThrown) => {
+        if(errorThrown === 'Unauthorized' ) {
+            sign.local.deleteLocal('token');
+            sign.data.token = false;
+            sign.view.main.showSignIn();
+        }
+    },
     getAll: () => {
         trw.worker.fetchTemplate = [];
         return new Promise((resolve, reject) => {
@@ -46,11 +53,7 @@ ajax.ajax = {
                     resolve(data);
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
-                    if(errorThrown === 'Unauthorized' ) {
-                        sign.local.deleteLocal('token');
-                        sign.data.token = false;
-                        sign.view.main.showSignIn();
-                    }
+                    ajax.ajax.errorAuth(errorThrown);
                     reject([jqXHR, textStatus, errorThrown]);
                 },
                 beforeSend: () => {
