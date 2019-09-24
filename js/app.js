@@ -1149,7 +1149,7 @@ temp.init = {
             temp.elementLeftBar.Templaite.e = e;
             temp.elementLeftBar.Templaite.state = 'load';
             if (temp.DataWorkspace.images.length > 0 && temp.elementLeftBar.Templaite.Pk == temp.zeroGuid) {
-                applymodal.handlers.show('Close Templaite without saving', 8);
+                applymodal.handlers.show('Close Template without saving', 8);
             } else {
                 temp.helpfunc.changeTempNotLoad();
                 temp.elementLeftBar.Templaite.state = "";
