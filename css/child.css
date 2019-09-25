@@ -1,13 +1,23 @@
 html, body {
     padding: 0;
     margin: 0;
-    font-family: 'Roboto' ,'sans-serif';
+    font-family: 'Roboto', 'sans-serif';
 }
 
 .content-center {
     display: flex;
     justify-content: center;
+    flex-direction: column;
     padding: 0 10% 0 10%;
+}
+
+.title-user__name {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 20px;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
 }
 
 .content-right {
@@ -18,7 +28,7 @@ html, body {
     margin-bottom: 2rem;
 }
 
-.content-right button{
+.content-right button {
     cursor: pointer;
 }
 
@@ -42,10 +52,11 @@ div.dataTables_wrapper div.dataTables_filter input:focus {
     outline: 0;
     box-shadow: 0 0 0 1px rgba(0, 123, 255, .25);
 }
+
 table.dataTable {
     margin-top: 6px !important;
     margin-bottom: 0 !important;
-    font-size:14px;
+    font-size: 14px;
     padding: 0px;
 }
 
@@ -55,15 +66,16 @@ table.dataTable tbody td {
     cursor: pointer !important;
 }
 
-table.dataTable tbody td:focus{
+table.dataTable tbody td:focus {
     outline: none;
 }
-table.dataTable tbody  tr.selected:hover{
+
+table.dataTable tbody tr.selected:hover {
     background-color: #0275d8 !important;
     background: linear-gradient(to bottom, #0275d8 0%, #0275d8 100%);
 }
 
-table.dataTable tbody  tr:hover {
+table.dataTable tbody tr:hover {
     background: linear-gradient(to bottom, #86A1BF 0%, #dcdcdc 100%);
 }
 
@@ -90,7 +102,7 @@ table.dataTable tbody  tr:hover {
     border: 1px solid #979797;
 }
 
- .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
     background-color: #86A1BF !important;
     background: linear-gradient(to bottom, #86A1BF 0%, #dcdcdc 100%);
 }
@@ -99,7 +111,7 @@ table.dataTable tbody  tr:hover {
     background-color: #86A1BF !important;
 }
 
-.btn-secondary:hover{
+.btn-secondary:hover {
     background: linear-gradient(to bottom, #86A1BF 0%, #dcdcdc 100%);
 }
 
@@ -119,8 +131,8 @@ table.dataTable tbody  tr:hover {
 
 .preloader .progress {
     position: absolute;
-    top:calc(50% - 32px);
-    left:calc(50% - 32px);;
+    top: calc(50% - 32px);
+    left: calc(50% - 32px);;
     z-index: 1060;
     background-color: #bac1ca;
     font-size: 5em;
@@ -143,30 +155,30 @@ table.dataTable tbody  tr:hover {
     width: 90%;
 }
 
-.snack--info p::before{
+.snack--info p::before {
     content: url("../imgs/svg/info.svg");
     width: 20px;
     height: 20px;
     position: absolute;
     left: 10px;
-    top: calc(50%- 8px);
+    top: calc(50% - 8px);
 }
 
-.snack--alert  p::before{
+.snack--alert p::before {
     content: url("../imgs/svg/ok.svg");
     width: 20px;
     height: 20px;
     position: absolute;
     left: 10px;
-    top: calc(50%- 8px);
+    top: calc(50% - 8px);
 }
 
-.snack--error  p::before{
+.snack--error p::before {
     content: url("../imgs/svg/error.svg");
     width: 20px;
     height: 20px;
     position: absolute;
     left: 10px;
-    top: calc(50%- 8px);
+    top: calc(50% - 8px);
 }
 

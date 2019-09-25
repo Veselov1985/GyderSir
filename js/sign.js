@@ -26,6 +26,15 @@ sign.elements = {
     sign_up_router_action: {el: {}, id: '#sign_up_router_action'},
     sign_up_root: {el: {}, id: '#sign_up_root'},
     sign_in_router_action: {el: {}, id: '#sign_in_router_action'},
+    sign_up_first_name: {el: {}, id: '#sign_up_first_name'},
+    sign_up_last_name: {el: {}, id: '#sign_up_last_name'},
+    sign_up_user_name: {el: {}, id: '#sign_up_user_name'},
+    sign_up_password: {el: {}, id: '#sign_up_password'},
+    sign_up_button: {el: {}, id: '#sign_up_button'},
+    sign_up_password_view: {el: {}, id: '#sign_up_password_view'},
+    sign_up_password_hide: {el: {}, id: '#sign_up_password_hide'},
+
+    user_name: {el: {}, id: '#user_name'},
 
 };
 sign.handlers = {
@@ -34,7 +43,23 @@ sign.handlers = {
             "username": sign.elements.sign_in_login.el.val(),
             "password": sign.elements.sign_in_password.el.val(),
         }
-    }
+    },
+    getSignUpValue: () => {
+        return {
+            "firstName": sign.elements.sign_up_first_name.el.val(),
+            "lastName": sign.elements.sign_up_last_name.el.val(),
+            "username": sign.elements.sign_up_user_name.el.val(),
+            "password": sign.elements.sign_up_password.el.val(),
+        }
+
+    },
+    resetSignUpValue: () => {
+        const inpSignUp = [sign.elements.sign_up_first_name.el,
+            sign.elements.sign_up_last_name.el,
+            sign.elements.sign_up_user_name.el,
+            sign.elements.sign_up_password.el];
+        inpSignUp.forEach(item => item.val(''))
+    },
 };
 
 sign.validators = {
@@ -56,9 +81,13 @@ sign.actions = {
         const userAuth = {...user, ...params};
         sign.ajax.fetch(sign.routers.sign_in, 'POST', userAuth)
             .then(response => {
-                const {token} = response;
+                const {token, username} = response;
                 if (token) {
-                    if (sign.local.getLocal('remember')) sign.local.setToken(token);
+                    if (sign.local.getLocal('remember')) {
+                        sign.local.setToken(token);
+                        sign.local.setLocal('username', username);
+                    }
+                    sign.view.main.setUserName(username, true);
                     sign.data.token = token;
                     sign.view.main.showContent();
                     trw.auth.init();
@@ -67,7 +96,20 @@ sign.actions = {
             snack.error(JSON.parse(err[0].responseText).message);
         })
     },
-    register: () => {
+    register: (param) => {
+        const additionalParams = {
+            "id": 0,
+            "isAdmin": true,
+        };
+        const params = {...additionalParams, ...param};
+        sign.ajax.fetch(sign.routers.sign_up, 'POST', params)
+            .then(() => {
+                snack.info('Are you registered.Go to the Sign In page');
+                sign.handlers.resetSignUpValue();
+            })
+            .catch(err => {
+                snack.error(JSON.parse(err[0].responseText).message)
+            })
     }
 };
 sign.view = {
@@ -93,17 +135,31 @@ sign.view = {
             const checkBox = sign.elements.sign_in_checkbox.el;
             checkBox.attr('checked', state);
         },
-        showPassword: () => {
+        signInShowPassword: () => {
             sign.elements.sign_in__password_view.el.attr('hidden', true);
             sign.elements.sign_in__password_hide.el.attr('hidden', false);
             sign.elements.sign_in_password.el.attr('type', 'text');
 
         },
-        hidePassword: () => {
+        signInHidePassword: () => {
             sign.elements.sign_in__password_view.el.attr('hidden', false);
             sign.elements.sign_in__password_hide.el.attr('hidden', true);
             sign.elements.sign_in_password.el.attr('type', 'password');
         },
+        signUpshowPassword: () => {
+            sign.elements.sign_up_password_view.el.attr('hidden', true);
+            sign.elements.sign_up_password_hide.el.attr('hidden', false);
+            sign.elements.sign_up_password.el.attr('type', 'text');
+
+        },
+        signUphidePassword: () => {
+            sign.elements.sign_up_password_view.el.attr('hidden', false);
+            sign.elements.sign_up_password_hide.el.attr('hidden', true);
+            sign.elements.sign_up_password.el.attr('type', 'password');
+        },
+        setUserName: (value, state) => {
+            sign.elements.user_name.el.text(state ? `User: ${value}` : '')
+        }
     }
 };
 
@@ -132,10 +188,10 @@ sign.ajax = {
                     reject([jqXHR, textStatus, errorThrown])
                 },
                 beforeSend: () => {
-                     ajax.loader.handler.onLoad()
+                    ajax.loader.handler.onLoad()
                 },
                 complete: () => {
-                      ajax.loader.handler.offLoad()
+                    ajax.loader.handler.offLoad()
                 }
             });
         })
@@ -175,14 +231,24 @@ sign.init = {
         // Sign Up
         sign.elements.sign_up_root.el = $(sign.elements.sign_up_root.id);
         sign.elements.sign_in_router_action.el = $(sign.elements.sign_in_router_action.id);
+        sign.elements.sign_up_first_name.el = $(sign.elements.sign_up_first_name.id);
+        sign.elements.sign_up_last_name.el = $(sign.elements.sign_up_last_name.id);
+        sign.elements.sign_up_user_name.el = $(sign.elements.sign_up_user_name.id);
+        sign.elements.sign_up_password.el = $(sign.elements.sign_up_password.id);
+        sign.elements.sign_up_button.el = $(sign.elements.sign_up_button.id);
+        sign.elements.sign_up_password_view.el = $(sign.elements.sign_up_password_view.id);
+        sign.elements.sign_up_password_hide.el = $(sign.elements.sign_up_password_hide.id);
         // Content
         sign.elements.request_content_auth.el = $(sign.elements.request_content_auth.id);
+        sign.elements.user_name.el = $(sign.elements.user_name.id);
     },
     actions: () => {
         sign.view.main.setRemember();
         const token = sign.local.getLocal('token');
+        const username = sign.local.getLocal('username');
         if (token) {
             sign.data.token = token;
+            sign.view.main.setUserName(username, true);
             sign.view.main.showContent();
             trw.auth.init()
         } else {
@@ -201,10 +267,17 @@ sign.init = {
         });
 
         sign.elements.sign_in__password_view.el.on('click', () => {
-            sign.view.main.showPassword()
+            sign.view.main.signInShowPassword()
         });
         sign.elements.sign_in__password_hide.el.on('click', () => {
-            sign.view.main.hidePassword();
+            sign.view.main.signInHidePassword();
+        });
+
+        sign.elements.sign_up_password_view.el.on('click', () => {
+            sign.view.main.signUpshowPassword()
+        });
+        sign.elements.sign_up_password_hide.el.on('click', () => {
+            sign.view.main.signUphidePassword();
         });
 
         sign.elements.sign_in__button.el.on('click', () => {
@@ -214,7 +287,17 @@ sign.init = {
             } else {
                 snack.info('Fields must not be empty');
             }
+        });
+
+        sign.elements.sign_up_button.el.on('click', () => {
+            const params = sign.handlers.getSignUpValue();
+            if (sign.validators.sign_in.form(params)) {
+                sign.actions.register(params);
+            } else {
+                snack.info('Fields must not be empty');
+            }
         })
+
 
     },
 };

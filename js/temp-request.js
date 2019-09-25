@@ -93,7 +93,7 @@ tr.action = function () {
     tr.elements.btn_temp_request.el.on('click', function () {
         if (tr.data.windowChild.closed == true || typeof tr.data.windowChild == 'string') {
             tr.data.windowChild = '';
-            tr.data.windowChild = window.open(tr.routes.openWindow, 'request', "width=600,height=620,left=20px,top=20px,menubar=yes,toolbar=yes,location=yes,resizable=yes,scrollbars=yes");
+            tr.data.windowChild = window.open(tr.routes.openWindow, 'request', "width=600,height=700,left=20px,top=20px,menubar=yes,toolbar=yes,location=yes,resizable=yes,scrollbars=yes");
         } else {
             tr.data.windowChild.focus();
         }

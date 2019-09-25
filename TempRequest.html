@@ -19,7 +19,7 @@
 </head>
 <body>
 
-<div id="auth" class="content-fluid sign-in__content">
+<div id="auth" class="content-fluid sign-in__content" style="display: none">
     <div class="wrap-login">
         <div id="sign_in_root">
             <span class="login-title">Account Login</span>
@@ -50,19 +50,23 @@
         <div id="sign_up_root" style="display: none">
             <span class="login-title">Account Registration</span>
             <div class="sign-in__pass">
-                <input id="" class="login-email" type="text" placeholder="First Name"/>
+                <input id="sign_up_first_name" class="login-email" type="text" placeholder="First Name"/>
             </div>
             <div class="">
-                <input id="sign_up_login" class="login-email" type="text" placeholder="Last Name"/>
+                <input id="sign_up_last_name" class="login-email" type="text" placeholder="Last Name"/>
             </div>
             <div class="sign-in__pass">
-                <input id="" class="login-email" type="text" placeholder="User Name"/>
+                <input id="sign_up_user_name" class="login-email" type="text" placeholder="User Name"/>
             </div>
             <div class="sign-in__pass">
                 <input class="login-email" id="sign_up_password" type="password" placeholder="Password"/>
+                <div class="sign_in__password_settings">
+                    <div class="sign_in__password_views __iconPass" id="sign_up_password_view"></div>
+                    <div class="sign_in__password_hides __iconPass" id="sign_up_password_hide" hidden></div>
+                </div>
             </div>
             <div class="sign-in__pass" style="margin-top: 26px">
-                <button class="sign-in__button">sign up</button>
+                <button id="sign_up_button" class="sign-in__button">sign up</button>
             </div>
             <div class="register-up">
                 <span class="register-up__descriptions">You have account?</span>
@@ -76,6 +80,7 @@
 <div id="request_content_auth" class="container-fluid bg-light" style="display: none;">
     <div class="row">
         <div class="col-md-12 content-center">
+       <span id="user_name" class="title-user__name"></span>
             <table cellpadding="0" cellspacing="0" border="0" width="100%" item-height="auto"
                    class="display table table-bordered" id="temp_request_table_child">
                 <thead>
