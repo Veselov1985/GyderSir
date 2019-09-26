@@ -194,9 +194,15 @@ ft.position = {
                         pageData.MainHeader.Rect.X0.Y = pageData.MainHeader.Rect.X0.Y + Ycord;
                         pageData.MainHeader.Rect.X1.Y = pageData.MainHeader.Rect.X1.Y + Ycord;
                     }
+                    const heightCoord = ft.position.findHeightTableCoord(pageData.OcrStrings, pageData.TableDatas, Ycord);
                     pageData.TableDatas = [].concat(pageData.TableDatas.map(item => {
-                        item.Rect.X0.Y = item.Rect.X0.Y + Ycord;
-                        item.Rect.X1.Y = item.Rect.X1.Y + Ycord;
+                        if (heightCoord && ! ft.position.isHeaderTableRect(fromHeadersAndMainHeader[0], item.Rect)) {
+                            item.Rect.X0.Y = item.Rect.X0.Y + Ycord;
+                            item.Rect.X1.Y =  heightCoord;
+                        } else {
+                            item.Rect.X0.Y = item.Rect.X0.Y + Ycord;
+                            item.Rect.X1.Y = item.Rect.X1.Y + Ycord;
+                        }
                         return item;
                     }));
                     pages[pageIndex] = pageData;
@@ -208,6 +214,49 @@ ft.position = {
             }
         });
         return pages;
+    },
+    footerWords: [
+        "Pagina", "Klantnummer", "Bank ", "www.", "WWW.", "www", "BIC", "IBAN", "Factuur", "FACTUUR", "VAT", "@", "KvK", "Factuurnr",
+        "Tel", "K.V.K", "Fax", "FAX", "Email", "NEDERLAND", "Factuurdatum", "Factuuradres", "Factuurnummer", "E-Mail", "E-mail",
+        "tel:", "factuurn", "factuurnr", "KVK", "datum:", "Vervaldatum", "Debiteurnummer", "Ordernummer", "Verkooporder", "factuur",
+        "Verval datum", "Klant nummer", "Netherlands", "Kvk", "BTW-nummer", "POSTBUS", 'BTW', 'Phone'
+    ],
+    findHeightTableCoord: (server, front, newY) => {
+        const bottomPointFront = front.reduce((acc, item) => acc < item.Rect.X1.Y ? item.Rect.X1.Y : acc, 0) + newY;
+        const wordsFooter = ft.position.footerWords.map(val => val.toLowerCase());
+        const searchMatchesOnPage = server.reduce((acc, item) => {
+            if (wordsFooter.indexOf(item['Sentence'].toLowerCase()) > -1) {
+                return acc.concat(item)
+            } else {
+                return acc;
+            }
+        }, []);
+        console.log(searchMatchesOnPage);
+        const filterMatches = searchMatchesOnPage
+            .filter((item) => {
+                const serverRect = cc.handlers.convertServerRect(item);
+                return bottomPointFront < serverRect.X1.Y
+            })
+            .reduce((prev, next) => prev.Ypos < next.Ypos ? prev : next);
+
+        if (filterMatches && filterMatches.Ypos) {
+            const yCoord = cc.handlers.convertServerRect(filterMatches).X1.Y - 3;
+            return yCoord;
+        }
+        return 0;
+
+    },
+    isHeaderTableRect: (headerRectArr, itemRect) => {
+        return headerRectArr.reduce((state, item) => {
+            return state ?
+                true :
+                (
+                    item.Rect.X0.X === itemRect.X0.X &&
+                    item.Rect.X0.Y === itemRect.X0.Y &&
+                    item.Rect.X1.X === itemRect.X1.X &&
+                    item.Rect.X1.Y === itemRect.X1.Y
+                )
+        }, false)
     },
     findHeader: (template, from) => {
         const pageData = template.Pages[from - 1];
@@ -240,6 +289,7 @@ ft.copy = {
         var MainHeaderFrom = ft.copy.getMainHeader(from, Templaite);
         var newTemplaite = ft.copy.initCopareFromtoToData(DataFrom, to, Templaite, MainHeaderFrom);
         // this logic find header and set position in new copy page rule
+        // this logic set height table on copy pages
         var templatePos = ft.position.init(JSON.parse(JSON.stringify(newTemplaite)), from, to);
         newTemplaite.Pages = [].concat(templatePos);
         ft.paint.init(newTemplaite);
