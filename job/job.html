@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Job Add</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width" initial-scale="1"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          type="text/css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="css/snackbar.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/job.css" type="text/css"/>
+</head>
+<body>
+
+<div id="auth" class="content-fluid sign-in__content">
+    <div class="wrap-login">
+        <div>
+            <span class="login-title">Add Job</span>
+            <div class="sign-in__pass">
+                <input id="JobName" class="login-email" type="text" placeholder="JobName"/>
+            </div>
+            <div class="">
+                <input id="FileName" class="login-email" type="text" placeholder="FileName"/>
+            </div>
+            <div class="sign-in__pass">
+                <input id="Token" class="login-email" type="text" placeholder="Token User"/>
+            </div>
+            <div class="sign-in__pass">
+                <input lang="en" class="login-email" id="File" type="file"  accept="application/pdf" aria-describedby="fileHelp" placeholder="File"/>
+                <small  class="form-text text-muted">Load file.pdf</small>
+            </div>
+            <div class="sign-in__pass" style="margin-top: 26px">
+                <button id="add_button" class="sign-in__button">add Job</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="js/snack.js"></script>
+<script src="js/job.js"></script>
+</body>
+
+</html>

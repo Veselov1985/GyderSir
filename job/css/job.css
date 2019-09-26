@@ -1,0 +1,115 @@
+.sign-in__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background: #e9faff;
+}
+
+.wrap-login {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    padding: 65px 55px 50px 55px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -o-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+}
+
+.login-title {
+    display: block;
+    font-family: Roboto, sans-serif;
+    padding-bottom: 33px;
+    font-size: 30px;
+    color: #555555;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.login-email {
+    display: block;
+    width: 100%;
+    height: 68px;
+    padding: 0 25px 0 25px;
+    background-color: #fff;
+    font-family: Roboto, sans-serif;
+    font-size: 15px;
+    color: #666666;
+    line-height: 1.2;
+    outline: none;
+    border: 1px solid #e6e6e6;
+    border-radius: 6px;
+    -webkit-transition: all 1s;
+    -o-transition: all 1s;
+    -moz-transition: all 1s;
+    transition: all 1s;
+}
+
+.login-email:focus {
+    border: 1px solid #4272d7;
+}
+
+.sign-in__pass {
+    position: relative;
+}
+
+.sign_in__password_settings {
+    display: block;
+    position: absolute;
+    top: 25px;
+    right: 15px;
+    background-color: transparent;
+}
+
+.__iconPass {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+}
+
+.sign_in__password_views {
+    background: url('../imgs/svg/view.svg')
+}
+
+.sign_in__password_hides {
+    background: url('../imgs/svg/hide.svg')
+}
+
+.sign-in__button {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    width: 100%;
+    height: 60px;
+    background-color: #4272d7;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+    -webkit-transition: all .8s;
+    -o-transition: all .8s;
+    -moz-transition: all .8s;
+    transition: all .8s;
+    border: none;
+}
+
+.sign-in__button:hover {
+    background-color: #333333;
+    cursor: pointer;
+}
+
+
+
