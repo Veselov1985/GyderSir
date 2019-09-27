@@ -117,14 +117,14 @@ sign.view = {
         showSignUp: () => {
             sign.elements.request_content_auth.el.css('display', 'none');
             sign.elements.auth.el.css('display', 'flex');
-            sign.elements.sign_up_root.el.css('display', 'block');
+            sign.elements.sign_up_root.el.css('display', 'flex');
             sign.elements.sign_in_root.el.css('display', 'none');
         },
         showSignIn: () => {
             sign.elements.request_content_auth.el.css('display', 'none');
             sign.elements.auth.el.css('display', 'flex');
             sign.elements.sign_up_root.el.css('display', 'none');
-            sign.elements.sign_in_root.el.css('display', 'block');
+            sign.elements.sign_in_root.el.css('display', 'flex');
         },
         showContent: () => {
             sign.elements.auth.el.css('display', 'none');

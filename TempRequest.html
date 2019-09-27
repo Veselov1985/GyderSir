@@ -22,29 +22,33 @@
 <div id="auth" class="content-fluid sign-in__content" style="display: none">
     <div class="wrap-login">
         <div id="sign_in_root">
-            <span class="login-title">Account Login</span>
-            <div class="sign-in__pass">
-                <input id="sign_in_login" class="login-email" type="text" placeholder="User Name"/>
-            </div>
-            <div class="sign-in__pass">
-                <input class="login-email" id="sign_in_password" type="password" placeholder="Password"/>
-                <div class="sign_in__password_settings">
-                    <div class="sign_in__password_views __iconPass" id="sign_in__password_view"></div>
-                    <div class="sign_in__password_hides __iconPass" id="sign_in__password_hide" hidden></div>
+            <div class="login-top__wrapper">
+                <span class="login-title">Account Login</span>
+                <div class="sign-in__pass">
+                    <input id="sign_in_login" class="login-email" type="text" placeholder="User Name"/>
+                </div>
+                <div class="sign-in__pass">
+                    <input class="login-email" id="sign_in_password" type="password" placeholder="Password"/>
+                    <div class="sign_in__password_settings">
+                        <div class="sign_in__password_views __iconPass" id="sign_in__password_view"></div>
+                        <div class="sign_in__password_hides __iconPass" id="sign_in__password_hide" hidden></div>
+                    </div>
+                </div>
+                <div class="content-checkbox">
+                    <input class="input-checkbox" id="sign_in_checkbox" type="checkbox" name="sign_in_ch"/>
+                    <label class="label-checkbox" for="sign_in_checkbox">
+                        Remember me
+                    </label>
                 </div>
             </div>
-            <div class="content-checkbox">
-                <input class="input-checkbox" id="sign_in_checkbox" type="checkbox" name="sign_in_ch"/>
-                <label class="label-checkbox" for="sign_in_checkbox">
-                    Remember me
-                </label>
-            </div>
-            <div class="sign-in__pass">
-                <button id="sign_in__button" class="sign-in__button">sign in</button>
-            </div>
-            <div class="register-up">
-                <span class="register-up__descriptions">Create an account?</span>
-                <span id="sign_up_router_action" class="register-up-actions">Sign up</span>
+            <div class="login-bottom__wrapper">
+                <div class="sign-in__pass">
+                    <button id="sign_in__button" class="sign-in__button">sign in</button>
+                </div>
+                <div class="register-up">
+                    <span class="register-up__descriptions">Create an account?</span>
+                    <span id="sign_up_router_action" class="register-up-actions">Sign up</span>
+                </div>
             </div>
         </div>
         <div id="sign_up_root" style="display: none">
@@ -80,7 +84,7 @@
 <div id="request_content_auth" class="container-fluid bg-light" style="display: none;">
     <div class="row">
         <div class="col-md-12 content-center">
-       <span id="user_name" class="title-user__name"></span>
+            <span id="user_name" class="title-user__name"></span>
             <table cellpadding="0" cellspacing="0" border="0" width="100%" item-height="auto"
                    class="display table table-bordered" id="temp_request_table_child">
                 <thead>

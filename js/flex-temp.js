@@ -194,11 +194,12 @@ ft.position = {
                         pageData.MainHeader.Rect.X0.Y = pageData.MainHeader.Rect.X0.Y + Ycord;
                         pageData.MainHeader.Rect.X1.Y = pageData.MainHeader.Rect.X1.Y + Ycord;
                     }
-                    const heightCoord = ft.position.findHeightTableCoord(pageData.OcrStrings, pageData.TableDatas, Ycord);
+                    console.log(headerRectCord);
+                    const heightCoord = ft.position.findHeightTableCoord(pageData.OcrStrings, headerRectCord, Ycord);
                     pageData.TableDatas = [].concat(pageData.TableDatas.map(item => {
                         if (heightCoord && ! ft.position.isHeaderTableRect(fromHeadersAndMainHeader[0], item.Rect)) {
                             item.Rect.X0.Y = item.Rect.X0.Y + Ycord;
-                            item.Rect.X1.Y =  heightCoord;
+                            item.Rect.X1.Y =  heightCoord ? heightCoord : item.Rect.X1.Y + Ycord ;
                         } else {
                             item.Rect.X0.Y = item.Rect.X0.Y + Ycord;
                             item.Rect.X1.Y = item.Rect.X1.Y + Ycord;
@@ -219,10 +220,11 @@ ft.position = {
         "Pagina", "Klantnummer", "Bank ", "www.", "WWW.", "www", "BIC", "IBAN", "Factuur", "FACTUUR", "VAT", "@", "KvK", "Factuurnr",
         "Tel", "K.V.K", "Fax", "FAX", "Email", "NEDERLAND", "Factuurdatum", "Factuuradres", "Factuurnummer", "E-Mail", "E-mail",
         "tel:", "factuurn", "factuurnr", "KVK", "datum:", "Vervaldatum", "Debiteurnummer", "Ordernummer", "Verkooporder", "factuur",
-        "Verval datum", "Klant nummer", "Netherlands", "Kvk", "BTW-nummer", "POSTBUS", 'BTW', 'Phone'
+        "Verval datum", "Klant nummer", "Netherlands", "Kvk", "BTW-nummer", "POSTBUS", 'BTW', 'Phone','Totaal','Total', 'Totaal EUR'
     ],
-    findHeightTableCoord: (server, front, newY) => {
-        const bottomPointFront = front.reduce((acc, item) => acc < item.Rect.X1.Y ? item.Rect.X1.Y : acc, 0) + newY;
+    findHeightTableCoord: (server, headerRect, newY) => {
+        const headerArr = [].concat(headerRect);
+        const bottomPointFront = headerArr.reduce((acc, item) => acc < item.X1.Y ? item.X1.Y : acc, 0) + newY;
         const wordsFooter = ft.position.footerWords.map(val => val.toLowerCase());
         const searchMatchesOnPage = server.reduce((acc, item) => {
             if (wordsFooter.indexOf(item['Sentence'].toLowerCase()) > -1) {
@@ -231,14 +233,12 @@ ft.position = {
                 return acc;
             }
         }, []);
-        console.log(searchMatchesOnPage);
-        const filterMatches = searchMatchesOnPage
+        let filterMatches = searchMatchesOnPage
             .filter((item) => {
                 const serverRect = cc.handlers.convertServerRect(item);
                 return bottomPointFront < serverRect.X1.Y
-            })
-            .reduce((prev, next) => prev.Ypos < next.Ypos ? prev : next);
-
+            });
+        filterMatches = filterMatches.length ?  filterMatches.reduce((prev, next) => prev.Ypos < next.Ypos ? prev : next) : false;
         if (filterMatches && filterMatches.Ypos) {
             const yCoord = cc.handlers.convertServerRect(filterMatches).X1.Y - 3;
             return yCoord;
