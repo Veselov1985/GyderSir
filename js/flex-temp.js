@@ -194,12 +194,11 @@ ft.position = {
                         pageData.MainHeader.Rect.X0.Y = pageData.MainHeader.Rect.X0.Y + Ycord;
                         pageData.MainHeader.Rect.X1.Y = pageData.MainHeader.Rect.X1.Y + Ycord;
                     }
-                    console.log(headerRectCord);
-                    const heightCoord = ft.position.findHeightTableCoord(pageData.OcrStrings, headerRectCord, Ycord);
+                    const heightCord = ft.position.findHeightTableCoord(pageData.OcrStrings, headerRectCord, Ycord);
                     pageData.TableDatas = [].concat(pageData.TableDatas.map(item => {
-                        if (heightCoord && ! ft.position.isHeaderTableRect(fromHeadersAndMainHeader[0], item.Rect)) {
+                        if (heightCord && ! ft.position.isHeaderTableRect(fromHeadersAndMainHeader[0], item.Rect)) {
                             item.Rect.X0.Y = item.Rect.X0.Y + Ycord;
-                            item.Rect.X1.Y =  heightCoord ? heightCoord : item.Rect.X1.Y + Ycord ;
+                            item.Rect.X1.Y =  heightCord ? heightCord : item.Rect.X1.Y + Ycord ;
                         } else {
                             item.Rect.X0.Y = item.Rect.X0.Y + Ycord;
                             item.Rect.X1.Y = item.Rect.X1.Y + Ycord;
