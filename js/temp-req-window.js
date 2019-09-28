@@ -29,6 +29,7 @@ trw.worker = {
             try {
                 trw.worker.worker = new Worker(trw.rootPathWorker);
                 trw.worker.listener();
+                trw.worker.emit({action:'token',token: sign.data.token});
                 snack.info('Worker Enabled');
             }catch (e) {
                 console.log(e)
