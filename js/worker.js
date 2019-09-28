@@ -8,7 +8,7 @@ worker.data = {
 };
 
 worker.url = {
-    infoTemplate: 'https://gip-api.demo-server.ml/api/Template/',
+    infoTemplate: 'https://gip-api.demo-server.ml/api/TemplateRequest/',
 };
 
 worker.handlers = {
